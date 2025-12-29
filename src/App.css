@@ -1,7 +1,7 @@
 /* Main App Container */
 .App {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0f1a 0%, #0d1520 50%, #0a1015 100%);
+  background: transparent;
   color: white;
   position: relative;
   overflow-x: hidden;

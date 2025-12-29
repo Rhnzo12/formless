@@ -9,8 +9,6 @@ const FluidBackground = () => {
     // Initialize the gradient once the canvas is mounted
     if (canvasRef.current && !gradientRef.current) {
       gradientRef.current = new Gradient();
-      // Override the default height to match the window
-      gradientRef.current.height = window.innerHeight;
       gradientRef.current.initGradient('#gradient-canvas');
     }
 
@@ -29,17 +27,16 @@ const FluidBackground = () => {
       ref={canvasRef}
       data-js-darken-top=""
       style={{
-        '--gradient-color-1': '#c3e4ff',
-        '--gradient-color-2': '#6ec3f4',
-        '--gradient-color-3': '#eae2ff',
-        '--gradient-color-4': '#b9beff',
+        '--gradient-color-1': '#0061ff',
+        '--gradient-color-2': '#60efff',
+        '--gradient-color-3': '#ff00a0',
+        '--gradient-color-4': '#ff5770',
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-        zIndex: 1,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 0,
       }}
     />
   );
