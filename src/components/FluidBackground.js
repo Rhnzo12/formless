@@ -5,431 +5,233 @@ const FluidBackground = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const gl = canvas.getContext('webgl', {
-      alpha: false,
-      depth: false,
-      stencil: false,
-      antialias: false,
-      preserveDrawingBuffer: false
-    });
+    if (!canvas) {
+      console.error('Canvas ref not available');
+      return;
+    }
 
+    console.log('FluidBackground: Canvas found, dimensions:', window.innerWidth, 'x', window.innerHeight);
+
+    const gl = canvas.getContext('webgl', { antialias: true, alpha: false }) ||
+               canvas.getContext('experimental-webgl', { antialias: true, alpha: false });
     if (!gl) {
       console.error('WebGL not supported');
       return;
     }
 
-    // Enable floating point textures
-    const extFloat = gl.getExtension('OES_texture_float');
-    const extHalfFloat = gl.getExtension('OES_texture_half_float');
-    const extFloatLinear = gl.getExtension('OES_texture_float_linear');
+    console.log('FluidBackground: WebGL context created');
 
-    // Configuration
-    const config = {
-      SIM_RESOLUTION: 128,
-      DYE_RESOLUTION: 512,
-      VELOCITY_DISSIPATION: 0.99,
-      PRESSURE_ITERATIONS: 20,
-      CURL: 30,
-      SPLAT_RADIUS: 0.3,
-      SPLAT_FORCE: 6000,
-    };
-
-    // Resize canvas
-    let width, height;
+    // Resize
     const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
     };
     resize();
     window.addEventListener('resize', resize);
 
-    // Compile shader helper
-    const compileShader = (type, source) => {
-      const shader = gl.createShader(type);
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error(gl.getShaderInfoLog(shader));
-        return null;
+    // Simple vertex shader
+    const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, `
+      attribute vec2 position;
+      void main() {
+        gl_Position = vec4(position, 0.0, 1.0);
       }
-      return shader;
-    };
+    `);
+    gl.compileShader(vertexShader);
 
-    // Create program helper
-    const createProgram = (vertexSource, fragmentSource) => {
-      const program = gl.createProgram();
-      const vertexShader = compileShader(gl.VERTEX_SHADER, vertexSource);
-      const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentSource);
-      gl.attachShader(program, vertexShader);
-      gl.attachShader(program, fragmentShader);
-      gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error(gl.getProgramInfoLog(program));
-        return null;
+    // Fragment shader with fluid-like effect
+    const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, `
+      precision mediump float;
+      uniform vec2 resolution;
+      uniform float time;
+      uniform vec2 mouse;
+
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+      vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+      float snoise(vec3 v) {
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+        vec3 i = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - D.yyy;
+        i = mod289(i);
+        vec4 p = permute(permute(permute(
+          i.z + vec4(0.0, i1.z, i2.z, 1.0))
+          + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+          + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+        float n_ = 0.142857142857;
+        vec3 ns = n_ * D.wyz - D.xzx;
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+        vec4 x = x_ * ns.x + ns.yyyy;
+        vec4 y = y_ * ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+        vec4 s0 = floor(b0) * 2.0 + 1.0;
+        vec4 s1 = floor(b1) * 2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
       }
-      return program;
-    };
 
-    // Base vertex shader
-    const baseVertexShader = `
-      attribute vec2 aPosition;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform vec2 texelSize;
-      void main () {
-        vUv = aPosition * 0.5 + 0.5;
-        vL = vUv - vec2(texelSize.x, 0.0);
-        vR = vUv + vec2(texelSize.x, 0.0);
-        vT = vUv + vec2(0.0, texelSize.y);
-        vB = vUv - vec2(0.0, texelSize.y);
-        gl_Position = vec4(aPosition, 0.0, 1.0);
-      }
-    `;
+      void main() {
+        vec2 uv = gl_FragCoord.xy / resolution.xy;
+        vec2 m = mouse / resolution.xy;
+        float t = time * 0.1;
 
-    // Display shader with formless-style colors
-    const displayShader = `
-      precision highp float;
-      varying vec2 vUv;
-      uniform sampler2D uTexture;
-      uniform float uTime;
+        // Create fluid noise
+        float n1 = snoise(vec3(uv * 2.0, t)) * 0.5 + 0.5;
+        float n2 = snoise(vec3(uv * 3.0 + 10.0, t * 0.8)) * 0.5 + 0.5;
+        float n3 = snoise(vec3(uv * 1.5 + 20.0, t * 1.2)) * 0.5 + 0.5;
 
-      void main () {
-        vec2 vel = texture2D(uTexture, vUv).xy;
-        float len = length(vel) * 0.5;
+        // Mouse glow
+        float mouseDist = length(uv - m);
+        float glow = smoothstep(0.5, 0.0, mouseDist) * 0.5;
 
-        // Formless-style color mapping (teal/cyan/green)
-        float r = 0.02 + len * 0.3 * (1.0 - vel.x * 0.5 + 0.5);
-        float g = 0.04 + len * 0.85 * (vel.y * 0.5 + 0.5);
-        float b = 0.06 + len * 1.0 * (vel.x * 0.5 + 0.5);
+        // Formless colors (teal/cyan on dark) - make more visible
+        vec3 color = vec3(0.02, 0.05, 0.1);
 
-        vec3 color = vec3(r, g, b);
+        // Add colored noise layers - increased intensity
+        color.g += n1 * 0.3;
+        color.b += n2 * 0.25;
+        color.r += n3 * 0.1;
 
-        // Add subtle noise/grain
-        float grain = fract(sin(dot(vUv * 500.0 + uTime, vec2(12.9898, 78.233))) * 43758.5453) * 0.03;
-        color += grain - 0.015;
+        // Mouse glow - stronger
+        color += vec3(0.0, 0.4, 0.5) * glow;
 
         gl_FragColor = vec4(color, 1.0);
       }
-    `;
+    `);
+    gl.compileShader(fragmentShader);
 
-    // Splat shader (add force/dye)
-    const splatShader = `
-      precision highp float;
-      varying vec2 vUv;
-      uniform sampler2D uTarget;
-      uniform float aspectRatio;
-      uniform vec3 color;
-      uniform vec2 point;
-      uniform float radius;
-      void main () {
-        vec2 p = vUv - point.xy;
-        p.x *= aspectRatio;
-        vec3 splat = exp(-dot(p, p) / radius) * color;
-        vec3 base = texture2D(uTarget, vUv).xyz;
-        gl_FragColor = vec4(base + splat, 1.0);
-      }
-    `;
+    // Check for errors
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+      console.error('Vertex shader error:', gl.getShaderInfoLog(vertexShader));
+      return;
+    }
+    console.log('FluidBackground: Vertex shader compiled');
 
-    // Advection shader
-    const advectionShader = `
-      precision highp float;
-      varying vec2 vUv;
-      uniform sampler2D uVelocity;
-      uniform sampler2D uSource;
-      uniform vec2 texelSize;
-      uniform float dt;
-      uniform float dissipation;
-      void main () {
-        vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
-        gl_FragColor = dissipation * texture2D(uSource, coord);
-      }
-    `;
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+      console.error('Fragment shader error:', gl.getShaderInfoLog(fragmentShader));
+      return;
+    }
+    console.log('FluidBackground: Fragment shader compiled');
 
-    // Divergence shader
-    const divergenceShader = `
-      precision highp float;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform sampler2D uVelocity;
-      void main () {
-        float L = texture2D(uVelocity, vL).x;
-        float R = texture2D(uVelocity, vR).x;
-        float T = texture2D(uVelocity, vT).y;
-        float B = texture2D(uVelocity, vB).y;
-        float div = 0.5 * (R - L + T - B);
-        gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
-      }
-    `;
+    // Create program
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
 
-    // Pressure shader
-    const pressureShader = `
-      precision highp float;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform sampler2D uPressure;
-      uniform sampler2D uDivergence;
-      void main () {
-        float L = texture2D(uPressure, vL).x;
-        float R = texture2D(uPressure, vR).x;
-        float T = texture2D(uPressure, vT).x;
-        float B = texture2D(uPressure, vB).x;
-        float div = texture2D(uDivergence, vUv).x;
-        float pressure = (L + R + B + T - div) * 0.25;
-        gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
-      }
-    `;
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('Program link error:', gl.getProgramInfoLog(program));
+      return;
+    }
+    console.log('FluidBackground: Program linked');
 
-    // Gradient subtract shader
-    const gradientSubtractShader = `
-      precision highp float;
-      varying vec2 vUv;
-      varying vec2 vL;
-      varying vec2 vR;
-      varying vec2 vT;
-      varying vec2 vB;
-      uniform sampler2D uPressure;
-      uniform sampler2D uVelocity;
-      void main () {
-        float L = texture2D(uPressure, vL).x;
-        float R = texture2D(uPressure, vR).x;
-        float T = texture2D(uPressure, vT).x;
-        float B = texture2D(uPressure, vB).x;
-        vec2 velocity = texture2D(uVelocity, vUv).xy;
-        velocity.xy -= vec2(R - L, T - B);
-        gl_FragColor = vec4(velocity, 0.0, 1.0);
-      }
-    `;
-
-    // Create programs
-    const displayProgram = createProgram(baseVertexShader, displayShader);
-    const splatProgram = createProgram(baseVertexShader, splatShader);
-    const advectionProgram = createProgram(baseVertexShader, advectionShader);
-    const divergenceProgram = createProgram(baseVertexShader, divergenceShader);
-    const pressureProgram = createProgram(baseVertexShader, pressureShader);
-    const gradientSubtractProgram = createProgram(baseVertexShader, gradientSubtractShader);
+    gl.useProgram(program);
 
     // Create quad
-    const quadBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1, -1, 1, -1, -1, 1,
+      -1, 1, 1, -1, 1, 1
+    ]), gl.STATIC_DRAW);
 
-    const indexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
-    // Create framebuffer helper
-    const createFBO = (w, h, internalFormat, format, type, filter) => {
-      gl.activeTexture(gl.TEXTURE0);
-      const texture = gl.createTexture();
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null);
+    // Uniforms
+    const resolutionLoc = gl.getUniformLocation(program, 'resolution');
+    const timeLoc = gl.getUniformLocation(program, 'time');
+    const mouseLoc = gl.getUniformLocation(program, 'mouse');
 
-      const fbo = gl.createFramebuffer();
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
-      gl.viewport(0, 0, w, h);
-      gl.clear(gl.COLOR_BUFFER_BIT);
+    // Mouse
+    let mouseX = canvas.width / 2;
+    let mouseY = canvas.height / 2;
+    let targetX = mouseX;
+    let targetY = mouseY;
 
-      return {
-        texture,
-        fbo,
-        width: w,
-        height: h,
-        attach: (id) => {
-          gl.activeTexture(gl.TEXTURE0 + id);
-          gl.bindTexture(gl.TEXTURE_2D, texture);
-          return id;
-        }
-      };
+    const onMouseMove = (e) => {
+      targetX = e.clientX;
+      targetY = canvas.height - e.clientY;
     };
+    window.addEventListener('mousemove', onMouseMove);
 
-    const createDoubleFBO = (w, h, internalFormat, format, type, filter) => {
-      let fbo1 = createFBO(w, h, internalFormat, format, type, filter);
-      let fbo2 = createFBO(w, h, internalFormat, format, type, filter);
-      return {
-        width: w,
-        height: h,
-        texelSizeX: 1.0 / w,
-        texelSizeY: 1.0 / h,
-        read: fbo1,
-        write: fbo2,
-        swap: function() {
-          let temp = this.read;
-          this.read = this.write;
-          this.write = temp;
-        }
-      };
-    };
-
-    // Initialize FBOs
-    const simRes = config.SIM_RESOLUTION;
-    const texType = extHalfFloat ? gl.getExtension('OES_texture_half_float').HALF_FLOAT_OES : gl.UNSIGNED_BYTE;
-
-    let velocity = createDoubleFBO(simRes, simRes, gl.RGBA, gl.RGBA, texType, gl.LINEAR);
-    let pressure = createDoubleFBO(simRes, simRes, gl.RGBA, gl.RGBA, texType, gl.NEAREST);
-    let divergence = createFBO(simRes, simRes, gl.RGBA, gl.RGBA, texType, gl.NEAREST);
-
-    // Blit helper
-    const blit = (destination) => {
-      gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-      gl.enableVertexAttribArray(0);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, destination);
-      gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
-    };
-
-    // Mouse tracking
-    let mouseX = 0.5, mouseY = 0.5;
-    let lastMouseX = 0.5, lastMouseY = 0.5;
-    let splatStack = [];
-
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left) / rect.width;
-      mouseY = 1.0 - (e.clientY - rect.top) / rect.height;
-    };
-
-    const handleTouchMove = (e) => {
-      e.preventDefault();
-      const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
-      mouseX = (touch.clientX - rect.left) / rect.width;
-      mouseY = 1.0 - (touch.clientY - rect.top) / rect.height;
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
-
-    // Splat function
-    const splat = (x, y, dx, dy, color) => {
-      gl.useProgram(splatProgram);
-      gl.uniform1i(gl.getUniformLocation(splatProgram, 'uTarget'), velocity.read.attach(0));
-      gl.uniform1f(gl.getUniformLocation(splatProgram, 'aspectRatio'), width / height);
-      gl.uniform2f(gl.getUniformLocation(splatProgram, 'point'), x, y);
-      gl.uniform3f(gl.getUniformLocation(splatProgram, 'color'), dx, dy, 0.0);
-      gl.uniform1f(gl.getUniformLocation(splatProgram, 'radius'), config.SPLAT_RADIUS / 100.0);
-      gl.viewport(0, 0, velocity.width, velocity.height);
-      blit(velocity.write.fbo);
-      velocity.swap();
-    };
-
-    // Animation loop
-    let lastTime = Date.now();
-    let time = 0;
-    let animationId;
-
-    const step = (dt) => {
-      gl.viewport(0, 0, velocity.width, velocity.height);
-
-      // Advection
-      gl.useProgram(advectionProgram);
-      gl.uniform2f(gl.getUniformLocation(advectionProgram, 'texelSize'), velocity.texelSizeX, velocity.texelSizeY);
-      gl.uniform1i(gl.getUniformLocation(advectionProgram, 'uVelocity'), velocity.read.attach(0));
-      gl.uniform1i(gl.getUniformLocation(advectionProgram, 'uSource'), velocity.read.attach(0));
-      gl.uniform1f(gl.getUniformLocation(advectionProgram, 'dt'), dt);
-      gl.uniform1f(gl.getUniformLocation(advectionProgram, 'dissipation'), config.VELOCITY_DISSIPATION);
-      blit(velocity.write.fbo);
-      velocity.swap();
-
-      // Divergence
-      gl.useProgram(divergenceProgram);
-      gl.uniform2f(gl.getUniformLocation(divergenceProgram, 'texelSize'), velocity.texelSizeX, velocity.texelSizeY);
-      gl.uniform1i(gl.getUniformLocation(divergenceProgram, 'uVelocity'), velocity.read.attach(0));
-      blit(divergence.fbo);
-
-      // Pressure
-      gl.useProgram(pressureProgram);
-      gl.uniform2f(gl.getUniformLocation(pressureProgram, 'texelSize'), velocity.texelSizeX, velocity.texelSizeY);
-      gl.uniform1i(gl.getUniformLocation(pressureProgram, 'uDivergence'), divergence.attach(0));
-
-      for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
-        gl.uniform1i(gl.getUniformLocation(pressureProgram, 'uPressure'), pressure.read.attach(1));
-        blit(pressure.write.fbo);
-        pressure.swap();
-      }
-
-      // Gradient subtract
-      gl.useProgram(gradientSubtractProgram);
-      gl.uniform2f(gl.getUniformLocation(gradientSubtractProgram, 'texelSize'), velocity.texelSizeX, velocity.texelSizeY);
-      gl.uniform1i(gl.getUniformLocation(gradientSubtractProgram, 'uPressure'), pressure.read.attach(0));
-      gl.uniform1i(gl.getUniformLocation(gradientSubtractProgram, 'uVelocity'), velocity.read.attach(1));
-      blit(velocity.write.fbo);
-      velocity.swap();
-    };
+    // Render
+    let start = Date.now();
+    let animId;
+    let frameCount = 0;
 
     const render = () => {
-      const now = Date.now();
-      let dt = (now - lastTime) / 1000;
-      dt = Math.min(dt, 0.016);
-      lastTime = now;
-      time += dt;
+      const time = (Date.now() - start) / 1000;
 
-      // Add mouse splat
-      const dx = (mouseX - lastMouseX) * config.SPLAT_FORCE;
-      const dy = (mouseY - lastMouseY) * config.SPLAT_FORCE;
-      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
-        splat(mouseX, mouseY, dx * 0.01, dy * 0.01);
+      // Log first frame to confirm render is working
+      if (frameCount === 0) {
+        console.log('FluidBackground: First frame rendering');
       }
-      lastMouseX = mouseX;
-      lastMouseY = mouseY;
+      frameCount++;
 
-      // Add ambient circular motion
-      const angle = time * 0.5;
-      const cx = 0.5 + Math.cos(angle) * 0.1;
-      const cy = 0.5 + Math.sin(angle) * 0.1;
-      const fx = Math.cos(angle) * 50;
-      const fy = Math.sin(angle) * 50;
-      splat(cx, cy, fx * 0.001, fy * 0.001);
+      mouseX += (targetX - mouseX) * 0.05;
+      mouseY += (targetY - mouseY) * 0.05;
 
-      // Step simulation
-      step(dt);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(resolutionLoc, canvas.width, canvas.height);
+      gl.uniform1f(timeLoc, time);
+      gl.uniform2f(mouseLoc, mouseX, mouseY);
 
-      // Render to screen
-      gl.viewport(0, 0, width, height);
-      gl.useProgram(displayProgram);
-      gl.uniform2f(gl.getUniformLocation(displayProgram, 'texelSize'), 1.0 / width, 1.0 / height);
-      gl.uniform1i(gl.getUniformLocation(displayProgram, 'uTexture'), velocity.read.attach(0));
-      gl.uniform1f(gl.getUniformLocation(displayProgram, 'uTime'), time);
-      blit(null);
+      gl.clearColor(0, 0, 0, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
 
-      animationId = requestAnimationFrame(render);
+      animId = requestAnimationFrame(render);
     };
-
     render();
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', resize);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('touchmove', handleTouchMove);
-      cancelAnimationFrame(animationId);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animId);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
+      id="fluid-canvas"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 1,
+        display: 'block',
+        pointerEvents: 'none',
       }}
     />
   );

@@ -19,6 +19,7 @@
   color: white;
   position: relative;
   overflow-x: hidden;
+  z-index: 2;
 }
 
 /* Navigation */
