@@ -17,13 +17,13 @@ const FluidBackground = () => {
           gyroControls: false,
           minHeight: 200.00,
           minWidth: 200.00,
-          highlightColor: 0xffaa00,  // Yellow/orange highlight (follows mouse)
-          midtoneColor: 0x006666,    // Deep teal midtone
-          lowlightColor: 0x001a1a,   // Very dark teal
-          baseColor: 0x000808,       // Almost black with teal tint
-          blurFactor: 0.8,
-          speed: 0.8,
-          zoom: 0.8
+          highlightColor: 0x8aff3a,  // Yellow-green highlight (mouse glow)
+          midtoneColor: 0x0a4a4a,    // Subtle dark teal
+          lowlightColor: 0x020c0c,   // Very dark
+          baseColor: 0x010606,       // Nearly black
+          blurFactor: 0.9,
+          speed: 0.5,
+          zoom: 0.7
         })
       );
     }
