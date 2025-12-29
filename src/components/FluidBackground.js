@@ -99,7 +99,7 @@ const FluidBackground = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    // Shader material for Liquid Glass effect
+    // Shader material for Formless-style lava lamp effect
     const vertexShader = `
       varying vec2 vUv;
       void main() {
@@ -144,11 +144,11 @@ const FluidBackground = () => {
         return 130.0 * dot(m, g);
       }
 
-      // Fractional Brownian Motion for organic movement
+      // Fractional Brownian Motion for organic lava-lamp movement
       float fbm(vec2 p) {
         float value = 0.0;
         float amplitude = 0.5;
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 5; i++) {
           value += amplitude * snoise(p);
           p *= 2.0;
           amplitude *= 0.5;
@@ -156,127 +156,154 @@ const FluidBackground = () => {
         return value;
       }
 
-      // Glass-like refraction distortion
-      vec2 glassDistort(vec2 uv, vec2 mouse, float speed) {
-        vec2 toMouse = uv - mouse;
-        float dist = length(toMouse);
+      // Smooth blob function for lava-lamp effect
+      float blob(vec2 uv, vec2 center, float radius, float softness) {
+        float dist = length(uv - center);
+        return smoothstep(radius + softness, radius - softness, dist);
+      }
 
-        // Liquid ripple effect based on speed
-        float ripple = sin(dist * 15.0 - uTime * 3.0) * 0.02;
-        ripple *= smoothstep(0.8, 0.0, dist);
-        ripple *= (1.0 + speed * 2.0);
-
-        // Glass refraction - bends light around mouse position
-        float refract = smoothstep(0.6, 0.0, dist) * 0.15;
-        refract *= (1.0 + speed * 1.5);
-
-        vec2 distortion = normalize(toMouse + 0.001) * (ripple + refract);
-        distortion += uVelocity * smoothstep(0.5, 0.0, dist) * 0.3;
-
+      // Organic distortion for fluid movement
+      vec2 fluidDistort(vec2 uv, float time) {
+        vec2 distortion;
+        distortion.x = fbm(uv * 2.0 + vec2(time * 0.1, 0.0)) * 0.08;
+        distortion.y = fbm(uv * 2.0 + vec2(0.0, time * 0.12)) * 0.08;
         return uv + distortion;
       }
 
       void main() {
         vec2 uv = vUv;
-        float time = uTime;
+        float time = uTime * 0.5;
 
-        // Apply glass distortion based on mouse position and speed
-        vec2 distortedUV = glassDistort(uv, uMouse, uSpeed);
+        // Aspect ratio correction for circular blobs
+        float aspect = uResolution.x / uResolution.y;
+        vec2 uvAspect = vec2(uv.x * aspect, uv.y);
 
         // Mouse interaction
-        vec2 toMouse = uMouse - uv;
-        float distToMouse = length(toMouse);
-        float mouseInfluence = smoothstep(0.7, 0.0, distToMouse);
-        float speedInfluence = min(uSpeed * 2.0, 1.0);
+        vec2 mouseAspect = vec2(uMouse.x * aspect, uMouse.y);
+        float distToMouse = length(uvAspect - mouseAspect);
+        float mouseInfluence = smoothstep(0.5, 0.0, distToMouse);
+        float speedInfluence = min(uSpeed * 3.0, 1.0);
 
-        // Liquid displacement - follows mouse with velocity trail
-        vec2 liquidOffset = toMouse * mouseInfluence * 0.4;
-        liquidOffset += uVelocity * mouseInfluence * 0.5;
-        vec2 liquidUV = distortedUV + liquidOffset;
+        // Apply fluid distortion
+        vec2 fluidUV = fluidDistort(uv, time);
+        vec2 fluidUVAspect = vec2(fluidUV.x * aspect, fluidUV.y);
 
-        // Time-based animation speeds
-        float t1 = time * 0.25;
-        float t2 = time * 0.15;
-        float t3 = time * 0.1;
+        // === FORMLESS LAVA LAMP BLOBS ===
 
-        // === LIQUID GLASS COLOR LAYERS ===
+        // Primary purple/magenta colors
+        vec3 purpleBright = vec3(0.545, 0.161, 0.843);   // #8B29D7
+        vec3 purpleDeep = vec3(0.4, 0.08, 0.6);          // Deeper purple
+        vec3 magenta = vec3(0.7, 0.15, 0.5);             // Pink-magenta
+        vec3 violet = vec3(0.35, 0.1, 0.55);             // Violet
+        vec3 purpleDark = vec3(0.15, 0.02, 0.25);        // Very dark purple
 
-        // Layer 1: Bright Green core (center, follows mouse)
-        vec2 p1 = liquidUV * 1.2 + vec2(t1 * 0.3, t2 * 0.2);
-        float n1 = fbm(p1) * 0.5 + 0.5;
-        float greenMask = smoothstep(0.8, 0.2, distToMouse);
-        greenMask *= smoothstep(0.0, 0.4, uv.y) * smoothstep(1.0, 0.5, uv.y);
-        n1 *= greenMask;
-        n1 += mouseInfluence * 0.6 * (1.0 + speedInfluence);
-        vec3 brightGreen = vec3(0.2, 0.95, 0.4) * n1;
-
-        // Layer 2: Teal/Cyan (surrounds green, creates glass edge)
-        vec2 p2 = liquidUV * 1.4 + vec2(-t1 * 0.25, t2 * 0.35);
-        float n2 = fbm(p2 + 3.0) * 0.5 + 0.5;
-        float tealMask = smoothstep(0.3, 0.6, distToMouse) * smoothstep(1.0, 0.4, distToMouse);
-        tealMask += smoothstep(0.5, 0.8, uv.x) * 0.5;
-        n2 *= tealMask;
-        n2 += mouseInfluence * 0.3;
-        vec3 teal = vec3(0.0, 0.75, 0.7) * n2;
-
-        // Layer 3: Deep Blue (outer edges, ambient glow)
-        vec2 p3 = liquidUV * 1.0 + vec2(t1 * 0.15, -t2 * 0.2);
-        float n3 = fbm(p3 + 7.0) * 0.5 + 0.5;
-        float blueMask = smoothstep(0.2, 0.8, length(uv - vec2(0.5, 0.5)));
-        blueMask += smoothstep(0.3, 0.0, uv.y) * 0.6;
-        n3 *= blueMask;
-        vec3 deepBlue = vec3(0.05, 0.15, 0.35) * n3;
-
-        // Layer 4: Cyan highlights (glass reflections)
-        vec2 p4 = liquidUV * 2.0 + vec2(t1 * 0.4, t2 * 0.5);
-        float n4 = fbm(p4 + 12.0) * 0.5 + 0.5;
-        n4 = pow(n4, 2.0); // Sharper highlights
-        float highlightMask = mouseInfluence * (1.0 + speedInfluence * 2.0);
-        highlightMask += smoothstep(0.6, 0.3, distToMouse) * 0.3;
-        n4 *= highlightMask;
-        vec3 cyanHighlight = vec3(0.3, 0.9, 0.85) * n4;
-
-        // Dark background with subtle gradient
-        vec3 bg = mix(
-          vec3(0.02, 0.03, 0.06),
-          vec3(0.01, 0.02, 0.04),
-          uv.y
+        // Animated blob centers - organic floating movement
+        vec2 blob1Center = vec2(
+          0.3 + sin(time * 0.3) * 0.2 + fbm(vec2(time * 0.1, 0.0)) * 0.15,
+          0.4 + cos(time * 0.25) * 0.25 + fbm(vec2(0.0, time * 0.1)) * 0.1
+        );
+        vec2 blob2Center = vec2(
+          0.7 + sin(time * 0.35 + 1.0) * 0.2,
+          0.6 + cos(time * 0.28 + 2.0) * 0.2
+        );
+        vec2 blob3Center = vec2(
+          0.5 + sin(time * 0.22 + 3.0) * 0.3,
+          0.3 + cos(time * 0.3 + 1.5) * 0.2
+        );
+        vec2 blob4Center = vec2(
+          0.2 + sin(time * 0.4 + 2.0) * 0.15,
+          0.7 + cos(time * 0.35 + 0.5) * 0.15
+        );
+        vec2 blob5Center = vec2(
+          0.8 + sin(time * 0.25 + 4.0) * 0.15,
+          0.25 + cos(time * 0.32 + 3.0) * 0.2
         );
 
-        // Combine all layers
-        vec3 color = bg;
-        color += deepBlue * 0.8;
-        color += teal * 0.6;
-        color += brightGreen * 0.7;
-        color += cyanHighlight * 0.5;
+        // Aspect-corrected blob centers
+        vec2 b1 = vec2(blob1Center.x * aspect, blob1Center.y);
+        vec2 b2 = vec2(blob2Center.x * aspect, blob2Center.y);
+        vec2 b3 = vec2(blob3Center.x * aspect, blob3Center.y);
+        vec2 b4 = vec2(blob4Center.x * aspect, blob4Center.y);
+        vec2 b5 = vec2(blob5Center.x * aspect, blob5Center.y);
 
-        // Liquid glass glow at mouse position
-        float glowIntensity = smoothstep(0.5, 0.0, distToMouse);
-        glowIntensity *= (1.0 + speedInfluence * 1.5);
-        vec3 glowColor = mix(
-          vec3(0.1, 0.8, 0.5),  // Green glow
-          vec3(0.2, 0.9, 0.8),  // Cyan glow when moving fast
-          speedInfluence
-        );
-        color += glowColor * glowIntensity * 0.4;
+        // Create organic blobs with noise-based size variation
+        float blobSize1 = 0.25 + fbm(vec2(time * 0.2, 1.0)) * 0.08;
+        float blobSize2 = 0.2 + fbm(vec2(time * 0.15, 2.0)) * 0.06;
+        float blobSize3 = 0.3 + fbm(vec2(time * 0.18, 3.0)) * 0.1;
+        float blobSize4 = 0.15 + fbm(vec2(time * 0.22, 4.0)) * 0.05;
+        float blobSize5 = 0.18 + fbm(vec2(time * 0.2, 5.0)) * 0.06;
 
-        // Speed-based light streaks
-        float streak = fbm(uv * 3.0 + uVelocity * 5.0 + time * 0.5);
-        streak = smoothstep(0.3, 0.8, streak) * speedInfluence * mouseInfluence;
-        color += vec3(0.2, 0.7, 0.6) * streak * 0.3;
+        // Calculate blob intensities with soft edges
+        float b1Intensity = blob(fluidUVAspect, b1, blobSize1, 0.15);
+        float b2Intensity = blob(fluidUVAspect, b2, blobSize2, 0.12);
+        float b3Intensity = blob(fluidUVAspect, b3, blobSize3, 0.18);
+        float b4Intensity = blob(fluidUVAspect, b4, blobSize4, 0.1);
+        float b5Intensity = blob(fluidUVAspect, b5, blobSize5, 0.12);
 
-        // Subtle vignette
-        float vig = 1.0 - smoothstep(0.4, 1.3, length((uv - 0.5) * 1.4));
-        color *= vig * 0.6 + 0.4;
+        // Add noise-based organic distortion to blob shapes
+        float noiseDistort1 = fbm(fluidUVAspect * 3.0 + vec2(time * 0.1, 0.0)) * 0.3;
+        float noiseDistort2 = fbm(fluidUVAspect * 4.0 + vec2(0.0, time * 0.15)) * 0.25;
 
-        // Glass-like specular highlights
-        float specular = pow(max(0.0, fbm(liquidUV * 4.0 + time * 0.3)), 4.0);
-        specular *= mouseInfluence * 0.5;
-        color += vec3(0.4, 0.9, 0.7) * specular;
+        b1Intensity *= (0.8 + noiseDistort1);
+        b2Intensity *= (0.85 + noiseDistort2);
+        b3Intensity *= (0.75 + noiseDistort1 * 0.8);
+        b4Intensity *= (0.9 + noiseDistort2 * 0.7);
+        b5Intensity *= (0.85 + noiseDistort1 * 0.6);
 
-        // Tone mapping and gamma correction
-        color = color / (color + 0.8);
-        color = pow(color, vec3(0.9));
+        // Mouse-reactive blob
+        float mouseBlob = blob(fluidUVAspect, mouseAspect, 0.15 + speedInfluence * 0.1, 0.12);
+        mouseBlob *= (0.6 + speedInfluence * 0.4);
+
+        // Combine blob layers with different colors
+        vec3 color = vec3(0.0); // Pure black background
+
+        // Layer blobs from back to front with color mixing
+        color = mix(color, purpleDark, b3Intensity * 0.7);
+        color = mix(color, violet, b5Intensity * 0.6);
+        color = mix(color, purpleDeep, b4Intensity * 0.8);
+        color = mix(color, purpleBright, b1Intensity * 0.9);
+        color = mix(color, magenta, b2Intensity * 0.75);
+
+        // Mouse glow - brighter purple at cursor
+        vec3 mouseGlow = mix(purpleBright, magenta, speedInfluence);
+        color = mix(color, mouseGlow, mouseBlob * 0.8);
+
+        // Add subtle inner glow to blobs
+        float combinedBlobs = max(max(max(b1Intensity, b2Intensity), max(b3Intensity, b4Intensity)), b5Intensity);
+        float innerGlow = pow(combinedBlobs, 0.5) * 0.3;
+        color += purpleBright * innerGlow * 0.4;
+
+        // Velocity trails - stretched purple when moving fast
+        if (uSpeed > 0.01) {
+          vec2 trailOffset = uVelocity * 0.5;
+          float trail = fbm((fluidUVAspect + trailOffset) * 2.0 + time * 0.3);
+          trail = smoothstep(0.2, 0.7, trail) * speedInfluence * mouseInfluence;
+          color += magenta * trail * 0.4;
+        }
+
+        // Ambient purple glow at edges
+        float edgeGlow = 1.0 - smoothstep(0.3, 1.2, length(uv - 0.5) * 1.5);
+        float ambientNoise = fbm(uv * 1.5 + time * 0.05) * 0.5 + 0.5;
+        color += purpleDark * edgeGlow * ambientNoise * 0.3;
+
+        // Subtle floating particles/specks
+        float particles = fbm(fluidUV * 8.0 + time * 0.2);
+        particles = pow(smoothstep(0.6, 0.9, particles), 3.0);
+        color += purpleBright * particles * 0.15;
+
+        // Depth variation - darker in corners
+        float vignette = 1.0 - smoothstep(0.2, 1.4, length((uv - 0.5) * 1.8));
+        color *= vignette * 0.7 + 0.3;
+
+        // Soft bloom effect on bright areas
+        float bloom = pow(max(combinedBlobs, mouseBlob), 2.0);
+        color += vec3(0.6, 0.2, 0.7) * bloom * 0.2;
+
+        // Gamma correction for smooth gradients
+        color = pow(color, vec3(0.95));
+
+        // Ensure pure black in empty areas
+        color *= smoothstep(0.0, 0.05, combinedBlobs + mouseBlob + edgeGlow * 0.3);
 
         gl_FragColor = vec4(color, 1.0);
       }
