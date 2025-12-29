@@ -174,103 +174,96 @@ const FluidBackground = () => {
         vec2 uv = vUv;
         float time = uTime * 0.5;
 
-        // Aspect ratio correction for circular blobs
+        // Aspect ratio correction
         float aspect = uResolution.x / uResolution.y;
         vec2 uvAspect = vec2(uv.x * aspect, uv.y);
 
-        // Mouse interaction
+        // Mouse position with aspect correction
         vec2 mouseAspect = vec2(uMouse.x * aspect, uMouse.y);
         float distToMouse = length(uvAspect - mouseAspect);
-        float mouseInfluence = smoothstep(0.5, 0.0, distToMouse);
         float speedInfluence = min(uSpeed * 3.0, 1.0);
 
         // Apply fluid distortion
         vec2 fluidUV = fluidDistort(uv, time);
-        vec2 fluidUVAspect = vec2(fluidUV.x * aspect, fluidUV.y);
 
-        // === FORMLESS AURORA EFFECT ===
+        // === FORMLESS STYLE - COLORFUL MOUSE GRADIENT ===
 
-        // Color palette matching formless.xyz
-        vec3 brightGreen = vec3(0.2, 0.95, 0.4);        // Bright green glow
-        vec3 cyan = vec3(0.0, 0.8, 0.75);               // Cyan/teal
-        vec3 teal = vec3(0.0, 0.5, 0.55);               // Mid teal
-        vec3 darkTeal = vec3(0.02, 0.15, 0.2);          // Dark teal
-        vec3 deepBlue = vec3(0.01, 0.05, 0.1);          // Very dark blue
+        // Background colors
+        vec3 darkTeal = vec3(0.02, 0.12, 0.15);
+        vec3 deepBlue = vec3(0.01, 0.04, 0.08);
 
-        // Multiple layered noise for aurora-like flowing effect
-        vec2 p1 = fluidUV * 1.5 + vec2(time * 0.08, time * 0.05);
-        vec2 p2 = fluidUV * 2.0 + vec2(-time * 0.06, time * 0.07);
-        vec2 p3 = fluidUV * 1.0 + vec2(time * 0.04, -time * 0.03);
-        vec2 p4 = fluidUV * 2.5 + vec2(time * 0.1, time * 0.08);
+        // Mouse gradient colors (center to outer)
+        vec3 yellow = vec3(1.0, 1.0, 0.2);           // Bright yellow center
+        vec3 orange = vec3(1.0, 0.6, 0.2);           // Orange
+        vec3 pink = vec3(1.0, 0.4, 0.6);             // Pink
+        vec3 magenta = vec3(0.85, 0.2, 0.7);         // Magenta
+        vec3 purple = vec3(0.5, 0.15, 0.7);          // Purple
+        vec3 violet = vec3(0.3, 0.1, 0.5);           // Violet
+        vec3 cyan = vec3(0.1, 0.7, 0.8);             // Cyan outer
+        vec3 teal = vec3(0.0, 0.5, 0.55);            // Teal
+        vec3 green = vec3(0.2, 0.9, 0.5);            // Green accent
 
-        // Create flowing aurora layers
+        // Dark gradient background
+        vec3 color = mix(deepBlue, darkTeal, pow(uv.y, 0.6));
+
+        // Subtle aurora in background
+        vec2 p1 = fluidUV * 1.5 + vec2(time * 0.06, time * 0.04);
+        vec2 p2 = fluidUV * 2.0 + vec2(-time * 0.05, time * 0.06);
         float aurora1 = fbm(p1) * 0.5 + 0.5;
         float aurora2 = fbm(p2 + 5.0) * 0.5 + 0.5;
-        float aurora3 = fbm(p3 + 10.0) * 0.5 + 0.5;
-        float aurora4 = fbm(p4 + 15.0) * 0.5 + 0.5;
 
-        // Shape the aurora - concentrated in upper/middle areas
-        float verticalMask = smoothstep(0.0, 0.5, uv.y) * smoothstep(1.0, 0.3, uv.y);
-        float horizontalFlow = sin(uv.x * 3.14159 + time * 0.1) * 0.5 + 0.5;
+        float auroraMask = smoothstep(0.0, 0.5, uv.y) * smoothstep(1.0, 0.4, uv.y);
+        aurora1 *= auroraMask * smoothstep(0.4, 0.7, aurora1);
+        aurora2 *= smoothstep(0.3, 0.6, aurora2) * auroraMask;
 
-        // Combine aurora layers with masks
-        aurora1 *= verticalMask * smoothstep(0.3, 0.7, aurora1);
-        aurora2 *= smoothstep(0.0, 0.6, uv.y) * smoothstep(0.4, 0.6, aurora2);
-        aurora3 *= smoothstep(0.2, 0.8, uv.y);
-        aurora4 *= smoothstep(0.35, 0.65, aurora4) * verticalMask;
+        // Add subtle background aurora
+        color = mix(color, teal * 0.5, aurora2 * 0.4);
+        color = mix(color, green * 0.4, aurora1 * 0.3);
 
-        // Mouse interaction - creates a glow that attracts/reveals aurora
-        float mouseGlow = smoothstep(0.6, 0.0, distToMouse);
-        float mouseIntensity = mouseGlow * (0.8 + speedInfluence * 0.5);
+        // === LARGE SMOOTH MOUSE GLOW ===
+        // Single soft gradient blob that follows mouse
 
-        // Mouse adds brightness and pulls aurora toward cursor
-        aurora1 += mouseIntensity * 0.4;
-        aurora2 += mouseIntensity * 0.3;
+        // Glow size and falloff
+        float glowRadius = 0.6;
+        float normalizedDist = distToMouse / glowRadius;
 
-        // Dark gradient background (darker at bottom)
-        vec3 bgTop = darkTeal;
-        vec3 bgBottom = deepBlue;
-        vec3 color = mix(bgBottom, bgTop, pow(uv.y, 0.7));
+        // Very soft gaussian-like falloff
+        float glowFalloff = exp(-normalizedDist * normalizedDist * 2.0);
 
-        // Layer the aurora colors
-        color = mix(color, darkTeal, aurora3 * 0.6);
-        color = mix(color, teal, aurora2 * 0.5);
-        color = mix(color, cyan, aurora1 * 0.6);
-        color = mix(color, brightGreen, aurora4 * 0.7);
-
-        // Bright green highlights in concentrated areas
-        float greenHighlight = pow(aurora1 * aurora4, 1.5);
-        greenHighlight *= smoothstep(0.2, 0.5, greenHighlight);
-        color += brightGreen * greenHighlight * 0.8;
-
-        // Mouse glow effect - bright cyan/green at cursor
-        vec3 cursorGlow = mix(cyan, brightGreen, speedInfluence);
-        color += cursorGlow * mouseGlow * 0.5;
-
-        // Velocity trails when moving fast
-        if (uSpeed > 0.01) {
-          vec2 trailOffset = uVelocity * 0.8;
-          float trail = fbm((fluidUV + trailOffset) * 2.5 + time * 0.2);
-          trail = smoothstep(0.3, 0.7, trail) * speedInfluence * mouseInfluence;
-          color += cyan * trail * 0.4;
+        // Smooth color gradient from center to edge (single blend, not rings)
+        vec3 mouseColor;
+        if (normalizedDist < 0.3) {
+          // Center: yellow to orange
+          mouseColor = mix(yellow, orange, smoothstep(0.0, 0.3, normalizedDist));
+        } else if (normalizedDist < 0.5) {
+          // Middle: orange to pink/magenta
+          mouseColor = mix(orange, magenta, smoothstep(0.3, 0.5, normalizedDist));
+        } else if (normalizedDist < 0.8) {
+          // Outer: magenta to purple
+          mouseColor = mix(magenta, purple, smoothstep(0.5, 0.8, normalizedDist));
+        } else {
+          // Edge: purple to cyan (fades to background)
+          mouseColor = mix(purple, cyan, smoothstep(0.8, 1.2, normalizedDist));
         }
 
-        // Soft ambient glow
-        float ambientNoise = fbm(uv * 1.2 + time * 0.03) * 0.5 + 0.5;
-        color += darkTeal * ambientNoise * 0.15;
+        // Apply the smooth glow
+        color = mix(color, mouseColor, glowFalloff * 0.9);
 
-        // Subtle vignette - darker at edges
-        float vignette = 1.0 - smoothstep(0.3, 1.5, length((uv - 0.5) * 1.6));
-        color *= vignette * 0.5 + 0.5;
+        // Bright center highlight
+        float centerGlow = exp(-normalizedDist * normalizedDist * 8.0);
+        color += yellow * centerGlow * 0.4;
 
-        // Soft bloom on bright areas
-        float brightness = dot(color, vec3(0.299, 0.587, 0.114));
-        float bloom = smoothstep(0.3, 0.8, brightness);
-        color += vec3(0.1, 0.6, 0.5) * bloom * 0.15;
+        // Subtle noise texture in the glow for organic feel
+        float glowNoise = fbm(uvAspect * 4.0 + time * 0.1) * 0.1;
+        color += mouseColor * glowNoise * glowFalloff * 0.2;
 
-        // Tone mapping for smooth gradients
-        color = color / (color + 0.9);
-        color = pow(color, vec3(0.92));
+        // Soft vignette
+        float vignette = 1.0 - smoothstep(0.4, 1.4, length((uv - 0.5) * 1.5));
+        color *= vignette * 0.4 + 0.6;
+
+        // Tone mapping
+        color = color / (color + 0.85);
+        color = pow(color, vec3(0.95));
 
         gl_FragColor = vec4(color, 1.0);
       }
