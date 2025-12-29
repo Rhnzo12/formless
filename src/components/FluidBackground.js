@@ -188,122 +188,89 @@ const FluidBackground = () => {
         vec2 fluidUV = fluidDistort(uv, time);
         vec2 fluidUVAspect = vec2(fluidUV.x * aspect, fluidUV.y);
 
-        // === FORMLESS LAVA LAMP BLOBS ===
+        // === FORMLESS AURORA EFFECT ===
 
-        // Primary purple/magenta colors
-        vec3 purpleBright = vec3(0.545, 0.161, 0.843);   // #8B29D7
-        vec3 purpleDeep = vec3(0.4, 0.08, 0.6);          // Deeper purple
-        vec3 magenta = vec3(0.7, 0.15, 0.5);             // Pink-magenta
-        vec3 violet = vec3(0.35, 0.1, 0.55);             // Violet
-        vec3 purpleDark = vec3(0.15, 0.02, 0.25);        // Very dark purple
+        // Color palette matching formless.xyz
+        vec3 brightGreen = vec3(0.2, 0.95, 0.4);        // Bright green glow
+        vec3 cyan = vec3(0.0, 0.8, 0.75);               // Cyan/teal
+        vec3 teal = vec3(0.0, 0.5, 0.55);               // Mid teal
+        vec3 darkTeal = vec3(0.02, 0.15, 0.2);          // Dark teal
+        vec3 deepBlue = vec3(0.01, 0.05, 0.1);          // Very dark blue
 
-        // Animated blob centers - organic floating movement
-        vec2 blob1Center = vec2(
-          0.3 + sin(time * 0.3) * 0.2 + fbm(vec2(time * 0.1, 0.0)) * 0.15,
-          0.4 + cos(time * 0.25) * 0.25 + fbm(vec2(0.0, time * 0.1)) * 0.1
-        );
-        vec2 blob2Center = vec2(
-          0.7 + sin(time * 0.35 + 1.0) * 0.2,
-          0.6 + cos(time * 0.28 + 2.0) * 0.2
-        );
-        vec2 blob3Center = vec2(
-          0.5 + sin(time * 0.22 + 3.0) * 0.3,
-          0.3 + cos(time * 0.3 + 1.5) * 0.2
-        );
-        vec2 blob4Center = vec2(
-          0.2 + sin(time * 0.4 + 2.0) * 0.15,
-          0.7 + cos(time * 0.35 + 0.5) * 0.15
-        );
-        vec2 blob5Center = vec2(
-          0.8 + sin(time * 0.25 + 4.0) * 0.15,
-          0.25 + cos(time * 0.32 + 3.0) * 0.2
-        );
+        // Multiple layered noise for aurora-like flowing effect
+        vec2 p1 = fluidUV * 1.5 + vec2(time * 0.08, time * 0.05);
+        vec2 p2 = fluidUV * 2.0 + vec2(-time * 0.06, time * 0.07);
+        vec2 p3 = fluidUV * 1.0 + vec2(time * 0.04, -time * 0.03);
+        vec2 p4 = fluidUV * 2.5 + vec2(time * 0.1, time * 0.08);
 
-        // Aspect-corrected blob centers
-        vec2 b1 = vec2(blob1Center.x * aspect, blob1Center.y);
-        vec2 b2 = vec2(blob2Center.x * aspect, blob2Center.y);
-        vec2 b3 = vec2(blob3Center.x * aspect, blob3Center.y);
-        vec2 b4 = vec2(blob4Center.x * aspect, blob4Center.y);
-        vec2 b5 = vec2(blob5Center.x * aspect, blob5Center.y);
+        // Create flowing aurora layers
+        float aurora1 = fbm(p1) * 0.5 + 0.5;
+        float aurora2 = fbm(p2 + 5.0) * 0.5 + 0.5;
+        float aurora3 = fbm(p3 + 10.0) * 0.5 + 0.5;
+        float aurora4 = fbm(p4 + 15.0) * 0.5 + 0.5;
 
-        // Create organic blobs with noise-based size variation
-        float blobSize1 = 0.25 + fbm(vec2(time * 0.2, 1.0)) * 0.08;
-        float blobSize2 = 0.2 + fbm(vec2(time * 0.15, 2.0)) * 0.06;
-        float blobSize3 = 0.3 + fbm(vec2(time * 0.18, 3.0)) * 0.1;
-        float blobSize4 = 0.15 + fbm(vec2(time * 0.22, 4.0)) * 0.05;
-        float blobSize5 = 0.18 + fbm(vec2(time * 0.2, 5.0)) * 0.06;
+        // Shape the aurora - concentrated in upper/middle areas
+        float verticalMask = smoothstep(0.0, 0.5, uv.y) * smoothstep(1.0, 0.3, uv.y);
+        float horizontalFlow = sin(uv.x * 3.14159 + time * 0.1) * 0.5 + 0.5;
 
-        // Calculate blob intensities with soft edges
-        float b1Intensity = blob(fluidUVAspect, b1, blobSize1, 0.15);
-        float b2Intensity = blob(fluidUVAspect, b2, blobSize2, 0.12);
-        float b3Intensity = blob(fluidUVAspect, b3, blobSize3, 0.18);
-        float b4Intensity = blob(fluidUVAspect, b4, blobSize4, 0.1);
-        float b5Intensity = blob(fluidUVAspect, b5, blobSize5, 0.12);
+        // Combine aurora layers with masks
+        aurora1 *= verticalMask * smoothstep(0.3, 0.7, aurora1);
+        aurora2 *= smoothstep(0.0, 0.6, uv.y) * smoothstep(0.4, 0.6, aurora2);
+        aurora3 *= smoothstep(0.2, 0.8, uv.y);
+        aurora4 *= smoothstep(0.35, 0.65, aurora4) * verticalMask;
 
-        // Add noise-based organic distortion to blob shapes
-        float noiseDistort1 = fbm(fluidUVAspect * 3.0 + vec2(time * 0.1, 0.0)) * 0.3;
-        float noiseDistort2 = fbm(fluidUVAspect * 4.0 + vec2(0.0, time * 0.15)) * 0.25;
+        // Mouse interaction - creates a glow that attracts/reveals aurora
+        float mouseGlow = smoothstep(0.6, 0.0, distToMouse);
+        float mouseIntensity = mouseGlow * (0.8 + speedInfluence * 0.5);
 
-        b1Intensity *= (0.8 + noiseDistort1);
-        b2Intensity *= (0.85 + noiseDistort2);
-        b3Intensity *= (0.75 + noiseDistort1 * 0.8);
-        b4Intensity *= (0.9 + noiseDistort2 * 0.7);
-        b5Intensity *= (0.85 + noiseDistort1 * 0.6);
+        // Mouse adds brightness and pulls aurora toward cursor
+        aurora1 += mouseIntensity * 0.4;
+        aurora2 += mouseIntensity * 0.3;
 
-        // Mouse-reactive blob
-        float mouseBlob = blob(fluidUVAspect, mouseAspect, 0.15 + speedInfluence * 0.1, 0.12);
-        mouseBlob *= (0.6 + speedInfluence * 0.4);
+        // Dark gradient background (darker at bottom)
+        vec3 bgTop = darkTeal;
+        vec3 bgBottom = deepBlue;
+        vec3 color = mix(bgBottom, bgTop, pow(uv.y, 0.7));
 
-        // Combine blob layers with different colors
-        vec3 color = vec3(0.0); // Pure black background
+        // Layer the aurora colors
+        color = mix(color, darkTeal, aurora3 * 0.6);
+        color = mix(color, teal, aurora2 * 0.5);
+        color = mix(color, cyan, aurora1 * 0.6);
+        color = mix(color, brightGreen, aurora4 * 0.7);
 
-        // Layer blobs from back to front with color mixing
-        color = mix(color, purpleDark, b3Intensity * 0.7);
-        color = mix(color, violet, b5Intensity * 0.6);
-        color = mix(color, purpleDeep, b4Intensity * 0.8);
-        color = mix(color, purpleBright, b1Intensity * 0.9);
-        color = mix(color, magenta, b2Intensity * 0.75);
+        // Bright green highlights in concentrated areas
+        float greenHighlight = pow(aurora1 * aurora4, 1.5);
+        greenHighlight *= smoothstep(0.2, 0.5, greenHighlight);
+        color += brightGreen * greenHighlight * 0.8;
 
-        // Mouse glow - brighter purple at cursor
-        vec3 mouseGlow = mix(purpleBright, magenta, speedInfluence);
-        color = mix(color, mouseGlow, mouseBlob * 0.8);
+        // Mouse glow effect - bright cyan/green at cursor
+        vec3 cursorGlow = mix(cyan, brightGreen, speedInfluence);
+        color += cursorGlow * mouseGlow * 0.5;
 
-        // Add subtle inner glow to blobs
-        float combinedBlobs = max(max(max(b1Intensity, b2Intensity), max(b3Intensity, b4Intensity)), b5Intensity);
-        float innerGlow = pow(combinedBlobs, 0.5) * 0.3;
-        color += purpleBright * innerGlow * 0.4;
-
-        // Velocity trails - stretched purple when moving fast
+        // Velocity trails when moving fast
         if (uSpeed > 0.01) {
-          vec2 trailOffset = uVelocity * 0.5;
-          float trail = fbm((fluidUVAspect + trailOffset) * 2.0 + time * 0.3);
-          trail = smoothstep(0.2, 0.7, trail) * speedInfluence * mouseInfluence;
-          color += magenta * trail * 0.4;
+          vec2 trailOffset = uVelocity * 0.8;
+          float trail = fbm((fluidUV + trailOffset) * 2.5 + time * 0.2);
+          trail = smoothstep(0.3, 0.7, trail) * speedInfluence * mouseInfluence;
+          color += cyan * trail * 0.4;
         }
 
-        // Ambient purple glow at edges
-        float edgeGlow = 1.0 - smoothstep(0.3, 1.2, length(uv - 0.5) * 1.5);
-        float ambientNoise = fbm(uv * 1.5 + time * 0.05) * 0.5 + 0.5;
-        color += purpleDark * edgeGlow * ambientNoise * 0.3;
+        // Soft ambient glow
+        float ambientNoise = fbm(uv * 1.2 + time * 0.03) * 0.5 + 0.5;
+        color += darkTeal * ambientNoise * 0.15;
 
-        // Subtle floating particles/specks
-        float particles = fbm(fluidUV * 8.0 + time * 0.2);
-        particles = pow(smoothstep(0.6, 0.9, particles), 3.0);
-        color += purpleBright * particles * 0.15;
+        // Subtle vignette - darker at edges
+        float vignette = 1.0 - smoothstep(0.3, 1.5, length((uv - 0.5) * 1.6));
+        color *= vignette * 0.5 + 0.5;
 
-        // Depth variation - darker in corners
-        float vignette = 1.0 - smoothstep(0.2, 1.4, length((uv - 0.5) * 1.8));
-        color *= vignette * 0.7 + 0.3;
+        // Soft bloom on bright areas
+        float brightness = dot(color, vec3(0.299, 0.587, 0.114));
+        float bloom = smoothstep(0.3, 0.8, brightness);
+        color += vec3(0.1, 0.6, 0.5) * bloom * 0.15;
 
-        // Soft bloom effect on bright areas
-        float bloom = pow(max(combinedBlobs, mouseBlob), 2.0);
-        color += vec3(0.6, 0.2, 0.7) * bloom * 0.2;
-
-        // Gamma correction for smooth gradients
-        color = pow(color, vec3(0.95));
-
-        // Ensure pure black in empty areas
-        color *= smoothstep(0.0, 0.05, combinedBlobs + mouseBlob + edgeGlow * 0.3);
+        // Tone mapping for smooth gradients
+        color = color / (color + 0.9);
+        color = pow(color, vec3(0.92));
 
         gl_FragColor = vec4(color, 1.0);
       }
