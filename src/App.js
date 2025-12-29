@@ -1,6 +1,20 @@
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <div className="App">
       {/* Navigation */}
@@ -52,8 +66,14 @@ function App() {
         </div>
       </section>
 
-      {/* Background glow effect */}
-      <div className="background-glow"></div>
+      {/* Animated gradient background that follows mouse */}
+      <div
+        className="gradient-blob"
+        style={{
+          left: `${mousePosition.x}%`,
+          top: `${mousePosition.y}%`,
+        }}
+      ></div>
     </div>
   );
 }
