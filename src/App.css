@@ -1,38 +1,270 @@
+/* Main App Container */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  background: linear-gradient(135deg, #0a0f1a 0%, #0d1520 50%, #0a1015 100%);
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Glow Effect */
+.background-glow {
+  position: fixed;
+  top: 50%;
+  right: -20%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(30, 80, 150, 0.3) 0%, rgba(20, 60, 120, 0.15) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+/* Navigation */
+.navbar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  position: relative;
+  z-index: 10;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.brand-text sup {
+  font-size: 0.6rem;
+  margin-left: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+/* Hero Section */
+.hero {
+  padding: 4rem 3rem 2rem;
+  position: relative;
+  z-index: 5;
+}
+
+.hero-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 4rem;
+}
+
+.hero-left {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 2.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 1rem 1.75rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.8);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-filled {
+  background: white;
+  border: 2px solid white;
+  color: #0a0f1a;
+}
+
+.btn-filled:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.hero-right {
+  flex: 1;
+  max-width: 550px;
+  padding-top: 0.5rem;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+/* Large Logo Section */
+.logo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 3rem;
+  position: relative;
+  z-index: 5;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.large-logo {
+  width: 200px;
+  height: 200px;
+}
+
+.logo-text {
+  display: flex;
+  align-items: flex-start;
+}
+
+.formless-text {
+  font-size: 7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.tm-text {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .hero-content {
+    flex-direction: column;
+    gap: 2rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .hero-left,
+  .hero-right {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.75rem;
+  }
+
+  .logo-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .formless-text {
+    font-size: 4rem;
+  }
+
+  .large-logo {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .formless-text {
+    font-size: 2.5rem;
+  }
+
+  .tm-text {
+    font-size: 1rem;
+  }
+
+  .large-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo-section {
+    padding: 2rem 1.5rem;
   }
 }
