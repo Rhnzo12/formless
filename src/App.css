@@ -36,15 +36,9 @@
   gap: 0.75rem;
 }
 
-.brand-text {
-  font-size: 1.25rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-}
-
-.brand-text sup {
-  font-size: 0.6rem;
-  margin-left: 2px;
+.nav-logo {
+  height: 40px;
+  width: auto;
 }
 
 .nav-links {
@@ -163,27 +157,9 @@
 }
 
 .large-logo {
-  width: 200px;
-  height: 200px;
-}
-
-.logo-text {
-  display: flex;
-  align-items: flex-start;
-}
-
-.formless-text {
-  font-size: 7rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  line-height: 1;
-}
-
-.tm-text {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
 }
 
 /* Responsive Styles */
@@ -202,18 +178,8 @@
     font-size: 2.75rem;
   }
 
-  .logo-container {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .formless-text {
-    font-size: 4rem;
-  }
-
   .large-logo {
-    width: 150px;
-    height: 150px;
+    max-height: 300px;
   }
 }
 
@@ -251,17 +217,8 @@
     text-align: center;
   }
 
-  .formless-text {
-    font-size: 2.5rem;
-  }
-
-  .tm-text {
-    font-size: 1rem;
-  }
-
   .large-logo {
-    width: 100px;
-    height: 100px;
+    max-height: 200px;
   }
 
   .logo-section {
