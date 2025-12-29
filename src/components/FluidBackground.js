@@ -3,18 +3,23 @@ import * as THREE from 'three';
 
 const FluidBackground = () => {
   const containerRef = useRef(null);
-  const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
+  const rendererRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Prevent double initialization in StrictMode
+    if (rendererRef.current) return;
+
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
 
     // Shader material for multi-color fog
     const vertexShader = `
@@ -31,7 +36,7 @@ const FluidBackground = () => {
       uniform vec2 uResolution;
       varying vec2 vUv;
 
-      // Simplex noise function
+      // Simplex noise
       vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -41,17 +46,13 @@ const FluidBackground = () => {
                            -0.577350269189626, 0.024390243902439);
         vec2 i  = floor(v + dot(v, C.yy));
         vec2 x0 = v - i + dot(i, C.xx);
-        vec2 i1;
-        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+        vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
         vec4 x12 = x0.xyxy + C.xxzz;
         x12.xy -= i1;
         i = mod289(i);
-        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
-                + i.x + vec3(0.0, i1.x, 1.0));
-        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
-                  dot(x12.zw,x12.zw)), 0.0);
-        m = m*m;
-        m = m*m;
+        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+        m = m*m*m*m;
         vec3 x = 2.0 * fract(p * C.www) - 1.0;
         vec3 h = abs(x) - 0.5;
         vec3 ox = floor(x + 0.5);
@@ -66,68 +67,82 @@ const FluidBackground = () => {
       float fbm(vec2 p) {
         float value = 0.0;
         float amplitude = 0.5;
-        float frequency = 1.0;
-        for(int i = 0; i < 6; i++) {
-          value += amplitude * snoise(p * frequency);
+        for(int i = 0; i < 5; i++) {
+          value += amplitude * snoise(p);
+          p *= 2.0;
           amplitude *= 0.5;
-          frequency *= 2.0;
         }
         return value;
       }
 
       void main() {
         vec2 uv = vUv;
-        vec2 aspect = vec2(uResolution.x / uResolution.y, 1.0);
+        float time = uTime;
 
-        // Mouse influence with smooth falloff
+        // Mouse position creates a displacement/attraction effect
         vec2 mouse = uMouse;
-        float mouseInfluence = 1.0 - smoothstep(0.0, 0.8, length((uv - mouse) * aspect));
+        vec2 toMouse = mouse - uv;
+        float distToMouse = length(toMouse);
+        float mouseStrength = smoothstep(0.5, 0.0, distToMouse);
 
-        // Animated fog layers
-        float time = uTime * 0.15;
+        // Displace UV based on mouse - fog follows mouse
+        vec2 displaced = uv + toMouse * mouseStrength * 0.3;
 
-        // Layer 1: Teal/Cyan fog (right side dominant)
-        vec2 p1 = uv * 2.0 + vec2(time * 0.3, time * 0.2);
-        float fog1 = fbm(p1) * 0.5 + 0.5;
-        fog1 *= smoothstep(0.0, 1.0, uv.x + 0.3);
-        fog1 += mouseInfluence * 0.3;
-        vec3 color1 = vec3(0.0, 0.9, 0.8) * fog1 * 0.6; // Cyan/teal
+        // Animated base coordinates
+        float t1 = time * 0.4;
+        float t2 = time * 0.3;
 
-        // Layer 2: Orange/Yellow fog (center-left)
-        vec2 p2 = uv * 1.8 + vec2(-time * 0.2, time * 0.25);
-        float fog2 = fbm(p2 + 3.0) * 0.5 + 0.5;
-        fog2 *= smoothstep(0.8, 0.2, uv.x) * smoothstep(0.0, 0.5, uv.y);
-        fog2 += mouseInfluence * 0.25;
-        vec3 color2 = vec3(1.0, 0.5, 0.0) * fog2 * 0.5; // Orange
+        // Layer 1: Teal/Cyan (dominant on right, follows mouse)
+        vec2 p1 = displaced * 1.5 + vec2(t1 * 0.5, t2 * 0.3);
+        float n1 = fbm(p1) * 0.5 + 0.5;
+        n1 *= smoothstep(-0.2, 0.8, uv.x);
+        n1 += mouseStrength * 0.5;
+        vec3 teal = vec3(0.0, 0.85, 0.75) * n1;
 
-        // Layer 3: Purple/Violet fog (scattered)
-        vec2 p3 = uv * 2.2 + vec2(time * 0.1, -time * 0.3);
-        float fog3 = fbm(p3 + 7.0) * 0.5 + 0.5;
-        fog3 *= (1.0 - abs(uv.x - 0.5) * 1.5);
-        fog3 += mouseInfluence * 0.2;
-        vec3 color3 = vec3(0.5, 0.2, 0.8) * fog3 * 0.4; // Purple
+        // Layer 2: Orange/Gold (center-left, follows mouse)
+        vec2 p2 = displaced * 1.3 + vec2(-t1 * 0.4, t2 * 0.5);
+        float n2 = fbm(p2 + 5.0) * 0.5 + 0.5;
+        n2 *= smoothstep(0.9, 0.1, uv.x) * smoothstep(-0.1, 0.6, uv.y);
+        n2 += mouseStrength * 0.4;
+        vec3 orange = vec3(1.0, 0.45, 0.0) * n2;
 
-        // Layer 4: Green accent
-        vec2 p4 = uv * 1.5 + vec2(time * 0.25, time * 0.15);
-        float fog4 = fbm(p4 + 11.0) * 0.5 + 0.5;
-        fog4 *= smoothstep(0.7, 0.3, uv.y);
-        vec3 color4 = vec3(0.2, 0.8, 0.3) * fog4 * 0.3; // Green
+        // Layer 3: Purple/Magenta (scattered)
+        vec2 p3 = displaced * 1.8 + vec2(t1 * 0.2, -t2 * 0.4);
+        float n3 = fbm(p3 + 10.0) * 0.5 + 0.5;
+        n3 *= smoothstep(1.0, 0.3, abs(uv.x - 0.5) * 2.0);
+        n3 += mouseStrength * 0.35;
+        vec3 purple = vec3(0.6, 0.1, 0.8) * n3;
 
-        // Dark base color
-        vec3 baseColor = vec3(0.02, 0.04, 0.05);
+        // Layer 4: Green accent (bottom area)
+        vec2 p4 = displaced * 1.4 + vec2(t1 * 0.35, t2 * 0.25);
+        float n4 = fbm(p4 + 15.0) * 0.5 + 0.5;
+        n4 *= smoothstep(0.8, 0.2, uv.y);
+        n4 += mouseStrength * 0.3;
+        vec3 green = vec3(0.1, 0.7, 0.2) * n4;
 
-        // Combine all layers
-        vec3 finalColor = baseColor + color1 + color2 + color3 + color4;
+        // Dark background
+        vec3 bg = vec3(0.01, 0.02, 0.03);
 
-        // Add subtle vignette
-        float vignette = 1.0 - smoothstep(0.4, 1.4, length((uv - 0.5) * 1.5));
-        finalColor *= vignette * 0.8 + 0.2;
+        // Combine with intensity control
+        vec3 color = bg;
+        color += teal * 0.55;
+        color += orange * 0.45;
+        color += purple * 0.35;
+        color += green * 0.25;
 
-        // Tone mapping and gamma correction
-        finalColor = finalColor / (finalColor + vec3(1.0));
-        finalColor = pow(finalColor, vec3(0.9));
+        // Mouse glow effect - bright spot follows mouse
+        float glow = smoothstep(0.4, 0.0, distToMouse);
+        color += vec3(0.1, 0.3, 0.3) * glow;
 
-        gl_FragColor = vec4(finalColor, 1.0);
+        // Vignette
+        float vig = 1.0 - smoothstep(0.3, 1.2, length((uv - 0.5) * 1.3));
+        color *= vig * 0.7 + 0.3;
+
+        // Tonemap
+        color = color / (color + 1.0);
+        color = pow(color, vec3(0.95));
+
+        gl_FragColor = vec4(color, 1.0);
       }
     `;
 
@@ -147,17 +162,17 @@ const FluidBackground = () => {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Mouse movement handler
+    // Mouse movement - update target position
     const handleMouseMove = (e) => {
-      mouseRef.current.x = e.clientX / window.innerWidth;
-      mouseRef.current.y = 1.0 - e.clientY / window.innerHeight;
+      mouseRef.current.targetX = e.clientX / window.innerWidth;
+      mouseRef.current.targetY = 1.0 - e.clientY / window.innerHeight;
     };
 
     // Touch handler
     const handleTouchMove = (e) => {
       if (e.touches.length > 0) {
-        mouseRef.current.x = e.touches[0].clientX / window.innerWidth;
-        mouseRef.current.y = 1.0 - e.touches[0].clientY / window.innerHeight;
+        mouseRef.current.targetX = e.touches[0].clientX / window.innerWidth;
+        mouseRef.current.targetY = 1.0 - e.touches[0].clientY / window.innerHeight;
       }
     };
 
@@ -173,18 +188,29 @@ const FluidBackground = () => {
 
     // Animation loop
     let animationId;
-    const animate = () => {
+    let lastTime = performance.now();
+
+    const animate = (currentTime) => {
       animationId = requestAnimationFrame(animate);
 
-      uniforms.uTime.value += 0.016;
+      const delta = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
 
-      // Smooth mouse following
-      uniforms.uMouse.value.x += (mouseRef.current.x - uniforms.uMouse.value.x) * 0.05;
-      uniforms.uMouse.value.y += (mouseRef.current.y - uniforms.uMouse.value.y) * 0.05;
+      // Update time
+      uniforms.uTime.value += delta;
+
+      // Smooth mouse interpolation (lerp)
+      const lerpSpeed = 0.08;
+      mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
+      mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * lerpSpeed;
+
+      uniforms.uMouse.value.x = mouseRef.current.x;
+      uniforms.uMouse.value.y = mouseRef.current.y;
 
       renderer.render(scene, camera);
     };
-    animate();
+
+    animationId = requestAnimationFrame(animate);
 
     // Cleanup
     return () => {
@@ -198,6 +224,7 @@ const FluidBackground = () => {
       geometry.dispose();
       material.dispose();
       renderer.dispose();
+      rendererRef.current = null;
     };
   }, []);
 
@@ -211,6 +238,7 @@ const FluidBackground = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 1,
+        pointerEvents: 'auto',
       }}
     />
   );
