@@ -4,6 +4,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: #000;
 }
 
 body {
@@ -14,7 +15,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0a0f1a;
+  background: transparent;
+  overflow-x: hidden;
 }
 
 code {
