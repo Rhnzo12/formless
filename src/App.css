@@ -1,3 +1,17 @@
+/* Gradient Canvas */
+#gradient-canvas {
+  --gradient-color-1: #0061ff;
+  --gradient-color-2: #60efff;
+  --gradient-color-3: #ff00a0;
+  --gradient-color-4: #ff5770;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
 /* Main App Container */
 .App {
   min-height: 100vh;
