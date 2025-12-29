@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import FOG from 'vanta/dist/vanta.fog.min';
+import HALO from 'vanta/dist/vanta.halo.min';
 
 const FluidBackground = () => {
   const vantaRef = useRef(null);
@@ -9,7 +9,7 @@ const FluidBackground = () => {
   useEffect(() => {
     if (!vantaEffect) {
       setVantaEffect(
-        FOG({
+        HALO({
           el: vantaRef.current,
           THREE: THREE,
           mouseControls: true,
@@ -17,13 +17,13 @@ const FluidBackground = () => {
           gyroControls: false,
           minHeight: 200.00,
           minWidth: 200.00,
-          highlightColor: 0x14b8a6,  // Teal highlight
-          midtoneColor: 0x115e59,    // Dark teal mid
-          lowlightColor: 0x042f2e,   // Very dark teal
-          baseColor: 0x021a19,       // Near black base
-          blurFactor: 0.6,
-          speed: 1.5,
-          zoom: 1.0
+          baseColor: 0x0c1f1f,       // Dark teal-black base
+          backgroundColor: 0x050a0a, // Very dark background
+          amplitudeFactor: 1.5,
+          size: 1.5,
+          speed: 1.0,
+          xOffset: 0.2,
+          yOffset: 0.1
         })
       );
     }
