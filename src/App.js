@@ -1,5 +1,4 @@
 import './App.css';
-import FormlessLogo from './components/FormlessLogo';
 
 function App() {
   return (
@@ -7,8 +6,7 @@ function App() {
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-brand">
-          <FormlessLogo size={32} />
-          <span className="brand-text">FORMLESS<sup>TM</sup></span>
+          <img src="/logomain.png" alt="Formless" className="nav-logo" />
         </div>
         <div className="nav-links">
           <a href="#api-docs" className="nav-link">API Docs</a>
@@ -45,11 +43,7 @@ function App() {
       {/* Large Logo Section */}
       <section className="logo-section">
         <div className="logo-container">
-          <FormlessLogo size={200} className="large-logo" />
-          <div className="logo-text">
-            <span className="formless-text">FORMLESS</span>
-            <sup className="tm-text">TM</sup>
-          </div>
+          <img src="/logomain.png" alt="Formless" className="large-logo" />
         </div>
       </section>
 
