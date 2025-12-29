@@ -44,6 +44,10 @@ function App() {
       <section className="logo-section">
         <div className="logo-container">
           <img src="/logomain.png" alt="Formless" className="large-logo" />
+          <div className="logo-text">
+            <span className="formless-text">FORMLESS</span>
+            <sup className="tm-text">TM</sup>
+          </div>
         </div>
       </section>
 

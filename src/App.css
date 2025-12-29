@@ -162,6 +162,25 @@
   max-height: 400px;
 }
 
+.logo-text {
+  display: flex;
+  align-items: flex-start;
+}
+
+.formless-text {
+  font-size: 7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.tm-text {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .hero-content {
@@ -180,6 +199,15 @@
 
   .large-logo {
     max-height: 300px;
+  }
+
+  .logo-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .formless-text {
+    font-size: 5rem;
   }
 }
 
@@ -219,6 +247,14 @@
 
   .large-logo {
     max-height: 200px;
+  }
+
+  .formless-text {
+    font-size: 2.5rem;
+  }
+
+  .tm-text {
+    font-size: 1rem;
   }
 
   .logo-section {
