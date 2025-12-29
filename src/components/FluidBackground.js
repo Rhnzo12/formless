@@ -220,56 +220,38 @@ const FluidBackground = () => {
         color = mix(color, teal * 0.5, aurora2 * 0.4);
         color = mix(color, green * 0.4, aurora1 * 0.3);
 
-        // === LARGE COLORFUL MOUSE GLOW ===
-        // Create concentric color rings around mouse
+        // === LARGE SMOOTH MOUSE GLOW ===
+        // Single soft gradient blob that follows mouse
 
-        // Normalize distance for gradient (larger radius = 0.8)
-        float glowRadius = 0.8;
+        // Glow size and falloff
+        float glowRadius = 0.6;
         float normalizedDist = distToMouse / glowRadius;
 
-        // Smooth falloff for the entire glow
-        float glowFalloff = 1.0 - smoothstep(0.0, 1.0, normalizedDist);
-        glowFalloff = pow(glowFalloff, 0.6); // Softer falloff
+        // Very soft gaussian-like falloff
+        float glowFalloff = exp(-normalizedDist * normalizedDist * 2.0);
 
-        // Create color bands based on distance from mouse
-        vec3 mouseColor = vec3(0.0);
+        // Smooth color gradient from center to edge (single blend, not rings)
+        vec3 mouseColor;
+        if (normalizedDist < 0.3) {
+          // Center: yellow to orange
+          mouseColor = mix(yellow, orange, smoothstep(0.0, 0.3, normalizedDist));
+        } else if (normalizedDist < 0.5) {
+          // Middle: orange to pink/magenta
+          mouseColor = mix(orange, magenta, smoothstep(0.3, 0.5, normalizedDist));
+        } else if (normalizedDist < 0.8) {
+          // Outer: magenta to purple
+          mouseColor = mix(magenta, purple, smoothstep(0.5, 0.8, normalizedDist));
+        } else {
+          // Edge: purple to cyan (fades to background)
+          mouseColor = mix(purple, cyan, smoothstep(0.8, 1.2, normalizedDist));
+        }
 
-        // Yellow core (0.0 - 0.15)
-        float yellowBand = smoothstep(0.15, 0.0, normalizedDist);
-        mouseColor = mix(mouseColor, yellow, yellowBand);
+        // Apply the smooth glow
+        color = mix(color, mouseColor, glowFalloff * 0.9);
 
-        // Orange ring (0.1 - 0.3)
-        float orangeBand = smoothstep(0.1, 0.2, normalizedDist) * smoothstep(0.4, 0.25, normalizedDist);
-        mouseColor = mix(mouseColor, orange, orangeBand * 0.9);
-
-        // Pink ring (0.25 - 0.45)
-        float pinkBand = smoothstep(0.2, 0.35, normalizedDist) * smoothstep(0.55, 0.4, normalizedDist);
-        mouseColor = mix(mouseColor, pink, pinkBand * 0.85);
-
-        // Magenta ring (0.4 - 0.6)
-        float magentaBand = smoothstep(0.35, 0.5, normalizedDist) * smoothstep(0.7, 0.55, normalizedDist);
-        mouseColor = mix(mouseColor, magenta, magentaBand * 0.8);
-
-        // Purple ring (0.55 - 0.75)
-        float purpleBand = smoothstep(0.5, 0.65, normalizedDist) * smoothstep(0.85, 0.7, normalizedDist);
-        mouseColor = mix(mouseColor, purple, purpleBand * 0.75);
-
-        // Violet/Cyan outer (0.7 - 1.0)
-        float outerBand = smoothstep(0.65, 0.8, normalizedDist) * smoothstep(1.1, 0.85, normalizedDist);
-        vec3 outerColor = mix(violet, cyan, smoothstep(0.75, 0.95, normalizedDist));
-        mouseColor = mix(mouseColor, outerColor, outerBand * 0.7);
-
-        // Apply the mouse glow to the scene
-        float glowIntensity = glowFalloff * 0.95;
-        color = mix(color, mouseColor, glowIntensity);
-
-        // Add bright center highlight
-        float centerGlow = smoothstep(0.12, 0.0, normalizedDist);
-        color += yellow * centerGlow * 0.5;
-
-        // Velocity effect - glow gets slightly larger/brighter when moving
-        float velocityBoost = speedInfluence * 0.15;
-        color += mouseColor * glowFalloff * velocityBoost;
+        // Bright center highlight
+        float centerGlow = exp(-normalizedDist * normalizedDist * 8.0);
+        color += yellow * centerGlow * 0.4;
 
         // Subtle noise texture in the glow for organic feel
         float glowNoise = fbm(uvAspect * 4.0 + time * 0.1) * 0.1;
