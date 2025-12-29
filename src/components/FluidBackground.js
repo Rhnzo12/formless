@@ -5,17 +5,42 @@ const FluidBackground = () => {
   const containerRef = useRef(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
   const rendererRef = useRef(null);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     // Prevent double initialization in StrictMode
-    if (rendererRef.current) return;
+    // Use a separate flag because rendererRef gets nullified in cleanup
+    if (isInitializedRef.current || rendererRef.current) return;
+    isInitializedRef.current = true;
+
+    // Check for WebGL support
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      console.warn('WebGL not supported, skipping FluidBackground');
+      return;
+    }
 
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: false,
+        powerPreference: 'high-performance',
+        failIfMajorPerformanceCaveat: false
+      });
+    } catch (error) {
+      console.warn('Failed to create WebGL renderer:', error);
+      isInitializedRef.current = false;
+      return;
+    }
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
@@ -225,6 +250,11 @@ const FluidBackground = () => {
       material.dispose();
       renderer.dispose();
       rendererRef.current = null;
+      // Note: We intentionally do NOT reset isInitializedRef here.
+      // In React StrictMode, cleanup runs immediately followed by another effect run.
+      // Keeping isInitializedRef = true prevents attempting to create a new WebGL context
+      // before the old one is fully released. The ref resets naturally when the component
+      // truly unmounts (the ref is garbage collected with the component instance).
     };
   }, []);
 
