@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
+const TRAIL_LENGTH = 12; // Number of trail points
+
 const FluidBackground = () => {
   const containerRef = useRef(null);
   const mouseRef = useRef({
@@ -11,9 +13,10 @@ const FluidBackground = () => {
     velocityX: 0,
     velocityY: 0,
     speed: 0,
-    lastX: 0.5,
-    lastY: 0.5,
-    lastTime: performance.now()
+    // Trail history - array of past positions
+    trail: Array(TRAIL_LENGTH).fill().map(() => ({ x: 0.5, y: 0.5 })),
+    trailIndex: 0,
+    lastTrailUpdate: 0
   });
   const sceneRef = useRef(null);
 
@@ -40,7 +43,7 @@ const FluidBackground = () => {
         uniforms.uTime.value += delta;
 
         // Position interpolation
-        const lerpSpeed = 0.06;
+        const lerpSpeed = 0.08;
         const prevX = mouseRef.current.x;
         const prevY = mouseRef.current.y;
         mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
@@ -53,12 +56,29 @@ const FluidBackground = () => {
         mouseRef.current.velocityY = mouseRef.current.velocityY * 0.9 + vy * 0.1;
         mouseRef.current.speed = Math.sqrt(vx * vx + vy * vy) * 100;
 
+        // Update trail - add new position every few frames
+        if (currentTime - mouseRef.current.lastTrailUpdate > 30) {
+          mouseRef.current.trail[mouseRef.current.trailIndex] = {
+            x: mouseRef.current.x,
+            y: mouseRef.current.y
+          };
+          mouseRef.current.trailIndex = (mouseRef.current.trailIndex + 1) % TRAIL_LENGTH;
+          mouseRef.current.lastTrailUpdate = currentTime;
+        }
+
         // Update uniforms
         uniforms.uMouse.value.x = mouseRef.current.x;
         uniforms.uMouse.value.y = mouseRef.current.y;
         uniforms.uVelocity.value.x = mouseRef.current.velocityX * 50;
         uniforms.uVelocity.value.y = mouseRef.current.velocityY * 50;
         uniforms.uSpeed.value = uniforms.uSpeed.value * 0.95 + mouseRef.current.speed * 0.05;
+
+        // Update trail uniforms
+        for (let i = 0; i < TRAIL_LENGTH; i++) {
+          const trailIdx = (mouseRef.current.trailIndex - 1 - i + TRAIL_LENGTH) % TRAIL_LENGTH;
+          uniforms.uTrail.value[i].x = mouseRef.current.trail[trailIdx].x;
+          uniforms.uTrail.value[i].y = mouseRef.current.trail[trailIdx].y;
+        }
 
         renderer.render(scene, camera);
       };
@@ -99,7 +119,7 @@ const FluidBackground = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    // Shader material for Formless-style lava lamp effect
+    // Shader material for Formless-style effect with trail
     const vertexShader = `
       varying vec2 vUv;
       void main() {
@@ -114,6 +134,7 @@ const FluidBackground = () => {
       uniform vec2 uVelocity;
       uniform float uSpeed;
       uniform vec2 uResolution;
+      uniform vec2 uTrail[${TRAIL_LENGTH}];
       varying vec2 vUv;
 
       // Simplex noise functions
@@ -144,7 +165,6 @@ const FluidBackground = () => {
         return 130.0 * dot(m, g);
       }
 
-      // Fractional Brownian Motion for organic lava-lamp movement
       float fbm(vec2 p) {
         float value = 0.0;
         float amplitude = 0.5;
@@ -156,18 +176,36 @@ const FluidBackground = () => {
         return value;
       }
 
-      // Smooth blob function for lava-lamp effect
-      float blob(vec2 uv, vec2 center, float radius, float softness) {
-        float dist = length(uv - center);
-        return smoothstep(radius + softness, radius - softness, dist);
-      }
-
-      // Organic distortion for fluid movement
       vec2 fluidDistort(vec2 uv, float time) {
         vec2 distortion;
-        distortion.x = fbm(uv * 2.0 + vec2(time * 0.1, 0.0)) * 0.08;
-        distortion.y = fbm(uv * 2.0 + vec2(0.0, time * 0.12)) * 0.08;
+        distortion.x = fbm(uv * 2.0 + vec2(time * 0.1, 0.0)) * 0.06;
+        distortion.y = fbm(uv * 2.0 + vec2(0.0, time * 0.12)) * 0.06;
         return uv + distortion;
+      }
+
+      // Get color based on distance from center (for gradient effect)
+      vec3 getGlowColor(float normalizedDist) {
+        vec3 yellow = vec3(1.0, 1.0, 0.2);
+        vec3 lime = vec3(0.7, 1.0, 0.2);
+        vec3 green = vec3(0.2, 0.9, 0.4);
+        vec3 cyan = vec3(0.1, 0.8, 0.8);
+        vec3 blue = vec3(0.2, 0.4, 0.9);
+        vec3 purple = vec3(0.5, 0.2, 0.8);
+        vec3 magenta = vec3(0.8, 0.2, 0.6);
+
+        if (normalizedDist < 0.15) {
+          return mix(yellow, lime, normalizedDist / 0.15);
+        } else if (normalizedDist < 0.3) {
+          return mix(lime, green, (normalizedDist - 0.15) / 0.15);
+        } else if (normalizedDist < 0.5) {
+          return mix(green, cyan, (normalizedDist - 0.3) / 0.2);
+        } else if (normalizedDist < 0.7) {
+          return mix(cyan, blue, (normalizedDist - 0.5) / 0.2);
+        } else if (normalizedDist < 0.85) {
+          return mix(blue, purple, (normalizedDist - 0.7) / 0.15);
+        } else {
+          return mix(purple, magenta, (normalizedDist - 0.85) / 0.15);
+        }
       }
 
       void main() {
@@ -178,87 +216,74 @@ const FluidBackground = () => {
         float aspect = uResolution.x / uResolution.y;
         vec2 uvAspect = vec2(uv.x * aspect, uv.y);
 
-        // Mouse position with aspect correction
-        vec2 mouseAspect = vec2(uMouse.x * aspect, uMouse.y);
-        float distToMouse = length(uvAspect - mouseAspect);
-        float speedInfluence = min(uSpeed * 3.0, 1.0);
-
         // Apply fluid distortion
         vec2 fluidUV = fluidDistort(uv, time);
 
-        // === FORMLESS STYLE - COLORFUL MOUSE GRADIENT ===
-
         // Background colors
-        vec3 darkTeal = vec3(0.02, 0.12, 0.15);
-        vec3 deepBlue = vec3(0.01, 0.04, 0.08);
-
-        // Mouse gradient colors (center to outer)
-        vec3 yellow = vec3(1.0, 1.0, 0.2);           // Bright yellow center
-        vec3 orange = vec3(1.0, 0.6, 0.2);           // Orange
-        vec3 pink = vec3(1.0, 0.4, 0.6);             // Pink
-        vec3 magenta = vec3(0.85, 0.2, 0.7);         // Magenta
-        vec3 purple = vec3(0.5, 0.15, 0.7);          // Purple
-        vec3 violet = vec3(0.3, 0.1, 0.5);           // Violet
-        vec3 cyan = vec3(0.1, 0.7, 0.8);             // Cyan outer
-        vec3 teal = vec3(0.0, 0.5, 0.55);            // Teal
-        vec3 green = vec3(0.2, 0.9, 0.5);            // Green accent
+        vec3 darkTeal = vec3(0.02, 0.10, 0.12);
+        vec3 deepBlue = vec3(0.01, 0.03, 0.06);
+        vec3 teal = vec3(0.0, 0.4, 0.45);
+        vec3 green = vec3(0.15, 0.7, 0.4);
 
         // Dark gradient background
-        vec3 color = mix(deepBlue, darkTeal, pow(uv.y, 0.6));
+        vec3 color = mix(deepBlue, darkTeal, pow(uv.y, 0.5));
 
         // Subtle aurora in background
-        vec2 p1 = fluidUV * 1.5 + vec2(time * 0.06, time * 0.04);
-        vec2 p2 = fluidUV * 2.0 + vec2(-time * 0.05, time * 0.06);
+        vec2 p1 = fluidUV * 1.5 + vec2(time * 0.05, time * 0.03);
+        vec2 p2 = fluidUV * 2.0 + vec2(-time * 0.04, time * 0.05);
         float aurora1 = fbm(p1) * 0.5 + 0.5;
         float aurora2 = fbm(p2 + 5.0) * 0.5 + 0.5;
 
-        float auroraMask = smoothstep(0.0, 0.5, uv.y) * smoothstep(1.0, 0.4, uv.y);
-        aurora1 *= auroraMask * smoothstep(0.4, 0.7, aurora1);
-        aurora2 *= smoothstep(0.3, 0.6, aurora2) * auroraMask;
+        float auroraMask = smoothstep(0.0, 0.4, uv.y) * smoothstep(1.0, 0.5, uv.y);
+        aurora1 *= auroraMask * smoothstep(0.45, 0.7, aurora1);
+        aurora2 *= smoothstep(0.35, 0.6, aurora2) * auroraMask;
 
-        // Add subtle background aurora
-        color = mix(color, teal * 0.5, aurora2 * 0.4);
-        color = mix(color, green * 0.4, aurora1 * 0.3);
+        color = mix(color, teal * 0.4, aurora2 * 0.5);
+        color = mix(color, green * 0.3, aurora1 * 0.4);
 
-        // === LARGE SMOOTH MOUSE GLOW ===
-        // Single soft gradient blob that follows mouse
+        // === TRAIL RENDERING ===
+        // Render glows for each trail point (oldest to newest)
+        for (int i = ${TRAIL_LENGTH - 1}; i >= 0; i--) {
+          vec2 trailPos = uTrail[i];
+          vec2 trailAspect = vec2(trailPos.x * aspect, trailPos.y);
+          float distToTrail = length(uvAspect - trailAspect);
 
-        // Glow size and falloff
-        float glowRadius = 0.6;
-        float normalizedDist = distToMouse / glowRadius;
+          // Trail intensity decreases for older points
+          float age = float(i) / float(${TRAIL_LENGTH - 1});
+          float trailIntensity = 1.0 - age * 0.7; // Older = dimmer
+          float trailSize = 0.5 - age * 0.2; // Older = smaller
 
-        // Very soft gaussian-like falloff
-        float glowFalloff = exp(-normalizedDist * normalizedDist * 2.0);
+          float normalizedDist = distToTrail / trailSize;
+          float glowFalloff = exp(-normalizedDist * normalizedDist * 2.5);
 
-        // Smooth color gradient from center to edge (single blend, not rings)
-        vec3 mouseColor;
-        if (normalizedDist < 0.3) {
-          // Center: yellow to orange
-          mouseColor = mix(yellow, orange, smoothstep(0.0, 0.3, normalizedDist));
-        } else if (normalizedDist < 0.5) {
-          // Middle: orange to pink/magenta
-          mouseColor = mix(orange, magenta, smoothstep(0.3, 0.5, normalizedDist));
-        } else if (normalizedDist < 0.8) {
-          // Outer: magenta to purple
-          mouseColor = mix(magenta, purple, smoothstep(0.5, 0.8, normalizedDist));
-        } else {
-          // Edge: purple to cyan (fades to background)
-          mouseColor = mix(purple, cyan, smoothstep(0.8, 1.2, normalizedDist));
+          // Get color based on position in trail
+          vec3 trailColor = getGlowColor(age);
+
+          // Apply trail glow
+          color = mix(color, trailColor, glowFalloff * trailIntensity * 0.6);
         }
 
-        // Apply the smooth glow
+        // === MAIN MOUSE GLOW (brightest, on top) ===
+        vec2 mouseAspect = vec2(uMouse.x * aspect, uMouse.y);
+        float distToMouse = length(uvAspect - mouseAspect);
+        float glowRadius = 0.5;
+        float normalizedDist = distToMouse / glowRadius;
+
+        float glowFalloff = exp(-normalizedDist * normalizedDist * 2.0);
+
+        // Main glow color - bright yellow/lime center
+        vec3 yellow = vec3(1.0, 1.0, 0.2);
+        vec3 lime = vec3(0.6, 1.0, 0.3);
+        vec3 mouseColor = mix(yellow, lime, smoothstep(0.0, 0.4, normalizedDist));
+
         color = mix(color, mouseColor, glowFalloff * 0.9);
 
         // Bright center highlight
-        float centerGlow = exp(-normalizedDist * normalizedDist * 8.0);
-        color += yellow * centerGlow * 0.4;
-
-        // Subtle noise texture in the glow for organic feel
-        float glowNoise = fbm(uvAspect * 4.0 + time * 0.1) * 0.1;
-        color += mouseColor * glowNoise * glowFalloff * 0.2;
+        float centerGlow = exp(-normalizedDist * normalizedDist * 10.0);
+        color += yellow * centerGlow * 0.5;
 
         // Soft vignette
-        float vignette = 1.0 - smoothstep(0.4, 1.4, length((uv - 0.5) * 1.5));
+        float vignette = 1.0 - smoothstep(0.3, 1.5, length((uv - 0.5) * 1.6));
         color *= vignette * 0.4 + 0.6;
 
         // Tone mapping
@@ -269,12 +294,19 @@ const FluidBackground = () => {
       }
     `;
 
+    // Initialize trail uniform array
+    const trailArray = [];
+    for (let i = 0; i < TRAIL_LENGTH; i++) {
+      trailArray.push(new THREE.Vector2(0.5, 0.5));
+    }
+
     const uniforms = {
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0.5, 0.5) },
       uVelocity: { value: new THREE.Vector2(0, 0) },
       uSpeed: { value: 0 },
-      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+      uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      uTrail: { value: trailArray }
     };
 
     const material = new THREE.ShaderMaterial({
@@ -332,7 +364,7 @@ const FluidBackground = () => {
       const prevY = mouseRef.current.y;
 
       // Smooth mouse interpolation (lerp)
-      const lerpSpeed = 0.06;
+      const lerpSpeed = 0.08;
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * lerpSpeed;
 
@@ -347,12 +379,29 @@ const FluidBackground = () => {
       // Calculate speed magnitude
       mouseRef.current.speed = Math.sqrt(vx * vx + vy * vy) * 100;
 
+      // Update trail - add new position every ~30ms
+      if (currentTime - mouseRef.current.lastTrailUpdate > 30) {
+        mouseRef.current.trail[mouseRef.current.trailIndex] = {
+          x: mouseRef.current.x,
+          y: mouseRef.current.y
+        };
+        mouseRef.current.trailIndex = (mouseRef.current.trailIndex + 1) % TRAIL_LENGTH;
+        mouseRef.current.lastTrailUpdate = currentTime;
+      }
+
       // Update shader uniforms
       uniforms.uMouse.value.x = mouseRef.current.x;
       uniforms.uMouse.value.y = mouseRef.current.y;
       uniforms.uVelocity.value.x = mouseRef.current.velocityX * 50;
       uniforms.uVelocity.value.y = mouseRef.current.velocityY * 50;
       uniforms.uSpeed.value = uniforms.uSpeed.value * 0.95 + mouseRef.current.speed * 0.05;
+
+      // Update trail uniforms (ordered from newest to oldest)
+      for (let i = 0; i < TRAIL_LENGTH; i++) {
+        const trailIdx = (mouseRef.current.trailIndex - 1 - i + TRAIL_LENGTH) % TRAIL_LENGTH;
+        uniforms.uTrail.value[i].x = mouseRef.current.trail[trailIdx].x;
+        uniforms.uTrail.value[i].y = mouseRef.current.trail[trailIdx].y;
+      }
 
       renderer.render(scene, camera);
     };
@@ -367,10 +416,8 @@ const FluidBackground = () => {
       window.removeEventListener('resize', handleResize);
 
       // Deferred cleanup - only dispose if component truly unmounts
-      // In StrictMode, the effect will re-run immediately and reuse the scene
       const currentScene = sceneRef.current;
       const timeoutId = setTimeout(() => {
-        // If sceneRef still points to this scene after timeout, truly dispose
         if (sceneRef.current === currentScene) {
           if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
             containerRef.current.removeChild(renderer.domElement);
@@ -382,7 +429,6 @@ const FluidBackground = () => {
         }
       }, 100);
 
-      // Store timeout to clear if component remounts
       sceneRef.current.cleanupTimeout = timeoutId;
     };
   }, []);
