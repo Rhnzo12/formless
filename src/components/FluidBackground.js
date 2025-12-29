@@ -47,6 +47,7 @@ const FluidBackground = () => {
       uniform vec2 resolution;
       uniform float time;
       uniform vec2 mouse;
+      uniform float velocity;
 
       vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -99,48 +100,66 @@ const FluidBackground = () => {
       void main() {
         vec2 uv = gl_FragCoord.xy / resolution.xy;
         vec2 m = mouse / resolution.xy;
-        float t = time * 0.15;
+        float t = time * 0.05; // Slow base animation
 
-        // Multiple noise layers for fluid effect
-        float n1 = snoise(vec3(uv * 1.5, t * 0.5)) * 0.5 + 0.5;
-        float n2 = snoise(vec3(uv * 2.5 + 5.0, t * 0.7)) * 0.5 + 0.5;
-        float n3 = snoise(vec3(uv * 3.5 + 10.0, t * 0.3)) * 0.5 + 0.5;
-        float n4 = snoise(vec3(uv * 1.0 + 15.0, t * 0.4)) * 0.5 + 0.5;
+        // Base noise layers (subtle when still)
+        float n1 = snoise(vec3(uv * 1.2, t * 0.3)) * 0.5 + 0.5;
+        float n2 = snoise(vec3(uv * 2.0 + 5.0, t * 0.4)) * 0.5 + 0.5;
+        float n3 = snoise(vec3(uv * 2.8 + 10.0, t * 0.2)) * 0.5 + 0.5;
 
-        // Warp coordinates for more fluid look
-        vec2 warpedUv = uv + vec2(n1, n2) * 0.1;
-        float warpedNoise = snoise(vec3(warpedUv * 2.0, t * 0.6)) * 0.5 + 0.5;
-
-        // Mouse interaction - smooth glow
+        // Mouse distance and water ripple effect
         float mouseDist = length(uv - m);
-        float mouseGlow = smoothstep(0.6, 0.0, mouseDist);
-        float mouseGlow2 = smoothstep(0.3, 0.0, mouseDist);
+
+        // Water-like ripple when mouse moves
+        float rippleTime = time * 3.0;
+        float ripple = sin(mouseDist * 25.0 - rippleTime) * 0.5 + 0.5;
+        ripple *= smoothstep(0.5, 0.0, mouseDist); // Fade with distance
+        ripple *= velocity; // Only visible when moving
+
+        // Flowing distortion around mouse
+        vec2 toMouse = normalize(uv - m + 0.001);
+        vec2 flowOffset = toMouse * velocity * 0.05 * smoothstep(0.6, 0.0, mouseDist);
+        vec2 flowUv = uv + flowOffset;
+
+        // Warped noise using flow
+        float flowNoise = snoise(vec3(flowUv * 3.0, t + velocity * 2.0)) * 0.5 + 0.5;
 
         // Dark base color
-        vec3 color = vec3(0.02, 0.04, 0.08);
+        vec3 color = vec3(0.015, 0.03, 0.06);
 
-        // Teal/cyan layer (bottom-right feeling)
-        vec3 teal = vec3(0.0, 0.6, 0.7);
-        float tealMask = n1 * n2 * 1.5;
-        tealMask *= smoothstep(0.0, 0.7, uv.x + uv.y * 0.3 + n3 * 0.3);
-        color += teal * tealMask * 0.5;
+        // Subtle base gradient (teal to dark)
+        vec3 teal = vec3(0.0, 0.45, 0.55);
+        float tealGrad = smoothstep(0.0, 1.0, uv.x * 0.6 + uv.y * 0.4 + n1 * 0.2);
+        color += teal * tealGrad * n2 * 0.35;
 
-        // Green/yellow glow layer (the bright accent)
-        vec3 greenYellow = vec3(0.4, 0.9, 0.1);
-        float greenMask = warpedNoise * n4;
-        greenMask *= smoothstep(0.3, 0.8, n1 + n2 * 0.5);
-        greenMask *= (1.0 - uv.y * 0.5 + n3 * 0.3); // More in upper area
-        color += greenYellow * greenMask * 0.6;
+        // Green/yellow accent (subtle when still, brighter when moving)
+        vec3 greenYellow = vec3(0.35, 0.85, 0.1);
+        float greenBase = n1 * n3 * smoothstep(0.4, 0.9, n2);
+        greenBase *= (1.0 - uv.y * 0.4);
+        color += greenYellow * greenBase * (0.3 + velocity * 0.5);
 
-        // Mouse glow - bright green/yellow
-        vec3 glowColor = mix(vec3(0.0, 0.8, 0.6), vec3(0.5, 1.0, 0.2), mouseGlow2);
-        color += glowColor * mouseGlow * 0.7;
+        // Water-like glow following mouse
+        float glowRadius = 0.35 + velocity * 0.15;
+        float mouseGlow = smoothstep(glowRadius, 0.0, mouseDist);
+        float innerGlow = smoothstep(0.15, 0.0, mouseDist);
 
-        // Add subtle blue undertone
-        color.b += n2 * 0.15;
+        // Color shifts based on movement
+        vec3 glowColor = mix(
+          vec3(0.0, 0.5, 0.6),  // Teal when still
+          vec3(0.4, 0.95, 0.2), // Bright green when moving
+          velocity
+        );
 
-        // Boost contrast
-        color = pow(color, vec3(0.9));
+        // Add flowing water effect
+        color += glowColor * mouseGlow * (0.4 + velocity * 0.6);
+        color += glowColor * ripple * 0.3;
+        color += flowNoise * glowColor * velocity * mouseGlow * 0.4;
+
+        // Brighter center when moving fast
+        color += vec3(0.5, 1.0, 0.3) * innerGlow * velocity * 0.5;
+
+        // Subtle blue depth
+        color.b += n2 * 0.08;
 
         gl_FragColor = vec4(color, 1.0);
       }
@@ -191,17 +210,24 @@ const FluidBackground = () => {
     const timeLoc = gl.getUniformLocation(program, 'time');
     const mouseLoc = gl.getUniformLocation(program, 'mouse');
 
-    // Mouse
+    // Mouse with velocity tracking
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
     let targetX = mouseX;
     let targetY = mouseY;
+    let velocityX = 0;
+    let velocityY = 0;
+    let lastTargetX = targetX;
+    let lastTargetY = targetY;
 
     const onMouseMove = (e) => {
       targetX = e.clientX;
       targetY = canvas.height - e.clientY;
     };
     window.addEventListener('mousemove', onMouseMove);
+
+    // Velocity uniform
+    const velocityLoc = gl.getUniformLocation(program, 'velocity');
 
     // Render
     let start = Date.now();
@@ -217,13 +243,23 @@ const FluidBackground = () => {
       }
       frameCount++;
 
-      mouseX += (targetX - mouseX) * 0.05;
-      mouseY += (targetY - mouseY) * 0.05;
+      // Smooth mouse following
+      mouseX += (targetX - mouseX) * 0.08;
+      mouseY += (targetY - mouseY) * 0.08;
+
+      // Calculate velocity (how fast mouse is moving)
+      velocityX = (targetX - lastTargetX) * 0.3 + velocityX * 0.7;
+      velocityY = (targetY - lastTargetY) * 0.3 + velocityY * 0.7;
+      lastTargetX = targetX;
+      lastTargetY = targetY;
+
+      const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(resolutionLoc, canvas.width, canvas.height);
       gl.uniform1f(timeLoc, time);
       gl.uniform2f(mouseLoc, mouseX, mouseY);
+      gl.uniform1f(velocityLoc, Math.min(speed / 50.0, 1.0));
 
       gl.clearColor(0, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
