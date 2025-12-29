@@ -4,16 +4,43 @@ import * as THREE from 'three';
 const FluidBackground = () => {
   const containerRef = useRef(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
-  const rendererRef = useRef(null);
-  const isInitializedRef = useRef(false);
+  const sceneRef = useRef(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Prevent double initialization in StrictMode
-    // Use a separate flag because rendererRef gets nullified in cleanup
-    if (isInitializedRef.current || rendererRef.current) return;
-    isInitializedRef.current = true;
+    // If we already have a scene setup, just restart the animation
+    if (sceneRef.current) {
+      const { renderer, scene, camera, uniforms, geometry, material } = sceneRef.current;
+
+      // Re-append canvas if it was removed
+      if (!containerRef.current.contains(renderer.domElement)) {
+        containerRef.current.appendChild(renderer.domElement);
+      }
+
+      // Restart animation
+      let animationId;
+      let lastTime = performance.now();
+
+      const animate = (currentTime) => {
+        animationId = requestAnimationFrame(animate);
+        const delta = (currentTime - lastTime) / 1000;
+        lastTime = currentTime;
+        uniforms.uTime.value += delta;
+        const lerpSpeed = 0.08;
+        mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
+        mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * lerpSpeed;
+        uniforms.uMouse.value.x = mouseRef.current.x;
+        uniforms.uMouse.value.y = mouseRef.current.y;
+        renderer.render(scene, camera);
+      };
+
+      animationId = requestAnimationFrame(animate);
+
+      return () => {
+        cancelAnimationFrame(animationId);
+      };
+    }
 
     // Check for WebGL support
     const canvas = document.createElement('canvas');
@@ -37,14 +64,12 @@ const FluidBackground = () => {
       });
     } catch (error) {
       console.warn('Failed to create WebGL renderer:', error);
-      isInitializedRef.current = false;
       return;
     }
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
 
     // Shader material for multi-color fog
     const vertexShader = `
@@ -187,6 +212,9 @@ const FluidBackground = () => {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
+    // Store refs for potential reuse
+    sceneRef.current = { renderer, scene, camera, uniforms, geometry, material, mesh };
+
     // Mouse movement - update target position
     const handleMouseMove = (e) => {
       mouseRef.current.targetX = e.clientX / window.innerWidth;
@@ -237,26 +265,41 @@ const FluidBackground = () => {
 
     animationId = requestAnimationFrame(animate);
 
-    // Cleanup
+    // Cleanup - use deferred disposal to handle StrictMode
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('resize', handleResize);
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement);
-      }
-      geometry.dispose();
-      material.dispose();
-      renderer.dispose();
-      rendererRef.current = null;
-      // Note: We intentionally do NOT reset isInitializedRef here.
-      // In React StrictMode, cleanup runs immediately followed by another effect run.
-      // Keeping isInitializedRef = true prevents attempting to create a new WebGL context
-      // before the old one is fully released. The ref resets naturally when the component
-      // truly unmounts (the ref is garbage collected with the component instance).
+
+      // Deferred cleanup - only dispose if component truly unmounts
+      // In StrictMode, the effect will re-run immediately and reuse the scene
+      const currentScene = sceneRef.current;
+      const timeoutId = setTimeout(() => {
+        // If sceneRef still points to this scene after timeout, truly dispose
+        if (sceneRef.current === currentScene) {
+          if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
+            containerRef.current.removeChild(renderer.domElement);
+          }
+          geometry.dispose();
+          material.dispose();
+          renderer.dispose();
+          sceneRef.current = null;
+        }
+      }, 100);
+
+      // Store timeout to clear if component remounts
+      sceneRef.current.cleanupTimeout = timeoutId;
     };
   }, []);
+
+  // Clear any pending cleanup timeout when effect runs
+  useEffect(() => {
+    if (sceneRef.current?.cleanupTimeout) {
+      clearTimeout(sceneRef.current.cleanupTimeout);
+      sceneRef.current.cleanupTimeout = null;
+    }
+  });
 
   return (
     <div
