@@ -29,7 +29,7 @@ const FluidBackground = () => {
       }
     `;
 
-    // Fragment shader - Formless-style dark gradient with mouse-following glow
+    // Fragment shader - Vapor-like fluid animation
     const fragmentShaderSource = `
       precision highp float;
 
@@ -37,102 +37,154 @@ const FluidBackground = () => {
       uniform float u_time;
       uniform vec2 u_mouse;
 
-      // Simplex noise function
-      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-      vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+      // Simplex 3D noise
+      vec4 permute(vec4 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+      vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
 
-      float snoise(vec2 v) {
-        const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-                           -0.577350269189626, 0.024390243902439);
-        vec2 i  = floor(v + dot(v, C.yy));
-        vec2 x0 = v -   i + dot(i, C.xx);
-        vec2 i1;
-        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
-        vec4 x12 = x0.xyxy + C.xxzz;
-        x12.xy -= i1;
-        i = mod289(i);
-        vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0))
-                                + i.x + vec3(0.0, i1.x, 1.0));
-        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
-                                dot(x12.zw,x12.zw)), 0.0);
-        m = m*m;
-        m = m*m;
-        vec3 x = 2.0 * fract(p * C.www) - 1.0;
-        vec3 h = abs(x) - 0.5;
-        vec3 ox = floor(x + 0.5);
-        vec3 a0 = x - ox;
-        m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
-        vec3 g;
-        g.x  = a0.x  * x0.x  + h.x  * x0.y;
-        g.yz = a0.yz * x12.xz + h.yz * x12.yw;
-        return 130.0 * dot(m, g);
+      float snoise(vec3 v) {
+        const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+        vec3 i  = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - D.yyy;
+
+        i = mod(i, 289.0);
+        vec4 p = permute(permute(permute(
+                  i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+        float n_ = 1.0/7.0;
+        vec3 ns = n_ * D.wyz - D.xzx;
+
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+
+        vec4 x = x_ *ns.x + ns.yyyy;
+        vec4 y = y_ *ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+
+        vec4 s0 = floor(b0)*2.0 + 1.0;
+        vec4 s1 = floor(b1)*2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+
+        vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x;
+        p1 *= norm.y;
+        p2 *= norm.z;
+        p3 *= norm.w;
+
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      // Fractal Brownian Motion for vapor effect
+      float fbm(vec3 p) {
+        float value = 0.0;
+        float amplitude = 0.5;
+        float frequency = 1.0;
+        for (int i = 0; i < 5; i++) {
+          value += amplitude * snoise(p * frequency);
+          amplitude *= 0.5;
+          frequency *= 2.0;
+        }
+        return value;
       }
 
       void main() {
         vec2 uv = gl_FragCoord.xy / u_resolution.xy;
         float aspect = u_resolution.x / u_resolution.y;
 
-        // Slow time for subtle animation
-        float t = u_time * 0.05;
+        // Time variables
+        float t = u_time * 0.08;
+        float slowT = u_time * 0.02;
 
-        // Create base dark gradient
-        vec3 darkBase = vec3(0.02, 0.04, 0.06);
-        vec3 darkTop = vec3(0.04, 0.06, 0.08);
-        vec3 baseColor = mix(darkBase, darkTop, uv.y * 0.5);
-
-        // Mouse position (normalized)
+        // Mouse position normalized
         vec2 mouse = u_mouse / u_resolution.xy;
 
-        // Aspect-corrected coordinates
-        vec2 uvAspect = uv;
-        uvAspect.x *= aspect;
-        vec2 mouseAspect = mouse;
-        mouseAspect.x *= aspect;
+        // Create base dark gradient
+        vec3 darkBase = vec3(0.01, 0.02, 0.04);
+        vec3 darkMid = vec3(0.02, 0.04, 0.06);
+        vec3 baseColor = mix(darkBase, darkMid, uv.y);
 
-        // Create flowing noise layers
-        float noise1 = snoise(vec2(uv.x * 1.5 + t * 0.3, uv.y * 1.5 + t * 0.2)) * 0.5 + 0.5;
-        float noise2 = snoise(vec2(uv.x * 2.0 - t * 0.2, uv.y * 2.0 + t * 0.15)) * 0.5 + 0.5;
-        float noise3 = snoise(vec2(uv.x * 0.8 + t * 0.1, uv.y * 1.2 - t * 0.1)) * 0.5 + 0.5;
+        // Vapor/fluid noise layers
+        vec3 pos1 = vec3(uv.x * 2.0 * aspect, uv.y * 2.0, t);
+        vec3 pos2 = vec3(uv.x * 1.5 * aspect + 100.0, uv.y * 1.5, t * 0.7);
+        vec3 pos3 = vec3(uv.x * 3.0 * aspect + 200.0, uv.y * 3.0, t * 0.5);
 
-        // Glow colors
-        vec3 tealGlow = vec3(0.0, 0.4, 0.4);
-        vec3 greenGlow = vec3(0.1, 0.35, 0.15);
-        vec3 blueGlow = vec3(0.05, 0.15, 0.3);
+        // Mouse influence on vapor flow
+        float mouseInfluence = 1.0 - smoothstep(0.0, 0.5, length(uv - mouse));
+        pos1.xy += mouse * 0.5 * mouseInfluence;
+        pos2.xy += mouse * 0.3 * mouseInfluence;
 
-        // Main glow follows mouse
-        vec2 glow1Center = mouseAspect;
+        // Generate vapor layers
+        float vapor1 = fbm(pos1) * 0.5 + 0.5;
+        float vapor2 = fbm(pos2) * 0.5 + 0.5;
+        float vapor3 = fbm(pos3) * 0.5 + 0.5;
 
-        // Secondary glows orbit around mouse
-        vec2 glow2Center = mouseAspect + vec2(sin(t * 0.5) * 0.3, cos(t * 0.4) * 0.25);
-        vec2 glow3Center = mouseAspect + vec2(cos(t * 0.3) * 0.25, sin(t * 0.35) * 0.3);
+        // Vapor colors - teal/cyan dominant with green accents
+        vec3 tealVapor = vec3(0.0, 0.25, 0.28);
+        vec3 greenVapor = vec3(0.05, 0.22, 0.12);
+        vec3 blueVapor = vec3(0.02, 0.12, 0.2);
 
-        // Calculate distances
-        float dist1 = length(uvAspect - glow1Center);
-        float dist2 = length(uvAspect - glow2Center);
-        float dist3 = length(uvAspect - glow3Center);
+        // Mouse-reactive glow position
+        vec2 glowCenter = mouse;
+        float distToMouse = length(uv - glowCenter);
+        float mouseGlow = smoothstep(0.6, 0.0, distToMouse);
 
-        // Create soft radial gradients with noise modulation
-        float glow1Intensity = smoothstep(0.7, 0.0, dist1) * noise1 * 0.7;
-        float glow2Intensity = smoothstep(0.5, 0.0, dist2) * noise2 * 0.4;
-        float glow3Intensity = smoothstep(0.6, 0.0, dist3) * noise3 * 0.35;
+        // Combine vapor layers with mouse reactivity
+        float vaporMask1 = smoothstep(0.3, 0.7, vapor1) * (0.4 + mouseGlow * 0.3);
+        float vaporMask2 = smoothstep(0.35, 0.65, vapor2) * 0.35;
+        float vaporMask3 = smoothstep(0.4, 0.6, vapor3) * 0.25;
 
-        // Combine glows with base
+        // Apply vapor colors
         vec3 finalColor = baseColor;
-        finalColor += tealGlow * glow1Intensity;
-        finalColor += greenGlow * glow2Intensity;
-        finalColor += blueGlow * glow3Intensity;
+        finalColor = mix(finalColor, finalColor + tealVapor, vaporMask1);
+        finalColor = mix(finalColor, finalColor + greenVapor, vaporMask2);
+        finalColor = mix(finalColor, finalColor + blueVapor, vaporMask3);
 
-        // Add subtle noise texture
-        float texNoise = snoise(uv * 3.0 + t * 0.1) * 0.015;
-        finalColor += texNoise;
+        // Add subtle glow near mouse
+        vec3 glowColor = vec3(0.0, 0.3, 0.3);
+        finalColor += glowColor * mouseGlow * 0.15 * vapor1;
 
-        // Subtle vignette
-        float vignette = 1.0 - smoothstep(0.3, 1.2, length((uv - 0.5) * 1.5));
-        finalColor *= 0.9 + vignette * 0.1;
+        // Flowing highlight streaks
+        float streak = snoise(vec3(uv.x * 4.0 * aspect + slowT, uv.y * 0.5, slowT * 2.0));
+        streak = smoothstep(0.6, 0.9, streak) * 0.08;
+        finalColor += vec3(0.0, streak * 0.8, streak);
 
-        // Clamp brightness
-        finalColor = clamp(finalColor, 0.0, 0.5);
+        // Vignette
+        float vignette = 1.0 - smoothstep(0.4, 1.4, length((uv - 0.5) * 1.8));
+        finalColor *= 0.85 + vignette * 0.15;
+
+        // Subtle film grain for organic feel
+        float grain = snoise(vec3(uv * 500.0, u_time * 10.0)) * 0.015;
+        finalColor += grain;
+
+        // Final color adjustments
+        finalColor = clamp(finalColor, 0.0, 0.35);
 
         gl_FragColor = vec4(finalColor, 1.0);
       }
@@ -184,8 +236,8 @@ const FluidBackground = () => {
     const mouseLocation = gl.getUniformLocation(program, 'u_mouse');
 
     // Mouse tracking with smooth interpolation
-    let mouseX = canvas.width * 0.5;
-    let mouseY = canvas.height * 0.5;
+    let mouseX = canvas.width * 0.6;
+    let mouseY = canvas.height * 0.4;
     let targetMouseX = mouseX;
     let targetMouseY = mouseY;
 
@@ -212,8 +264,8 @@ const FluidBackground = () => {
       const time = (Date.now() - startTime) / 1000;
 
       // Smooth mouse interpolation
-      mouseX += (targetMouseX - mouseX) * 0.05;
-      mouseY += (targetMouseY - mouseY) * 0.05;
+      mouseX += (targetMouseX - mouseX) * 0.03;
+      mouseY += (targetMouseY - mouseY) * 0.03;
 
       gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
       gl.uniform1f(timeLocation, time);
