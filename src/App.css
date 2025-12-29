@@ -78,8 +78,8 @@
 }
 
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 500;
   line-height: 1.15;
   margin: 0 0 2.5rem 0;
   letter-spacing: -0.02em;
@@ -227,7 +227,7 @@
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .hero-description {
