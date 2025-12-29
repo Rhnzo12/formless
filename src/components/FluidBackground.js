@@ -3,7 +3,18 @@ import * as THREE from 'three';
 
 const FluidBackground = () => {
   const containerRef = useRef(null);
-  const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
+  const mouseRef = useRef({
+    x: 0.5,
+    y: 0.5,
+    targetX: 0.5,
+    targetY: 0.5,
+    velocityX: 0,
+    velocityY: 0,
+    speed: 0,
+    lastX: 0.5,
+    lastY: 0.5,
+    lastTime: performance.now()
+  });
   const sceneRef = useRef(null);
 
   useEffect(() => {
@@ -11,7 +22,7 @@ const FluidBackground = () => {
 
     // If we already have a scene setup, just restart the animation
     if (sceneRef.current) {
-      const { renderer, scene, camera, uniforms, geometry, material } = sceneRef.current;
+      const { renderer, scene, camera, uniforms } = sceneRef.current;
 
       // Re-append canvas if it was removed
       if (!containerRef.current.contains(renderer.domElement)) {
@@ -27,11 +38,28 @@ const FluidBackground = () => {
         const delta = (currentTime - lastTime) / 1000;
         lastTime = currentTime;
         uniforms.uTime.value += delta;
-        const lerpSpeed = 0.08;
+
+        // Position interpolation
+        const lerpSpeed = 0.06;
+        const prevX = mouseRef.current.x;
+        const prevY = mouseRef.current.y;
         mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
         mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * lerpSpeed;
+
+        // Calculate velocity
+        const vx = mouseRef.current.x - prevX;
+        const vy = mouseRef.current.y - prevY;
+        mouseRef.current.velocityX = mouseRef.current.velocityX * 0.9 + vx * 0.1;
+        mouseRef.current.velocityY = mouseRef.current.velocityY * 0.9 + vy * 0.1;
+        mouseRef.current.speed = Math.sqrt(vx * vx + vy * vy) * 100;
+
+        // Update uniforms
         uniforms.uMouse.value.x = mouseRef.current.x;
         uniforms.uMouse.value.y = mouseRef.current.y;
+        uniforms.uVelocity.value.x = mouseRef.current.velocityX * 50;
+        uniforms.uVelocity.value.y = mouseRef.current.velocityY * 50;
+        uniforms.uSpeed.value = uniforms.uSpeed.value * 0.95 + mouseRef.current.speed * 0.05;
+
         renderer.render(scene, camera);
       };
 
@@ -71,7 +99,7 @@ const FluidBackground = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
 
-    // Shader material for multi-color fog
+    // Shader material for Liquid Glass effect
     const vertexShader = `
       varying vec2 vUv;
       void main() {
@@ -83,10 +111,12 @@ const FluidBackground = () => {
     const fragmentShader = `
       uniform float uTime;
       uniform vec2 uMouse;
+      uniform vec2 uVelocity;
+      uniform float uSpeed;
       uniform vec2 uResolution;
       varying vec2 vUv;
 
-      // Simplex noise
+      // Simplex noise functions
       vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -114,10 +144,11 @@ const FluidBackground = () => {
         return 130.0 * dot(m, g);
       }
 
+      // Fractional Brownian Motion for organic movement
       float fbm(vec2 p) {
         float value = 0.0;
         float amplitude = 0.5;
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 6; i++) {
           value += amplitude * snoise(p);
           p *= 2.0;
           amplitude *= 0.5;
@@ -125,72 +156,127 @@ const FluidBackground = () => {
         return value;
       }
 
+      // Glass-like refraction distortion
+      vec2 glassDistort(vec2 uv, vec2 mouse, float speed) {
+        vec2 toMouse = uv - mouse;
+        float dist = length(toMouse);
+
+        // Liquid ripple effect based on speed
+        float ripple = sin(dist * 15.0 - uTime * 3.0) * 0.02;
+        ripple *= smoothstep(0.8, 0.0, dist);
+        ripple *= (1.0 + speed * 2.0);
+
+        // Glass refraction - bends light around mouse position
+        float refract = smoothstep(0.6, 0.0, dist) * 0.15;
+        refract *= (1.0 + speed * 1.5);
+
+        vec2 distortion = normalize(toMouse + 0.001) * (ripple + refract);
+        distortion += uVelocity * smoothstep(0.5, 0.0, dist) * 0.3;
+
+        return uv + distortion;
+      }
+
       void main() {
         vec2 uv = vUv;
         float time = uTime;
 
-        // Mouse position creates a displacement/attraction effect
-        vec2 mouse = uMouse;
-        vec2 toMouse = mouse - uv;
+        // Apply glass distortion based on mouse position and speed
+        vec2 distortedUV = glassDistort(uv, uMouse, uSpeed);
+
+        // Mouse interaction
+        vec2 toMouse = uMouse - uv;
         float distToMouse = length(toMouse);
-        float mouseStrength = smoothstep(0.5, 0.0, distToMouse);
+        float mouseInfluence = smoothstep(0.7, 0.0, distToMouse);
+        float speedInfluence = min(uSpeed * 2.0, 1.0);
 
-        // Displace UV based on mouse - fog follows mouse
-        vec2 displaced = uv + toMouse * mouseStrength * 0.3;
+        // Liquid displacement - follows mouse with velocity trail
+        vec2 liquidOffset = toMouse * mouseInfluence * 0.4;
+        liquidOffset += uVelocity * mouseInfluence * 0.5;
+        vec2 liquidUV = distortedUV + liquidOffset;
 
-        // Animated base coordinates
-        float t1 = time * 0.4;
-        float t2 = time * 0.3;
+        // Time-based animation speeds
+        float t1 = time * 0.25;
+        float t2 = time * 0.15;
+        float t3 = time * 0.1;
 
-        // Layer 1: Teal/Cyan (dominant on right, follows mouse)
-        vec2 p1 = displaced * 1.5 + vec2(t1 * 0.5, t2 * 0.3);
+        // === LIQUID GLASS COLOR LAYERS ===
+
+        // Layer 1: Bright Green core (center, follows mouse)
+        vec2 p1 = liquidUV * 1.2 + vec2(t1 * 0.3, t2 * 0.2);
         float n1 = fbm(p1) * 0.5 + 0.5;
-        n1 *= smoothstep(-0.2, 0.8, uv.x);
-        n1 += mouseStrength * 0.5;
-        vec3 teal = vec3(0.0, 0.85, 0.75) * n1;
+        float greenMask = smoothstep(0.8, 0.2, distToMouse);
+        greenMask *= smoothstep(0.0, 0.4, uv.y) * smoothstep(1.0, 0.5, uv.y);
+        n1 *= greenMask;
+        n1 += mouseInfluence * 0.6 * (1.0 + speedInfluence);
+        vec3 brightGreen = vec3(0.2, 0.95, 0.4) * n1;
 
-        // Layer 2: Orange/Gold (center-left, follows mouse)
-        vec2 p2 = displaced * 1.3 + vec2(-t1 * 0.4, t2 * 0.5);
-        float n2 = fbm(p2 + 5.0) * 0.5 + 0.5;
-        n2 *= smoothstep(0.9, 0.1, uv.x) * smoothstep(-0.1, 0.6, uv.y);
-        n2 += mouseStrength * 0.4;
-        vec3 orange = vec3(1.0, 0.45, 0.0) * n2;
+        // Layer 2: Teal/Cyan (surrounds green, creates glass edge)
+        vec2 p2 = liquidUV * 1.4 + vec2(-t1 * 0.25, t2 * 0.35);
+        float n2 = fbm(p2 + 3.0) * 0.5 + 0.5;
+        float tealMask = smoothstep(0.3, 0.6, distToMouse) * smoothstep(1.0, 0.4, distToMouse);
+        tealMask += smoothstep(0.5, 0.8, uv.x) * 0.5;
+        n2 *= tealMask;
+        n2 += mouseInfluence * 0.3;
+        vec3 teal = vec3(0.0, 0.75, 0.7) * n2;
 
-        // Layer 3: Purple/Magenta (scattered)
-        vec2 p3 = displaced * 1.8 + vec2(t1 * 0.2, -t2 * 0.4);
-        float n3 = fbm(p3 + 10.0) * 0.5 + 0.5;
-        n3 *= smoothstep(1.0, 0.3, abs(uv.x - 0.5) * 2.0);
-        n3 += mouseStrength * 0.35;
-        vec3 purple = vec3(0.6, 0.1, 0.8) * n3;
+        // Layer 3: Deep Blue (outer edges, ambient glow)
+        vec2 p3 = liquidUV * 1.0 + vec2(t1 * 0.15, -t2 * 0.2);
+        float n3 = fbm(p3 + 7.0) * 0.5 + 0.5;
+        float blueMask = smoothstep(0.2, 0.8, length(uv - vec2(0.5, 0.5)));
+        blueMask += smoothstep(0.3, 0.0, uv.y) * 0.6;
+        n3 *= blueMask;
+        vec3 deepBlue = vec3(0.05, 0.15, 0.35) * n3;
 
-        // Layer 4: Green accent (bottom area)
-        vec2 p4 = displaced * 1.4 + vec2(t1 * 0.35, t2 * 0.25);
-        float n4 = fbm(p4 + 15.0) * 0.5 + 0.5;
-        n4 *= smoothstep(0.8, 0.2, uv.y);
-        n4 += mouseStrength * 0.3;
-        vec3 green = vec3(0.1, 0.7, 0.2) * n4;
+        // Layer 4: Cyan highlights (glass reflections)
+        vec2 p4 = liquidUV * 2.0 + vec2(t1 * 0.4, t2 * 0.5);
+        float n4 = fbm(p4 + 12.0) * 0.5 + 0.5;
+        n4 = pow(n4, 2.0); // Sharper highlights
+        float highlightMask = mouseInfluence * (1.0 + speedInfluence * 2.0);
+        highlightMask += smoothstep(0.6, 0.3, distToMouse) * 0.3;
+        n4 *= highlightMask;
+        vec3 cyanHighlight = vec3(0.3, 0.9, 0.85) * n4;
 
-        // Dark background
-        vec3 bg = vec3(0.01, 0.02, 0.03);
+        // Dark background with subtle gradient
+        vec3 bg = mix(
+          vec3(0.02, 0.03, 0.06),
+          vec3(0.01, 0.02, 0.04),
+          uv.y
+        );
 
-        // Combine with intensity control
+        // Combine all layers
         vec3 color = bg;
-        color += teal * 0.55;
-        color += orange * 0.45;
-        color += purple * 0.35;
-        color += green * 0.25;
+        color += deepBlue * 0.8;
+        color += teal * 0.6;
+        color += brightGreen * 0.7;
+        color += cyanHighlight * 0.5;
 
-        // Mouse glow effect - bright spot follows mouse
-        float glow = smoothstep(0.4, 0.0, distToMouse);
-        color += vec3(0.1, 0.3, 0.3) * glow;
+        // Liquid glass glow at mouse position
+        float glowIntensity = smoothstep(0.5, 0.0, distToMouse);
+        glowIntensity *= (1.0 + speedInfluence * 1.5);
+        vec3 glowColor = mix(
+          vec3(0.1, 0.8, 0.5),  // Green glow
+          vec3(0.2, 0.9, 0.8),  // Cyan glow when moving fast
+          speedInfluence
+        );
+        color += glowColor * glowIntensity * 0.4;
 
-        // Vignette
-        float vig = 1.0 - smoothstep(0.3, 1.2, length((uv - 0.5) * 1.3));
-        color *= vig * 0.7 + 0.3;
+        // Speed-based light streaks
+        float streak = fbm(uv * 3.0 + uVelocity * 5.0 + time * 0.5);
+        streak = smoothstep(0.3, 0.8, streak) * speedInfluence * mouseInfluence;
+        color += vec3(0.2, 0.7, 0.6) * streak * 0.3;
 
-        // Tonemap
-        color = color / (color + 1.0);
-        color = pow(color, vec3(0.95));
+        // Subtle vignette
+        float vig = 1.0 - smoothstep(0.4, 1.3, length((uv - 0.5) * 1.4));
+        color *= vig * 0.6 + 0.4;
+
+        // Glass-like specular highlights
+        float specular = pow(max(0.0, fbm(liquidUV * 4.0 + time * 0.3)), 4.0);
+        specular *= mouseInfluence * 0.5;
+        color += vec3(0.4, 0.9, 0.7) * specular;
+
+        // Tone mapping and gamma correction
+        color = color / (color + 0.8);
+        color = pow(color, vec3(0.9));
 
         gl_FragColor = vec4(color, 1.0);
       }
@@ -199,6 +285,8 @@ const FluidBackground = () => {
     const uniforms = {
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+      uVelocity: { value: new THREE.Vector2(0, 0) },
+      uSpeed: { value: 0 },
       uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
     };
 
@@ -252,13 +340,32 @@ const FluidBackground = () => {
       // Update time
       uniforms.uTime.value += delta;
 
+      // Store previous position for velocity calculation
+      const prevX = mouseRef.current.x;
+      const prevY = mouseRef.current.y;
+
       // Smooth mouse interpolation (lerp)
-      const lerpSpeed = 0.08;
+      const lerpSpeed = 0.06;
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * lerpSpeed;
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * lerpSpeed;
 
+      // Calculate velocity (change in position)
+      const vx = mouseRef.current.x - prevX;
+      const vy = mouseRef.current.y - prevY;
+
+      // Smooth velocity with momentum
+      mouseRef.current.velocityX = mouseRef.current.velocityX * 0.9 + vx * 0.1;
+      mouseRef.current.velocityY = mouseRef.current.velocityY * 0.9 + vy * 0.1;
+
+      // Calculate speed magnitude
+      mouseRef.current.speed = Math.sqrt(vx * vx + vy * vy) * 100;
+
+      // Update shader uniforms
       uniforms.uMouse.value.x = mouseRef.current.x;
       uniforms.uMouse.value.y = mouseRef.current.y;
+      uniforms.uVelocity.value.x = mouseRef.current.velocityX * 50;
+      uniforms.uVelocity.value.y = mouseRef.current.velocityY * 50;
+      uniforms.uSpeed.value = uniforms.uSpeed.value * 0.95 + mouseRef.current.speed * 0.05;
 
       renderer.render(scene, camera);
     };
