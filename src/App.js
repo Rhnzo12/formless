@@ -1,18 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  const blobRef = useRef(null);
 
   useEffect(() => {
+    let animationId;
+    let currentX = 50;
+    let currentY = 50;
+    let targetX = 50;
+    let targetY = 50;
+
     const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      setMousePosition({ x, y });
+      targetX = (e.clientX / window.innerWidth) * 100;
+      targetY = (e.clientY / window.innerHeight) * 100;
+    };
+
+    const animate = () => {
+      // Smooth interpolation for fluid movement
+      currentX += (targetX - currentX) * 0.05;
+      currentY += (targetY - currentY) * 0.05;
+
+      setMousePosition({ x: currentX, y: currentY });
+      animationId = requestAnimationFrame(animate);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    animationId = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationId);
+    };
   }, []);
 
   return (
@@ -66,14 +86,30 @@ function App() {
         </div>
       </section>
 
-      {/* Animated gradient background that follows mouse */}
-      <div
-        className="gradient-blob"
-        style={{
-          left: `${mousePosition.x}%`,
-          top: `${mousePosition.y}%`,
-        }}
-      ></div>
+      {/* Water-like gradient blobs that follow mouse */}
+      <div className="gradient-container">
+        <div
+          className="gradient-blob blob-1"
+          style={{
+            left: `${mousePosition.x}%`,
+            top: `${mousePosition.y}%`,
+          }}
+        ></div>
+        <div
+          className="gradient-blob blob-2"
+          style={{
+            left: `${mousePosition.x + 10}%`,
+            top: `${mousePosition.y - 10}%`,
+          }}
+        ></div>
+        <div
+          className="gradient-blob blob-3"
+          style={{
+            left: `${mousePosition.x - 15}%`,
+            top: `${mousePosition.y + 15}%`,
+          }}
+        ></div>
+      </div>
     </div>
   );
 }
