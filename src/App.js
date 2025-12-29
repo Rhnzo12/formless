@@ -7,6 +7,7 @@ function App() {
       <nav className="navbar">
         <div className="nav-brand">
           <img src="/logomain.png" alt="Formless" className="nav-logo" />
+          <span className="brand-text">FORMLESS<sup className="brand-tm">TM</sup></span>
         </div>
         <div className="nav-links">
           <a href="#api-docs" className="nav-link">API Docs</a>

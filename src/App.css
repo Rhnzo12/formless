@@ -41,6 +41,17 @@
   width: auto;
 }
 
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.brand-tm {
+  font-size: 0.6rem;
+  margin-left: 2px;
+}
+
 .nav-links {
   display: flex;
   gap: 2.5rem;
