@@ -99,27 +99,48 @@ const FluidBackground = () => {
       void main() {
         vec2 uv = gl_FragCoord.xy / resolution.xy;
         vec2 m = mouse / resolution.xy;
-        float t = time * 0.1;
+        float t = time * 0.15;
 
-        // Create fluid noise
-        float n1 = snoise(vec3(uv * 2.0, t)) * 0.5 + 0.5;
-        float n2 = snoise(vec3(uv * 3.0 + 10.0, t * 0.8)) * 0.5 + 0.5;
-        float n3 = snoise(vec3(uv * 1.5 + 20.0, t * 1.2)) * 0.5 + 0.5;
+        // Multiple noise layers for fluid effect
+        float n1 = snoise(vec3(uv * 1.5, t * 0.5)) * 0.5 + 0.5;
+        float n2 = snoise(vec3(uv * 2.5 + 5.0, t * 0.7)) * 0.5 + 0.5;
+        float n3 = snoise(vec3(uv * 3.5 + 10.0, t * 0.3)) * 0.5 + 0.5;
+        float n4 = snoise(vec3(uv * 1.0 + 15.0, t * 0.4)) * 0.5 + 0.5;
 
-        // Mouse glow
+        // Warp coordinates for more fluid look
+        vec2 warpedUv = uv + vec2(n1, n2) * 0.1;
+        float warpedNoise = snoise(vec3(warpedUv * 2.0, t * 0.6)) * 0.5 + 0.5;
+
+        // Mouse interaction - smooth glow
         float mouseDist = length(uv - m);
-        float glow = smoothstep(0.5, 0.0, mouseDist) * 0.5;
+        float mouseGlow = smoothstep(0.6, 0.0, mouseDist);
+        float mouseGlow2 = smoothstep(0.3, 0.0, mouseDist);
 
-        // Formless colors (teal/cyan on dark) - make more visible
-        vec3 color = vec3(0.02, 0.05, 0.1);
+        // Dark base color
+        vec3 color = vec3(0.02, 0.04, 0.08);
 
-        // Add colored noise layers - increased intensity
-        color.g += n1 * 0.3;
-        color.b += n2 * 0.25;
-        color.r += n3 * 0.1;
+        // Teal/cyan layer (bottom-right feeling)
+        vec3 teal = vec3(0.0, 0.6, 0.7);
+        float tealMask = n1 * n2 * 1.5;
+        tealMask *= smoothstep(0.0, 0.7, uv.x + uv.y * 0.3 + n3 * 0.3);
+        color += teal * tealMask * 0.5;
 
-        // Mouse glow - stronger
-        color += vec3(0.0, 0.4, 0.5) * glow;
+        // Green/yellow glow layer (the bright accent)
+        vec3 greenYellow = vec3(0.4, 0.9, 0.1);
+        float greenMask = warpedNoise * n4;
+        greenMask *= smoothstep(0.3, 0.8, n1 + n2 * 0.5);
+        greenMask *= (1.0 - uv.y * 0.5 + n3 * 0.3); // More in upper area
+        color += greenYellow * greenMask * 0.6;
+
+        // Mouse glow - bright green/yellow
+        vec3 glowColor = mix(vec3(0.0, 0.8, 0.6), vec3(0.5, 1.0, 0.2), mouseGlow2);
+        color += glowColor * mouseGlow * 0.7;
+
+        // Add subtle blue undertone
+        color.b += n2 * 0.15;
+
+        // Boost contrast
+        color = pow(color, vec3(0.9));
 
         gl_FragColor = vec4(color, 1.0);
       }
