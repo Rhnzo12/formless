@@ -86,15 +86,32 @@ const ServicesSection = () => {
   const currentService = services[activeIndex];
 
   return (
-    <section 
-      ref={sectionRef}
-      style={{
-        position: 'relative',
-        zIndex: 2,
-        height: '300vh',
-        marginTop: '120px',
-      }}
-    >
+    <>
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .scroll-indicator {
+              display: none !important;
+            }
+            .services-3d {
+              height: 40vh !important;
+              min-height: 300px !important;
+            }
+            .services-content {
+              min-height: 40vh !important;
+            }
+          }
+        `}
+      </style>
+      <section
+        ref={sectionRef}
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          height: '300vh',
+          marginTop: 'clamp(60px, 10vw, 120px)',
+        }}
+      >
       {/* Top Gradient Fade - from transparent to black */}
       <div
         style={{
@@ -138,26 +155,30 @@ const ServicesSection = () => {
 
       {/* Sticky Container */}
       <div
+        className="services-sticky"
         style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
           display: 'flex',
+          flexWrap: 'wrap',
           overflow: 'hidden',
           zIndex: 2,
         }}
       >
         {/* Left - 3D Logo */}
         <div
+          className="services-3d"
           style={{
-            width: '50%',
-            height: '100%',
+            flex: '1 1 300px',
+            minWidth: '280px',
+            height: '50vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <div style={{ width: '100%', height: '70%', maxWidth: '550px' }}>
+          <div style={{ width: '100%', height: '100%', maxWidth: '550px' }}>
             <Canvas
               camera={{ position: [0, 0, 4.5], fov: 50 }}
               style={{ background: 'transparent' }}
@@ -184,24 +205,26 @@ const ServicesSection = () => {
         </div>
 
         {/* Right - Content */}
-        <div style={{ 
-          width: '50%',
-          height: '100%',
+        <div className="services-content" style={{
+          flex: '1 1 300px',
+          minWidth: '280px',
+          height: 'auto',
+          minHeight: '50vh',
           display: 'flex',
           alignItems: 'center',
-          paddingRight: '100px',
+          padding: 'clamp(20px, 5vw, 40px) clamp(16px, 8vw, 100px) clamp(20px, 5vw, 40px) clamp(16px, 3vw, 40px)',
         }}>
           <div style={{ width: '100%', maxWidth: '400px' }}>
             {/* Large Number */}
-            <div 
+            <div
               key={`number-${activeIndex}`}
               style={{
-                fontSize: '140px',
+                fontSize: 'clamp(80px, 15vw, 140px)',
                 fontWeight: '200',
                 lineHeight: '1',
                 color: 'rgba(255, 255, 255, 0.9)',
                 fontFamily: '"Inter", sans-serif',
-                marginBottom: '60px',
+                marginBottom: 'clamp(30px, 6vw, 60px)',
                 letterSpacing: '-6px',
                 animation: 'fadeInUp 0.5s ease-out',
               }}
@@ -210,12 +233,12 @@ const ServicesSection = () => {
             </div>
 
             {/* Title */}
-            <h3 
+            <h3
               key={`title-${activeIndex}`}
               style={{
-                fontSize: '22px',
+                fontSize: 'clamp(18px, 2.5vw, 22px)',
                 fontWeight: '600',
-                marginBottom: '24px',
+                marginBottom: 'clamp(16px, 3vw, 24px)',
                 fontFamily: '"Inter", sans-serif',
                 animation: 'fadeInUp 0.5s ease-out 0.1s backwards',
               }}
@@ -224,13 +247,13 @@ const ServicesSection = () => {
             </h3>
 
             {/* Description 1 */}
-            <p 
+            <p
               key={`desc1-${activeIndex}`}
               style={{
-                fontSize: '12px',
+                fontSize: 'clamp(11px, 1.5vw, 12px)',
                 lineHeight: '1.7',
                 color: 'rgba(255, 255, 255, 0.85)',
-                marginBottom: '24px',
+                marginBottom: 'clamp(16px, 3vw, 24px)',
                 fontFamily: '"Inter", sans-serif',
                 fontWeight: '400',
                 animation: 'fadeInUp 0.5s ease-out 0.2s backwards',
@@ -240,10 +263,10 @@ const ServicesSection = () => {
             </p>
 
             {/* Description 2 */}
-            <p 
+            <p
               key={`desc2-${activeIndex}`}
               style={{
-                fontSize: '12px',
+                fontSize: 'clamp(11px, 1.5vw, 12px)',
                 lineHeight: '1.7',
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontFamily: '"Inter", sans-serif',
@@ -256,17 +279,18 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Right Scroll Indicator - 3 segments with gaps */}
+        {/* Right Scroll Indicator - 3 segments with gaps - hidden on mobile */}
         <div
+          className="scroll-indicator"
           style={{
             position: 'absolute',
-            right: '150px',
+            right: 'clamp(20px, 10vw, 150px)',
             top: '50%',
             transform: 'translateY(-50%)',
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
-            height: '300px',
+            height: 'clamp(150px, 25vw, 300px)',
           }}
         >
           {/* Segment 1 */}
@@ -314,7 +338,8 @@ const ServicesSection = () => {
           }
         `}
       </style>
-    </section>
+      </section>
+    </>
   );
 };
 

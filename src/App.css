@@ -273,4 +273,35 @@
   .logo-section {
     padding: 2rem 1.5rem;
   }
+
+  /* Additional mobile responsive fixes */
+  .hero-flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .hero-buttons button {
+    width: 100%;
+  }
+
+  .feature-card {
+    margin-top: 0 !important;
+  }
+
+  .founder-content {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .feature-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
