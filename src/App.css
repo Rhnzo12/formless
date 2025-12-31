@@ -28,13 +28,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 3rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
 }
 
 .nav-brand {
@@ -78,7 +73,7 @@
 
 /* Hero Section */
 .hero {
-  padding: 8rem 3rem 2rem;
+  padding: 4rem 3rem 2rem;
   position: relative;
   z-index: 5;
 }
@@ -243,7 +238,7 @@
   }
 
   .hero {
-    padding: 7rem 1.5rem 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .hero-title {
