@@ -224,6 +224,45 @@
   }
 }
 
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .hero-flex {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+
+  .hero-section {
+    padding-top: 120px !important;
+    padding-bottom: 100px !important;
+  }
+
+  .feature-cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    padding: 0 20px !important;
+  }
+
+  .feature-card {
+    margin-top: 0 !important;
+  }
+
+  .founder-content {
+    gap: 80px !important;
+  }
+
+  .services-3d {
+    width: 40% !important;
+  }
+
+  .services-content {
+    width: 60% !important;
+    padding-right: 60px !important;
+  }
+
+  .scroll-indicator {
+    right: 30px !important;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -241,21 +280,153 @@
     padding: 2rem 1.5rem;
   }
 
-  .hero-title {
-    font-size: 1.5rem;
+  .hero-section {
+    padding-top: 100px !important;
+    padding-bottom: 80px !important;
   }
 
-  .hero-description {
-    font-size: 1rem;
+  .hero-flex {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .hero-flex h1 {
+    font-size: 32px !important;
+    margin-bottom: 24px !important;
   }
 
   .hero-buttons {
-    flex-direction: column;
+    flex-direction: column !important;
+    width: 100%;
+    gap: 12px !important;
   }
 
-  .btn {
+  .hero-buttons button {
     width: 100%;
-    text-align: center;
+    padding: 14px 24px !important;
+  }
+
+  .hero-flex > div:last-child p {
+    font-size: 16px !important;
+  }
+
+  .formless-logo-section {
+    min-height: 30vh !important;
+  }
+
+  .formless-logo-section > div {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 16px !important;
+  }
+
+  .formless-logo-section img {
+    height: 60px !important;
+  }
+
+  .formless-logo-section h2 {
+    font-size: 48px !important;
+  }
+
+  .services-section {
+    margin-top: 60px !important;
+  }
+
+  .services-sticky {
+    flex-direction: column !important;
+  }
+
+  .services-3d {
+    width: 100% !important;
+    height: 40vh !important;
+  }
+
+  .services-content {
+    width: 100% !important;
+    height: auto !important;
+    padding: 20px !important;
+  }
+
+  .services-content > div > div:first-child {
+    font-size: 80px !important;
+    margin-bottom: 30px !important;
+  }
+
+  .scroll-indicator {
+    display: none !important;
+  }
+
+  .feature-cards-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 16px !important;
+    gap: 40px !important;
+  }
+
+  .feature-card {
+    margin-top: 0 !important;
+  }
+
+  .feature-card > div:first-child {
+    height: 250px !important;
+  }
+
+  .illuminating-section {
+    padding: 60px 20px !important;
+    min-height: 50vh !important;
+  }
+
+  .founder-section {
+    padding: 60px 20px !important;
+  }
+
+  .founder-content {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+
+  .founder-content > div:first-child > div:first-child {
+    width: 200px !important;
+    height: 250px !important;
+  }
+
+  .founder-content > div:first-child h3 {
+    font-size: 32px !important;
+  }
+
+  .founder-content > div:last-child {
+    padding-top: 0 !important;
+  }
+
+  .join-section {
+    padding: 60px 20px !important;
+    min-height: 60vh !important;
+  }
+
+  .footer {
+    padding: 20px 16px 5px !important;
+  }
+
+  .social-icons {
+    gap: 30px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-logo {
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+  }
+
+  .footer-logo img {
+    height: 60px !important;
+  }
+
+  .footer-logo h2 {
+    font-size: 48px !important;
+  }
+
+  .footer-links {
+    gap: 20px !important;
+    flex-wrap: wrap !important;
   }
 
   .large-logo {
@@ -272,36 +443,5 @@
 
   .logo-section {
     padding: 2rem 1.5rem;
-  }
-
-  /* Additional mobile responsive fixes */
-  .hero-flex {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
-
-  .hero-buttons {
-    flex-direction: column !important;
-    width: 100%;
-  }
-
-  .hero-buttons button {
-    width: 100%;
-  }
-
-  .feature-card {
-    margin-top: 0 !important;
-  }
-
-  .founder-content {
-    flex-direction: column !important;
-    gap: 40px !important;
-  }
-}
-
-/* Extra small screens */
-@media (max-width: 480px) {
-  .feature-cards-grid {
-    grid-template-columns: 1fr !important;
   }
 }

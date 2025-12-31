@@ -56,8 +56,8 @@ const App = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          paddingTop: 'clamp(100px, 15vw, 140px)',
-          paddingBottom: 'clamp(80px, 20vw, 200px)',
+          paddingTop: '140px',
+          paddingBottom: '200px',
           paddingLeft: '16px',
           paddingRight: '16px',
         }}
@@ -67,26 +67,25 @@ const App = () => {
           justifyContent: 'space-between',
           alignItems: 'flex-start',
           width: '100%',
-          gap: 'clamp(30px, 6vw, 80px)',
-          flexWrap: 'wrap',
+          gap: '80px',
         }}>
           {/* Left Column */}
-          <div style={{ flex: '1 1 400px', minWidth: '280px' }}>
+          <div style={{ flex: '0 0 auto' }}>
             <h1 style={{
-              fontSize: 'clamp(28px, 5vw, 54px)',
+              fontSize: '54px',
               fontWeight: '300',
               lineHeight: '1.2',
-              margin: '0 0 clamp(24px, 4vw, 48px) 0',
+              margin: '0 0 48px 0',
               fontFamily: 'sans-serif',
             }}>
               Welcome to the future<br />of the internet
             </h1>
 
-            <div className="hero-buttons" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div className="hero-buttons" style={{ display: 'flex', gap: '20px' }}>
               <button
                 style={{
-                  padding: 'clamp(12px, 2vw, 16px) clamp(20px, 3vw, 28px)',
-                  fontSize: 'clamp(12px, 1.5vw, 14px)',
+                  padding: '16px 28px',
+                  fontSize: '14px',
                   fontWeight: '500',
                   backgroundColor: 'transparent',
                   color: 'white',
@@ -95,7 +94,6 @@ const App = () => {
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   fontFamily: '"Inter", sans-serif',
-                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = 'white';
@@ -110,8 +108,8 @@ const App = () => {
               </button>
               <button
                 style={{
-                  padding: 'clamp(12px, 2vw, 16px) clamp(20px, 3vw, 28px)',
-                  fontSize: 'clamp(12px, 1.5vw, 14px)',
+                  padding: '16px 28px',
+                  fontSize: '14px',
                   fontWeight: '500',
                   backgroundColor: 'white',
                   color: 'black',
@@ -120,7 +118,6 @@ const App = () => {
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   fontFamily: '"Inter", sans-serif',
-                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = 'transparent';
@@ -138,12 +135,12 @@ const App = () => {
 
           {/* Right Column */}
           <div style={{
-            flex: '1 1 300px',
             maxWidth: '480px',
             paddingTop: '8px',
+            marginLeft: 'auto',
           }}>
             <p style={{
-              fontSize: 'clamp(16px, 2vw, 20px)',
+              fontSize: '20px',
               lineHeight: '1.65',
               fontWeight: '400',
               margin: 0,
@@ -210,26 +207,26 @@ const App = () => {
             position: 'relative',
             zIndex: 2,
             marginTop: '-100vh',
-            paddingBottom: 'clamp(50px, 10vw, 100px)',
+            paddingBottom: '100px',
           }}
         >
           <div className="feature-cards-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 'clamp(20px, 4vw, 40px)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '20px',
             maxWidth: '1300px',
             margin: '0 auto',
-            padding: '0 clamp(16px, 4vw, 40px)',
+            padding: '0 40px',
             alignItems: 'end',
           }}>
             {/* Card 1 - Code/API */}
-            <div className="feature-card" style={{ marginTop: 'clamp(0px, 15vw, 200px)' }}>
+            <div className="feature-card" style={{ marginTop: '200px' }}>
               {/* Code Image */}
               <div style={{
                 borderRadius: '2px',
                 overflow: 'hidden',
                 marginBottom: '20px',
-                height: 'clamp(200px, 30vw, 350px)',
+                height: '350px',
               }}>
                 <img 
                   src="/card1.png" 
@@ -294,7 +291,7 @@ const App = () => {
             <div className="feature-card" style={{ marginTop: '0px' }}>
               {/* Portrait Image */}
               <div style={{
-                height: 'clamp(250px, 35vw, 400px)',
+                height: '400px',
                 borderRadius: '2px',
                 overflow: 'hidden',
                 marginBottom: '20px',
@@ -359,10 +356,10 @@ const App = () => {
             </div>
 
             {/* Card 3 - Consulting - appears SECOND */}
-            <div className="feature-card" style={{ marginTop: 'clamp(0px, 10vw, 120px)' }}>
+            <div className="feature-card" style={{ marginTop: '120px' }}>
               {/* Office Image */}
               <div style={{
-                height: 'clamp(180px, 25vw, 300px)',
+                height: '300px',
                 borderRadius: '2px',
                 overflow: 'hidden',
                 marginBottom: '20px',
@@ -442,20 +439,21 @@ const App = () => {
 
       {/* Illuminating Section - Black background */}
       <section
+        className="illuminating-section"
         style={{
           position: 'relative',
           zIndex: 3,
-          minHeight: '60vh',
+          minHeight: '80vh',
           display: 'flex',
           alignItems: 'center',
-          padding: 'clamp(60px, 10vw, 100px) clamp(16px, 5vw, 60px)',
+          padding: '100px 60px',
           backgroundColor: '#000',
         }}
       >
         <div style={{
           display: 'flex',
           alignItems: 'flex-start',
-          gap: 'clamp(16px, 3vw, 24px)',
+          gap: '24px',
           maxWidth: '800px',
         }}>
           {/* Hexagon Shape (like logo) */}
@@ -492,20 +490,20 @@ const App = () => {
       {/* Founder Quote Section */}
       <section
         ref={founderRef}
+        className="founder-section"
         style={{
           position: 'relative',
           zIndex: 3,
-          padding: 'clamp(60px, 10vw, 100px) clamp(16px, 5vw, 60px)',
+          padding: '100px 60px',
           backgroundColor: '#000',
         }}
       >
         <div className="founder-content" style={{
           display: 'flex',
           alignItems: 'flex-start',
-          gap: 'clamp(40px, 15vw, 200px)',
+          gap: '200px',
           maxWidth: '1200px',
           margin: '0 auto',
-          flexWrap: 'wrap',
         }}>
           {/* Left Column - Photo and Name */}
           <div style={{
@@ -516,10 +514,10 @@ const App = () => {
           }}>
             {/* Photo */}
             <div style={{
-              width: 'clamp(200px, 25vw, 280px)',
-              height: 'clamp(250px, 30vw, 350px)',
+              width: '280px',
+              height: '350px',
               overflow: 'hidden',
-              marginBottom: 'clamp(20px, 3vw, 30px)',
+              marginBottom: '30px',
             }}>
               <img 
                 src="/card4.png" 
@@ -535,7 +533,7 @@ const App = () => {
             
             {/* Name */}
             <h3 style={{
-              fontSize: 'clamp(28px, 4vw, 42px)',
+              fontSize: '42px',
               fontWeight: '300',
               lineHeight: '1.1',
               margin: '0 0 8px 0',
@@ -559,9 +557,8 @@ const App = () => {
           
           {/* Right Column - Quote */}
           <div style={{
-            flex: '1 1 300px',
-            minWidth: '280px',
-            paddingTop: 'clamp(20px, 5vw, 60px)',
+            flex: '1',
+            paddingTop: '60px',
             opacity: founderVisible ? 1 : 0,
             transform: founderVisible ? 'translateY(0)' : 'translateY(40px)',
             transition: 'opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s',
@@ -594,15 +591,16 @@ const App = () => {
       {/* Join the Network Section with Gradient */}
       <section
         ref={joinRef}
+        className="join-section"
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '80vh',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 'clamp(60px, 10vw, 100px) clamp(16px, 5vw, 60px)',
+          padding: '100px 60px',
           overflow: 'hidden',
           background: 'transparent',
           marginTop: '-150px',
@@ -660,19 +658,19 @@ const App = () => {
 
       {/* Footer */}
       <footer
+        className="footer"
         style={{
           position: 'relative',
           zIndex: 2,
-          padding: 'clamp(16px, 3vw, 20px) clamp(16px, 3vw, 20px) 5px',
+          padding: '20px 20px 5px 20px',
           background: 'transparent',
         }}
       >
         {/* Social Media Icons */}
-        <div style={{
+        <div className="social-icons" style={{
           display: 'flex',
-          gap: 'clamp(24px, 6vw, 80px)',
-          marginBottom: 'clamp(20px, 3vw, 30px)',
-          flexWrap: 'wrap',
+          gap: '80px',
+          marginBottom: '30px',
         }}>
           {/* X (Twitter) */}
           <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }} 
@@ -712,26 +710,25 @@ const App = () => {
         </div>
         
         {/* Large FORMLESS Logo */}
-        <div style={{
+        <div className="footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'clamp(16px, 3vw, 32px)',
-          marginBottom: 'clamp(24px, 4vw, 40px)',
-          flexWrap: 'wrap',
+          gap: '32px',
+          marginBottom: '40px',
         }}>
           {/* Big Logo Image */}
           <img
             src="/logomain.png"
             alt="Formless Logo"
             style={{
-              height: 'clamp(60px, 15vw, 180px)',
+              height: 'clamp(100px, 18vw, 180px)',
               width: 'auto',
             }}
           />
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(40px, 12vw, 180px)',
+            fontSize: 'clamp(60px, 14vw, 180px)',
             fontWeight: '600',
             letterSpacing: '0px',
             margin: 0,
@@ -747,14 +744,13 @@ const App = () => {
         </div>
         
         {/* Footer Links */}
-        <div style={{
+        <div className="footer-links" style={{
           display: 'flex',
-          gap: 'clamp(20px, 10vw, 130px)',
-          fontSize: 'clamp(10px, 1.5vw, 12px)',
+          gap: '130px',
+          fontSize: '12px',
           fontFamily: '"Inter", sans-serif',
-          marginBottom: 'clamp(20px, 3vw, 30px)',
+          marginBottom: '30px',
           color: 'white',
-          flexWrap: 'wrap',
         }}>
           <span>© FORMLESS</span>
           <a href="#" style={{ 
