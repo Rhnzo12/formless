@@ -64,43 +64,47 @@ const FormlessLogoSection = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '50vh',
+          minHeight: '40vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '20px 16px',
+          padding: 'clamp(16px, 4vw, 20px) 16px',
+          overflow: 'hidden',
         }}
       >
-        <div 
+        <div
           key={animationKey}
           className={isVisible ? 'formless-logo-animate' : 'formless-logo-hidden'}
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '32px',
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'clamp(12px, 3vw, 32px)',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
           }}
         >
           {/* Big Logo Image */}
-          <img 
-            src="/logomain.png" 
-            alt="Formless Logo" 
+          <img
+            src="/logomain.png"
+            alt="Formless Logo"
             style={{
-              height: 'clamp(100px, 18vw, 180px)',
+              height: 'clamp(60px, 15vw, 180px)',
               width: 'auto',
             }}
           />
-          
+
           {/* Big FORMLESS Text */}
-          <h2 style={{ 
-            fontSize: 'clamp(60px, 14vw, 180px)', 
+          <h2 style={{
+            fontSize: 'clamp(40px, 12vw, 180px)',
             fontWeight: '600',
             letterSpacing: '0px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
+            textAlign: 'center',
           }}>
-            FORMLESS<sup style={{ 
-              fontSize: '25%', 
+            FORMLESS<sup style={{
+              fontSize: '25%',
               verticalAlign: 'super',
               fontWeight: '400',
             }}>™</sup>
