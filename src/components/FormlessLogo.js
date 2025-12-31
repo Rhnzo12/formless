@@ -61,15 +61,15 @@ const FormlessLogoSection = () => {
       
       <section
         ref={sectionRef}
+        className="formless-logo-section"
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '40vh',
+          minHeight: '50vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 'clamp(16px, 4vw, 20px) 16px',
-          overflow: 'hidden',
+          padding: '20px 16px',
         }}
       >
         <div
@@ -78,9 +78,7 @@ const FormlessLogoSection = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'clamp(12px, 3vw, 32px)',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
+            gap: '32px',
           }}
         >
           {/* Big Logo Image */}
@@ -88,20 +86,19 @@ const FormlessLogoSection = () => {
             src="/logomain.png"
             alt="Formless Logo"
             style={{
-              height: 'clamp(60px, 15vw, 180px)',
+              height: 'clamp(100px, 18vw, 180px)',
               width: 'auto',
             }}
           />
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(40px, 12vw, 180px)',
+            fontSize: 'clamp(60px, 14vw, 180px)',
             fontWeight: '600',
             letterSpacing: '0px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
-            textAlign: 'center',
           }}>
             FORMLESS<sup style={{
               fontSize: '25%',

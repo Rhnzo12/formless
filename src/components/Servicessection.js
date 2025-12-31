@@ -105,11 +105,12 @@ const ServicesSection = () => {
       </style>
       <section
         ref={sectionRef}
+        className="services-section"
         style={{
           position: 'relative',
           zIndex: 2,
           height: '300vh',
-          marginTop: 'clamp(60px, 10vw, 120px)',
+          marginTop: '120px',
         }}
       >
       {/* Top Gradient Fade - from transparent to black */}
@@ -161,7 +162,6 @@ const ServicesSection = () => {
           top: 0,
           height: '100vh',
           display: 'flex',
-          flexWrap: 'wrap',
           overflow: 'hidden',
           zIndex: 2,
         }}
@@ -170,15 +170,14 @@ const ServicesSection = () => {
         <div
           className="services-3d"
           style={{
-            flex: '1 1 300px',
-            minWidth: '280px',
-            height: '50vh',
+            width: '50%',
+            height: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <div style={{ width: '100%', height: '100%', maxWidth: '550px' }}>
+          <div style={{ width: '100%', height: '70%', maxWidth: '550px' }}>
             <Canvas
               camera={{ position: [0, 0, 4.5], fov: 50 }}
               style={{ background: 'transparent' }}
@@ -206,25 +205,23 @@ const ServicesSection = () => {
 
         {/* Right - Content */}
         <div className="services-content" style={{
-          flex: '1 1 300px',
-          minWidth: '280px',
-          height: 'auto',
-          minHeight: '50vh',
+          width: '50%',
+          height: '100%',
           display: 'flex',
           alignItems: 'center',
-          padding: 'clamp(20px, 5vw, 40px) clamp(16px, 8vw, 100px) clamp(20px, 5vw, 40px) clamp(16px, 3vw, 40px)',
+          paddingRight: '100px',
         }}>
           <div style={{ width: '100%', maxWidth: '400px' }}>
             {/* Large Number */}
             <div
               key={`number-${activeIndex}`}
               style={{
-                fontSize: 'clamp(80px, 15vw, 140px)',
+                fontSize: '140px',
                 fontWeight: '200',
                 lineHeight: '1',
                 color: 'rgba(255, 255, 255, 0.9)',
                 fontFamily: '"Inter", sans-serif',
-                marginBottom: 'clamp(30px, 6vw, 60px)',
+                marginBottom: '60px',
                 letterSpacing: '-6px',
                 animation: 'fadeInUp 0.5s ease-out',
               }}
@@ -236,9 +233,9 @@ const ServicesSection = () => {
             <h3
               key={`title-${activeIndex}`}
               style={{
-                fontSize: 'clamp(18px, 2.5vw, 22px)',
+                fontSize: '22px',
                 fontWeight: '600',
-                marginBottom: 'clamp(16px, 3vw, 24px)',
+                marginBottom: '24px',
                 fontFamily: '"Inter", sans-serif',
                 animation: 'fadeInUp 0.5s ease-out 0.1s backwards',
               }}
@@ -250,10 +247,10 @@ const ServicesSection = () => {
             <p
               key={`desc1-${activeIndex}`}
               style={{
-                fontSize: 'clamp(11px, 1.5vw, 12px)',
+                fontSize: '12px',
                 lineHeight: '1.7',
                 color: 'rgba(255, 255, 255, 0.85)',
-                marginBottom: 'clamp(16px, 3vw, 24px)',
+                marginBottom: '24px',
                 fontFamily: '"Inter", sans-serif',
                 fontWeight: '400',
                 animation: 'fadeInUp 0.5s ease-out 0.2s backwards',
@@ -266,7 +263,7 @@ const ServicesSection = () => {
             <p
               key={`desc2-${activeIndex}`}
               style={{
-                fontSize: 'clamp(11px, 1.5vw, 12px)',
+                fontSize: '12px',
                 lineHeight: '1.7',
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontFamily: '"Inter", sans-serif',
@@ -279,18 +276,18 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Right Scroll Indicator - 3 segments with gaps - hidden on mobile */}
+        {/* Right Scroll Indicator - 3 segments with gaps */}
         <div
           className="scroll-indicator"
           style={{
             position: 'absolute',
-            right: 'clamp(20px, 10vw, 150px)',
+            right: '150px',
             top: '50%',
             transform: 'translateY(-50%)',
             display: 'flex',
             flexDirection: 'column',
             gap: '10px',
-            height: 'clamp(150px, 25vw, 300px)',
+            height: '300px',
           }}
         >
           {/* Segment 1 */}
