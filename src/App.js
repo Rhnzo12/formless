@@ -72,9 +72,9 @@ const App = () => {
           {/* Left Column */}
           <div style={{ flex: '0 0 auto' }}>
             <h1 style={{
-              fontSize: '54px',
+              fontSize: '58px',
               fontWeight: '300',
-              lineHeight: '1.2',
+              lineHeight: '1.1',
               margin: '0 0 48px 0',
               fontFamily: 'sans-serif',
             }}>
@@ -84,12 +84,12 @@ const App = () => {
             <div className="hero-buttons" style={{ display: 'flex', gap: '20px' }}>
               <button
                 style={{
-                  padding: '16px 28px',
-                  fontSize: '14px',
+                  padding: '16px 32px',
+                  fontSize: '16px',
                   fontWeight: '500',
                   backgroundColor: 'transparent',
                   color: 'white',
-                  border: '2px solid white',
+                  border: '1px solid white',
                   borderRadius: '50px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
@@ -108,12 +108,12 @@ const App = () => {
               </button>
               <button
                 style={{
-                  padding: '16px 28px',
-                  fontSize: '14px',
+                  padding: '16px 32px',
+                  fontSize: '16px',
                   fontWeight: '500',
                   backgroundColor: 'white',
                   color: 'black',
-                  border: '2px solid white',
+                  border: '1px solid white',
                   borderRadius: '50px',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
@@ -141,7 +141,7 @@ const App = () => {
           }}>
             <p style={{
               fontSize: '20px',
-              lineHeight: '1.65',
+              lineHeight: '1.4',
               fontWeight: '400',
               margin: 0,
               fontFamily: '"Inter", sans-serif',

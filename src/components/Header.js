@@ -111,11 +111,19 @@ const Header = () => {
                 fontSize: 'clamp(14px, 2vw, 18px)',
                 fontWeight: '400',
                 opacity: 0.9,
-                transition: 'opacity 0.2s ease',
+                transition: 'opacity 0.2s ease, border-color 0.3s ease',
                 fontFamily: '"Inter", sans-serif',
+                paddingBottom: '6px',
+                borderBottom: '2px solid transparent',
               }}
-              onMouseEnter={(e) => (e.target.style.opacity = 1)}
-              onMouseLeave={(e) => (e.target.style.opacity = 0.9)}
+              onMouseEnter={(e) => {
+                e.target.style.opacity = 1;
+                e.target.style.borderBottomColor = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.opacity = 0.9;
+                e.target.style.borderBottomColor = 'transparent';
+              }}
             >
               {link.label}
             </a>
