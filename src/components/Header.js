@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const Header = () => {
+const Header = ({ activePage }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -28,10 +28,10 @@ const Header = () => {
   }, [menuOpen]);
 
   const navLinks = [
-    { href: '#api-docs', label: 'API Docs' },
-    { href: '#case-studies', label: 'Case Studies' },
-    { href: '#about', label: 'About' },
-    { href: '#contact', label: 'Contact Us' },
+    { href: '/api-docs', label: 'API Docs', id: 'api-docs' },
+    { href: '/case-studies', label: 'Case Studies', id: 'case-studies' },
+    { href: '/about', label: 'About', id: 'about' },
+    { href: '/contact', label: 'Contact Us', id: 'contact' },
   ];
 
   return (
@@ -60,7 +60,7 @@ const Header = () => {
           left: 0,
           right: 0,
           zIndex: 1000,
-          padding: 'clamp(16px, 3vw, 24px) 16px',
+          padding: 'clamp(20px, 3vw, 28px) 20px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -69,8 +69,8 @@ const Header = () => {
           transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Logo - Link to Home */}
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <img
             src="/logomain.png"
             alt="Formless Logo"
@@ -80,54 +80,53 @@ const Header = () => {
             }}
           />
 
-          {/* FORMLESS text - only show when scrolled */}
+          {/* FORMLESS text - always visible */}
           <span
             style={{
               color: 'white',
               fontSize: 'clamp(14px, 2vw, 18px)',
               fontWeight: '600',
               letterSpacing: '0.5px',
-              opacity: scrolled ? 1 : 0,
-              width: scrolled ? 'auto' : 0,
-              overflow: 'hidden',
-              transition: 'opacity 0.3s ease, width 0.3s ease',
               whiteSpace: 'nowrap',
               fontFamily: '"Inter", sans-serif',
             }}
           >
             FORMLESS<sup style={{ fontSize: '8px', marginLeft: '2px' }}>™</sup>
           </span>
-        </div>
+        </a>
 
         {/* Desktop Navigation Links */}
         <nav className="desktop-nav" style={{ display: 'flex', gap: 'clamp(20px, 4vw, 40px)', alignItems: 'center' }}>
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              style={{
-                color: 'white',
-                textDecoration: 'none',
-                fontSize: 'clamp(14px, 2vw, 18px)',
-                fontWeight: '400',
-                opacity: 0.9,
-                transition: 'opacity 0.2s ease, border-color 0.3s ease',
-                fontFamily: '"Inter", sans-serif',
-                paddingBottom: '6px',
-                borderBottom: '2px solid transparent',
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.opacity = 1;
-                e.target.style.borderBottomColor = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.opacity = 0.9;
-                e.target.style.borderBottomColor = 'transparent';
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activePage === link.id;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{
+                  color: 'white',
+                  textDecoration: 'none',
+                  fontSize: 'clamp(14px, 2vw, 18px)',
+                  fontWeight: '400',
+                  opacity: 0.9,
+                  transition: 'opacity 0.2s ease, border-color 0.3s ease',
+                  fontFamily: '"Inter", sans-serif',
+                  paddingBottom: '6px',
+                  borderBottom: isActive ? '2px solid white' : '2px solid transparent',
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.opacity = 1;
+                  if (!isActive) e.target.style.borderBottomColor = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.opacity = 0.9;
+                  if (!isActive) e.target.style.borderBottomColor = 'transparent';
+                }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Mobile Menu Toggle */}
