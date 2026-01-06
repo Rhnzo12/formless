@@ -1,8 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ApiDocs = () => {
   const [activeSection, setActiveSection] = useState('welcome');
   const [copiedCode, setCopiedCode] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Set page title
+  useEffect(() => {
+    document.title = 'Welcome to the SHARE Protocol API';
+  }, []);
+
+  // Handle Ctrl+K keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+      if (e.key === 'Escape') {
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const copyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text);
@@ -18,14 +41,146 @@ const ApiDocs = () => {
     }
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  // Theme colors
+  const theme = {
+    bg: isDarkMode ? '#0a0a0a' : '#ffffff',
+    bgSecondary: isDarkMode ? '#0f0f0f' : '#f5f5f5',
+    bgTertiary: isDarkMode ? '#1a1a1a' : '#e5e5e5',
+    bgCard: isDarkMode ? '#141414' : '#f9f9f9',
+    border: isDarkMode ? '#1a1a1a' : '#e0e0e0',
+    text: isDarkMode ? 'white' : '#1a1a1a',
+    textSecondary: isDarkMode ? '#ccc' : '#444',
+    textMuted: isDarkMode ? '#888' : '#666',
+    textDimmed: isDarkMode ? '#666' : '#999',
+  };
+
+  // Search items for filtering
+  const searchItems = [
+    { title: 'Welcome to the SHARE Protocol API', section: 'welcome' },
+    { title: 'What is the SHARE Protocol API?', section: 'what-is' },
+    { title: 'Core Features', section: 'core-features' },
+    { title: 'Quick Start', section: 'quick-start' },
+    { title: 'API Endpoint', section: 'api-endpoint' },
+    { title: 'Authentication', section: 'authentication' },
+    { title: 'Request Format', section: 'request-format' },
+    { title: 'Need Help?', section: 'need-help' },
+    { title: 'Identity Lookup', section: 'identity-lookup' },
+    { title: 'Create Contract', section: 'create-contract' },
+    { title: 'Fetch Split Data', section: 'fetch-split-data' },
+    { title: 'Execute Payout', section: 'execute-payout' },
+    { title: 'Query Batch Status', section: 'query-batch-status' },
+  ];
+
+  const filteredSearchItems = searchItems.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      backgroundColor: '#0a0a0a',
-      color: 'white',
+      backgroundColor: theme.bg,
+      color: theme.text,
       fontFamily: '"Inter", sans-serif',
     }}>
+      {/* Search Modal */}
+      {searchOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            paddingTop: '100px',
+            zIndex: 2000,
+          }}
+          onClick={() => setSearchOpen(false)}
+        >
+          <div
+            style={{
+              backgroundColor: theme.bgSecondary,
+              borderRadius: '12px',
+              width: '100%',
+              maxWidth: '600px',
+              border: `1px solid ${theme.border}`,
+              overflow: 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '16px 20px',
+              borderBottom: `1px solid ${theme.border}`,
+            }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+              <input
+                type="text"
+                placeholder="Search documentation..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  flex: 1,
+                  background: 'none',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '16px',
+                  color: theme.text,
+                }}
+              />
+              <span style={{
+                color: theme.textMuted,
+                fontSize: '12px',
+                backgroundColor: theme.bgTertiary,
+                padding: '4px 8px',
+                borderRadius: '4px',
+              }}>ESC</span>
+            </div>
+            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+              {filteredSearchItems.length > 0 ? (
+                filteredSearchItems.map((item) => (
+                  <div
+                    key={item.section}
+                    onClick={() => {
+                      scrollToSection(item.section);
+                      setSearchOpen(false);
+                      setSearchQuery('');
+                    }}
+                    style={{
+                      padding: '12px 20px',
+                      cursor: 'pointer',
+                      borderBottom: `1px solid ${theme.border}`,
+                      transition: 'background-color 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.bgTertiary}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  >
+                    <div style={{ fontSize: '14px', color: theme.text }}>{item.title}</div>
+                  </div>
+                ))
+              ) : (
+                <div style={{ padding: '20px', textAlign: 'center', color: theme.textMuted }}>
+                  No results found
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {/* Fixed Header */}
       <header style={{
         position: 'fixed',
@@ -33,8 +188,8 @@ const ApiDocs = () => {
         left: 0,
         right: 0,
         height: '64px',
-        backgroundColor: '#0a0a0a',
-        borderBottom: '1px solid #1a1a1a',
+        backgroundColor: theme.bg,
+        borderBottom: `1px solid ${theme.border}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -46,31 +201,37 @@ const ApiDocs = () => {
           <img
             src="/logomain.png"
             alt="Formless Logo"
-            style={{ height: '28px', width: 'auto' }}
+            style={{ height: '28px', width: 'auto', filter: isDarkMode ? 'none' : 'invert(1)' }}
           />
         </a>
 
         {/* Search Bar - Center */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          padding: '10px 16px',
-          backgroundColor: '#1a1a1a',
-          borderRadius: '8px',
-          border: '1px solid #2a2a2a',
-          minWidth: '300px',
-          cursor: 'pointer',
-        }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
+        <div
+          onClick={() => setSearchOpen(true)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '10px 16px',
+            backgroundColor: theme.bgTertiary,
+            borderRadius: '8px',
+            border: `1px solid ${theme.border}`,
+            minWidth: '300px',
+            cursor: 'pointer',
+            transition: 'border-color 0.2s ease',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.borderColor = theme.textMuted}
+          onMouseLeave={(e) => e.currentTarget.style.borderColor = theme.border}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
             <circle cx="11" cy="11" r="8"/>
             <path d="M21 21l-4.35-4.35"/>
           </svg>
-          <span style={{ color: '#666', fontSize: '14px', flex: 1 }}>Search...</span>
+          <span style={{ color: theme.textMuted, fontSize: '14px', flex: 1 }}>Search...</span>
           <span style={{
-            color: '#666',
+            color: theme.textMuted,
             fontSize: '12px',
-            backgroundColor: '#252525',
+            backgroundColor: theme.bgSecondary,
             padding: '2px 6px',
             borderRadius: '4px',
           }}>Ctrl K</span>
@@ -78,26 +239,37 @@ const ApiDocs = () => {
 
         {/* Theme Toggle */}
         <button
+          onClick={toggleTheme}
           style={{
             background: 'none',
             border: 'none',
-            color: '#666',
+            color: theme.textMuted,
             cursor: 'pointer',
             padding: '8px',
+            transition: 'color 0.2s ease',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.color = theme.text}
+          onMouseLeave={(e) => e.currentTarget.style.color = theme.textMuted}
+          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
+          {isDarkMode ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          )}
         </button>
       </header>
 
       {/* Left Sidebar */}
       <aside style={{
         width: '280px',
-        backgroundColor: '#0f0f0f',
-        borderRight: '1px solid #1a1a1a',
+        backgroundColor: theme.bgSecondary,
+        borderRight: `1px solid ${theme.border}`,
         padding: '24px 0',
         paddingTop: '88px',
         position: 'fixed',
@@ -111,7 +283,7 @@ const ApiDocs = () => {
           <h2 style={{
             fontSize: '14px',
             fontWeight: '600',
-            color: 'white',
+            color: theme.text,
             margin: 0,
           }}>Documentation</h2>
         </div>
@@ -119,7 +291,7 @@ const ApiDocs = () => {
         {/* Divider */}
         <div style={{
           height: '1px',
-          backgroundColor: '#1a1a1a',
+          backgroundColor: theme.border,
           margin: '16px 20px',
         }} />
 
@@ -133,7 +305,7 @@ const ApiDocs = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
               padding: '8px 0',
@@ -154,7 +326,7 @@ const ApiDocs = () => {
             marginBottom: '8px',
             fontSize: '12px',
             fontWeight: '600',
-            color: '#888',
+            color: theme.textMuted,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -185,7 +357,7 @@ const ApiDocs = () => {
             marginBottom: '8px',
             fontSize: '12px',
             fontWeight: '600',
-            color: '#888',
+            color: theme.textMuted,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -199,7 +371,7 @@ const ApiDocs = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '8px 20px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
             }}
@@ -223,7 +395,7 @@ const ApiDocs = () => {
             marginBottom: '8px',
             fontSize: '12px',
             fontWeight: '600',
-            color: '#888',
+            color: theme.textMuted,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -237,7 +409,7 @@ const ApiDocs = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '8px 20px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
             }}
@@ -260,7 +432,7 @@ const ApiDocs = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '8px 20px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
             }}
@@ -284,7 +456,7 @@ const ApiDocs = () => {
             marginBottom: '8px',
             fontSize: '12px',
             fontWeight: '600',
-            color: '#888',
+            color: theme.textMuted,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -298,7 +470,7 @@ const ApiDocs = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '8px 20px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
             }}
@@ -321,7 +493,7 @@ const ApiDocs = () => {
               alignItems: 'center',
               gap: '8px',
               padding: '8px 20px',
-              color: '#888',
+              color: theme.textMuted,
               textDecoration: 'none',
               fontSize: '14px',
             }}
@@ -351,7 +523,7 @@ const ApiDocs = () => {
         {/* Breadcrumb */}
         <div style={{
           fontSize: '14px',
-          color: '#666',
+          color: theme.textDimmed,
           marginBottom: '16px',
         }}>
           Getting Started
@@ -380,10 +552,10 @@ const ApiDocs = () => {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '8px 16px',
-                backgroundColor: '#1a1a1a',
-                border: '1px solid #2a2a2a',
+                backgroundColor: theme.bgTertiary,
+                border: `1px solid ${theme.border}`,
                 borderRadius: '6px',
-                color: '#888',
+                color: theme.textMuted,
                 fontSize: '14px',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
@@ -398,7 +570,7 @@ const ApiDocs = () => {
           </div>
           <p style={{
             fontSize: '18px',
-            color: '#888',
+            color: theme.textMuted,
             margin: 0,
           }}>
             Micropayments, revenue sharing and distribution.
@@ -436,7 +608,7 @@ const ApiDocs = () => {
           <p style={{
             fontSize: '16px',
             lineHeight: '1.7',
-            color: '#ccc',
+            color: theme.textSecondary,
           }}>
             SHARE Protocol API helps you offer flexible revenue sharing to your products and experiences. It's built for creators, businesses and developers.
           </p>
@@ -458,10 +630,10 @@ const ApiDocs = () => {
           }}>
             {/* Account Management Card */}
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '12px',
               padding: '24px',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -476,7 +648,7 @@ const ApiDocs = () => {
               </h3>
               <p style={{
                 fontSize: '14px',
-                color: '#888',
+                color: theme.textMuted,
                 margin: 0,
                 lineHeight: '1.5',
               }}>
@@ -486,10 +658,10 @@ const ApiDocs = () => {
 
             {/* Revenue Sharing Card */}
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '12px',
               padding: '24px',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <circle cx="18" cy="5" r="3"/>
@@ -506,7 +678,7 @@ const ApiDocs = () => {
               </h3>
               <p style={{
                 fontSize: '14px',
-                color: '#888',
+                color: theme.textMuted,
                 margin: 0,
                 lineHeight: '1.5',
               }}>
@@ -516,10 +688,10 @@ const ApiDocs = () => {
 
             {/* Payouts Card */}
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '12px',
               padding: '24px',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -535,7 +707,7 @@ const ApiDocs = () => {
               </h3>
               <p style={{
                 fontSize: '14px',
-                color: '#888',
+                color: theme.textMuted,
                 margin: 0,
                 lineHeight: '1.5',
               }}>
@@ -556,7 +728,7 @@ const ApiDocs = () => {
           </h2>
           <p style={{
             fontSize: '16px',
-            color: '#ccc',
+            color: theme.textSecondary,
             marginBottom: '32px',
           }}>
             Please <a href="mailto:contact@formless.xyz" style={{ color: 'white', textDecoration: 'underline' }}>contact us</a> for a sandbox API key.
@@ -573,23 +745,23 @@ const ApiDocs = () => {
             </h3>
             <p style={{
               fontSize: '15px',
-              color: '#888',
+              color: theme.textMuted,
               marginBottom: '16px',
             }}>
               All requests go to:
             </p>
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '8px',
               padding: '16px 20px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <code style={{
                 fontSize: '14px',
-                color: '#ccc',
+                color: theme.textSecondary,
                 fontFamily: 'Monaco, Consolas, monospace',
               }}>
                 <span style={{ color: '#22c55e' }}>POST</span> https://share-ddn.formless.xyz/v1
@@ -599,7 +771,7 @@ const ApiDocs = () => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#666',
+                  color: theme.textDimmed,
                   cursor: 'pointer',
                   padding: '4px',
                 }}
@@ -629,33 +801,33 @@ const ApiDocs = () => {
             </h3>
             <p style={{
               fontSize: '15px',
-              color: '#888',
+              color: theme.textMuted,
               marginBottom: '16px',
             }}>
               Include your JWT token in every request:
             </p>
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '8px',
               padding: '16px 20px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <code style={{
                 fontSize: '14px',
-                color: '#ccc',
+                color: theme.textSecondary,
                 fontFamily: 'Monaco, Consolas, monospace',
               }}>
-                <span style={{ color: '#888' }}>Authorization:</span> <span style={{ color: '#f472b6' }}>Bearer</span> <span style={{ color: '#60a5fa' }}>&lt;your-jwt-token&gt;</span>
+                <span style={{ color: theme.textMuted }}>Authorization:</span> <span style={{ color: '#f472b6' }}>Bearer</span> <span style={{ color: '#60a5fa' }}>&lt;your-jwt-token&gt;</span>
               </code>
               <button
                 onClick={() => copyToClipboard('Authorization: Bearer <your-jwt-token>', 'auth')}
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#666',
+                  color: theme.textDimmed,
                   cursor: 'pointer',
                   padding: '4px',
                 }}
@@ -685,17 +857,17 @@ const ApiDocs = () => {
             </h3>
             <p style={{
               fontSize: '15px',
-              color: '#888',
+              color: theme.textMuted,
               marginBottom: '16px',
             }}>
               SHARE Protocol uses JSON-RPC 2.0:
             </p>
             <div style={{
-              backgroundColor: '#141414',
+              backgroundColor: theme.bgCard,
               borderRadius: '8px',
               padding: '20px',
               position: 'relative',
-              border: '1px solid #1a1a1a',
+              border: `1px solid ${theme.border}`,
             }}>
               <button
                 onClick={() => copyToClipboard(`{
@@ -712,7 +884,7 @@ const ApiDocs = () => {
                   right: '12px',
                   background: 'none',
                   border: 'none',
-                  color: '#666',
+                  color: theme.textDimmed,
                   cursor: 'pointer',
                   padding: '4px',
                 }}
@@ -733,14 +905,14 @@ const ApiDocs = () => {
                 fontFamily: 'Monaco, Consolas, monospace',
                 margin: 0,
                 lineHeight: '1.6',
-                color: '#ccc',
+                color: theme.textSecondary,
               }}>
 {`{
   `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>{`: `}<span style={{ color: '#22c55e' }}>"2.0"</span>{`,
   `}<span style={{ color: '#60a5fa' }}>"id"</span>{`: `}<span style={{ color: '#22c55e' }}>"1"</span>{`,
   `}<span style={{ color: '#60a5fa' }}>"method"</span>{`: `}<span style={{ color: '#22c55e' }}>"method_name"</span>{`,
   `}<span style={{ color: '#60a5fa' }}>"params"</span>{`: {
-    `}<span style={{ color: '#666' }}>// your parameters here</span>{`
+    `}<span style={{ color: theme.textDimmed }}>// your parameters here</span>{`
   }
 }`}
               </pre>
@@ -759,7 +931,7 @@ const ApiDocs = () => {
           </h2>
           <p style={{
             fontSize: '16px',
-            color: '#ccc',
+            color: theme.textSecondary,
             lineHeight: '1.7',
           }}>
             Visit{' '}
@@ -775,7 +947,7 @@ const ApiDocs = () => {
           display: 'flex',
           justifyContent: 'flex-end',
           paddingTop: '24px',
-          borderTop: '1px solid #1a1a1a',
+          borderTop: `1px solid ${theme.border}`,
           marginBottom: '60px',
         }}>
           <a
@@ -807,13 +979,13 @@ const ApiDocs = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           paddingTop: '24px',
-          borderTop: '1px solid #1a1a1a',
+          borderTop: `1px solid ${theme.border}`,
         }}>
           <a
             href="https://github.com/formless"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#666', transition: 'color 0.2s ease' }}
+            style={{ color: theme.textDimmed, transition: 'color 0.2s ease' }}
             onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
           >
@@ -821,7 +993,7 @@ const ApiDocs = () => {
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
             </svg>
           </a>
-          <span style={{ color: '#666', fontSize: '14px' }}>
+          <span style={{ color: theme.textDimmed, fontSize: '14px' }}>
             Powered by{' '}
             <a
               href="https://mintlify.com"
@@ -843,8 +1015,8 @@ const ApiDocs = () => {
         right: 0,
         height: 'calc(100vh - 64px)',
         padding: '40px 20px',
-        borderLeft: '1px solid #1a1a1a',
-        backgroundColor: '#0a0a0a',
+        borderLeft: `1px solid ${theme.border}`,
+        backgroundColor: theme.bg,
         overflowY: 'auto',
       }}>
         <div style={{
@@ -853,12 +1025,12 @@ const ApiDocs = () => {
           gap: '8px',
           marginBottom: '16px',
         }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textDimmed} strokeWidth="2">
             <line x1="3" y1="6" x2="21" y2="6"/>
             <line x1="3" y1="12" x2="21" y2="12"/>
             <line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
-          <span style={{ fontSize: '14px', fontWeight: '600', color: '#888' }}>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: theme.textMuted }}>
             On this page
           </span>
         </div>
@@ -869,7 +1041,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('what-is'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0',
               transition: 'color 0.2s ease',
@@ -882,7 +1054,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('core-features'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0',
               transition: 'color 0.2s ease',
@@ -895,7 +1067,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('quick-start'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0',
               transition: 'color 0.2s ease',
@@ -908,7 +1080,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('api-endpoint'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0 4px 16px',
               transition: 'color 0.2s ease',
@@ -921,7 +1093,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('authentication'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0 4px 16px',
               transition: 'color 0.2s ease',
@@ -934,7 +1106,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('request-format'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0 4px 16px',
               transition: 'color 0.2s ease',
@@ -947,7 +1119,7 @@ const ApiDocs = () => {
             onClick={(e) => { e.preventDefault(); scrollToSection('need-help'); }}
             style={{
               fontSize: '13px',
-              color: '#666',
+              color: theme.textDimmed,
               textDecoration: 'none',
               padding: '4px 0',
               transition: 'color 0.2s ease',
