@@ -95,8 +95,8 @@ const ApiDocs = () => {
       >
         {badge && (
           <span style={{
-            backgroundColor: '#0d9373',
-            color: 'white',
+            backgroundColor: isDarkMode ? 'transparent' : '#dbeafe',
+            color: isDarkMode ? '#60a5fa' : '#2563eb',
             fontSize: '10px',
             fontWeight: '600',
             padding: '2px 6px',
