@@ -26,56 +26,86 @@ const ApiDocs = () => {
       color: 'white',
       fontFamily: '"Inter", sans-serif',
     }}>
+      {/* Fixed Header */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '64px',
+        backgroundColor: '#0a0a0a',
+        borderBottom: '1px solid #1a1a1a',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 24px',
+        zIndex: 1000,
+      }}>
+        {/* Logo */}
+        <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img
+            src="/logomain.png"
+            alt="Formless Logo"
+            style={{ height: '28px', width: 'auto' }}
+          />
+        </a>
+
+        {/* Search Bar - Center */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '10px 16px',
+          backgroundColor: '#1a1a1a',
+          borderRadius: '8px',
+          border: '1px solid #2a2a2a',
+          minWidth: '300px',
+          cursor: 'pointer',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <span style={{ color: '#666', fontSize: '14px', flex: 1 }}>Search...</span>
+          <span style={{
+            color: '#666',
+            fontSize: '12px',
+            backgroundColor: '#252525',
+            padding: '2px 6px',
+            borderRadius: '4px',
+          }}>Ctrl K</span>
+        </div>
+
+        {/* Theme Toggle */}
+        <button
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#666',
+            cursor: 'pointer',
+            padding: '8px',
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+      </header>
+
       {/* Left Sidebar */}
       <aside style={{
         width: '280px',
         backgroundColor: '#0f0f0f',
         borderRight: '1px solid #1a1a1a',
         padding: '24px 0',
+        paddingTop: '88px',
         position: 'fixed',
         top: 0,
         left: 0,
         height: '100vh',
         overflowY: 'auto',
       }}>
-        {/* Logo */}
-        <div style={{ padding: '0 20px', marginBottom: '24px' }}>
-          <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <img
-              src="/logomain.png"
-              alt="Formless Logo"
-              style={{ height: '28px', width: 'auto' }}
-            />
-          </a>
-        </div>
-
-        {/* Search */}
-        <div style={{ padding: '0 20px', marginBottom: '24px' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            padding: '10px 14px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '8px',
-            border: '1px solid #2a2a2a',
-          }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
-            </svg>
-            <span style={{ color: '#666', fontSize: '14px' }}>Search...</span>
-            <span style={{
-              marginLeft: 'auto',
-              color: '#666',
-              fontSize: '12px',
-              backgroundColor: '#252525',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>Ctrl K</span>
-          </div>
-        </div>
-
         {/* Documentation Title */}
         <div style={{ padding: '0 20px', marginBottom: '16px' }}>
           <h2 style={{
@@ -315,6 +345,7 @@ const ApiDocs = () => {
         marginLeft: '280px',
         marginRight: '260px',
         padding: '40px 60px',
+        paddingTop: '104px',
         maxWidth: '900px',
       }}>
         {/* Breadcrumb */}
@@ -808,12 +839,13 @@ const ApiDocs = () => {
       <aside style={{
         width: '240px',
         position: 'fixed',
-        top: 0,
+        top: '64px',
         right: 0,
-        height: '100vh',
+        height: 'calc(100vh - 64px)',
         padding: '40px 20px',
         borderLeft: '1px solid #1a1a1a',
         backgroundColor: '#0a0a0a',
+        overflowY: 'auto',
       }}>
         <div style={{
           display: 'flex',
@@ -924,28 +956,6 @@ const ApiDocs = () => {
             Need Help?
           </a>
         </nav>
-
-        {/* Theme Toggle */}
-        <div style={{
-          position: 'absolute',
-          top: '40px',
-          right: '20px',
-        }}>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#666',
-              cursor: 'pointer',
-              padding: '8px',
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-          </button>
-        </div>
       </aside>
 
       {/* Responsive Styles */}
