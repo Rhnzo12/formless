@@ -490,10 +490,9 @@ const ApiDocs = () => {
       <main style={{
         flex: 1,
         marginLeft: '280px',
-        marginRight: activeSection === 'identity-lookup' ? '440px' : '260px',
+        marginRight: activeSection === 'identity-lookup' ? '20px' : '260px',
         padding: '40px 60px',
         paddingTop: '104px',
-        maxWidth: '900px',
         transition: 'margin-right 0.2s ease',
       }}>
         {/* Breadcrumb */}
@@ -918,129 +917,132 @@ const ApiDocs = () => {
           </p>
         </section>
 
-        {/* Identity Lookup Section */}
+        {/* Identity Lookup Section - Two Column Layout */}
         <section id="identity-lookup" style={{ marginBottom: '60px', marginTop: '80px' }}>
-          {/* Breadcrumb */}
-          <div style={{
-            fontSize: '14px',
-            color: theme.textDimmed,
-            marginBottom: '16px',
-          }}>
-            Account Management
-          </div>
+          <div style={{ display: 'flex', gap: '40px' }}>
+            {/* Left Column - Documentation */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {/* Breadcrumb */}
+              <div style={{
+                fontSize: '14px',
+                color: theme.textDimmed,
+                marginBottom: '16px',
+              }}>
+                Account Management
+              </div>
 
-          {/* Title with Copy page button */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            marginBottom: '16px',
-          }}>
-            <h2 style={{
-              fontSize: '36px',
-              fontWeight: '700',
-              margin: 0,
-              lineHeight: '1.2',
-            }}>
-              Identity Lookup
-            </h2>
-            <button
-              onClick={() => copyToClipboard(window.location.href + '#identity-lookup', 'identity-page')}
-              style={{
+              {/* Title with Copy page button */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+              }}>
+                <h2 style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                }}>
+                  Identity Lookup
+                </h2>
+                <button
+                  onClick={() => copyToClipboard(window.location.href + '#identity-lookup', 'identity-page')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 16px',
+                    backgroundColor: theme.bgTertiary,
+                    border: `1px solid ${theme.border}`,
+                    borderRadius: '6px',
+                    color: theme.textMuted,
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  {copiedCode === 'identity-page' ? 'Copied!' : 'Copy page'}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+              </div>
+
+              {/* Description */}
+              <p style={{
+                fontSize: '18px',
+                color: theme.textMuted,
+                marginBottom: '24px',
+              }}>
+                Retrieve user identity information by email address
+              </p>
+
+              {/* API Endpoint Bar */}
+              <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                backgroundColor: theme.bgTertiary,
-                border: `1px solid ${theme.border}`,
-                borderRadius: '6px',
-                color: theme.textMuted,
-                fontSize: '14px',
-                cursor: 'pointer',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-              </svg>
-              {copiedCode === 'identity-page' ? 'Copied!' : 'Copy page'}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </button>
-          </div>
+                gap: '12px',
+                marginBottom: '32px',
+              }}>
+                <span style={{
+                  backgroundColor: '#0d9488',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                }}>POST</span>
+                <code style={{
+                  fontSize: '14px',
+                  color: theme.textSecondary,
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  backgroundColor: theme.bgCard,
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  border: `1px solid ${theme.border}`,
+                }}>
+                  /v1#identity_get_by_email
+                </code>
+                <button style={{
+                  backgroundColor: '#0d9488',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  padding: '8px 20px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}>
+                  Try it
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
 
-          {/* Description */}
-          <p style={{
-            fontSize: '18px',
-            color: theme.textMuted,
-            marginBottom: '24px',
-          }}>
-            Retrieve user identity information by email address
-          </p>
-
-          {/* API Endpoint Bar */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            marginBottom: '32px',
-          }}>
-            <span style={{
-              backgroundColor: '#0d9488',
-              color: 'white',
-              fontSize: '14px',
-              fontWeight: '700',
-              padding: '8px 16px',
-              borderRadius: '6px',
-            }}>POST</span>
-            <code style={{
-              fontSize: '14px',
-              color: theme.textSecondary,
-              fontFamily: 'Monaco, Consolas, monospace',
-              backgroundColor: theme.bgCard,
-              padding: '8px 16px',
-              borderRadius: '6px',
-              border: `1px solid ${theme.border}`,
-            }}>
-              /v1#identity_get_by_email
-            </code>
-            <button style={{
-              backgroundColor: '#0d9488',
-              color: 'white',
-              fontSize: '14px',
-              fontWeight: '600',
-              padding: '8px 20px',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}>
-              Try it
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </button>
-          </div>
-
-          {/* Method Description */}
-          <p style={{
-            fontSize: '16px',
-            color: theme.textSecondary,
-            marginBottom: '40px',
-            lineHeight: '1.7',
-          }}>
-            Retrieve user identity information based on an email address using the{' '}
-            <code style={{
-              backgroundColor: theme.bgCard,
-              padding: '2px 8px',
-              borderRadius: '4px',
-              fontSize: '14px',
-              border: `1px solid ${theme.border}`,
-            }}>identity_get_by_email_address</code> method.
-          </p>
+              {/* Method Description */}
+              <p style={{
+                fontSize: '16px',
+                color: theme.textSecondary,
+                marginBottom: '40px',
+                lineHeight: '1.7',
+              }}>
+                Retrieve user identity information based on an email address using the{' '}
+                <code style={{
+                  backgroundColor: theme.bgCard,
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  border: `1px solid ${theme.border}`,
+                }}>identity_get_by_email_address</code> method.
+              </p>
 
           {/* Authorizations Section */}
           <div style={{ marginBottom: '40px' }}>
@@ -1617,6 +1619,187 @@ const ApiDocs = () => {
               </div>
             </div>
           </div>
+            </div>
+            {/* End Left Column */}
+
+            {/* Right Column - Code Panel (Sticky) */}
+            <div style={{
+              width: '420px',
+              flexShrink: 0,
+              position: 'sticky',
+              top: '104px',
+              alignSelf: 'flex-start',
+              height: 'fit-content',
+            }}>
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
+              }}>
+                {/* Panel Header */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                  backgroundColor: theme.bgSecondary,
+                }}>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Identity Lookup</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: theme.bgTertiary,
+                      padding: '4px 10px',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                    }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                      </svg>
+                      <span style={{ color: theme.textMuted, fontSize: '12px' }}>cURL</span>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    </div>
+                    <button
+                      onClick={() => copyToClipboard(`curl --request POST \\
+  --url 'https://share-ddn.formless.xyz/v1' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "identity_get_by_email_address",
+  "params": {
+    "email_address": "user@example.com"
+  }
+}'`, 'curl-identity')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: theme.textMuted,
+                        cursor: 'pointer',
+                        padding: '4px',
+                      }}
+                    >
+                      {copiedCode === 'curl-identity' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* cURL Code */}
+                <div style={{ padding: '14px', overflowX: 'auto' }}>
+                  <pre style={{
+                    fontSize: '11px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    margin: 0,
+                    lineHeight: '1.5',
+                    color: theme.textSecondary,
+                  }}>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>
+{`{`}
+  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
+  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,
+  <span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"identity_get_by_email_address"</span>,
+  <span style={{ color: '#60a5fa' }}>"params"</span>: {`{`}
+    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"user@example.com"</span>
+  {`}`}
+{`}`}<span style={{ color: '#fbbf24' }}>'</span>
+                  </pre>
+                </div>
+
+                {/* Response Section */}
+                <div style={{ borderTop: `1px solid ${theme.border}` }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '10px 16px',
+                    backgroundColor: theme.bgSecondary,
+                  }}>
+                    <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                    <button
+                      onClick={() => copyToClipboard(`{
+  "jsonrpc": "2.0",
+  "id": "<string>",
+  "result": {
+    "success": true,
+    "user_unique_id": "<string>",
+    "email_address": "jsmith@example.com",
+    "display_name": "<string>",
+    "verified_identity": true,
+    "financial_accounts": [{}],
+    "verifications": [{}]
+  }
+}`, 'response-identity')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: theme.textMuted,
+                        cursor: 'pointer',
+                        padding: '4px',
+                      }}
+                    >
+                      {copiedCode === 'response-identity' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  <div style={{ padding: '14px', overflowX: 'auto' }}>
+                    <pre style={{
+                      fontSize: '11px',
+                      fontFamily: 'Monaco, Consolas, monospace',
+                      margin: 0,
+                      lineHeight: '1.5',
+                      color: theme.textSecondary,
+                    }}>
+{`{`}
+  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
+  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+  <span style={{ color: '#60a5fa' }}>"result"</span>: {`{`}
+    <span style={{ color: '#60a5fa' }}>"success"</span>: <span style={{ color: '#4ade80' }}>true</span>,
+    <span style={{ color: '#60a5fa' }}>"user_unique_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"jsmith@example.com"</span>,
+    <span style={{ color: '#60a5fa' }}>"display_name"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+    <span style={{ color: '#60a5fa' }}>"verified_identity"</span>: <span style={{ color: '#4ade80' }}>true</span>,
+    <span style={{ color: '#60a5fa' }}>"financial_accounts"</span>: [{`{}`}],
+    <span style={{ color: '#60a5fa' }}>"verifications"</span>: [{`{}`}]
+  {`}`}
+{`}`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* End Right Column */}
+          </div>
+          {/* End Two Column Layout */}
 
           {/* Identity Lookup Navigation */}
           <div style={{
@@ -1734,231 +1917,60 @@ const ApiDocs = () => {
         </footer>
       </main>
 
-      {/* Right Sidebar - Code Panel or On This Page */}
-      <aside style={{
-        width: activeSection === 'identity-lookup' ? '420px' : '240px',
-        position: 'fixed',
-        top: '64px',
-        right: 0,
-        height: 'calc(100vh - 64px)',
-        borderLeft: `1px solid ${theme.border}`,
-        backgroundColor: activeSection === 'identity-lookup' ? theme.bgSecondary : theme.bg,
-        overflowY: 'auto',
-        transition: 'width 0.2s ease',
-      }}>
-        {activeSection === 'identity-lookup' ? (
-          /* Code Example Panel */
-          <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            {/* Panel Header */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '16px 20px',
-              borderBottom: `1px solid ${theme.border}`,
-              backgroundColor: theme.bgSecondary,
-            }}>
-              <span style={{ fontWeight: '600', color: theme.text, fontSize: '15px' }}>Identity Lookup</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  backgroundColor: theme.bgTertiary,
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                  </svg>
-                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>cURL</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(`curl --request POST \\
-  --url 'https://share-ddn.formless.xyz/v1#identity_get_by_email_address' \\
-  --header 'Authorization: Bearer <token>' \\
-  --header 'Content-Type: application/json' \\
-  --data '{
-  "jsonrpc": "2.0",
-  "id": "1",
-  "method": "identity_get_by_email_address",
-  "params": {
-    "email_address": "user@example.com"
-  }
-}'`, 'curl-identity')}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: theme.textMuted,
-                    cursor: 'pointer',
-                    padding: '4px',
-                  }}
-                >
-                  {copiedCode === 'curl-identity' ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* cURL Code */}
-            <div style={{ padding: '16px 20px', overflowX: 'auto', backgroundColor: theme.bgCard }}>
-              <pre style={{
-                fontSize: '12px',
-                fontFamily: 'Monaco, Consolas, monospace',
-                margin: 0,
-                lineHeight: '1.6',
-                color: theme.textSecondary,
-              }}>
-{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>
-{`{`}
-  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
-  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,
-  <span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"identity_get_by_email_address"</span>,
-  <span style={{ color: '#60a5fa' }}>"params"</span>: {`{`}
-    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"user@example.com"</span>
-  {`}`}
-{`}`}<span style={{ color: '#fbbf24' }}>'</span>
-              </pre>
-            </div>
-
-            {/* Response Section */}
-            <div style={{
-              borderTop: `1px solid ${theme.border}`,
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-            }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '12px 20px',
-                backgroundColor: theme.bgSecondary,
-                borderBottom: `1px solid ${theme.border}`,
-              }}>
-                <span style={{ color: theme.textMuted, fontSize: '14px' }}>200</span>
-                <button
-                  onClick={() => copyToClipboard(`{
-  "jsonrpc": "2.0",
-  "id": "<string>",
-  "result": {
-    "success": true,
-    "user_unique_id": "<string>",
-    "email_address": "jsmith@example.com",
-    "display_name": "<string>",
-    "verified_identity": true,
-    "financial_accounts": [{}],
-    "verifications": [{}]
-  }
-}`, 'response-identity')}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: theme.textMuted,
-                    cursor: 'pointer',
-                    padding: '4px',
-                  }}
-                >
-                  {copiedCode === 'response-identity' ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                    </svg>
-                  )}
-                </button>
-              </div>
-              <div style={{ padding: '16px 20px', overflowX: 'auto', backgroundColor: theme.bgCard, flex: 1 }}>
-                <pre style={{
-                  fontSize: '12px',
-                  fontFamily: 'Monaco, Consolas, monospace',
-                  margin: 0,
-                  lineHeight: '1.6',
-                  color: theme.textSecondary,
-                }}>
-{`{`}
-  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
-  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-  <span style={{ color: '#60a5fa' }}>"result"</span>: {`{`}
-    <span style={{ color: '#60a5fa' }}>"success"</span>: <span style={{ color: '#4ade80' }}>true</span>,
-    <span style={{ color: '#60a5fa' }}>"user_unique_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"jsmith@example.com"</span>,
-    <span style={{ color: '#60a5fa' }}>"display_name"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-    <span style={{ color: '#60a5fa' }}>"verified_identity"</span>: <span style={{ color: '#4ade80' }}>true</span>,
-    <span style={{ color: '#60a5fa' }}>"financial_accounts"</span>: [{`{}`}],
-    <span style={{ color: '#60a5fa' }}>"verifications"</span>: [{`{}`}]
-  {`}`}
-{`}`}
-                </pre>
-              </div>
-            </div>
+      {/* Right Sidebar - On This Page (hidden on Identity Lookup) */}
+      {activeSection !== 'identity-lookup' && (
+        <aside style={{
+          width: '240px',
+          position: 'fixed',
+          top: '64px',
+          right: 0,
+          height: 'calc(100vh - 64px)',
+          borderLeft: `1px solid ${theme.border}`,
+          backgroundColor: theme.bg,
+          overflowY: 'auto',
+          padding: '40px 20px',
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginBottom: '16px',
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textDimmed} strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+            <span style={{ fontSize: '14px', fontWeight: '600', color: theme.textMuted }}>
+              On this page
+            </span>
           </div>
-        ) : (
-          /* On This Page Navigation */
-          <div style={{ padding: '40px 20px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginBottom: '16px',
-            }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textDimmed} strokeWidth="2">
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <line x1="3" y1="12" x2="21" y2="12"/>
-                <line x1="3" y1="18" x2="21" y2="18"/>
-              </svg>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: theme.textMuted }}>
-                On this page
-              </span>
-            </div>
 
-            <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <RightSidebarLink href="#what-is" section="what-is">
-                What is the SHARE Protocol API?
-              </RightSidebarLink>
-              <RightSidebarLink href="#core-features" section="core-features">
-                Core Features
-              </RightSidebarLink>
-              <RightSidebarLink href="#quick-start" section="quick-start">
-                Quick Start
-              </RightSidebarLink>
-              <RightSidebarLink href="#api-endpoint" section="api-endpoint" indented>
-                1. API Endpoint
-              </RightSidebarLink>
-              <RightSidebarLink href="#authentication" section="authentication" indented>
-                2. Authentication
-              </RightSidebarLink>
-              <RightSidebarLink href="#request-format" section="request-format" indented>
-                3. Request Format
-              </RightSidebarLink>
-              <RightSidebarLink href="#need-help" section="need-help">
-                Need Help?
-              </RightSidebarLink>
-            </nav>
-          </div>
-        )}
-      </aside>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <RightSidebarLink href="#what-is" section="what-is">
+              What is the SHARE Protocol API?
+            </RightSidebarLink>
+            <RightSidebarLink href="#core-features" section="core-features">
+              Core Features
+            </RightSidebarLink>
+            <RightSidebarLink href="#quick-start" section="quick-start">
+              Quick Start
+            </RightSidebarLink>
+            <RightSidebarLink href="#api-endpoint" section="api-endpoint" indented>
+              1. API Endpoint
+            </RightSidebarLink>
+            <RightSidebarLink href="#authentication" section="authentication" indented>
+              2. Authentication
+            </RightSidebarLink>
+            <RightSidebarLink href="#request-format" section="request-format" indented>
+              3. Request Format
+            </RightSidebarLink>
+            <RightSidebarLink href="#need-help" section="need-help">
+              Need Help?
+            </RightSidebarLink>
+          </nav>
+        </aside>
+      )}
 
       {/* Responsive Styles */}
       <style>
