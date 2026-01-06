@@ -1471,6 +1471,379 @@ const ApiDocs = () => {
               </div>
             </div>
           </div>
+
+          {/* Response Section */}
+          <div style={{ marginBottom: '40px' }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '24px',
+              paddingBottom: '12px',
+              borderBottom: `1px solid ${theme.border}`,
+            }}>
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                margin: 0,
+              }}>
+                Response
+              </h3>
+              <span style={{
+                color: theme.textMuted,
+                fontSize: '14px',
+              }}>200 - application/json</span>
+            </div>
+
+            <p style={{
+              fontSize: '14px',
+              color: theme.textMuted,
+              marginBottom: '24px',
+            }}>
+              Successful response
+            </p>
+
+            {/* Response jsonrpc field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                marginBottom: '8px',
+              }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
+                <span style={{
+                  backgroundColor: theme.bgCard,
+                  color: theme.textMuted,
+                  fontSize: '12px',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.border}`,
+                }}>enum&lt;string&gt;</span>
+                <span style={{
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                }}>required</span>
+              </div>
+              <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                Available options: <code style={{ backgroundColor: theme.bgCard, padding: '2px 6px', borderRadius: '4px' }}>2.0</code>
+              </p>
+            </div>
+
+            {/* Response id field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
+                <span style={{
+                  backgroundColor: theme.bgCard,
+                  color: theme.textMuted,
+                  fontSize: '12px',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.border}`,
+                }}>string</span>
+                <span style={{
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                }}>required</span>
+              </div>
+            </div>
+
+            {/* Response result field */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                marginBottom: '16px',
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <span style={{ color: theme.text, fontWeight: '500' }}>result</span>
+                <span style={{
+                  backgroundColor: theme.bgCard,
+                  color: theme.textMuted,
+                  fontSize: '12px',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  border: `1px solid ${theme.border}`,
+                }}>object</span>
+                <span style={{
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                }}>required</span>
+              </div>
+
+              {/* Option Tabs */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <button style={{
+                    padding: '12px 20px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: theme.text,
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    borderBottom: `2px solid ${theme.text}`,
+                  }}>Option 1</button>
+                  <button style={{
+                    padding: '12px 20px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: theme.textMuted,
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                  }}>Option 2</button>
+                </div>
+
+                <div style={{ padding: '20px' }}>
+                  {/* Hide child attributes toggle */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '20px',
+                    color: theme.textMuted,
+                    fontSize: '14px',
+                  }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                    Hide child attributes
+                  </div>
+
+                  {/* result.success */}
+                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '8px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>enum&lt;boolean&gt;</span>
+                      <span style={{
+                        backgroundColor: '#dc2626',
+                        color: 'white',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>
+                      Indicates if the request was successful
+                    </p>
+                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                      Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>false</code>
+                    </p>
+                  </div>
+
+                  {/* result.user_unique_id */}
+                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '8px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>user_unique_id</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>string</span>
+                      <span style={{
+                        backgroundColor: '#dc2626',
+                        color: 'white',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                      The Unique ID of the user
+                    </p>
+                  </div>
+
+                  {/* result.email_address */}
+                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '8px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>string</span>
+                      <span style={{
+                        backgroundColor: '#dc2626',
+                        color: 'white',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                      The email address of the user
+                    </p>
+                  </div>
+
+                  {/* result.display_name */}
+                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '8px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>display_name</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>string</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                      The display name of the user
+                    </p>
+                  </div>
+
+                  {/* result.verified_identity */}
+                  <div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      marginBottom: '8px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>verified_identity</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>boolean</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                      Whether the user's identity has been verified
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Identity Lookup Navigation */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingTop: '24px',
+            borderTop: `1px solid ${theme.border}`,
+            marginBottom: '40px',
+          }}>
+            <a
+              href="#welcome"
+              onClick={(e) => { e.preventDefault(); scrollToSection('welcome'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: theme.text,
+                textDecoration: 'none',
+                fontSize: '14px',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+              Welcome to the SHARE Protocol API
+            </a>
+            <a
+              href="#create-contract"
+              onClick={(e) => { e.preventDefault(); scrollToSection('create-contract'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: theme.text,
+                textDecoration: 'none',
+                fontSize: '14px',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              Create Contract
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </a>
+          </div>
         </section>
 
         {/* Next Page Navigation */}
@@ -1482,13 +1855,13 @@ const ApiDocs = () => {
           marginBottom: '60px',
         }}>
           <a
-            href="#identity-lookup"
-            onClick={(e) => { e.preventDefault(); scrollToSection('identity-lookup'); }}
+            href="#create-contract"
+            onClick={(e) => { e.preventDefault(); scrollToSection('create-contract'); }}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              color: 'white',
+              color: theme.text,
               textDecoration: 'none',
               fontSize: '16px',
               fontWeight: '500',
@@ -1497,7 +1870,7 @@ const ApiDocs = () => {
             onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
             onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
           >
-            Identity Lookup
+            Create Contract
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 18l6-6-6-6"/>
             </svg>
