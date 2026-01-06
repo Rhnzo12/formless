@@ -197,12 +197,20 @@ const ApiDocs = () => {
         zIndex: 1000,
       }}>
         {/* Logo */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <img
             src="/logomain.png"
             alt="Formless Logo"
             style={{ height: '28px', width: 'auto', filter: isDarkMode ? 'none' : 'invert(1)' }}
           />
+          <span style={{
+            color: theme.text,
+            fontSize: '16px',
+            fontWeight: '600',
+            letterSpacing: '0.5px',
+          }}>
+            FORMLESS<sup style={{ fontSize: '8px', marginLeft: '2px' }}>™</sup>
+          </span>
         </a>
 
         {/* Search Bar - Center */}
@@ -254,12 +262,12 @@ const ApiDocs = () => {
         >
           {isDarkMode ? (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
           ) : (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
             </svg>
           )}
         </button>
