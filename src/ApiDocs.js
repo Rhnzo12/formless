@@ -51,11 +51,92 @@ const ApiDocs = () => {
     bgSecondary: isDarkMode ? '#0f0f0f' : '#f5f5f5',
     bgTertiary: isDarkMode ? '#1a1a1a' : '#e5e5e5',
     bgCard: isDarkMode ? '#141414' : '#f9f9f9',
+    bgHover: isDarkMode ? '#1a1a1a' : '#e8e8e8',
+    bgActive: isDarkMode ? '#1f1f1f' : '#e0e0e0',
     border: isDarkMode ? '#1a1a1a' : '#e0e0e0',
     text: isDarkMode ? 'white' : '#1a1a1a',
     textSecondary: isDarkMode ? '#ccc' : '#444',
     textMuted: isDarkMode ? '#888' : '#666',
     textDimmed: isDarkMode ? '#666' : '#999',
+  };
+
+  // Sidebar link component with hover and active states
+  const SidebarLink = ({ href, section, children, badge = null }) => {
+    const isActive = activeSection === section;
+    return (
+      <a
+        href={href}
+        onClick={(e) => { e.preventDefault(); scrollToSection(section); }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '8px 12px',
+          color: isActive ? theme.text : theme.textMuted,
+          textDecoration: 'none',
+          fontSize: '14px',
+          backgroundColor: isActive ? theme.bgActive : 'transparent',
+          borderRadius: '6px',
+          margin: '0 8px',
+          transition: 'all 0.15s ease',
+          borderLeft: isActive ? `2px solid ${theme.text}` : '2px solid transparent',
+        }}
+        onMouseEnter={(e) => {
+          if (!isActive) {
+            e.currentTarget.style.backgroundColor = theme.bgHover;
+            e.currentTarget.style.color = theme.text;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isActive) {
+            e.currentTarget.style.backgroundColor = 'transparent';
+            e.currentTarget.style.color = theme.textMuted;
+          }
+        }}
+      >
+        {badge && (
+          <span style={{
+            backgroundColor: '#22c55e',
+            color: 'white',
+            fontSize: '10px',
+            fontWeight: '600',
+            padding: '2px 6px',
+            borderRadius: '4px',
+          }}>{badge}</span>
+        )}
+        {children}
+      </a>
+    );
+  };
+
+  // Right sidebar link component
+  const RightSidebarLink = ({ href, section, children, indented = false }) => {
+    const isActive = activeSection === section;
+    return (
+      <a
+        href={href}
+        onClick={(e) => { e.preventDefault(); scrollToSection(section); }}
+        style={{
+          fontSize: '13px',
+          color: isActive ? theme.text : theme.textDimmed,
+          fontWeight: isActive ? '600' : '400',
+          textDecoration: 'none',
+          padding: indented ? '4px 0 4px 16px' : '4px 0',
+          transition: 'color 0.15s ease',
+          display: 'block',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = theme.text;
+        }}
+        onMouseLeave={(e) => {
+          if (!isActive) {
+            e.currentTarget.style.color = theme.textDimmed;
+          }
+        }}
+      >
+        {children}
+      </a>
+    );
   };
 
   // Search items for filtering
@@ -340,22 +421,9 @@ const ApiDocs = () => {
           }}>
             Getting Started
           </div>
-          <a
-            href="#welcome"
-            onClick={(e) => { e.preventDefault(); scrollToSection('welcome'); }}
-            style={{
-              display: 'block',
-              padding: '8px 20px',
-              color: activeSection === 'welcome' ? 'white' : '#888',
-              textDecoration: 'none',
-              fontSize: '14px',
-              backgroundColor: activeSection === 'welcome' ? '#1a1a1a' : 'transparent',
-              borderLeft: activeSection === 'welcome' ? '2px solid white' : '2px solid transparent',
-              transition: 'all 0.2s ease',
-            }}
-          >
+          <SidebarLink href="#welcome" section="welcome">
             Welcome to the SHARE Protocol API
-          </a>
+          </SidebarLink>
         </div>
 
         {/* Account Management Section */}
@@ -371,29 +439,9 @@ const ApiDocs = () => {
           }}>
             Account Management
           </div>
-          <a
-            href="#identity-lookup"
-            onClick={(e) => { e.preventDefault(); scrollToSection('identity-lookup'); }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              color: theme.textMuted,
-              textDecoration: 'none',
-              fontSize: '14px',
-            }}
-          >
-            <span style={{
-              backgroundColor: '#22c55e',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>POST</span>
+          <SidebarLink href="#identity-lookup" section="identity-lookup" badge="POST">
             Identity Lookup
-          </a>
+          </SidebarLink>
         </div>
 
         {/* Revenue Sharing Section */}
@@ -409,52 +457,12 @@ const ApiDocs = () => {
           }}>
             Revenue Sharing
           </div>
-          <a
-            href="#create-contract"
-            onClick={(e) => { e.preventDefault(); scrollToSection('create-contract'); }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              color: theme.textMuted,
-              textDecoration: 'none',
-              fontSize: '14px',
-            }}
-          >
-            <span style={{
-              backgroundColor: '#22c55e',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>POST</span>
+          <SidebarLink href="#create-contract" section="create-contract" badge="POST">
             Create Contract
-          </a>
-          <a
-            href="#fetch-split-data"
-            onClick={(e) => { e.preventDefault(); scrollToSection('fetch-split-data'); }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              color: theme.textMuted,
-              textDecoration: 'none',
-              fontSize: '14px',
-            }}
-          >
-            <span style={{
-              backgroundColor: '#22c55e',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>POST</span>
+          </SidebarLink>
+          <SidebarLink href="#fetch-split-data" section="fetch-split-data" badge="POST">
             Fetch Split Data
-          </a>
+          </SidebarLink>
         </div>
 
         {/* Payouts Section */}
@@ -470,52 +478,12 @@ const ApiDocs = () => {
           }}>
             Payouts
           </div>
-          <a
-            href="#execute-payout"
-            onClick={(e) => { e.preventDefault(); scrollToSection('execute-payout'); }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              color: theme.textMuted,
-              textDecoration: 'none',
-              fontSize: '14px',
-            }}
-          >
-            <span style={{
-              backgroundColor: '#22c55e',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>POST</span>
+          <SidebarLink href="#execute-payout" section="execute-payout" badge="POST">
             Execute Payout
-          </a>
-          <a
-            href="#query-batch-status"
-            onClick={(e) => { e.preventDefault(); scrollToSection('query-batch-status'); }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              color: theme.textMuted,
-              textDecoration: 'none',
-              fontSize: '14px',
-            }}
-          >
-            <span style={{
-              backgroundColor: '#22c55e',
-              color: 'white',
-              fontSize: '10px',
-              fontWeight: '600',
-              padding: '2px 6px',
-              borderRadius: '4px',
-            }}>POST</span>
+          </SidebarLink>
+          <SidebarLink href="#query-batch-status" section="query-batch-status" badge="POST">
             Query Batch Status
-          </a>
+          </SidebarLink>
         </div>
       </aside>
 
@@ -1044,97 +1012,27 @@ const ApiDocs = () => {
         </div>
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <a
-            href="#what-is"
-            onClick={(e) => { e.preventDefault(); scrollToSection('what-is'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          <RightSidebarLink href="#what-is" section="what-is">
             What is the SHARE Protocol API?
-          </a>
-          <a
-            href="#core-features"
-            onClick={(e) => { e.preventDefault(); scrollToSection('core-features'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#core-features" section="core-features">
             Core Features
-          </a>
-          <a
-            href="#quick-start"
-            onClick={(e) => { e.preventDefault(); scrollToSection('quick-start'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#quick-start" section="quick-start">
             Quick Start
-          </a>
-          <a
-            href="#api-endpoint"
-            onClick={(e) => { e.preventDefault(); scrollToSection('api-endpoint'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0 4px 16px',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#api-endpoint" section="api-endpoint" indented>
             1. API Endpoint
-          </a>
-          <a
-            href="#authentication"
-            onClick={(e) => { e.preventDefault(); scrollToSection('authentication'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0 4px 16px',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#authentication" section="authentication" indented>
             2. Authentication
-          </a>
-          <a
-            href="#request-format"
-            onClick={(e) => { e.preventDefault(); scrollToSection('request-format'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0 4px 16px',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#request-format" section="request-format" indented>
             3. Request Format
-          </a>
-          <a
-            href="#need-help"
-            onClick={(e) => { e.preventDefault(); scrollToSection('need-help'); }}
-            style={{
-              fontSize: '13px',
-              color: theme.textDimmed,
-              textDecoration: 'none',
-              padding: '4px 0',
-              transition: 'color 0.2s ease',
-            }}
-          >
+          </RightSidebarLink>
+          <RightSidebarLink href="#need-help" section="need-help">
             Need Help?
-          </a>
+          </RightSidebarLink>
         </nav>
       </aside>
 
