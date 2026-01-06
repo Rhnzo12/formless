@@ -110,6 +110,10 @@ const About = () => {
   };
 
   useEffect(() => {
+    document.title = 'About';
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
