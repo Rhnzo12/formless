@@ -95,7 +95,7 @@ const ApiDocs = () => {
       >
         {badge && (
           <span style={{
-            backgroundColor: '#22c55e',
+            backgroundColor: '#0d9373',
             color: 'white',
             fontSize: '10px',
             fontWeight: '600',
@@ -408,13 +408,13 @@ const ApiDocs = () => {
         </div>
 
         {/* Getting Started Section */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '8px',
+            marginBottom: '12px',
             fontSize: '12px',
             fontWeight: '600',
-            color: theme.textMuted,
+            color: theme.text,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -426,13 +426,13 @@ const ApiDocs = () => {
         </div>
 
         {/* Account Management Section */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '8px',
+            marginBottom: '12px',
             fontSize: '12px',
             fontWeight: '600',
-            color: theme.textMuted,
+            color: theme.text,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -444,13 +444,13 @@ const ApiDocs = () => {
         </div>
 
         {/* Revenue Sharing Section */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '8px',
+            marginBottom: '12px',
             fontSize: '12px',
             fontWeight: '600',
-            color: theme.textMuted,
+            color: theme.text,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -465,13 +465,13 @@ const ApiDocs = () => {
         </div>
 
         {/* Payouts Section */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '8px',
+            marginBottom: '12px',
             fontSize: '12px',
             fontWeight: '600',
-            color: theme.textMuted,
+            color: theme.text,
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}>
@@ -1038,6 +1038,27 @@ const ApiDocs = () => {
       {/* Responsive Styles */}
       <style>
         {`
+          /* Custom Scrollbar */
+          aside::-webkit-scrollbar {
+            width: 6px;
+          }
+          aside::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          aside::-webkit-scrollbar-thumb {
+            background: ${isDarkMode ? '#333' : '#ccc'};
+            border-radius: 3px;
+          }
+          aside::-webkit-scrollbar-thumb:hover {
+            background: ${isDarkMode ? '#444' : '#aaa'};
+          }
+
+          /* Firefox scrollbar */
+          aside {
+            scrollbar-width: thin;
+            scrollbar-color: ${isDarkMode ? '#333 transparent' : '#ccc transparent'};
+          }
+
           @media (max-width: 1200px) {
             aside:last-child {
               display: none;
