@@ -11,6 +11,10 @@ const App = () => {
   const joinRef = useRef(null);
 
   useEffect(() => {
+    document.title = 'Home';
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
