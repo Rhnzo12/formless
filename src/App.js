@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './components/Header';
 import FluidBackground from './components/FluidBackground';
 import FormlessLogoSection from './components/FormlessLogo';
 import ServicesSection from './components/Servicessection';
 
 const App = () => {
+  const navigate = useNavigate();
   const [founderVisible, setFounderVisible] = useState(false);
   const [joinVisible, setJoinVisible] = useState(false);
   const founderRef = useRef(null);
@@ -107,6 +109,7 @@ const App = () => {
                   e.target.style.backgroundColor = 'transparent';
                   e.target.style.color = 'white';
                 }}
+                onClick={() => navigate('/api-docs')}
               >
                 View API Documentation
               </button>
