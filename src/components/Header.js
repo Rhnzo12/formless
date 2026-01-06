@@ -28,7 +28,7 @@ const Header = ({ activePage }) => {
   }, [menuOpen]);
 
   const navLinks = [
-    { href: '/api-docs', label: 'API Docs', id: 'api-docs' },
+    { href: '/api-docs', label: 'API Docs', id: 'api-docs', newTab: true },
     { href: '/case-studies', label: 'Case Studies', id: 'case-studies' },
     { href: '/about', label: 'About', id: 'about' },
     { href: '/contact', label: 'Contact Us', id: 'contact' },
@@ -103,6 +103,8 @@ const Header = ({ activePage }) => {
               <a
                 key={link.href}
                 href={link.href}
+                target={link.newTab ? '_blank' : undefined}
+                rel={link.newTab ? 'noopener noreferrer' : undefined}
                 style={{
                   color: 'white',
                   textDecoration: 'none',
@@ -190,6 +192,8 @@ const Header = ({ activePage }) => {
           <a
             key={link.href}
             href={link.href}
+            target={link.newTab ? '_blank' : undefined}
+            rel={link.newTab ? 'noopener noreferrer' : undefined}
             onClick={() => setMenuOpen(false)}
             style={{
               color: 'white',
