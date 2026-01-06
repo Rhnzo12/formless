@@ -71,19 +71,18 @@ const ApiDocs = () => {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          padding: '8px 12px',
+          padding: '10px 12px',
           color: isActive ? theme.text : theme.textMuted,
           textDecoration: 'none',
           fontSize: '14px',
-          backgroundColor: isActive ? theme.bgActive : 'transparent',
-          borderRadius: '6px',
-          margin: '0 8px',
+          backgroundColor: isActive ? (isDarkMode ? '#1a1a1a' : '#e8e8e8') : 'transparent',
+          borderRadius: '8px',
+          margin: '2px 8px',
           transition: 'all 0.15s ease',
-          borderLeft: isActive ? `2px solid ${theme.text}` : '2px solid transparent',
         }}
         onMouseEnter={(e) => {
           if (!isActive) {
-            e.currentTarget.style.backgroundColor = theme.bgHover;
+            e.currentTarget.style.backgroundColor = isDarkMode ? '#141414' : '#f0f0f0';
             e.currentTarget.style.color = theme.text;
           }
         }}
