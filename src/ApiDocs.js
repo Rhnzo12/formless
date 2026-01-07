@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 
 // Custom scrollbar styles for left-side scrollbar
 const scrollbarStyles = `
+  /* Hide main page scrollbar */
+  html, body {
+    overflow: hidden;
+  }
+
   .left-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
