@@ -21,13 +21,20 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Hide scrollbar on right panel */
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  /* Custom scrollbar on right panel */
+  .right-panel-scrollbar::-webkit-scrollbar {
+    width: 6px;
   }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .right-panel-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
 `;
 
@@ -1142,7 +1149,7 @@ const ApiDocs = () => {
                   borderRadius: '6px',
                   border: `1px solid ${theme.border}`,
                 }}>
-                  /v1#identity_get_by_email
+                  /v1#identity_get_by_email_address
                 </code>
                 <button style={{
                   backgroundColor: '#0d9488',
@@ -1982,7 +1989,7 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
-              className="hide-scrollbar"
+              className="right-panel-scrollbar"
               style={{
                 width: '420px',
                 flexShrink: 0,
@@ -2031,7 +2038,7 @@ const ApiDocs = () => {
                     </div>
                     <button
                       onClick={() => copyToClipboard(`curl --request POST \\
-  --url 'https://share-ddn.formless.xyz/v1' \\
+  --url 'https://share-ddn.formless.xyz/v1#identity_get_by_email_address' \\
   --header 'Authorization: Bearer <token>' \\
   --header 'Content-Type: application/json' \\
   --data '{
@@ -2074,7 +2081,7 @@ const ApiDocs = () => {
                     color: theme.textSecondary,
                   }}>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>
