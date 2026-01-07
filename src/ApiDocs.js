@@ -21,9 +21,9 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Horizontal scrollbar for code blocks */
+  /* Horizontal scrollbar for code blocks - always visible */
   .code-scroll {
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
@@ -34,7 +34,6 @@ const scrollbarStyles = `
   .code-scroll::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
-    margin: 0 4px;
   }
   .code-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
@@ -44,8 +43,9 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.4);
   }
 
-  /* Right-side vertical scrollbar for each code panel */
+  /* Right-side vertical scrollbar for each code panel - always visible */
   .code-panel-scroll {
+    overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
   }
