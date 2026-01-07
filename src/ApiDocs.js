@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 
 // Custom scrollbar styles for left-side scrollbar
 const scrollbarStyles = `
+  /* Hide main page scrollbar */
+  html, body {
+    overflow: hidden;
+  }
+
   .left-scrollbar::-webkit-scrollbar {
     width: 6px;
   }
@@ -14,6 +19,15 @@ const scrollbarStyles = `
   }
   .left-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Hide scrollbar on right panel */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 `;
 
@@ -1967,14 +1981,18 @@ const ApiDocs = () => {
               {/* End Left Column */}
 
             {/* Right Column - Code Panel (Sticky) */}
-            <div style={{
-              width: '420px',
-              flexShrink: 0,
-              position: 'sticky',
-              top: '104px',
-              alignSelf: 'flex-start',
-              height: 'fit-content',
-            }}>
+            <div
+              className="hide-scrollbar"
+              style={{
+                width: '420px',
+                flexShrink: 0,
+                position: 'sticky',
+                top: '104px',
+                alignSelf: 'flex-start',
+                height: 'fit-content',
+                maxHeight: 'calc(100vh - 124px)',
+                overflowY: 'auto',
+              }}>
               <div style={{
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
