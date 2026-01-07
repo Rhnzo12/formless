@@ -2028,12 +2028,15 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
+              className="right-panel-scroll"
               style={{
                 width: '420px',
                 flexShrink: 0,
                 position: 'sticky',
                 top: '104px',
                 alignSelf: 'flex-start',
+                maxHeight: 'calc(100vh - 140px)',
+                overflowY: 'auto',
               }}>
               <div style={{
                 backgroundColor: theme.bgCard,
