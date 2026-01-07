@@ -43,14 +43,15 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.4);
   }
 
-  /* Right-side vertical scrollbar for each code panel - always visible */
+  /* Both scrollbars for code panel - always visible and fixed */
   .code-panel-scroll {
-    overflow-y: scroll;
+    overflow: scroll;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
   }
   .code-panel-scroll::-webkit-scrollbar {
     width: 6px;
+    height: 8px;
   }
   .code-panel-scroll::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
@@ -62,6 +63,9 @@ const scrollbarStyles = `
   }
   .code-panel-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.4);
+  }
+  .code-panel-scroll::-webkit-scrollbar-corner {
+    background: rgba(255, 255, 255, 0.05);
   }
 
   /* Hide scrollbar on right panel */
@@ -2033,7 +2037,7 @@ const ApiDocs = () => {
                 alignSelf: 'flex-start',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '16px',
+                gap: '24px',
               }}>
 
               {/* First Panel - cURL Request */}
@@ -2110,17 +2114,16 @@ const ApiDocs = () => {
                   </div>
                 </div>
 
-                {/* cURL Code with left-side vertical scroll */}
-                <div className="code-panel-scroll" style={{ maxHeight: '160px', overflowY: 'auto' }}>
-                  <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
-                    <pre style={{
-                      fontSize: '11px',
-                      fontFamily: 'Monaco, Consolas, monospace',
-                      margin: 0,
-                      lineHeight: '1.5',
-                      color: theme.textSecondary,
-                      whiteSpace: 'pre',
-                    }}>
+                {/* cURL Code with both scrollbars fixed */}
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{
+                    fontSize: '11px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    margin: 0,
+                    lineHeight: '1.5',
+                    color: theme.textSecondary,
+                    whiteSpace: 'pre',
+                  }}>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
@@ -2135,8 +2138,7 @@ const ApiDocs = () => {
   }
 }
 `}<span style={{ color: '#fbbf24' }}>'</span>
-                    </pre>
-                  </div>
+                  </pre>
                 </div>
               </div>
 
@@ -2194,17 +2196,16 @@ const ApiDocs = () => {
                   </button>
                 </div>
 
-                {/* Response Code with left-side vertical scroll */}
-                <div className="code-panel-scroll" style={{ maxHeight: '160px', overflowY: 'auto' }}>
-                  <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
-                    <pre style={{
-                      fontSize: '11px',
-                      fontFamily: 'Monaco, Consolas, monospace',
-                      margin: 0,
-                      lineHeight: '1.5',
-                      color: theme.textSecondary,
-                      whiteSpace: 'pre',
-                    }}>
+                {/* Response Code with both scrollbars fixed */}
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{
+                    fontSize: '11px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    margin: 0,
+                    lineHeight: '1.5',
+                    color: theme.textSecondary,
+                    whiteSpace: 'pre',
+                  }}>
 {`{
   `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
   `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
@@ -2222,8 +2223,7 @@ const ApiDocs = () => {
     ]
   }
 }`}
-                    </pre>
-                  </div>
+                  </pre>
                 </div>
               </div>
             </div>
