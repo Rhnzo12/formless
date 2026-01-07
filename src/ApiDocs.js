@@ -44,14 +44,10 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.4);
   }
 
-  /* Left-side vertical scrollbar for each code panel */
+  /* Right-side vertical scrollbar for each code panel */
   .code-panel-scroll {
-    direction: rtl;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
-  }
-  .code-panel-scroll > * {
-    direction: ltr;
   }
   .code-panel-scroll::-webkit-scrollbar {
     width: 6px;
@@ -2115,7 +2111,7 @@ const ApiDocs = () => {
                 </div>
 
                 {/* cURL Code with left-side vertical scroll */}
-                <div className="code-panel-scroll" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', overflowY: 'auto' }}>
                   <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
                     <pre style={{
                       fontSize: '11px',
@@ -2199,7 +2195,7 @@ const ApiDocs = () => {
                 </div>
 
                 {/* Response Code with left-side vertical scroll */}
-                <div className="code-panel-scroll" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', overflowY: 'auto' }}>
                   <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
                     <pre style={{
                       fontSize: '11px',
