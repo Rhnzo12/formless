@@ -1261,7 +1261,7 @@ const ApiDocs = () => {
               }}>header</span>
               <span style={{
                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                color: '#dc2626',
+                color: '#f25c5c',
                 fontSize: '12px',
                 fontWeight: '600',
                 padding: '2px 8px',
@@ -1323,7 +1323,7 @@ const ApiDocs = () => {
                 }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1359,7 +1359,7 @@ const ApiDocs = () => {
                 }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1393,7 +1393,7 @@ const ApiDocs = () => {
                 }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>identity_get_by_email_address</span></span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1423,7 +1423,7 @@ const ApiDocs = () => {
                 }}>object</span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1501,7 +1501,7 @@ const ApiDocs = () => {
                       }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>user@example.com</span></span>
                       <span style={{
                         backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                        color: '#dc2626',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         fontWeight: '600',
                         padding: '2px 8px',
@@ -1563,7 +1563,7 @@ const ApiDocs = () => {
                 }}>enum&lt;string&gt;</span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1592,7 +1592,7 @@ const ApiDocs = () => {
                 }}>string</span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1623,7 +1623,7 @@ const ApiDocs = () => {
                 }}>object</span>
                 <span style={{
                   backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                  color: '#dc2626',
+                  color: '#f25c5c',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1730,7 +1730,7 @@ const ApiDocs = () => {
                               }}>enum&lt;boolean&gt;</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                                color: '#dc2626',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1765,7 +1765,7 @@ const ApiDocs = () => {
                               }}>string</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                                color: '#dc2626',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1797,7 +1797,7 @@ const ApiDocs = () => {
                               }}>string</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                                color: '#dc2626',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1882,7 +1882,7 @@ const ApiDocs = () => {
                               }}>enum&lt;boolean&gt;</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                                color: '#dc2626',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1917,7 +1917,7 @@ const ApiDocs = () => {
                               }}>string</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
-                                color: '#dc2626',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
