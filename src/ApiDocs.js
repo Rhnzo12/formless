@@ -1171,8 +1171,8 @@ const ApiDocs = () => {
                 marginBottom: '32px',
               }}>
                 <span style={{
-                  backgroundColor: '#0d9488',
-                  color: 'white',
+                  backgroundColor: 'transparent',
+                  color: '#60a5fa',
                   fontSize: '14px',
                   fontWeight: '700',
                   padding: '8px 16px',
@@ -1190,7 +1190,7 @@ const ApiDocs = () => {
                   /v1#identity_get_by_email_address
                 </code>
                 <button style={{
-                  backgroundColor: '#0d9488',
+                  backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
                   fontWeight: '600',
