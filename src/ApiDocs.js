@@ -21,20 +21,13 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Custom scrollbar on right panel */
-  .right-panel-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  /* Hide scrollbar on right panel */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
-  .right-panel-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-  }
-  .right-panel-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 3px;
-  }
-  .right-panel-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 `;
 
@@ -1989,7 +1982,7 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
-              className="right-panel-scrollbar"
+              className="hide-scrollbar"
               style={{
                 width: '420px',
                 flexShrink: 0,
