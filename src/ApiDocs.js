@@ -1100,6 +1100,7 @@ const ApiDocs = () => {
                 style={{
                   flex: 1,
                   minWidth: 0,
+                  marginRight: '460px',
                 }}>
                 {/* Inner content wrapper */}
                 <div>
