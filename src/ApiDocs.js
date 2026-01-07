@@ -1142,7 +1142,7 @@ const ApiDocs = () => {
                   borderRadius: '6px',
                   border: `1px solid ${theme.border}`,
                 }}>
-                  /v1#identity_get_by_email
+                  /v1#identity_get_by_email_address
                 </code>
                 <button style={{
                   backgroundColor: '#0d9488',
@@ -2031,7 +2031,7 @@ const ApiDocs = () => {
                     </div>
                     <button
                       onClick={() => copyToClipboard(`curl --request POST \\
-  --url 'https://share-ddn.formless.xyz/v1' \\
+  --url 'https://share-ddn.formless.xyz/v1#identity_get_by_email_address' \\
   --header 'Authorization: Bearer <token>' \\
   --header 'Content-Type: application/json' \\
   --data '{
@@ -2074,7 +2074,7 @@ const ApiDocs = () => {
                     color: theme.textSecondary,
                   }}>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>
