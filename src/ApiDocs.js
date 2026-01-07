@@ -597,6 +597,8 @@ const ApiDocs = () => {
         padding: '40px 60px',
         paddingTop: '120px',
         transition: 'margin-right 0.2s ease',
+        height: '100vh',
+        overflowY: 'auto',
       }}>
         {/* Welcome Page Content */}
         {activeSection === 'welcome' && (
