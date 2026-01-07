@@ -21,27 +21,24 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* Left-side scrollbar for right panel */
-  .right-panel-scrollbar {
-    direction: rtl;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  /* Horizontal scrollbar for code blocks */
+  .code-scroll::-webkit-scrollbar {
+    height: 8px;
   }
-  .right-panel-scrollbar > * {
-    direction: ltr;
+  .code-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
   }
-  .right-panel-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .right-panel-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .right-panel-scrollbar::-webkit-scrollbar-thumb {
+  .code-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    border-radius: 4px;
   }
-  .right-panel-scrollbar::-webkit-scrollbar-thumb:hover {
+  .code-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+  }
+  .code-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
   }
 
   /* Hide scrollbar on right panel */
@@ -2005,7 +2002,7 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
-              className="right-panel-scrollbar"
+              className="hide-scrollbar"
               style={{
                 width: '420px',
                 flexShrink: 0,
@@ -2089,7 +2086,7 @@ const ApiDocs = () => {
                 </div>
 
                 {/* cURL Code */}
-                <div style={{ padding: '14px', overflowX: 'auto' }}>
+                <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
                   <pre style={{
                     fontSize: '11px',
                     fontFamily: 'Monaco, Consolas, monospace',
@@ -2158,7 +2155,7 @@ const ApiDocs = () => {
                       )}
                     </button>
                   </div>
-                  <div style={{ padding: '14px', overflowX: 'auto' }}>
+                  <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
                     <pre style={{
                       fontSize: '11px',
                       fontFamily: 'Monaco, Consolas, monospace',
