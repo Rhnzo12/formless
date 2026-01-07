@@ -2024,14 +2024,14 @@ const ApiDocs = () => {
               </div>
               {/* End Left Column */}
 
-            {/* Right Column - Code Panels (Sticky) */}
+            {/* Right Column - Code Panels (Fixed) */}
             <div
               style={{
                 width: '420px',
                 flexShrink: 0,
-                position: 'sticky',
-                top: '104px',
-                alignSelf: 'flex-start',
+                position: 'fixed',
+                top: '120px',
+                right: '40px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '24px',
