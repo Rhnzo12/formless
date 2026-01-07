@@ -1,5 +1,22 @@
 import { useState, useEffect } from 'react';
 
+// Custom scrollbar styles for left-side scrollbar
+const scrollbarStyles = `
+  .left-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .left-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .left-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  .left-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+`;
+
 const ApiDocs = () => {
   const [activeSection, setActiveSection] = useState('welcome');
   const [copiedCode, setCopiedCode] = useState(null);
@@ -183,6 +200,8 @@ const ApiDocs = () => {
   );
 
   return (
+    <>
+    <style>{scrollbarStyles}</style>
     <div style={{
       display: 'flex',
       minHeight: '100vh',
@@ -1015,13 +1034,15 @@ const ApiDocs = () => {
             {/* Two Column Layout */}
             <div style={{ display: 'flex', gap: '40px', height: 'calc(100vh - 144px)' }}>
               {/* Left Column - Documentation with left-side scrollbar */}
-              <div style={{
-                flex: 1,
-                minWidth: 0,
-                overflowY: 'auto',
-                direction: 'rtl',
-                paddingRight: '20px',
-              }}>
+              <div
+                className="left-scrollbar"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  overflowY: 'auto',
+                  direction: 'rtl',
+                  paddingRight: '20px',
+                }}>
                 {/* Inner content wrapper to restore LTR direction */}
                 <div style={{ direction: 'ltr' }}>
                 {/* Breadcrumb */}
@@ -2228,6 +2249,7 @@ const ApiDocs = () => {
         `}
       </style>
     </div>
+    </>
   );
 };
 
