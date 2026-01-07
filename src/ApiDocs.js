@@ -1094,15 +1094,19 @@ const ApiDocs = () => {
         {activeSection === 'identity-lookup' && (
           <>
             {/* Two Column Layout */}
-            <div style={{ display: 'flex', gap: '40px' }}>
-              {/* Left Column - Documentation */}
+            <div style={{ display: 'flex', gap: '40px', height: 'calc(100vh - 120px)' }}>
+              {/* Left Column - Documentation with left-side scrollbar */}
               <div
+                className="left-scrollbar"
                 style={{
                   flex: 1,
                   minWidth: 0,
+                  overflowY: 'auto',
+                  direction: 'rtl',
+                  paddingRight: '20px',
                 }}>
-                {/* Inner content wrapper */}
-                <div>
+                {/* Inner content wrapper to restore LTR direction */}
+                <div style={{ direction: 'ltr' }}>
                 {/* Breadcrumb */}
                 <div style={{
                   fontSize: '14px',
