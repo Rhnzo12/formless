@@ -1013,9 +1013,17 @@ const ApiDocs = () => {
         {activeSection === 'identity-lookup' && (
           <>
             {/* Two Column Layout */}
-            <div style={{ display: 'flex', gap: '40px' }}>
-              {/* Left Column - Documentation */}
-              <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', gap: '40px', height: 'calc(100vh - 144px)' }}>
+              {/* Left Column - Documentation with left-side scrollbar */}
+              <div style={{
+                flex: 1,
+                minWidth: 0,
+                overflowY: 'auto',
+                direction: 'rtl',
+                paddingRight: '20px',
+              }}>
+                {/* Inner content wrapper to restore LTR direction */}
+                <div style={{ direction: 'ltr' }}>
                 {/* Breadcrumb */}
                 <div style={{
                   fontSize: '14px',
@@ -1873,6 +1881,92 @@ const ApiDocs = () => {
               </div>
             </div>
           </div>
+
+          {/* Navigation inside left column */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingTop: '24px',
+            borderTop: `1px solid ${theme.border}`,
+            marginTop: '40px',
+            marginBottom: '40px',
+          }}>
+            <a
+              href="#welcome"
+              onClick={(e) => { e.preventDefault(); scrollToSection('welcome'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: theme.text,
+                textDecoration: 'none',
+                fontSize: '14px',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+              Welcome to the SHARE Protocol API
+            </a>
+            <a
+              href="#create-contract"
+              onClick={(e) => { e.preventDefault(); scrollToSection('create-contract'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: theme.text,
+                textDecoration: 'none',
+                fontSize: '14px',
+                transition: 'opacity 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              Create Contract
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </a>
+          </div>
+
+          {/* Footer inside left column */}
+          <footer style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingTop: '24px',
+            borderTop: `1px solid ${theme.border}`,
+          }}>
+            <a
+              href="https://github.com/formless"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: theme.textDimmed, transition: 'color 0.2s ease' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <span style={{ color: theme.textDimmed, fontSize: '14px' }}>
+              Powered by{' '}
+              <a
+                href="https://mintlify.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'white', fontWeight: '600', textDecoration: 'none' }}
+              >
+                mintlify
+              </a>
+            </span>
+          </footer>
+                </div>
+                {/* End inner content wrapper */}
               </div>
               {/* End Left Column */}
 
@@ -2055,88 +2149,6 @@ const ApiDocs = () => {
           </div>
           {/* End Two Column Layout */}
 
-          {/* Identity Lookup Navigation */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            paddingTop: '24px',
-            borderTop: `1px solid ${theme.border}`,
-            marginBottom: '40px',
-          }}>
-            <a
-              href="#welcome"
-              onClick={(e) => { e.preventDefault(); scrollToSection('welcome'); }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: theme.text,
-                textDecoration: 'none',
-                fontSize: '14px',
-                transition: 'opacity 0.2s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-              Welcome to the SHARE Protocol API
-            </a>
-            <a
-              href="#create-contract"
-              onClick={(e) => { e.preventDefault(); scrollToSection('create-contract'); }}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: theme.text,
-                textDecoration: 'none',
-                fontSize: '14px',
-                transition: 'opacity 0.2s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-            >
-              Create Contract
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </a>
-          </div>
-
-        {/* Identity Lookup Footer */}
-        <footer style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingTop: '24px',
-          borderTop: `1px solid ${theme.border}`,
-        }}>
-          <a
-            href="https://github.com/formless"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: theme.textDimmed, transition: 'color 0.2s ease' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          <span style={{ color: theme.textDimmed, fontSize: '14px' }}>
-            Powered by{' '}
-            <a
-              href="https://mintlify.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'white', fontWeight: '600', textDecoration: 'none' }}
-            >
-              mintlify
-            </a>
-          </span>
-        </footer>
           </>
         )}
       </main>
