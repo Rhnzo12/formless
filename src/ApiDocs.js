@@ -462,7 +462,7 @@ const ApiDocs = () => {
         backgroundColor: theme.bgSecondary,
         borderRight: `1px solid ${theme.border}`,
         padding: '24px 0',
-        paddingTop: '88px',
+        paddingTop: '104px',
         position: 'fixed',
         top: 0,
         left: 0,
@@ -595,7 +595,7 @@ const ApiDocs = () => {
         marginLeft: '280px',
         marginRight: activeSection === 'identity-lookup' ? '20px' : '260px',
         padding: '40px 60px',
-        paddingTop: '104px',
+        paddingTop: '120px',
         transition: 'margin-right 0.2s ease',
       }}>
         {/* Welcome Page Content */}
@@ -2240,9 +2240,9 @@ const ApiDocs = () => {
         <aside style={{
           width: '240px',
           position: 'fixed',
-          top: '64px',
+          top: '80px',
           right: 0,
-          height: 'calc(100vh - 64px)',
+          height: 'calc(100vh - 80px)',
           borderLeft: `1px solid ${theme.border}`,
           backgroundColor: theme.bg,
           overflowY: 'auto',
