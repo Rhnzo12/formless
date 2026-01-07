@@ -1166,24 +1166,22 @@ const ApiDocs = () => {
             }}>
               <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
               <span style={{
-                backgroundColor: theme.bgCard,
-                color: theme.textMuted,
+                backgroundColor: theme.bgTertiary,
+                color: theme.text,
                 fontSize: '12px',
                 padding: '2px 8px',
                 borderRadius: '4px',
-                border: `1px solid ${theme.border}`,
               }}>string</span>
               <span style={{
-                backgroundColor: theme.bgCard,
-                color: theme.textMuted,
+                backgroundColor: theme.bgTertiary,
+                color: theme.text,
                 fontSize: '12px',
                 padding: '2px 8px',
                 borderRadius: '4px',
-                border: `1px solid ${theme.border}`,
               }}>header</span>
               <span style={{
-                backgroundColor: '#dc2626',
-                color: 'white',
+                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                color: '#dc2626',
                 fontSize: '12px',
                 fontWeight: '600',
                 padding: '2px 8px',
@@ -1231,24 +1229,21 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>enum&lt;string&gt;</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
-                }}>default:2.0</span>
+                }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1256,7 +1251,7 @@ const ApiDocs = () => {
                 }}>required</span>
               </div>
               <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                Available options: <code style={{ backgroundColor: theme.bgCard, padding: '2px 6px', borderRadius: '4px' }}>2.0</code>
+                Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code>
               </p>
             </div>
 
@@ -1270,24 +1265,21 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>string</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
-                }}>default:1</span>
+                }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1307,24 +1299,21 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>method</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>enum&lt;string&gt;</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
-                }}>default:identity_get_by_email_address</span>
+                }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>identity_get_by_email_address</span></span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1332,7 +1321,7 @@ const ApiDocs = () => {
                 }}>required</span>
               </div>
               <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                Available options: <code style={{ backgroundColor: theme.bgCard, padding: '2px 6px', borderRadius: '4px' }}>identity_get_by_email_address</code>
+                Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>identity_get_by_email_address</code>
               </p>
             </div>
 
@@ -1346,16 +1335,15 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>params</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>object</span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1420,23 +1408,20 @@ const ApiDocs = () => {
                       <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
                       <span style={{
                         backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
+                        color: theme.text,
                         fontSize: '12px',
                         padding: '2px 8px',
                         borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
                       }}>string&lt;email&gt;</span>
                       <span style={{
                         backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
                         fontSize: '12px',
                         padding: '2px 8px',
                         borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>default:user@example.com</span>
+                      }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>user@example.com</span></span>
                       <span style={{
-                        backgroundColor: '#dc2626',
-                        color: 'white',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#dc2626',
                         fontSize: '12px',
                         fontWeight: '600',
                         padding: '2px 8px',
@@ -1490,16 +1475,15 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>enum&lt;string&gt;</span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1507,7 +1491,7 @@ const ApiDocs = () => {
                 }}>required</span>
               </div>
               <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                Available options: <code style={{ backgroundColor: theme.bgCard, padding: '2px 6px', borderRadius: '4px' }}>2.0</code>
+                Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code>
               </p>
             </div>
 
@@ -1520,16 +1504,15 @@ const ApiDocs = () => {
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>string</span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1552,16 +1535,15 @@ const ApiDocs = () => {
                 </svg>
                 <span style={{ color: theme.text, fontWeight: '500' }}>result</span>
                 <span style={{
-                  backgroundColor: theme.bgCard,
-                  color: theme.textMuted,
+                  backgroundColor: theme.bgTertiary,
+                  color: theme.text,
                   fontSize: '12px',
                   padding: '2px 8px',
                   borderRadius: '4px',
-                  border: `1px solid ${theme.border}`,
                 }}>object</span>
                 <span style={{
-                  backgroundColor: '#dc2626',
-                  color: 'white',
+                  backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                  color: '#dc2626',
                   fontSize: '12px',
                   fontWeight: '600',
                   padding: '2px 8px',
@@ -1661,15 +1643,14 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>enum&lt;boolean&gt;</span>
                               <span style={{
-                                backgroundColor: '#dc2626',
-                                color: 'white',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#dc2626',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1697,15 +1678,14 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>user_unique_id</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>string</span>
                               <span style={{
-                                backgroundColor: '#dc2626',
-                                color: 'white',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#dc2626',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1730,15 +1710,14 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>string</span>
                               <span style={{
-                                backgroundColor: '#dc2626',
-                                color: 'white',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#dc2626',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1763,11 +1742,10 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>display_name</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>string</span>
                             </div>
                             <p style={{ fontSize: '14px', color: theme.textMuted }}>
@@ -1788,11 +1766,10 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>verified_identity</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>boolean</span>
                             </div>
                             <p style={{ fontSize: '14px', color: theme.textMuted }}>
@@ -1818,15 +1795,14 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>enum&lt;boolean&gt;</span>
                               <span style={{
-                                backgroundColor: '#dc2626',
-                                color: 'white',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#dc2626',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
@@ -1854,15 +1830,14 @@ const ApiDocs = () => {
                               <span style={{ color: theme.text, fontWeight: '500' }}>message</span>
                               <span style={{
                                 backgroundColor: theme.bgTertiary,
-                                color: theme.textMuted,
+                                color: theme.text,
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                                border: `1px solid ${theme.border}`,
                               }}>string</span>
                               <span style={{
-                                backgroundColor: '#dc2626',
-                                color: 'white',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#dc2626',
                                 fontSize: '12px',
                                 fontWeight: '600',
                                 padding: '2px 8px',
