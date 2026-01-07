@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 
 // Custom scrollbar styles for left-side scrollbar
 const scrollbarStyles = `
-  /* Hide main page scrollbar */
+  /* Allow vertical scroll on page, hide horizontal */
   html, body {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .left-scrollbar::-webkit-scrollbar {
@@ -597,8 +598,6 @@ const ApiDocs = () => {
         padding: '40px 60px',
         paddingTop: '120px',
         transition: 'margin-right 0.2s ease',
-        height: '100vh',
-        overflowY: 'auto',
       }}>
         {/* Welcome Page Content */}
         {activeSection === 'welcome' && (
