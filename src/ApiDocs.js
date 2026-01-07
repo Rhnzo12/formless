@@ -2101,12 +2101,12 @@ const ApiDocs = () => {
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>
 {`{`}
-  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
-  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,
-  <span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"identity_get_by_email_address"</span>,
-  <span style={{ color: '#60a5fa' }}>"params"</span>: {`{`}
-    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"user@example.com"</span>
-  {`}`}
+<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
+<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,
+<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"identity_get_by_email_address"</span>,
+<span style={{ color: '#60a5fa' }}>"params"</span>: {`{`}
+{`  `}<span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"user@example.com"</span>
+{`}`}
 {`}`}<span style={{ color: '#fbbf24' }}>'</span>
                   </pre>
                 </div>
@@ -2165,17 +2165,17 @@ const ApiDocs = () => {
                       whiteSpace: 'pre',
                     }}>
 {`{`}
-  <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
-  <span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-  <span style={{ color: '#60a5fa' }}>"result"</span>: {`{`}
-    <span style={{ color: '#60a5fa' }}>"success"</span>: <span style={{ color: '#4ade80' }}>true</span>,
-    <span style={{ color: '#60a5fa' }}>"user_unique_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-    <span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"jsmith@example.com"</span>,
-    <span style={{ color: '#60a5fa' }}>"display_name"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
-    <span style={{ color: '#60a5fa' }}>"verified_identity"</span>: <span style={{ color: '#4ade80' }}>true</span>,
-    <span style={{ color: '#60a5fa' }}>"financial_accounts"</span>: [{`{}`}],
-    <span style={{ color: '#60a5fa' }}>"verifications"</span>: [{`{}`}]
-  {`}`}
+<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
+<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+<span style={{ color: '#60a5fa' }}>"result"</span>: {`{`}
+{`  `}<span style={{ color: '#60a5fa' }}>"success"</span>: <span style={{ color: '#4ade80' }}>true</span>,
+{`  `}<span style={{ color: '#60a5fa' }}>"user_unique_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+{`  `}<span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"jsmith@example.com"</span>,
+{`  `}<span style={{ color: '#60a5fa' }}>"display_name"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,
+{`  `}<span style={{ color: '#60a5fa' }}>"verified_identity"</span>: <span style={{ color: '#4ade80' }}>true</span>,
+{`  `}<span style={{ color: '#60a5fa' }}>"financial_accounts"</span>: [{`{}`}],
+{`  `}<span style={{ color: '#60a5fa' }}>"verifications"</span>: [{`{}`}]
+{`}`}
 {`}`}
                     </pre>
                   </div>
