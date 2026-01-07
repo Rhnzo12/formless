@@ -2072,6 +2072,7 @@ const ApiDocs = () => {
                     margin: 0,
                     lineHeight: '1.5',
                     color: theme.textSecondary,
+                    whiteSpace: 'pre',
                   }}>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
@@ -2140,6 +2141,7 @@ const ApiDocs = () => {
                       margin: 0,
                       lineHeight: '1.5',
                       color: theme.textSecondary,
+                      whiteSpace: 'pre',
                     }}>
 {`{`}
   <span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,
