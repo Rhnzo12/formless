@@ -6,7 +6,9 @@ const ApiDocs = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [showParamsChildren, setShowParamsChildren] = useState(false);
+  const [showResultChildren, setShowResultChildren] = useState(true);
+  const [activeResponseOption, setActiveResponseOption] = useState(1);
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -1353,38 +1355,88 @@ const ApiDocs = () => {
                 }}>required</span>
               </div>
 
-              {/* Nested params.email_address */}
+              {/* Collapsible params container */}
               <div style={{
-                marginLeft: '24px',
-                paddingLeft: '16px',
-                borderLeft: `2px solid ${theme.border}`,
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
               }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  marginBottom: '8px',
-                  flexWrap: 'wrap',
-                }}>
-                  <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
-                  <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
-                  <span style={{
-                    backgroundColor: theme.bgCard,
+                {/* Show/Hide child attributes toggle */}
+                <div
+                  onClick={() => setShowParamsChildren(!showParamsChildren)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '16px 20px',
                     color: theme.textMuted,
-                    fontSize: '12px',
-                    padding: '2px 8px',
-                    borderRadius: '4px',
-                    border: `1px solid ${theme.border}`,
-                  }}>string&lt;email&gt;</span>
-                  <span style={{
-                    backgroundColor: theme.bgCard,
-                    color: theme.textMuted,
-                    fontSize: '12px',
-                    padding: '2px 8px',
-                    borderRadius: '4px',
-                    border: `1px solid ${theme.border}`,
-                  }}>default:user@example.com</span>
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.bgHover}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    style={{
+                      transform: showParamsChildren ? 'rotate(90deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                    }}
+                  >
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                  {showParamsChildren ? 'Hide child attributes' : 'Show child attributes'}
                 </div>
+
+                {/* Nested params.email_address - shown when expanded */}
+                {showParamsChildren && (
+                  <div style={{
+                    padding: '0 20px 20px 20px',
+                    borderTop: `1px solid ${theme.border}`,
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      paddingTop: '16px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                      <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>string&lt;email&gt;</span>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        border: `1px solid ${theme.border}`,
+                      }}>default:user@example.com</span>
+                      <span style={{
+                        backgroundColor: '#dc2626',
+                        color: 'white',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -1516,197 +1568,307 @@ const ApiDocs = () => {
                 border: `1px solid ${theme.border}`,
                 overflow: 'hidden',
               }}>
+                {/* Tab Headers */}
                 <div style={{
                   display: 'flex',
                   borderBottom: `1px solid ${theme.border}`,
                 }}>
-                  <button style={{
-                    padding: '12px 20px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: theme.text,
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    borderBottom: `2px solid ${theme.text}`,
-                  }}>Option 1</button>
-                  <button style={{
-                    padding: '12px 20px',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: theme.textMuted,
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                  }}>Option 2</button>
+                  <button
+                    onClick={() => setActiveResponseOption(1)}
+                    style={{
+                      padding: '12px 20px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: activeResponseOption === 1 ? theme.text : theme.textMuted,
+                      fontSize: '14px',
+                      fontWeight: activeResponseOption === 1 ? '500' : '400',
+                      cursor: 'pointer',
+                      borderBottom: activeResponseOption === 1 ? `2px solid ${theme.text}` : '2px solid transparent',
+                      marginBottom: '-1px',
+                    }}
+                  >Option 1</button>
+                  <button
+                    onClick={() => setActiveResponseOption(2)}
+                    style={{
+                      padding: '12px 20px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: activeResponseOption === 2 ? theme.text : theme.textMuted,
+                      fontSize: '14px',
+                      fontWeight: activeResponseOption === 2 ? '500' : '400',
+                      cursor: 'pointer',
+                      borderBottom: activeResponseOption === 2 ? `2px solid ${theme.text}` : '2px solid transparent',
+                      marginBottom: '-1px',
+                    }}
+                  >Option 2</button>
                 </div>
 
                 <div style={{ padding: '20px' }}>
-                  {/* Hide child attributes toggle */}
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    marginBottom: '20px',
-                    color: theme.textMuted,
-                    fontSize: '14px',
-                  }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M6 9l6 6 6-6"/>
+                  {/* Show/Hide child attributes toggle */}
+                  <div
+                    onClick={() => setShowResultChildren(!showResultChildren)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '20px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      style={{
+                        transform: showResultChildren ? 'rotate(90deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s ease',
+                      }}
+                    >
+                      <path d="M9 18l6-6-6-6"/>
                     </svg>
-                    Hide child attributes
+                    {showResultChildren ? 'Hide child attributes' : 'Show child attributes'}
                   </div>
 
-                  {/* result.success */}
-                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '8px',
-                      flexWrap: 'wrap',
-                    }}>
-                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>enum&lt;boolean&gt;</span>
-                      <span style={{
-                        backgroundColor: '#dc2626',
-                        color: 'white',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                      }}>required</span>
-                    </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>
-                      Indicates if the request was successful
-                    </p>
-                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                      Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>false</code>
-                    </p>
-                  </div>
+                  {/* Content shown when expanded */}
+                  {showResultChildren && (
+                    <>
+                      {/* Option 1 Content - Success Response */}
+                      {activeResponseOption === 1 && (
+                        <>
+                          {/* result.success */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>enum&lt;boolean&gt;</span>
+                              <span style={{
+                                backgroundColor: '#dc2626',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>
+                              Indicates if the request was successful
+                            </p>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>false</code>
+                            </p>
+                          </div>
 
-                  {/* result.user_unique_id */}
-                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '8px',
-                      flexWrap: 'wrap',
-                    }}>
-                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>user_unique_id</span>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>string</span>
-                      <span style={{
-                        backgroundColor: '#dc2626',
-                        color: 'white',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                      }}>required</span>
-                    </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                      The Unique ID of the user
-                    </p>
-                  </div>
+                          {/* result.user_unique_id */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>user_unique_id</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>string</span>
+                              <span style={{
+                                backgroundColor: '#dc2626',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              The Unique ID of the user
+                            </p>
+                          </div>
 
-                  {/* result.email_address */}
-                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '8px',
-                      flexWrap: 'wrap',
-                    }}>
-                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>string</span>
-                      <span style={{
-                        backgroundColor: '#dc2626',
-                        color: 'white',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                      }}>required</span>
-                    </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                      The email address of the user
-                    </p>
-                  </div>
+                          {/* result.email_address */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>string</span>
+                              <span style={{
+                                backgroundColor: '#dc2626',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              The email address of the user
+                            </p>
+                          </div>
 
-                  {/* result.display_name */}
-                  <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '8px',
-                      flexWrap: 'wrap',
-                    }}>
-                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>display_name</span>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>string</span>
-                    </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                      The display name of the user
-                    </p>
-                  </div>
+                          {/* result.display_name */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>display_name</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>string</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              The display name of the user
+                            </p>
+                          </div>
 
-                  {/* result.verified_identity */}
-                  <div>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      marginBottom: '8px',
-                      flexWrap: 'wrap',
-                    }}>
-                      <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>verified_identity</span>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                        padding: '2px 8px',
-                        borderRadius: '4px',
-                        border: `1px solid ${theme.border}`,
-                      }}>boolean</span>
-                    </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted }}>
-                      Whether the user's identity has been verified
-                    </p>
-                  </div>
+                          {/* result.verified_identity */}
+                          <div>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>verified_identity</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>boolean</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Whether the user's identity has been verified
+                            </p>
+                          </div>
+                        </>
+                      )}
+
+                      {/* Option 2 Content - Error Response */}
+                      {activeResponseOption === 2 && (
+                        <>
+                          {/* result.success */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>success</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>enum&lt;boolean&gt;</span>
+                              <span style={{
+                                backgroundColor: '#dc2626',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>
+                              Indicates the request failed
+                            </p>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px' }}>false</code>
+                            </p>
+                          </div>
+
+                          {/* result.message */}
+                          <div>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>message</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.textMuted,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                                border: `1px solid ${theme.border}`,
+                              }}>string</span>
+                              <span style={{
+                                backgroundColor: '#dc2626',
+                                color: 'white',
+                                fontSize: '12px',
+                                fontWeight: '600',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Error message describing why the request failed
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
