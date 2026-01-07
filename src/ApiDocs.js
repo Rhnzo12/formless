@@ -44,27 +44,28 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.4);
   }
 
-  /* Left-side scrollbar for right panel */
-  .right-panel-scroll {
+  /* Left-side vertical scrollbar for each code panel */
+  .code-panel-scroll {
     direction: rtl;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
   }
-  .right-panel-scroll > * {
+  .code-panel-scroll > * {
     direction: ltr;
   }
-  .right-panel-scroll::-webkit-scrollbar {
+  .code-panel-scroll::-webkit-scrollbar {
     width: 6px;
   }
-  .right-panel-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .right-panel-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+  .code-panel-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
   }
-  .right-panel-scroll::-webkit-scrollbar-thumb:hover {
+  .code-panel-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+  .code-panel-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
   }
 
   /* Hide scrollbar on right panel */
@@ -2026,18 +2027,20 @@ const ApiDocs = () => {
               </div>
               {/* End Left Column */}
 
-            {/* Right Column - Code Panel (Sticky) */}
+            {/* Right Column - Code Panels (Sticky) */}
             <div
-              className="right-panel-scroll"
               style={{
                 width: '420px',
                 flexShrink: 0,
                 position: 'sticky',
                 top: '104px',
                 alignSelf: 'flex-start',
-                maxHeight: 'calc(100vh - 140px)',
-                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
               }}>
+
+              {/* First Panel - cURL Request */}
               <div style={{
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
@@ -2111,16 +2114,17 @@ const ApiDocs = () => {
                   </div>
                 </div>
 
-                {/* cURL Code */}
-                <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
-                  <pre style={{
-                    fontSize: '11px',
-                    fontFamily: 'Monaco, Consolas, monospace',
-                    margin: 0,
-                    lineHeight: '1.5',
-                    color: theme.textSecondary,
-                    whiteSpace: 'pre',
-                  }}>
+                {/* cURL Code with left-side vertical scroll */}
+                <div className="code-panel-scroll" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+                  <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
+                    <pre style={{
+                      fontSize: '11px',
+                      fontFamily: 'Monaco, Consolas, monospace',
+                      margin: 0,
+                      lineHeight: '1.5',
+                      color: theme.textSecondary,
+                      whiteSpace: 'pre',
+                    }}>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
@@ -2135,21 +2139,28 @@ const ApiDocs = () => {
   }
 }
 `}<span style={{ color: '#fbbf24' }}>'</span>
-                  </pre>
+                    </pre>
+                  </div>
                 </div>
+              </div>
 
-                {/* Response Section */}
-                <div style={{ borderTop: `1px solid ${theme.border}` }}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '10px 16px',
-                    backgroundColor: theme.bgSecondary,
-                  }}>
-                    <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
-                    <button
-                      onClick={() => copyToClipboard(`{
+              {/* Second Panel - Response */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px 16px',
+                  backgroundColor: theme.bgSecondary,
+                }}>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                  <button
+                    onClick={() => copyToClipboard(`{
   "jsonrpc": "2.0",
   "id": "<string>",
   "result": {
@@ -2166,26 +2177,29 @@ const ApiDocs = () => {
     ]
   }
 }`, 'response-identity')}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: theme.textMuted,
-                        cursor: 'pointer',
-                        padding: '4px',
-                      }}
-                    >
-                      {copiedCode === 'response-identity' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                      ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                        </svg>
-                      )}
-                    </button>
-                  </div>
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: theme.textMuted,
+                      cursor: 'pointer',
+                      padding: '4px',
+                    }}
+                  >
+                    {copiedCode === 'response-identity' ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+
+                {/* Response Code with left-side vertical scroll */}
+                <div className="code-panel-scroll" style={{ maxHeight: '220px', overflowY: 'auto' }}>
                   <div className="code-scroll" style={{ padding: '14px', overflowX: 'auto' }}>
                     <pre style={{
                       fontSize: '11px',
