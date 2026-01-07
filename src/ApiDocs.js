@@ -21,6 +21,29 @@ const scrollbarStyles = `
     background: rgba(255, 255, 255, 0.3);
   }
 
+  /* Left-side scrollbar for right panel */
+  .right-panel-scrollbar {
+    direction: rtl;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+  .right-panel-scrollbar > * {
+    direction: ltr;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  .right-panel-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
   /* Hide scrollbar on right panel */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -1982,15 +2005,15 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
-              className="hide-scrollbar"
+              className="right-panel-scrollbar"
               style={{
                 width: '420px',
                 flexShrink: 0,
                 position: 'sticky',
                 top: '104px',
                 alignSelf: 'flex-start',
-                height: 'fit-content',
-                maxHeight: 'calc(100vh - 124px)',
+                height: 'calc(100vh - 144px)',
+                minHeight: '500px',
                 overflowY: 'auto',
               }}>
               <div style={{
@@ -1998,6 +2021,7 @@ const ApiDocs = () => {
                 borderRadius: '12px',
                 border: `1px solid ${theme.border}`,
                 overflow: 'hidden',
+                minHeight: '480px',
               }}>
                 {/* Panel Header */}
                 <div style={{
