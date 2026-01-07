@@ -22,23 +22,26 @@ const scrollbarStyles = `
   }
 
   /* Horizontal scrollbar for code blocks */
+  .code-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+  }
   .code-scroll::-webkit-scrollbar {
     height: 8px;
   }
   .code-scroll::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    margin: 0 4px;
   }
   .code-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
   }
   .code-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-  .code-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.4);
   }
 
   /* Left-side scrollbar for right panel */
@@ -2025,15 +2028,12 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panel (Sticky) */}
             <div
-              className="right-panel-scroll"
               style={{
                 width: '420px',
                 flexShrink: 0,
                 position: 'sticky',
                 top: '104px',
                 alignSelf: 'flex-start',
-                maxHeight: 'calc(100vh - 180px)',
-                overflowY: 'auto',
               }}>
               <div style={{
                 backgroundColor: theme.bgCard,
