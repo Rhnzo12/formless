@@ -1241,8 +1241,8 @@ const ApiDocs = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              marginBottom: '8px',
+              gap: '12px',
+              marginBottom: '12px',
             }}>
               <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
               <span style={{
