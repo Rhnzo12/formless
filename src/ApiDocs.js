@@ -515,7 +515,7 @@ const ApiDocs = () => {
         <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '12px',
+            marginBottom: '16px',
             fontSize: '12px',
             fontWeight: '600',
             color: theme.text,
@@ -533,7 +533,7 @@ const ApiDocs = () => {
         <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '12px',
+            marginBottom: '16px',
             fontSize: '12px',
             fontWeight: '600',
             color: theme.text,
@@ -551,7 +551,7 @@ const ApiDocs = () => {
         <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '12px',
+            marginBottom: '16px',
             fontSize: '12px',
             fontWeight: '600',
             color: theme.text,
@@ -572,7 +572,7 @@ const ApiDocs = () => {
         <div style={{ marginBottom: '32px' }}>
           <div style={{
             padding: '0 20px',
-            marginBottom: '12px',
+            marginBottom: '16px',
             fontSize: '12px',
             fontWeight: '600',
             color: theme.text,
@@ -821,7 +821,7 @@ const ApiDocs = () => {
             <h3 style={{
               fontSize: '20px',
               fontWeight: '600',
-              marginBottom: '12px',
+              marginBottom: '16px',
             }}>
               1. API Endpoint
             </h3>
@@ -877,7 +877,7 @@ const ApiDocs = () => {
             <h3 style={{
               fontSize: '20px',
               fontWeight: '600',
-              marginBottom: '12px',
+              marginBottom: '16px',
             }}>
               2. Authentication
             </h3>
@@ -933,7 +933,7 @@ const ApiDocs = () => {
             <h3 style={{
               fontSize: '20px',
               fontWeight: '600',
-              marginBottom: '12px',
+              marginBottom: '16px',
             }}>
               3. Request Format
             </h3>
@@ -1242,7 +1242,7 @@ const ApiDocs = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '16px',
-              marginBottom: '12px',
+              marginBottom: '16px',
             }}>
               <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
               <span style={{
@@ -1375,7 +1375,7 @@ const ApiDocs = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '12px',
+                marginBottom: '16px',
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
@@ -1388,7 +1388,7 @@ const ApiDocs = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '12px',
+                marginBottom: '16px',
                 flexWrap: 'wrap',
               }}>
                 <span style={{
@@ -1424,7 +1424,7 @@ const ApiDocs = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '12px',
+                marginBottom: '16px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>params</span>
                 <span style={{
@@ -1496,7 +1496,7 @@ const ApiDocs = () => {
                       alignItems: 'center',
                       gap: '16px',
                       paddingTop: '16px',
-                      marginBottom: '12px',
+                      marginBottom: '16px',
                     }}>
                       <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
                       <span style={{ color: theme.textMuted, fontWeight: '400' }}>email_address</span>
@@ -1573,7 +1573,7 @@ const ApiDocs = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '12px',
+                marginBottom: '16px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
                 <span style={{
@@ -1629,7 +1629,7 @@ const ApiDocs = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '16px',
-                marginBottom: '12px',
+                marginBottom: '16px',
               }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
