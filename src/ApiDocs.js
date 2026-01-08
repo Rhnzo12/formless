@@ -92,11 +92,11 @@ const ApiDocs = () => {
   useEffect(() => {
     const titles = {
       'welcome': 'Welcome to the SHARE Protocol API',
-      'identity-lookup': 'Identity Lookup - Account Management',
-      'create-contract': 'Create Contract - Revenue Sharing',
-      'fetch-split-data': 'Fetch Split Data - Revenue Sharing',
-      'execute-payout': 'Execute Payout - Payouts',
-      'query-batch-status': 'Query Batch Status - Payouts',
+      'identity-lookup': 'Identity Lookup - Formless',
+      'create-contract': 'Create Contract - Formless',
+      'fetch-split-data': 'Fetch Split Data - Formless',
+      'execute-payout': 'Execute Payout - Formless',
+      'query-batch-status': 'Query Batch Status - Formless',
     };
     document.title = titles[activeSection] || 'Welcome to the SHARE Protocol API';
   }, [activeSection]);
