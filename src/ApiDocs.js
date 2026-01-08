@@ -1754,6 +1754,10 @@ const ApiDocs = () => {
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                              </svg>
                               <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
                               <span style={{ color: theme.text, fontWeight: '500' }}>user_unique_id</span>
                               <span style={{
@@ -1794,7 +1798,7 @@ const ApiDocs = () => {
                                 fontSize: '12px',
                                 padding: '2px 8px',
                                 borderRadius: '4px',
-                              }}>string</span>
+                              }}>string&lt;email&gt;</span>
                               <span style={{
                                 backgroundColor: 'rgba(220, 38, 38, 0.15)',
                                 color: '#f25c5c',
@@ -1834,7 +1838,7 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.verified_identity */}
-                          <div>
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
@@ -1854,6 +1858,62 @@ const ApiDocs = () => {
                             </div>
                             <p style={{ fontSize: '14px', color: theme.textMuted }}>
                               Whether the user's identity has been verified
+                            </p>
+                          </div>
+
+                          {/* result.financial_accounts */}
+                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                              </svg>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>financial_accounts</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.text,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>object[]</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Array of the user's linked financial accounts
+                            </p>
+                          </div>
+
+                          {/* result.verifications */}
+                          <div>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              marginBottom: '8px',
+                              flexWrap: 'wrap',
+                            }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                              </svg>
+                              <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                              <span style={{ color: theme.text, fontWeight: '500' }}>verifications</span>
+                              <span style={{
+                                backgroundColor: theme.bgTertiary,
+                                color: theme.text,
+                                fontSize: '12px',
+                                padding: '2px 8px',
+                                borderRadius: '4px',
+                              }}>object[]</span>
+                            </div>
+                            <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                              Array of verification records for the user
                             </p>
                           </div>
                         </>
