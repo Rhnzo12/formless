@@ -172,7 +172,7 @@ const ApiDocs = () => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
+          gap: '16px',
           padding: '10px 12px',
           color: isActive ? theme.text : theme.textMuted,
           textDecoration: 'none',
@@ -303,7 +303,7 @@ const ApiDocs = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: '16px',
               padding: '16px 20px',
               borderBottom: `1px solid ${theme.border}`,
             }}>
@@ -632,7 +632,7 @@ const ApiDocs = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 padding: '8px 16px',
                 backgroundColor: theme.bgTertiary,
                 border: `1px solid ${theme.border}`,
@@ -1038,7 +1038,7 @@ const ApiDocs = () => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: '16px',
               color: theme.text,
               textDecoration: 'none',
               fontSize: '16px',
@@ -1133,7 +1133,7 @@ const ApiDocs = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
+                    gap: '16px',
                     padding: '8px 16px',
                     backgroundColor: theme.bgTertiary,
                     border: `1px solid ${theme.border}`,
@@ -1167,7 +1167,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '32px',
               }}>
                 <span style={{
@@ -1241,7 +1241,7 @@ const ApiDocs = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: '16px',
               marginBottom: '12px',
             }}>
               <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
@@ -1304,7 +1304,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '8px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
@@ -1340,7 +1340,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '8px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
@@ -1374,7 +1374,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '12px',
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
@@ -1387,7 +1387,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '12px',
                 flexWrap: 'wrap',
               }}>
@@ -1423,7 +1423,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '12px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>params</span>
@@ -1457,7 +1457,7 @@ const ApiDocs = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '12px',
+                    gap: '16px',
                     padding: '16px 20px',
                     color: theme.textMuted,
                     fontSize: '14px',
@@ -1494,7 +1494,7 @@ const ApiDocs = () => {
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '12px',
+                      gap: '16px',
                       paddingTop: '16px',
                       marginBottom: '12px',
                     }}>
@@ -1505,7 +1505,7 @@ const ApiDocs = () => {
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '12px',
+                      gap: '16px',
                       flexWrap: 'wrap',
                     }}>
                       <span style={{
@@ -1572,7 +1572,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '12px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
@@ -1602,7 +1602,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
                 <span style={{
@@ -1628,7 +1628,7 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 marginBottom: '12px',
               }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
@@ -1702,7 +1702,7 @@ const ApiDocs = () => {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '12px',
+                      gap: '16px',
                       marginBottom: '20px',
                       color: theme.textMuted,
                       fontSize: '14px',
@@ -1737,7 +1737,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1772,7 +1772,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1808,7 +1808,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1840,7 +1840,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1864,7 +1864,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1888,7 +1888,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1916,7 +1916,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1949,7 +1949,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1984,7 +1984,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '16px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -2034,7 +2034,7 @@ const ApiDocs = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 color: theme.text,
                 textDecoration: 'none',
                 fontSize: '14px',
@@ -2054,7 +2054,7 @@ const ApiDocs = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '16px',
                 color: theme.text,
                 textDecoration: 'none',
                 fontSize: '14px',
@@ -2331,7 +2331,7 @@ const ApiDocs = () => {
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '16px',
             marginBottom: '16px',
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textDimmed} strokeWidth="2">
