@@ -88,6 +88,7 @@ const ApiDocs = () => {
   const [showParamsChildren, setShowParamsChildren] = useState(false);
   const [showResultChildren, setShowResultChildren] = useState(true);
   const [activeResponseOption, setActiveResponseOption] = useState(1);
+  const [copyDropdownOpen, setCopyDropdownOpen] = useState(null); // 'welcome' or 'identity' or null
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -627,28 +628,83 @@ const ApiDocs = () => {
             }}>
               Welcome to the SHARE Protocol API
             </h1>
-            <button
-              onClick={() => copyToClipboard(window.location.href, 'page')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '8px 16px',
-                backgroundColor: theme.bgTertiary,
-                border: `1px solid ${theme.border}`,
-                borderRadius: '6px',
-                color: theme.textMuted,
-                fontSize: '14px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-              </svg>
-              {copiedCode === 'page' ? 'Copied!' : 'Copy page'}
-            </button>
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'welcome' ? null : 'welcome')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  backgroundColor: theme.bgTertiary,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: '6px',
+                  color: theme.textMuted,
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                Copy page
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              {copyDropdownOpen === 'welcome' && (
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '8px',
+                  backgroundColor: theme.bgSecondary,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 0',
+                  minWidth: '280px',
+                  zIndex: 1000,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                }}>
+                  <button onClick={() => { copyToClipboard(window.location.href, 'page'); setCopyDropdownOpen(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Copy page</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy page as Markdown for LLMs</div></div>
+                  </button>
+                  <button onClick={() => window.open(window.location.href, '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>View as Markdown <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>View this page as plain text</div></div>
+                  </button>
+                  <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                  <button onClick={() => window.open('https://chat.openai.com', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08-4.778 2.758a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Open in ChatGPT <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                  </button>
+                  <button onClick={() => window.open('https://claude.ai', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529.08-.08 6.467-3.627c.344-.193.554-.57.537-.965a1.077 1.077 0 0 0-.601-.913l-.644-.322a.537.537 0 0 0-.483 0L4.144 12.48a1.077 1.077 0 0 0-.601.913c-.016.394.193.772.538.965l.628.354v1.243z"/><path d="M19.291 8.045l-4.72 2.647-.08.08-2.726 1.529-.08.08-6.467 3.627a1.077 1.077 0 0 0-.537.965c.017.378.242.716.601.913l.644.322a.537.537 0 0 0 .483 0l13.447-7.545c.36-.193.584-.535.601-.913a1.077 1.077 0 0 0-.538-.965l-.628-.354v-1.243z"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Open in Claude <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                  </button>
+                  <button onClick={() => window.open('https://perplexity.ai', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                  </button>
+                  <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                  <button onClick={() => { copyToClipboard('mcp://docs.formless.xyz', 'mcp'); setCopyDropdownOpen(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Copy MCP Server</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy MCP Server URL to clipboard</div></div>
+                  </button>
+                  <button onClick={() => window.open('https://cursor.sh', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Connect to Cursor <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on Cursor</div></div>
+                  </button>
+                  <button onClick={() => window.open('https://code.visualstudio.com', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    <div><div style={{ fontWeight: '500' }}>Connect to VS Code <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on VS Code</div></div>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <p style={{
             fontSize: '18px',
@@ -1128,30 +1184,83 @@ const ApiDocs = () => {
                 }}>
                   Identity Lookup
                 </h2>
-                <button
-                  onClick={() => copyToClipboard(window.location.href + '#identity-lookup', 'identity-page')}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    padding: '8px 16px',
-                    backgroundColor: theme.bgTertiary,
-                    border: `1px solid ${theme.border}`,
-                    borderRadius: '6px',
-                    color: theme.textMuted,
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                  </svg>
-                  {copiedCode === 'identity-page' ? 'Copied!' : 'Copy page'}
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </button>
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'identity' ? null : 'identity')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 16px',
+                      backgroundColor: theme.bgTertiary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy page
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                  {copyDropdownOpen === 'identity' && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '8px',
+                      padding: '8px 0',
+                      minWidth: '280px',
+                      zIndex: 1000,
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    }}>
+                      <button onClick={() => { copyToClipboard(window.location.href + '#identity-lookup', 'identity-page'); setCopyDropdownOpen(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy page</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy page as Markdown for LLMs</div></div>
+                      </button>
+                      <button onClick={() => window.open(window.location.href + '#identity-lookup', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>View as Markdown <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>View this page as plain text</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button onClick={() => window.open('https://chat.openai.com', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08-4.778 2.758a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in ChatGPT <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button onClick={() => window.open('https://claude.ai', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529.08-.08 6.467-3.627c.344-.193.554-.57.537-.965a1.077 1.077 0 0 0-.601-.913l-.644-.322a.537.537 0 0 0-.483 0L4.144 12.48a1.077 1.077 0 0 0-.601.913c-.016.394.193.772.538.965l.628.354v1.243z"/><path d="M19.291 8.045l-4.72 2.647-.08.08-2.726 1.529-.08.08-6.467 3.627a1.077 1.077 0 0 0-.537.965c.017.378.242.716.601.913l.644.322a.537.537 0 0 0 .483 0l13.447-7.545c.36-.193.584-.535.601-.913a1.077 1.077 0 0 0-.538-.965l-.628-.354v-1.243z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Claude <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button onClick={() => window.open('https://perplexity.ai', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button onClick={() => { copyToClipboard('mcp://docs.formless.xyz', 'mcp'); setCopyDropdownOpen(null); }} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy MCP Server</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy MCP Server URL to clipboard</div></div>
+                      </button>
+                      <button onClick={() => window.open('https://cursor.sh', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to Cursor <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on Cursor</div></div>
+                      </button>
+                      <button onClick={() => window.open('https://code.visualstudio.com', '_blank')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to VS Code <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on VS Code</div></div>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Description */}
