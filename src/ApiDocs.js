@@ -1241,8 +1241,8 @@ const ApiDocs = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
-              marginBottom: '12px',
+              gap: '8px',
+              marginBottom: '8px',
             }}>
               <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
               <span style={{
@@ -1300,11 +1300,11 @@ const ApiDocs = () => {
             </div>
 
             {/* jsonrpc field */}
-            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 marginBottom: '8px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
@@ -1336,11 +1336,11 @@ const ApiDocs = () => {
             </div>
 
             {/* id field */}
-            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 marginBottom: '8px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
@@ -1369,11 +1369,11 @@ const ApiDocs = () => {
             </div>
 
             {/* method field */}
-            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 marginBottom: '8px',
                 flexWrap: 'wrap',
               }}>
@@ -1414,8 +1414,8 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
-                marginBottom: '16px',
+                gap: '8px',
+                marginBottom: '12px',
               }}>
                 <span style={{ color: theme.text, fontWeight: '500' }}>params</span>
                 <span style={{
@@ -1550,11 +1550,11 @@ const ApiDocs = () => {
             </p>
 
             {/* Response jsonrpc field */}
-            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 marginBottom: '8px',
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
@@ -1584,7 +1584,7 @@ const ApiDocs = () => {
             </div>
 
             {/* Response id field */}
-            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+            <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -1614,8 +1614,8 @@ const ApiDocs = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
-                marginBottom: '16px',
+                gap: '8px',
+                marginBottom: '12px',
               }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
@@ -1719,11 +1719,11 @@ const ApiDocs = () => {
                       {activeResponseOption === 1 && (
                         <>
                           {/* result.success */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1754,11 +1754,11 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.user_unique_id */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1790,11 +1790,11 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.email_address */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1822,11 +1822,11 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.display_name */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1846,11 +1846,11 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.verified_identity */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1870,11 +1870,11 @@ const ApiDocs = () => {
                           </div>
 
                           {/* result.financial_accounts */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1902,7 +1902,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1931,11 +1931,11 @@ const ApiDocs = () => {
                       {activeResponseOption === 2 && (
                         <>
                           {/* result.success */}
-                          <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                          <div style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: `1px solid ${theme.border}` }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
@@ -1970,7 +1970,7 @@ const ApiDocs = () => {
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '12px',
+                              gap: '8px',
                               marginBottom: '8px',
                               flexWrap: 'wrap',
                             }}>
