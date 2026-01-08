@@ -1490,15 +1490,24 @@ const ApiDocs = () => {
                     padding: '0 20px 20px 20px',
                     borderTop: `1px solid ${theme.border}`,
                   }}>
+                    {/* Field name row */}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '12px',
+                      gap: '8px',
                       paddingTop: '16px',
-                      flexWrap: 'wrap',
+                      marginBottom: '12px',
                     }}>
                       <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
-                      <span style={{ color: theme.text, fontWeight: '500' }}>email_address</span>
+                      <span style={{ color: theme.textMuted, fontWeight: '400' }}>email_address</span>
+                    </div>
+                    {/* Badges row */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      flexWrap: 'wrap',
+                    }}>
                       <span style={{
                         backgroundColor: theme.bgTertiary,
                         color: theme.text,
