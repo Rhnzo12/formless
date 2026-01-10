@@ -1282,19 +1282,21 @@ const ApiDocs = () => {
               </p>
 
               {/* API Endpoint Bar */}
-              <div style={{
+              <div className="api-endpoint-bar" style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '16px',
+                gap: '12px',
                 marginBottom: '32px',
+                flexWrap: 'wrap',
               }}>
                 <span style={{
                   backgroundColor: 'transparent',
                   color: '#60a5fa',
                   fontSize: '14px',
                   fontWeight: '700',
-                  padding: '8px 16px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
+                  flexShrink: 0,
                 }}>POST</span>
                 <div style={{
                   display: 'flex',
@@ -1304,11 +1306,14 @@ const ApiDocs = () => {
                   color: theme.textSecondary,
                   fontFamily: 'Monaco, Consolas, monospace',
                   backgroundColor: theme.bgCard,
-                  padding: '8px 16px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
                   border: `1px solid ${theme.border}`,
+                  flex: '1 1 auto',
+                  minWidth: 0,
+                  overflow: 'hidden',
                 }}>
-                  <code>/v1#identity_get_by_email_address</code>
+                  <code style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>/v1#identity_get_by_email_address</code>
                   <button
                     onClick={() => copyToClipboard('/v1#identity_get_by_email_address', 'identity-endpoint')}
                     style={{
@@ -1338,13 +1343,15 @@ const ApiDocs = () => {
                   color: 'white',
                   fontSize: '14px',
                   fontWeight: '600',
-                  padding: '8px 20px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
                   border: 'none',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                 }}>
                   Try it
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -2930,13 +2937,35 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
             }
             main.main-content {
               margin-left: 0 !important;
-              padding: 24px !important;
-              padding-top: 100px !important;
+              padding: 16px !important;
+              padding-top: 80px !important;
             }
             .code-panel-right {
               position: static !important;
               width: 100% !important;
               margin-top: 24px;
+            }
+            .api-endpoint-bar {
+              flex-direction: column !important;
+              align-items: stretch !important;
+              gap: 8px !important;
+            }
+            .api-endpoint-bar > span:first-child {
+              align-self: flex-start;
+            }
+            .api-endpoint-bar > button {
+              align-self: flex-start;
+            }
+          }
+
+          @media (max-width: 480px) {
+            main.main-content {
+              padding: 12px !important;
+              padding-top: 70px !important;
+            }
+            main.main-content h1,
+            main.main-content h2 {
+              font-size: 24px !important;
             }
           }
         `}
