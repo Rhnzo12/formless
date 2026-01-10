@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = ({ activePage }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -70,7 +71,7 @@ const Header = ({ activePage }) => {
         }}
       >
         {/* Logo - Link to Home */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <img
             src="/logomain.png"
             alt="Formless Logo"
@@ -93,29 +94,52 @@ const Header = ({ activePage }) => {
           >
             FORMLESS<sup style={{ fontSize: '8px', marginLeft: '2px' }}>™</sup>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <nav className="desktop-nav" style={{ display: 'flex', gap: 'clamp(20px, 4vw, 40px)', alignItems: 'center' }}>
           {navLinks.map((link) => {
             const isActive = activePage === link.id;
+            const linkStyles = {
+              color: 'white',
+              textDecoration: 'none',
+              fontSize: 'clamp(14px, 2vw, 18px)',
+              fontWeight: '400',
+              opacity: 0.9,
+              transition: 'opacity 0.2s ease, border-color 0.3s ease',
+              fontFamily: '"Inter", sans-serif',
+              paddingBottom: '6px',
+              borderBottom: isActive ? '2px solid white' : '2px solid transparent',
+            };
+
+            // Use regular anchor for external links (newTab), Link for internal
+            if (link.newTab) {
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={linkStyles}
+                  onMouseEnter={(e) => {
+                    e.target.style.opacity = 1;
+                    if (!isActive) e.target.style.borderBottomColor = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.opacity = 0.9;
+                    if (!isActive) e.target.style.borderBottomColor = 'transparent';
+                  }}
+                >
+                  {link.label}
+                </a>
+              );
+            }
+
             return (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
-                target={link.newTab ? '_blank' : undefined}
-                rel={link.newTab ? 'noopener noreferrer' : undefined}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  fontSize: 'clamp(14px, 2vw, 18px)',
-                  fontWeight: '400',
-                  opacity: 0.9,
-                  transition: 'opacity 0.2s ease, border-color 0.3s ease',
-                  fontFamily: '"Inter", sans-serif',
-                  paddingBottom: '6px',
-                  borderBottom: isActive ? '2px solid white' : '2px solid transparent',
-                }}
+                to={link.href}
+                style={linkStyles}
                 onMouseEnter={(e) => {
                   e.target.style.opacity = 1;
                   if (!isActive) e.target.style.borderBottomColor = 'white';
@@ -126,7 +150,7 @@ const Header = ({ activePage }) => {
                 }}
               >
                 {link.label}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -188,27 +212,44 @@ const Header = ({ activePage }) => {
           transition: 'top 0.3s ease',
         }}
       >
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            target={link.newTab ? '_blank' : undefined}
-            rel={link.newTab ? 'noopener noreferrer' : undefined}
-            onClick={() => setMenuOpen(false)}
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              fontSize: '18px',
-              fontWeight: '400',
-              opacity: 0.9,
-              transition: 'opacity 0.2s ease',
-              fontFamily: '"Inter", sans-serif',
-              padding: '8px 0',
-            }}
-          >
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) => {
+          const mobileLinkStyles = {
+            color: 'white',
+            textDecoration: 'none',
+            fontSize: '18px',
+            fontWeight: '400',
+            opacity: 0.9,
+            transition: 'opacity 0.2s ease',
+            fontFamily: '"Inter", sans-serif',
+            padding: '8px 0',
+          };
+
+          if (link.newTab) {
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                style={mobileLinkStyles}
+              >
+                {link.label}
+              </a>
+            );
+          }
+
+          return (
+            <Link
+              key={link.href}
+              to={link.href}
+              onClick={() => setMenuOpen(false)}
+              style={mobileLinkStyles}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
     </>
   );
