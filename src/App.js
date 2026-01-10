@@ -718,47 +718,33 @@ const App = () => {
         <div className="footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '20px',
+          gap: '30px',
           marginBottom: '40px',
         }}>
-          {/* Hexagon Logo SVG - matching formless.xyz */}
-          <svg
-            viewBox="0 0 56 64"
-            fill="none"
+          {/* Logo PNG */}
+          <img
+            src="/logomain.png"
+            alt="Formless Logo"
             style={{
-              height: 'clamp(100px, 15vw, 180px)',
+              height: 'clamp(120px, 18vw, 220px)',
               width: 'auto',
-              flexShrink: 0,
             }}
-          >
-            {/* Hexagon outline */}
-            <path
-              d="M28 1 L54 16 L54 48 L28 63 L2 48 L2 16 Z"
-              stroke="white"
-              strokeWidth="1.5"
-              fill="none"
-            />
-            {/* Inner triangle pointing up */}
-            <path
-              d="M28 18 L44 44 L12 44 Z"
-              fill="white"
-            />
-          </svg>
+          />
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(70px, 15vw, 200px)',
-            fontWeight: '500',
-            letterSpacing: '-2px',
+            fontSize: 'clamp(80px, 18vw, 240px)',
+            fontWeight: '400',
+            letterSpacing: '-4px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
           }}>
             FORMLESS<sup style={{
-              fontSize: '18%',
+              fontSize: '15%',
               verticalAlign: 'super',
               fontWeight: '400',
-              marginLeft: '4px',
+              marginLeft: '8px',
             }}>™</sup>
           </h2>
         </div>
