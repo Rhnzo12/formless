@@ -965,24 +965,26 @@ const About = () => {
           gap: '24px',
           marginBottom: '40px',
         }}>
-          {/* Hexagon Logo SVG */}
+          {/* Hexagon Logo SVG - matching formless.xyz style */}
           <svg
-            width="clamp(80px, 12vw, 140px)"
-            height="clamp(80px, 12vw, 140px)"
-            viewBox="0 0 100 100"
+            viewBox="0 0 100 115"
             fill="none"
-            style={{ flexShrink: 0 }}
+            style={{
+              height: 'clamp(80px, 12vw, 140px)',
+              width: 'auto',
+              flexShrink: 0,
+            }}
           >
-            {/* Hexagon border */}
+            {/* Hexagon outline */}
             <path
-              d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z"
+              d="M50 1 L97 29 L97 86 L50 114 L3 86 L3 29 Z"
               stroke="white"
-              strokeWidth="2"
+              strokeWidth="2.5"
               fill="none"
             />
-            {/* Inner triangle */}
+            {/* Inner triangle pointing up */}
             <path
-              d="M50 25 L75 65 L25 65 Z"
+              d="M50 30 L78 75 L22 75 Z"
               fill="white"
             />
           </svg>
