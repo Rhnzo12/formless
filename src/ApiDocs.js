@@ -2313,6 +2313,8 @@ const ApiDocs = () => {
                           borderRadius: '6px',
                           padding: '4px 0',
                           minWidth: '140px',
+                          maxHeight: '280px',
+                          overflowY: 'auto',
                           zIndex: 1000,
                           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                         }}>
