@@ -300,37 +300,40 @@ const CaseStudies = () => {
           </div>
         );
       case 'skyton':
+        // Skyton Academy - Cryptocurrency education platform by Steve Bayonne
         return (
-          <div style={{...baseStyle, backgroundColor: '#111'}}>
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a2a1a 0%, #0a0a0a 100%)'}}>
             <div style={{ textAlign: 'center' }}>
               <div style={{
                 width: '100px',
                 height: '100px',
-                border: '3px solid white',
+                border: '3px solid rgba(100,200,100,0.6)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 12px',
                 position: 'relative',
+                background: 'rgba(100,200,100,0.05)',
+                boxShadow: '0 0 30px rgba(100,200,100,0.15)',
               }}>
-                <span style={{ fontSize: '36px', fontWeight: '400', color: 'white' }}>$</span>
-                {/* Laurel wreath decoration */}
+                <span style={{ fontSize: '36px', fontWeight: '500', color: 'rgba(100,200,100,0.9)' }}>$</span>
+                {/* Outer ring decoration */}
                 <div style={{
                   position: 'absolute',
-                  top: '-10px',
-                  left: '-20px',
-                  right: '-20px',
-                  bottom: '-10px',
-                  border: '2px solid rgba(255,255,255,0.3)',
+                  top: '-12px',
+                  left: '-12px',
+                  right: '-12px',
+                  bottom: '-12px',
+                  border: '1px solid rgba(100,200,100,0.2)',
                   borderRadius: '50%',
                 }}/>
               </div>
-              <div style={{ letterSpacing: '3px' }}>
-                <span style={{ fontSize: '12px', fontWeight: '400', color: 'white' }}>SKYTON</span>
+              <div style={{ letterSpacing: '4px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '600', color: 'white' }}>SKYTON</span>
               </div>
-              <div style={{ letterSpacing: '3px' }}>
-                <span style={{ fontSize: '10px', fontWeight: '400', color: 'rgba(255,255,255,0.7)' }}>ACADEMY</span>
+              <div style={{ letterSpacing: '3px', marginTop: '4px' }}>
+                <span style={{ fontSize: '10px', fontWeight: '400', color: 'rgba(100,200,100,0.7)' }}>ACADEMY</span>
               </div>
             </div>
           </div>
@@ -376,101 +379,174 @@ const CaseStudies = () => {
           </div>
         );
       case 'latasha':
+        // Latashá - Web3 pioneer artist, head of Zora community, founder of TOPIA
         return (
-          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
-            <span style={{
-              fontSize: '36px',
-              fontWeight: '400',
-              color: 'white',
-              fontStyle: 'italic',
-              letterSpacing: '2px',
-            }}>
-              LATASHÁ
-            </span>
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #2d1f4a 0%, #1a1a2e 50%, #0f0f1a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '38px',
+                fontWeight: '500',
+                color: 'white',
+                fontStyle: 'italic',
+                letterSpacing: '4px',
+                textShadow: '0 0 30px rgba(150,100,255,0.3)',
+              }}>
+                LATASHÁ
+              </span>
+              <div style={{
+                fontSize: '10px',
+                fontWeight: '400',
+                color: 'rgba(200,180,255,0.6)',
+                letterSpacing: '3px',
+                marginTop: '10px',
+              }}>
+                TOPIA
+              </div>
+            </div>
           </div>
         );
       case 'latasha-photo':
+        // Latashá - Artist photo style placeholder with her signature purple/creative aesthetic
         return (
           <div style={{
             ...baseStyle,
-            background: 'linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%)',
+            background: 'linear-gradient(135deg, #3d2a5a 0%, #2a1f4a 50%, #1a1a2e 100%)',
             position: 'relative',
           }}>
-            {/* Simulated photo placeholder */}
             <div style={{
               width: '100%',
               height: '100%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(45deg, #1a1a2a 0%, #2a2a3a 50%, #1a1a2a 100%)',
+              position: 'relative',
             }}>
+              {/* Abstract artist silhouette */}
               <div style={{
-                width: '80px',
-                height: '80px',
+                width: '100px',
+                height: '100px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #3a3a4a 0%, #2a2a3a 100%)',
+                background: 'linear-gradient(135deg, rgba(200,150,255,0.3) 0%, rgba(150,100,200,0.2) 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                boxShadow: '0 0 40px rgba(150,100,255,0.2)',
+                border: '2px solid rgba(200,150,255,0.2)',
               }}>
-                <span style={{ fontSize: '32px', color: 'rgba(255,255,255,0.5)' }}>👤</span>
+                {/* Microphone icon for artist */}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)">
+                  <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                </svg>
+              </div>
+              <div style={{
+                position: 'absolute',
+                bottom: '20px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.7)',
+                fontStyle: 'italic',
+                letterSpacing: '3px',
+              }}>
+                LATASHÁ
               </div>
             </div>
           </div>
         );
       case 'kiki':
+        // KIKI World - Beauty brand using web3 for co-creation, NFC press-on nails
         return (
-          <div style={baseStyle}>
-            <span style={{
-              fontSize: '48px',
-              fontWeight: '800',
-              color: 'white',
-              letterSpacing: '8px',
-              fontFamily: 'Arial Black, sans-serif',
-            }}>
-              KIKI
-            </span>
-          </div>
-        );
-      case 'pynrs':
-        return (
-          <div style={baseStyle}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              {/* Mountain/Peak icon */}
-              <svg width="40" height="30" viewBox="0 0 40 30" fill="white">
-                <polygon points="20,0 40,30 0,30"/>
-                <polygon points="30,10 40,30 20,30" fill="rgba(255,255,255,0.5)"/>
-              </svg>
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #ff6b9d 0%, #c850c0 50%, #4158d0 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
               <span style={{
-                fontSize: '32px',
-                fontWeight: '700',
+                fontSize: '52px',
+                fontWeight: '800',
                 color: 'white',
-                letterSpacing: '4px',
+                letterSpacing: '6px',
+                fontFamily: 'Arial Black, sans-serif',
+                textShadow: '0 2px 20px rgba(0,0,0,0.3)',
               }}>
-                PYNRS
+                KIKI
               </span>
+              <div style={{
+                fontSize: '10px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.8)',
+                letterSpacing: '4px',
+                marginTop: '8px',
+              }}>
+                WORLD
+              </div>
             </div>
           </div>
         );
-      case 'kickback':
+      case 'pynrs':
+        // PYNRS (Pioneers) - Black-owned performance streetwear/running apparel from Boston
         return (
-          <div style={baseStyle}>
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #1a1a1a 0%, #000 100%)'}}>
             <div style={{ textAlign: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '8px' }}>
+                {/* Running/Peak icon representing pioneers in running */}
+                <svg width="45" height="35" viewBox="0 0 45 35" fill="none">
+                  <polygon points="22.5,0 45,35 0,35" fill="white"/>
+                  <polygon points="33,12 45,35 22,35" fill="rgba(255,255,255,0.4)"/>
+                </svg>
+              </div>
               <span style={{
                 fontSize: '36px',
                 fontWeight: '800',
                 color: 'white',
-                letterSpacing: '2px',
+                letterSpacing: '6px',
+                fontFamily: 'Arial, sans-serif',
+              }}>
+                PYNRS
+              </span>
+              <div style={{
+                fontSize: '9px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '3px',
+                marginTop: '6px',
+              }}>
+                PERFORMANCE STREETWEAR
+              </div>
+            </div>
+          </div>
+        );
+      case 'kickback':
+        // Kickback Boston - Events collective for music experiences in Boston
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #2d1f3d 0%, #1a1a2a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                width: '80px',
+                height: '80px',
+                border: '3px solid rgba(255,255,255,0.3)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+                background: 'rgba(255,255,255,0.05)',
+              }}>
+                {/* Music/Event icon */}
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              </div>
+              <span style={{
+                fontSize: '28px',
+                fontWeight: '800',
+                color: 'white',
+                letterSpacing: '3px',
                 display: 'block',
               }}>
                 KICKBACK
               </span>
               <span style={{
-                fontSize: '14px',
-                fontWeight: '400',
-                color: 'rgba(255,255,255,0.7)',
-                letterSpacing: '8px',
+                fontSize: '12px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.6)',
+                letterSpacing: '10px',
               }}>
                 BOSTON
               </span>
@@ -478,55 +554,115 @@ const CaseStudies = () => {
           </div>
         );
       case 'iyk':
+        // IYK (If You Know) - Web3 startup using NFC for digital-physical experiences, "portals" theme
         return (
-          <div style={baseStyle}>
-            <span style={{
-              fontSize: '48px',
-              fontWeight: '300',
-              color: 'white',
-              letterSpacing: '16px',
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'}}>
+            <div style={{
+              width: '120px',
+              height: '120px',
+              border: '2px solid rgba(100,150,255,0.4)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'radial-gradient(circle, rgba(100,150,255,0.1) 0%, transparent 70%)',
+              boxShadow: '0 0 60px rgba(100,150,255,0.2), inset 0 0 40px rgba(100,150,255,0.1)',
             }}>
-              IYK<sup style={{ fontSize: '16px', verticalAlign: 'super' }}>*</sup>
-            </span>
-          </div>
-        );
-      case 'tdot':
-        return (
-          <div style={baseStyle}>
-            <div style={{ textAlign: 'center' }}>
               <span style={{
                 fontSize: '36px',
-                fontWeight: '800',
+                fontWeight: '300',
                 color: 'white',
-                fontFamily: 'Impact, sans-serif',
-                fontStyle: 'italic',
-                display: 'block',
+                letterSpacing: '12px',
               }}>
-                TDOT
-              </span>
-              <span style={{
-                fontSize: '18px',
-                fontWeight: '400',
-                color: 'rgba(255,255,255,0.8)',
-                fontStyle: 'italic',
-              }}>
-                ILLDUDE
+                IYK<sup style={{ fontSize: '12px', verticalAlign: 'super' }}>*</sup>
               </span>
             </div>
           </div>
         );
-      case 'symphonic':
+      case 'tdot':
+        // TDOT ILLDUDE - Musician/producer from New Jersey, worked with Timbaland, Snoop Dogg, Meek Mill
         return (
-          <div style={baseStyle}>
-            <span style={{
-              fontSize: '28px',
-              fontWeight: '400',
-              color: 'white',
-              letterSpacing: '6px',
-              textTransform: 'uppercase',
-            }}>
-              SYMPHONIC
-            </span>
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '42px',
+                fontWeight: '900',
+                color: 'white',
+                fontFamily: 'Impact, Arial Black, sans-serif',
+                letterSpacing: '4px',
+                display: 'block',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}>
+                TDOT
+              </span>
+              <span style={{
+                fontSize: '20px',
+                fontWeight: '600',
+                color: 'rgba(255,255,255,0.7)',
+                letterSpacing: '8px',
+                fontStyle: 'italic',
+              }}>
+                ILLDUDE
+              </span>
+              <div style={{
+                marginTop: '12px',
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '4px',
+              }}>
+                {/* Sound wave bars */}
+                {[20, 35, 25, 40, 30, 45, 28].map((h, i) => (
+                  <div key={i} style={{
+                    width: '4px',
+                    height: `${h}px`,
+                    backgroundColor: 'rgba(255,255,255,0.4)',
+                    borderRadius: '2px',
+                  }}/>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case 'symphonic':
+        // Symphonic Distribution - Digital music distribution company from Tampa, FL, Latino-owned
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              {/* Sound wave / distribution visual */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '3px',
+                marginBottom: '16px',
+              }}>
+                {[12, 24, 18, 32, 28, 38, 22, 30, 16, 26, 14].map((h, i) => (
+                  <div key={i} style={{
+                    width: '3px',
+                    height: `${h}px`,
+                    backgroundColor: 'rgba(100,180,255,0.6)',
+                    borderRadius: '2px',
+                  }}/>
+                ))}
+              </div>
+              <span style={{
+                fontSize: '26px',
+                fontWeight: '500',
+                color: 'white',
+                letterSpacing: '5px',
+                textTransform: 'uppercase',
+              }}>
+                SYMPHONIC
+              </span>
+              <div style={{
+                fontSize: '9px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '2px',
+                marginTop: '8px',
+              }}>
+                DISTRIBUTION
+              </div>
+            </div>
           </div>
         );
       default:
