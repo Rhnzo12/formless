@@ -667,15 +667,15 @@ const App = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          padding: '20px 20px 5px 20px',
+          padding: '60px 60px 40px 60px',
           background: 'transparent',
         }}
       >
         {/* Social Media Icons */}
         <div className="social-icons" style={{
           display: 'flex',
-          gap: '80px',
-          marginBottom: '30px',
+          gap: '40px',
+          marginBottom: '60px',
         }}>
           {/* X (Twitter) */}
           <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }} 
@@ -718,36 +718,38 @@ const App = () => {
         <div className="footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '24px',
-          marginBottom: '40px',
+          justifyContent: 'center',
+          gap: '40px',
+          marginBottom: '60px',
         }}>
           {/* Logo PNG */}
           <img
             src="/logomain.png"
             alt="Formless Logo"
             style={{
-              height: 'clamp(100px, 15vw, 200px)',
+              height: 'clamp(120px, 18vw, 200px)',
               width: 'auto',
             }}
           />
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(60px, 13vw, 180px)',
-            fontWeight: '400',
-            letterSpacing: '-2px',
+            fontSize: 'clamp(80px, 15vw, 200px)',
+            fontWeight: '500',
+            letterSpacing: '-4px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
             lineHeight: 1,
+            textTransform: 'uppercase',
           }}>
             FORMLESS<sup style={{
-              fontSize: '18%',
-              verticalAlign: 'top',
+              fontSize: '14%',
+              verticalAlign: 'super',
               fontWeight: '400',
-              marginLeft: '4px',
+              marginLeft: '8px',
               position: 'relative',
-              top: '0.1em',
+              top: '-0.2em',
             }}>™</sup>
           </h2>
         </div>
@@ -755,17 +757,19 @@ const App = () => {
         {/* Footer Links */}
         <div className="footer-links" style={{
           display: 'flex',
-          gap: '130px',
-          fontSize: '12px',
+          justifyContent: 'flex-start',
+          gap: '0',
+          fontSize: '14px',
           fontFamily: '"Inter", sans-serif',
-          marginBottom: '30px',
-          color: 'white',
+          paddingBottom: '20px',
+          color: 'rgba(255,255,255,0.7)',
         }}>
-          <span>© FORMLESS</span>
+          <span style={{ marginRight: '200px' }}>© FORMLESS</span>
           <a href="#" style={{ 
             color: 'rgba(255,255,255,0.7)', 
             textDecoration: 'none',
             transition: 'color 0.3s ease',
+            marginRight: '200px',
           }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
           onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
