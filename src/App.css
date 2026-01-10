@@ -249,18 +249,6 @@
     gap: 80px !important;
   }
 
-  .services-3d {
-    width: 40% !important;
-  }
-
-  .services-content {
-    width: 60% !important;
-    padding-right: 60px !important;
-  }
-
-  .scroll-indicator {
-    right: 30px !important;
-  }
 }
 
 @media (max-width: 768px) {
@@ -326,34 +314,6 @@
 
   .formless-logo-section h2 {
     font-size: 48px !important;
-  }
-
-  .services-section {
-    margin-top: 60px !important;
-  }
-
-  .services-sticky {
-    flex-direction: column !important;
-  }
-
-  .services-3d {
-    width: 100% !important;
-    height: 40vh !important;
-  }
-
-  .services-content {
-    width: 100% !important;
-    height: auto !important;
-    padding: 20px !important;
-  }
-
-  .services-content > div > div:first-child {
-    font-size: 80px !important;
-    margin-bottom: 30px !important;
-  }
-
-  .scroll-indicator {
-    display: none !important;
   }
 
   .feature-cards-grid {

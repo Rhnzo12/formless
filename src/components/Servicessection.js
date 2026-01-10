@@ -89,16 +89,106 @@ const ServicesSection = () => {
     <>
       <style>
         {`
+          /* Desktop - larger screens */
+          @media (min-width: 1200px) {
+            .services-content {
+              padding-right: 100px !important;
+            }
+            .scroll-indicator {
+              right: 150px !important;
+            }
+          }
+
+          /* Tablet landscape */
+          @media (max-width: 1199px) and (min-width: 1025px) {
+            .services-content {
+              padding-right: 80px !important;
+            }
+            .scroll-indicator {
+              right: 80px !important;
+            }
+          }
+
+          /* Tablet portrait */
+          @media (max-width: 1024px) and (min-width: 769px) {
+            .services-sticky {
+              flex-direction: row !important;
+            }
+            .services-3d {
+              width: 45% !important;
+            }
+            .services-content {
+              width: 55% !important;
+              padding-right: 60px !important;
+            }
+            .scroll-indicator {
+              right: 40px !important;
+            }
+            .service-number {
+              font-size: 100px !important;
+              margin-bottom: 40px !important;
+            }
+          }
+
+          /* Mobile */
           @media (max-width: 768px) {
+            .services-section {
+              height: 250vh !important;
+            }
+            .services-sticky {
+              flex-direction: column !important;
+            }
+            .services-3d {
+              width: 100% !important;
+              height: 35vh !important;
+              min-height: 280px !important;
+            }
+            .services-content {
+              width: 100% !important;
+              height: auto !important;
+              padding: 20px 24px !important;
+              min-height: 45vh !important;
+            }
             .scroll-indicator {
               display: none !important;
             }
+            .service-number {
+              font-size: 80px !important;
+              margin-bottom: 30px !important;
+              letter-spacing: -4px !important;
+            }
+            .service-title {
+              font-size: 18px !important;
+              margin-bottom: 16px !important;
+            }
+            .service-description {
+              font-size: 13px !important;
+              margin-bottom: 16px !important;
+            }
+          }
+
+          /* Small mobile */
+          @media (max-width: 480px) {
+            .services-section {
+              height: 220vh !important;
+            }
             .services-3d {
-              height: 40vh !important;
-              min-height: 300px !important;
+              height: 30vh !important;
+              min-height: 240px !important;
             }
             .services-content {
-              min-height: 40vh !important;
+              padding: 16px 20px !important;
+            }
+            .service-number {
+              font-size: 60px !important;
+              margin-bottom: 24px !important;
+              letter-spacing: -3px !important;
+            }
+            .service-title {
+              font-size: 16px !important;
+            }
+            .service-description {
+              font-size: 12px !important;
             }
           }
         `}
@@ -215,6 +305,7 @@ const ServicesSection = () => {
             {/* Large Number */}
             <div
               key={`number-${activeIndex}`}
+              className="service-number"
               style={{
                 fontSize: '140px',
                 fontWeight: '200',
@@ -232,6 +323,7 @@ const ServicesSection = () => {
             {/* Title */}
             <h3
               key={`title-${activeIndex}`}
+              className="service-title"
               style={{
                 fontSize: '22px',
                 fontWeight: '600',
@@ -246,6 +338,7 @@ const ServicesSection = () => {
             {/* Description 1 */}
             <p
               key={`desc1-${activeIndex}`}
+              className="service-description"
               style={{
                 fontSize: '12px',
                 lineHeight: '1.7',
@@ -262,6 +355,7 @@ const ServicesSection = () => {
             {/* Description 2 */}
             <p
               key={`desc2-${activeIndex}`}
+              className="service-description"
               style={{
                 fontSize: '12px',
                 lineHeight: '1.7',
