@@ -200,6 +200,7 @@ const About = () => {
       
       {/* Hero Section */}
       <section
+        className="about-hero-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -212,14 +213,14 @@ const About = () => {
           paddingRight: 'clamp(16px, 3vw, 40px)',
         }}
       >
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <div className="about-hero-flex" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
           maxWidth: '1500px',
           margin: '0 auto',
-          gap: 'clamp(150px, 18vw, 150px)',
+          gap: 'clamp(60px, 18vw, 150px)',
           flexWrap: 'wrap',
         }}>
           {/* Left Column - Large Italic Text */}
@@ -258,6 +259,7 @@ const About = () => {
 
       {/* Gradient Fade to Black */}
       <div
+        className="gradient-fade"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -270,6 +272,7 @@ const About = () => {
       {/* By Creators Section with 3D Logo */}
       <section
         ref={creatorsRef}
+        className="about-creators-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -280,7 +283,7 @@ const About = () => {
           backgroundColor: '#000',
         }}
       >
-        <div style={{
+        <div className="about-creators-flex" style={{
           display: 'flex',
           alignItems: 'center',
           width: '100%',
@@ -290,7 +293,7 @@ const About = () => {
           flexWrap: 'wrap',
         }}>
           {/* Left - 3D Logo */}
-          <div style={{
+          <div className="about-3d-canvas" style={{
             flex: '1 1 400px',
             height: '600px',
             minWidth: '300px',
@@ -320,7 +323,7 @@ const About = () => {
           </div>
 
           {/* Right - Content with animation */}
-          <div style={{
+          <div className="about-creators-content" style={{
             flex: '1 1 400px',
             maxWidth: '600px',
             opacity: creatorsVisible ? 1 : 0,
@@ -376,6 +379,7 @@ const About = () => {
 
       {/* Proudly Backed By Section */}
       <section
+        className="backed-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -423,6 +427,7 @@ const About = () => {
       {/* Funds Section */}
       <section
         ref={fundsRef}
+        className="funds-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -450,7 +455,7 @@ const About = () => {
           </h3>
 
           {/* Funds Logo Grid */}
-          <div style={{
+          <div className="funds-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -497,6 +502,7 @@ const About = () => {
       {/* Angel Investors Section */}
       <section
         ref={angelsRef}
+        className="angels-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -524,7 +530,7 @@ const About = () => {
           </h3>
 
           {/* Angel Investors Grid */}
-          <div style={{
+          <div className="angels-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -585,6 +591,7 @@ const About = () => {
       {/* Meet the Founders Section */}
       <section
         ref={foundersRef}
+        className="founders-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -614,6 +621,7 @@ const About = () => {
       {/* Team Section */}
       <section
         ref={teamRef}
+        className="team-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -627,7 +635,8 @@ const About = () => {
           position: 'relative',
         }}>
           {/* Team Cards Container - Carousel */}
-          <div 
+          <div
+            className="team-carousel"
             style={{
               display: 'flex',
               gap: '30px',
@@ -650,6 +659,7 @@ const About = () => {
               return (
                 <div
                   key={index}
+                  className="team-card"
                   style={{
                     flex: '0 0 auto',
                     width: 'min(550px, 40vw)',
@@ -748,7 +758,7 @@ const About = () => {
           </div>
 
           {/* Navigation Arrows */}
-          <div style={{
+          <div className="team-nav" style={{
             display: 'flex',
             gap: '16px',
             marginTop: '60px',
@@ -831,6 +841,7 @@ const About = () => {
       {/* Join the Network Section */}
       <section
         ref={joinRef}
+        className="join-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -896,6 +907,7 @@ const About = () => {
 
       {/* Footer */}
       <footer
+        className="about-footer"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -904,7 +916,7 @@ const About = () => {
         }}
       >
         {/* Social Media Icons */}
-        <div style={{
+        <div className="social-icons" style={{
           display: 'flex',
           gap: '80px',
           marginBottom: '30px',
@@ -947,7 +959,7 @@ const About = () => {
         </div>
         
         {/* Large FORMLESS Logo */}
-        <div style={{
+        <div className="footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '32px',
@@ -981,7 +993,7 @@ const About = () => {
         </div>
         
         {/* Footer Links */}
-        <div style={{
+        <div className="footer-links" style={{
           display: 'flex',
           gap: '130px',
           fontSize: '12px',
@@ -1010,6 +1022,187 @@ const About = () => {
           </a>
         </div>
       </footer>
+
+      {/* Responsive Styles */}
+      <style>
+        {`
+          /* Tablet breakpoint */
+          @media (max-width: 1024px) {
+            .about-hero-flex {
+              gap: 60px !important;
+            }
+            .about-creators-flex {
+              gap: 40px !important;
+            }
+            .about-3d-canvas {
+              height: 400px !important;
+            }
+            .funds-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .angels-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .team-card {
+              width: min(450px, 60vw) !important;
+            }
+            .team-carousel {
+              transform: translateX(calc(-\${teamIndex} * (min(450px, 60vw) + 30px) + \${dragOffset}px)) !important;
+            }
+            .join-section {
+              padding: 80px 40px !important;
+            }
+          }
+
+          /* Mobile breakpoint */
+          @media (max-width: 768px) {
+            .about-hero-section {
+              padding-top: 100px !important;
+              padding-bottom: 60px !important;
+              min-height: auto !important;
+            }
+            .about-hero-flex {
+              flex-direction: column !important;
+              gap: 30px !important;
+            }
+            .about-hero-flex > div:first-child {
+              max-width: 100% !important;
+            }
+            .about-hero-flex > div:last-child {
+              padding-top: 0 !important;
+              padding-left: 0 !important;
+              max-width: 100% !important;
+            }
+            .about-creators-section {
+              padding: 60px 16px !important;
+              min-height: auto !important;
+            }
+            .about-creators-flex {
+              flex-direction: column !important;
+              gap: 40px !important;
+            }
+            .about-3d-canvas {
+              height: 300px !important;
+              min-width: 100% !important;
+            }
+            .about-creators-content {
+              max-width: 100% !important;
+            }
+            .gradient-fade {
+              height: 150px !important;
+            }
+            .backed-section {
+              margin-top: -80px !important;
+              padding: 60px 16px 30px !important;
+            }
+            .backed-section h2 {
+              font-size: 28px !important;
+            }
+            .funds-section {
+              padding: 30px 16px !important;
+            }
+            .funds-grid {
+              grid-template-columns: 1fr !important;
+            }
+            .funds-grid > div {
+              padding: 15px 10px !important;
+              min-height: 80px !important;
+            }
+            .funds-grid img {
+              max-width: 200px !important;
+              max-height: 60px !important;
+            }
+            .angels-section {
+              padding: 30px 16px !important;
+            }
+            .angels-grid {
+              grid-template-columns: 1fr !important;
+            }
+            .angels-grid > div {
+              padding: 25px 15px !important;
+              min-height: 80px !important;
+            }
+            .founders-section {
+              padding: 80px 16px !important;
+              min-height: 40vh !important;
+            }
+            .founders-section h2 {
+              font-size: 36px !important;
+              letter-spacing: -1px !important;
+            }
+            .team-section {
+              padding: 60px 0 !important;
+            }
+            .team-card {
+              width: min(320px, 85vw) !important;
+            }
+            .team-carousel {
+              padding-left: 16px !important;
+            }
+            .team-nav {
+              padding-left: 16px !important;
+              margin-top: 40px !important;
+            }
+            .team-nav button {
+              width: 44px !important;
+              height: 44px !important;
+            }
+            .join-section {
+              padding: 60px 20px !important;
+              min-height: 60vh !important;
+              margin-top: -80px !important;
+            }
+            .join-section h2 {
+              font-size: 32px !important;
+              margin-bottom: 40px !important;
+              letter-spacing: -1px !important;
+            }
+            .about-footer {
+              padding: 20px 16px 5px !important;
+            }
+            .social-icons {
+              gap: 30px !important;
+              flex-wrap: wrap !important;
+            }
+            .footer-logo {
+              flex-direction: column !important;
+              align-items: flex-start !important;
+              gap: 16px !important;
+            }
+            .footer-logo img {
+              height: 60px !important;
+            }
+            .footer-logo h2 {
+              font-size: 48px !important;
+            }
+            .footer-links {
+              gap: 20px !important;
+              flex-wrap: wrap !important;
+            }
+          }
+
+          /* Small mobile */
+          @media (max-width: 480px) {
+            .about-hero-section {
+              padding-left: 12px !important;
+              padding-right: 12px !important;
+            }
+            .team-card {
+              width: calc(100vw - 32px) !important;
+            }
+            .join-section h2 {
+              font-size: 28px !important;
+            }
+            .footer-logo h2 {
+              font-size: 36px !important;
+            }
+            .footer-links {
+              flex-direction: column !important;
+              gap: 12px !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
