@@ -945,19 +945,18 @@ const CaseStudies = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          padding: '40px 20px 20px',
+          padding: '20px 20px 5px 20px',
           background: 'transparent',
         }}
       >
         {/* Social Media Icons */}
         <div style={{
           display: 'flex',
-          gap: '60px',
-          marginBottom: '40px',
-          flexWrap: 'wrap',
+          gap: '80px',
+          marginBottom: '30px',
         }}>
           {/* X (Twitter) */}
-          <a href="https://x.com/formless_xyz" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -966,7 +965,7 @@ const CaseStudies = () => {
           </a>
 
           {/* LinkedIn */}
-          <a href="https://www.linkedin.com/company/formlessxyz" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -975,7 +974,7 @@ const CaseStudies = () => {
           </a>
 
           {/* Instagram */}
-          <a href="https://instagram.com/formless_xyz" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -984,7 +983,7 @@ const CaseStudies = () => {
           </a>
 
           {/* Discord */}
-          <a href="https://discord.gg/formless" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -999,7 +998,6 @@ const CaseStudies = () => {
           alignItems: 'center',
           gap: '24px',
           marginBottom: '40px',
-          flexWrap: 'wrap',
         }}>
           {/* Logo PNG */}
           <img
@@ -1010,6 +1008,8 @@ const CaseStudies = () => {
               width: 'auto',
             }}
           />
+
+          {/* Big FORMLESS Text */}
           <h2 style={{
             fontSize: 'clamp(60px, 13vw, 180px)',
             fontWeight: '400',
@@ -1033,30 +1033,29 @@ const CaseStudies = () => {
         {/* Footer Links */}
         <div style={{
           display: 'flex',
-          gap: '80px',
+          gap: '130px',
           fontSize: '12px',
           fontFamily: '"Inter", sans-serif',
-          marginBottom: '20px',
+          marginBottom: '30px',
           color: 'white',
-          flexWrap: 'wrap',
         }}>
           <span>© FORMLESS</span>
-          <a href="/privacy" style={{
-            color: 'rgba(255,255,255,0.6)',
+          <a href="#" style={{
+            color: 'rgba(255,255,255,0.7)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
           }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>
+          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
             Privacy Policy
           </a>
-          <a href="/terms" style={{
-            color: 'rgba(255,255,255,0.6)',
+          <a href="#" style={{
+            color: 'rgba(255,255,255,0.7)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
           }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>
+          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
             Terms of Service
           </a>
         </div>
