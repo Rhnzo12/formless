@@ -950,46 +950,47 @@ const About = () => {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '24px',
+          gap: '20px',
           marginBottom: '40px',
         }}>
-          {/* Hexagon Logo SVG - matching formless.xyz style */}
+          {/* Hexagon Logo SVG - matching formless.xyz */}
           <svg
-            viewBox="0 0 100 115"
+            viewBox="0 0 56 64"
             fill="none"
             style={{
-              height: 'clamp(80px, 12vw, 140px)',
+              height: 'clamp(100px, 15vw, 180px)',
               width: 'auto',
               flexShrink: 0,
             }}
           >
             {/* Hexagon outline */}
             <path
-              d="M50 1 L97 29 L97 86 L50 114 L3 86 L3 29 Z"
+              d="M28 1 L54 16 L54 48 L28 63 L2 48 L2 16 Z"
               stroke="white"
-              strokeWidth="2.5"
+              strokeWidth="1.5"
               fill="none"
             />
             {/* Inner triangle pointing up */}
             <path
-              d="M50 30 L78 75 L22 75 Z"
+              d="M28 18 L44 44 L12 44 Z"
               fill="white"
             />
           </svg>
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(50px, 12vw, 160px)',
-            fontWeight: '600',
-            letterSpacing: '0px',
+            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontWeight: '500',
+            letterSpacing: '-2px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
           }}>
             FORMLESS<sup style={{
-              fontSize: '25%',
+              fontSize: '18%',
               verticalAlign: 'super',
               fontWeight: '400',
+              marginLeft: '4px',
             }}>™</sup>
           </h2>
         </div>
