@@ -1294,7 +1294,10 @@ const ApiDocs = () => {
                   padding: '8px 16px',
                   borderRadius: '6px',
                 }}>POST</span>
-                <code style={{
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   fontSize: '14px',
                   color: theme.textSecondary,
                   fontFamily: 'Monaco, Consolas, monospace',
