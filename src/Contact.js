@@ -6,7 +6,8 @@ const Contact = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [formData, setFormData] = useState({
-    collaboration: '',
+    reason: '',
+    reasonDetails: '',
     name: '',
     email: '',
     company: '',
@@ -16,61 +17,112 @@ const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const inputRefs = useRef([]);
 
-  const questions = [
-    {
-      id: 'collaboration',
-      label: 'Please describe the type of collaboration you\'re interested in (e.g. partnership, technical integration, or a release using SHARE).',
-      placeholder: 'Type your answer here...',
-      type: 'text',
-      required: true,
-    },
-    {
-      id: 'name',
-      label: 'Name',
-      placeholder: 'Type your answer here...',
-      type: 'text',
-      required: true,
-    },
-    {
-      id: 'email',
-      label: 'Email',
-      placeholder: 'name@example.com',
-      type: 'email',
-      required: true,
-    },
-    {
-      id: 'company',
-      label: 'Name of your Company or Organization',
-      placeholder: 'Type your answer here...',
-      type: 'text',
-      required: false,
-    },
-    {
-      id: 'hearAboutUs',
-      label: 'How did you hear about us?',
-      type: 'choice',
-      required: true,
-      options: [
-        { key: 'A', value: 'twitter', label: 'X (Formerly Twitter)' },
-        { key: 'B', value: 'instagram', label: 'Instagram' },
-        { key: 'C', value: 'linkedin', label: 'LinkedIn' },
-        { key: 'D', value: 'google', label: 'Google/Search Engine' },
-        { key: 'E', value: 'referral', label: 'Referral' },
-        { key: 'F', value: 'other', label: 'Other' },
-      ],
-    },
-    {
-      id: 'subscribe',
-      label: 'Stay connected with us! Subscribe to our email list to receive updates on our latest products, promotions, and news.',
-      subtext: '(You can change your preferences at any time. Read our Privacy Policy here.)',
-      type: 'choice',
-      required: true,
-      options: [
-        { key: 'A', value: 'yes', label: 'Yes, I would like to subscribe.' },
-        { key: 'B', value: 'no', label: 'No thanks, I prefer not to subscribe.' },
-      ],
-    },
-  ];
+  // Dynamic questions based on reason selection
+  const getQuestions = () => {
+    const baseQuestions = [
+      {
+        id: 'reason',
+        label: 'What best describes your reason for contacting us?',
+        type: 'choice',
+        required: true,
+        options: [
+          { key: 'A', value: 'collaborating', label: "I'm interested in collaborating" },
+          { key: 'B', value: 'investing', label: "I'm interested in investing" },
+          { key: 'C', value: 'sdk-api', label: "I'm interested in using the SHARE Protocol SDK or API" },
+          { key: 'D', value: 'general', label: 'I have a general question' },
+        ],
+      },
+    ];
+
+    // Add follow-up question based on reason
+    if (formData.reason === 'collaborating') {
+      baseQuestions.push({
+        id: 'reasonDetails',
+        label: 'Please describe the type of collaboration you\'re interested in (e.g. partnership, technical integration, or a release using SHARE).',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: true,
+      });
+    } else if (formData.reason === 'investing') {
+      baseQuestions.push({
+        id: 'reasonDetails',
+        label: 'Please describe the focus of your investments (e.g. industry and stage) and your interest in FORMLESS.',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: true,
+      });
+    } else if (formData.reason === 'sdk-api') {
+      baseQuestions.push({
+        id: 'reasonDetails',
+        label: 'Please describe your use case for the SHARE Protocol SDK or API.',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: true,
+      });
+    } else if (formData.reason === 'general') {
+      baseQuestions.push({
+        id: 'reasonDetails',
+        label: 'Please describe your question or inquiry.',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: true,
+      });
+    }
+
+    // Add remaining questions
+    baseQuestions.push(
+      {
+        id: 'name',
+        label: 'Name',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: true,
+      },
+      {
+        id: 'email',
+        label: 'Email',
+        placeholder: 'name@example.com',
+        type: 'email',
+        required: true,
+      },
+      {
+        id: 'company',
+        label: 'Name of your Company or Organization',
+        placeholder: 'Type your answer here...',
+        type: 'text',
+        required: false,
+      },
+      {
+        id: 'hearAboutUs',
+        label: 'How did you hear about us?',
+        type: 'choice',
+        required: true,
+        options: [
+          { key: 'A', value: 'twitter', label: 'X (Formerly Twitter)' },
+          { key: 'B', value: 'instagram', label: 'Instagram' },
+          { key: 'C', value: 'linkedin', label: 'LinkedIn' },
+          { key: 'D', value: 'google', label: 'Google/Search Engine' },
+          { key: 'E', value: 'referral', label: 'Referral' },
+          { key: 'F', value: 'other', label: 'Other' },
+        ],
+      },
+      {
+        id: 'subscribe',
+        label: 'Stay connected with us! Subscribe to our email list to receive updates on our latest products, promotions, and news.',
+        subtext: '(You can change your preferences at any time. Read our Privacy Policy here.)',
+        type: 'choice',
+        required: true,
+        options: [
+          { key: 'A', value: 'yes', label: 'Yes, I would like to subscribe.' },
+          { key: 'B', value: 'no', label: 'No thanks, I prefer not to subscribe.' },
+        ],
+      }
+    );
+
+    return baseQuestions;
+  };
+
+  const questions = getQuestions();
 
   useEffect(() => {
     document.title = 'Contact Us | FORMLESS';
@@ -108,7 +160,7 @@ const Contact = () => {
       if (isLoading || isTransitioning || isSubmitted) return;
 
       const currentQuestion = questions[currentStep];
-      if (currentQuestion.type === 'choice') {
+      if (currentQuestion?.type === 'choice') {
         const key = e.key.toUpperCase();
         const option = currentQuestion.options.find(opt => opt.key === key);
         if (option) {
@@ -119,7 +171,7 @@ const Contact = () => {
 
     window.addEventListener('keypress', handleKeyPress);
     return () => window.removeEventListener('keypress', handleKeyPress);
-  }, [currentStep, isLoading, isTransitioning, isSubmitted]);
+  }, [currentStep, isLoading, isTransitioning, isSubmitted, questions]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -151,13 +203,15 @@ const Contact = () => {
 
   const canProceed = () => {
     const currentQuestion = questions[currentStep];
+    if (!currentQuestion) return false;
+
     const value = formData[currentQuestion.id];
 
     if (currentQuestion.required) {
       if (currentQuestion.type === 'email') {
         return value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       }
-      return value && value.trim().length > 0;
+      return value && value.toString().trim().length > 0;
     }
     return true;
   };
@@ -323,6 +377,8 @@ const Contact = () => {
 
   const currentQuestion = questions[currentStep];
 
+  if (!currentQuestion) return null;
+
   // Render Choice Options
   const renderChoiceOptions = () => (
     <div style={{
@@ -349,7 +405,7 @@ const Contact = () => {
               transition: 'all 0.2s ease',
               textAlign: 'left',
               width: '100%',
-              maxWidth: '400px',
+              maxWidth: '500px',
             }}
             onMouseEnter={(e) => {
               if (!isSelected) {
@@ -400,7 +456,7 @@ const Contact = () => {
         ref={el => inputRefs.current[currentStep] = el}
         type={currentQuestion.type}
         name={currentQuestion.id}
-        value={formData[currentQuestion.id]}
+        value={formData[currentQuestion.id] || ''}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder={currentQuestion.placeholder}
@@ -506,9 +562,11 @@ const Contact = () => {
               marginBottom: '32px',
               lineHeight: '1.5',
             }}>
-              {currentQuestion.subtext.replace('here', '')}
+              {currentQuestion.subtext.replace('here.)', '')}
               <a
                 href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   color: 'white',
                   textDecoration: 'underline',
