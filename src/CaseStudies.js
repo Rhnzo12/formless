@@ -4,16 +4,14 @@ import FluidBackground from './components/FluidBackground';
 
 const CaseStudies = () => {
   const [heroVisible, setHeroVisible] = useState(false);
-  const [statsVisible, setStatsVisible] = useState(false);
-  const [detailsVisible, setDetailsVisible] = useState(false);
+  const [articlesVisible, setArticlesVisible] = useState(false);
   const [joinVisible, setJoinVisible] = useState(false);
   const heroRef = useRef(null);
-  const statsRef = useRef(null);
-  const detailsRef = useRef(null);
+  const articlesRef = useRef(null);
   const joinRef = useRef(null);
 
   useEffect(() => {
-    document.title = 'Case Studies';
+    document.title = 'Case Studies | FORMLESS';
   }, []);
 
   useEffect(() => {
@@ -24,11 +22,8 @@ const CaseStudies = () => {
             if (entry.target === heroRef.current) {
               setHeroVisible(true);
             }
-            if (entry.target === statsRef.current) {
-              setStatsVisible(true);
-            }
-            if (entry.target === detailsRef.current) {
-              setDetailsVisible(true);
+            if (entry.target === articlesRef.current) {
+              setArticlesVisible(true);
             }
             if (entry.target === joinRef.current) {
               setJoinVisible(true);
@@ -36,23 +31,662 @@ const CaseStudies = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (heroRef.current) observer.observe(heroRef.current);
-    if (statsRef.current) observer.observe(statsRef.current);
-    if (detailsRef.current) observer.observe(detailsRef.current);
+    if (articlesRef.current) observer.observe(articlesRef.current);
     if (joinRef.current) observer.observe(joinRef.current);
 
     return () => observer.disconnect();
   }, []);
 
-  const stats = [
-    { value: '500X', label: 'Revenue-per-stream' },
-    { value: '200X', label: 'Faster time-to-revenue' },
-    { value: '$1.60', label: 'Per stream earned' },
-    { value: '5000%', label: 'Increase in link clicks' },
+  // Featured article
+  const featuredArticle = {
+    category: 'Case Study',
+    title: 'Skyton Academy: Turning Live-Recorded Content into Revenue',
+    date: '18 Jul 2025',
+    readTime: '3 Min Read',
+    image: 'skyton',
+  };
+
+  // All articles - comprehensive list from formless.xyz/blog
+  const articles = [
+    {
+      id: 1,
+      category: 'Business',
+      title: 'The Future is Formless: 2025 and Beyond',
+      description: 'Shattering boundaries of traditional networks',
+      date: '07 Feb 2025',
+      readTime: '2 Min Read',
+      image: 'formless',
+    },
+    {
+      id: 2,
+      category: 'Case Study',
+      title: 'Artist Crokomoko shares revenue from streams on Spotify and Apple Music',
+      description: '2900% increase in daily streams',
+      date: '29 Jan 2025',
+      readTime: '2 Min Read',
+      image: 'crokomoko',
+    },
+    {
+      id: 3,
+      category: 'Business',
+      title: 'FORMLESS Announces Leadership Transitions as it Enters New Phase',
+      description: 'Jason Martin has been named CEO',
+      date: '23 Jan 2025',
+      readTime: '2 Min Read',
+      image: 'formless',
+    },
+    {
+      id: 4,
+      category: 'Case Study',
+      title: 'Community Splits Drives a 500% Increase in Engagement',
+      description: 'Sharing earnings amplifies awareness and connections',
+      date: '08 Oct 2024',
+      readTime: '4 Min Read',
+      image: 'share',
+    },
+    {
+      id: 5,
+      category: 'Case Study',
+      title: 'TRIBE Achieves a New Milestone: 10,000 Community Splits',
+      description: 'Participants received $1500 in shared earnings.',
+      date: '03 Oct 2024',
+      readTime: '2 Min Read',
+      image: 'tribe',
+    },
+    {
+      id: 6,
+      category: 'Case Study',
+      title: 'HAZ uses revenue sharing to drive beat sales',
+      description: 'Participants receive 50% of revenues',
+      date: '17 Sep 2024',
+      readTime: '3 Min Read',
+      image: 'haz',
+    },
+    {
+      id: 7,
+      category: 'Product',
+      title: 'SHARE 2.0: Unlocking the Power of Revenue Sharing',
+      description: 'Monetize digital assets and share revenue',
+      date: '17 Jul 2024',
+      readTime: '2 Min Read',
+      image: 'share',
+    },
+    {
+      id: 8,
+      category: 'Case Study',
+      title: 'TK uses revenue sharing to promote live performances',
+      description: 'Participants received $2195 in shared revenue',
+      date: '16 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'tk',
+    },
+    {
+      id: 9,
+      category: 'Case Study',
+      title: "Latashá's company TOPIA uses revenue sharing to grow",
+      description: 'Participants received $694 in shared revenue',
+      date: '10 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'latasha',
+    },
+    {
+      id: 10,
+      category: 'Case Study',
+      title: 'KIKI uses revenue sharing to promote their Onchain Summer campaign',
+      description: 'Participants received $820 in shared revenue',
+      date: '17 Jul 2024',
+      readTime: '2 Min Read',
+      image: 'kiki',
+    },
+    {
+      id: 11,
+      category: 'Case Study',
+      title: 'FORMLESS uses revenue sharing to increase brand awareness',
+      description: 'Participants received over $800 in shared revenue',
+      date: '16 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'formless3d',
+    },
+    {
+      id: 12,
+      category: 'Case Study',
+      title: 'PYNRS uses revenue sharing to help drive foot traffic for retail',
+      description: 'Participants received over $1,500 in shared revenue',
+      date: '10 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'pynrs',
+    },
+    {
+      id: 13,
+      category: 'Case Study',
+      title: 'Kickback Boston uses revenue sharing to promote its events',
+      description: 'Community shares revenue for event promotion',
+      date: '02 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'kickback',
+    },
+    {
+      id: 14,
+      category: 'Case Study',
+      title: 'IYK uses community revenue sharing to promote creator economy',
+      description: 'Participants received over $2,100 in shared revenue',
+      date: '18 Jun 2024',
+      readTime: '3 Min Read',
+      image: 'iyk',
+    },
+    {
+      id: 15,
+      category: 'Case Study',
+      title: 'Latashá uses revenue sharing to generate awareness for her music',
+      description: 'Community shares revenue for increasing impressions',
+      date: '22 May 2024',
+      readTime: '3 Min Read',
+      image: 'latasha-photo',
+    },
+    {
+      id: 16,
+      category: 'Case Study',
+      title: 'Artist TDot uses revenue sharing to promote his song',
+      description: 'Participants received $500 in shared revenue',
+      date: '02 Apr 2024',
+      readTime: '2 Min Read',
+      image: 'tdot',
+    },
+    {
+      id: 17,
+      category: 'Case Study',
+      title: 'Symphonic distributes music using the SHARE Protocol',
+      description: 'Community receives $160 with the first 24 hours',
+      date: '01 Feb 2024',
+      readTime: '3 Min Read',
+      image: 'symphonic',
+    },
+    {
+      id: 18,
+      category: 'Whitepaper',
+      title: 'SHARE: Decentralized distribution using peer-to-peer transactions',
+      description: 'The SHARE Protocol',
+      date: '16 Feb 2022',
+      readTime: '2 Min Read',
+      image: 'formless',
+    },
   ];
+
+  // Render image placeholder based on type
+  const renderCardImage = (imageType) => {
+    const baseStyle = {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#0a0a0a',
+    };
+
+    switch (imageType) {
+      case 'formless':
+        return (
+          <div style={baseStyle}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <svg width="40" height="40" viewBox="0 0 16 18" fill="white">
+                <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
+              </svg>
+              <span style={{
+                fontSize: '24px',
+                fontWeight: '600',
+                color: 'white',
+                letterSpacing: '2px',
+              }}>
+                FORMLESS<sup style={{ fontSize: '10px' }}>™</sup>
+              </span>
+            </div>
+          </div>
+        );
+      case 'formless3d':
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%)'}}>
+            <div style={{
+              width: '100px',
+              height: '100px',
+              border: '2px solid rgba(255,255,255,0.3)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
+              boxShadow: '0 0 40px rgba(100,150,255,0.2)',
+            }}>
+              <svg width="50" height="50" viewBox="0 0 16 18" fill="white" opacity="0.8">
+                <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
+              </svg>
+            </div>
+          </div>
+        );
+      case 'crokomoko':
+        return (
+          <div style={baseStyle}>
+            <span style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              color: 'white',
+              fontFamily: 'serif',
+              fontStyle: 'italic',
+              letterSpacing: '4px',
+            }}>
+              CROKOMOKO
+            </span>
+          </div>
+        );
+      case 'share':
+        return (
+          <div style={baseStyle}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <svg width="32" height="32" viewBox="0 0 16 18" fill="white">
+                <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
+              </svg>
+              <span style={{
+                fontSize: '28px',
+                fontWeight: '600',
+                color: 'white',
+                letterSpacing: '3px',
+              }}>
+                SHARE
+              </span>
+            </div>
+          </div>
+        );
+      case 'skyton':
+        // Skyton Academy - Cryptocurrency education platform by Steve Bayonne
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a2a1a 0%, #0a0a0a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                width: '100px',
+                height: '100px',
+                border: '3px solid rgba(100,200,100,0.6)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 12px',
+                position: 'relative',
+                background: 'rgba(100,200,100,0.05)',
+                boxShadow: '0 0 30px rgba(100,200,100,0.15)',
+              }}>
+                <span style={{ fontSize: '36px', fontWeight: '500', color: 'rgba(100,200,100,0.9)' }}>$</span>
+                {/* Outer ring decoration */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-12px',
+                  left: '-12px',
+                  right: '-12px',
+                  bottom: '-12px',
+                  border: '1px solid rgba(100,200,100,0.2)',
+                  borderRadius: '50%',
+                }}/>
+              </div>
+              <div style={{ letterSpacing: '4px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '600', color: 'white' }}>SKYTON</span>
+              </div>
+              <div style={{ letterSpacing: '3px', marginTop: '4px' }}>
+                <span style={{ fontSize: '10px', fontWeight: '400', color: 'rgba(100,200,100,0.7)' }}>ACADEMY</span>
+              </div>
+            </div>
+          </div>
+        );
+      case 'haz':
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #2a3a2a 0%, #0a0a0a 100%)'}}>
+            <span style={{
+              fontSize: '56px',
+              fontWeight: '700',
+              color: 'white',
+              letterSpacing: '4px',
+            }}>
+              HAZ
+            </span>
+          </div>
+        );
+      case 'tribe':
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
+            <span style={{
+              fontSize: '32px',
+              fontWeight: '600',
+              color: 'white',
+              letterSpacing: '6px',
+            }}>
+              TRIBE
+            </span>
+          </div>
+        );
+      case 'tk':
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #2a2a2a 0%, #0a0a0a 100%)'}}>
+            <span style={{
+              fontSize: '52px',
+              fontWeight: '300',
+              color: '#666',
+              fontFamily: 'Georgia, serif',
+              fontStyle: 'italic',
+            }}>
+              ℰ
+            </span>
+          </div>
+        );
+      case 'latasha':
+        // Latashá - Web3 pioneer artist, head of Zora community, founder of TOPIA
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #2d1f4a 0%, #1a1a2e 50%, #0f0f1a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '38px',
+                fontWeight: '500',
+                color: 'white',
+                fontStyle: 'italic',
+                letterSpacing: '4px',
+                textShadow: '0 0 30px rgba(150,100,255,0.3)',
+              }}>
+                LATASHÁ
+              </span>
+              <div style={{
+                fontSize: '10px',
+                fontWeight: '400',
+                color: 'rgba(200,180,255,0.6)',
+                letterSpacing: '3px',
+                marginTop: '10px',
+              }}>
+                TOPIA
+              </div>
+            </div>
+          </div>
+        );
+      case 'latasha-photo':
+        // Latashá - Artist photo style placeholder with her signature purple/creative aesthetic
+        return (
+          <div style={{
+            ...baseStyle,
+            background: 'linear-gradient(135deg, #3d2a5a 0%, #2a1f4a 50%, #1a1a2e 100%)',
+            position: 'relative',
+          }}>
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+            }}>
+              {/* Abstract artist silhouette */}
+              <div style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, rgba(200,150,255,0.3) 0%, rgba(150,100,200,0.2) 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 40px rgba(150,100,255,0.2)',
+                border: '2px solid rgba(200,150,255,0.2)',
+              }}>
+                {/* Microphone icon for artist */}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)">
+                  <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+                </svg>
+              </div>
+              <div style={{
+                position: 'absolute',
+                bottom: '20px',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.7)',
+                fontStyle: 'italic',
+                letterSpacing: '3px',
+              }}>
+                LATASHÁ
+              </div>
+            </div>
+          </div>
+        );
+      case 'kiki':
+        // KIKI World - Beauty brand using web3 for co-creation, NFC press-on nails
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #ff6b9d 0%, #c850c0 50%, #4158d0 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '52px',
+                fontWeight: '800',
+                color: 'white',
+                letterSpacing: '6px',
+                fontFamily: 'Arial Black, sans-serif',
+                textShadow: '0 2px 20px rgba(0,0,0,0.3)',
+              }}>
+                KIKI
+              </span>
+              <div style={{
+                fontSize: '10px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.8)',
+                letterSpacing: '4px',
+                marginTop: '8px',
+              }}>
+                WORLD
+              </div>
+            </div>
+          </div>
+        );
+      case 'pynrs':
+        // PYNRS (Pioneers) - Black-owned performance streetwear/running apparel from Boston
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #1a1a1a 0%, #000 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '8px' }}>
+                {/* Running/Peak icon representing pioneers in running */}
+                <svg width="45" height="35" viewBox="0 0 45 35" fill="none">
+                  <polygon points="22.5,0 45,35 0,35" fill="white"/>
+                  <polygon points="33,12 45,35 22,35" fill="rgba(255,255,255,0.4)"/>
+                </svg>
+              </div>
+              <span style={{
+                fontSize: '36px',
+                fontWeight: '800',
+                color: 'white',
+                letterSpacing: '6px',
+                fontFamily: 'Arial, sans-serif',
+              }}>
+                PYNRS
+              </span>
+              <div style={{
+                fontSize: '9px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '3px',
+                marginTop: '6px',
+              }}>
+                PERFORMANCE STREETWEAR
+              </div>
+            </div>
+          </div>
+        );
+      case 'kickback':
+        // Kickback Boston - Events collective for music experiences in Boston
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #2d1f3d 0%, #1a1a2a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{
+                width: '80px',
+                height: '80px',
+                border: '3px solid rgba(255,255,255,0.3)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px',
+                background: 'rgba(255,255,255,0.05)',
+              }}>
+                {/* Music/Event icon */}
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              </div>
+              <span style={{
+                fontSize: '28px',
+                fontWeight: '800',
+                color: 'white',
+                letterSpacing: '3px',
+                display: 'block',
+              }}>
+                KICKBACK
+              </span>
+              <span style={{
+                fontSize: '12px',
+                fontWeight: '500',
+                color: 'rgba(255,255,255,0.6)',
+                letterSpacing: '10px',
+              }}>
+                BOSTON
+              </span>
+            </div>
+          </div>
+        );
+      case 'iyk':
+        // IYK (If You Know) - Web3 startup using NFC for digital-physical experiences, "portals" theme
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'}}>
+            <div style={{
+              width: '120px',
+              height: '120px',
+              border: '2px solid rgba(100,150,255,0.4)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'radial-gradient(circle, rgba(100,150,255,0.1) 0%, transparent 70%)',
+              boxShadow: '0 0 60px rgba(100,150,255,0.2), inset 0 0 40px rgba(100,150,255,0.1)',
+            }}>
+              <span style={{
+                fontSize: '36px',
+                fontWeight: '300',
+                color: 'white',
+                letterSpacing: '12px',
+              }}>
+                IYK<sup style={{ fontSize: '12px', verticalAlign: 'super' }}>*</sup>
+              </span>
+            </div>
+          </div>
+        );
+      case 'tdot':
+        // TDOT ILLDUDE - Musician/producer from New Jersey, worked with Timbaland, Snoop Dogg, Meek Mill
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '42px',
+                fontWeight: '900',
+                color: 'white',
+                fontFamily: 'Impact, Arial Black, sans-serif',
+                letterSpacing: '4px',
+                display: 'block',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+              }}>
+                TDOT
+              </span>
+              <span style={{
+                fontSize: '20px',
+                fontWeight: '600',
+                color: 'rgba(255,255,255,0.7)',
+                letterSpacing: '8px',
+                fontStyle: 'italic',
+              }}>
+                ILLDUDE
+              </span>
+              <div style={{
+                marginTop: '12px',
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '4px',
+              }}>
+                {/* Sound wave bars */}
+                {[20, 35, 25, 40, 30, 45, 28].map((h, i) => (
+                  <div key={i} style={{
+                    width: '4px',
+                    height: `${h}px`,
+                    backgroundColor: 'rgba(255,255,255,0.4)',
+                    borderRadius: '2px',
+                  }}/>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case 'symphonic':
+        // Symphonic Distribution - Digital music distribution company from Tampa, FL, Latino-owned
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%)'}}>
+            <div style={{ textAlign: 'center' }}>
+              {/* Sound wave / distribution visual */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '3px',
+                marginBottom: '16px',
+              }}>
+                {[12, 24, 18, 32, 28, 38, 22, 30, 16, 26, 14].map((h, i) => (
+                  <div key={i} style={{
+                    width: '3px',
+                    height: `${h}px`,
+                    backgroundColor: 'rgba(100,180,255,0.6)',
+                    borderRadius: '2px',
+                  }}/>
+                ))}
+              </div>
+              <span style={{
+                fontSize: '26px',
+                fontWeight: '500',
+                color: 'white',
+                letterSpacing: '5px',
+                textTransform: 'uppercase',
+              }}>
+                SYMPHONIC
+              </span>
+              <div style={{
+                fontSize: '9px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.5)',
+                letterSpacing: '2px',
+                marginTop: '8px',
+              }}>
+                DISTRIBUTION
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return (
+          <div style={baseStyle}>
+            <svg width="40" height="40" viewBox="0 0 16 18" fill="white" opacity="0.3">
+              <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
+            </svg>
+          </div>
+        );
+    }
+  };
+
+  const getCategoryStyle = (category) => {
+    return {
+      fontSize: '11px',
+      fontWeight: '500',
+      padding: '6px 14px',
+      backgroundColor: 'rgba(255,255,255,0.1)',
+      borderRadius: '4px',
+      color: 'white',
+      display: 'inline-block',
+    };
+  };
 
   return (
     <div style={{
@@ -67,405 +701,183 @@ const CaseStudies = () => {
       {/* Header/Navigation */}
       <Header activePage="case-studies" />
 
-      {/* Hero Section */}
+      {/* Featured Hero Article */}
       <section
         ref={heroRef}
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          paddingTop: '120px',
-          paddingBottom: '100px',
-          paddingLeft: 'clamp(16px, 3vw, 40px)',
-          paddingRight: 'clamp(16px, 3vw, 40px)',
+          paddingTop: '140px',
+          paddingBottom: '80px',
+          paddingLeft: 'clamp(16px, 5vw, 60px)',
+          paddingRight: 'clamp(16px, 5vw, 60px)',
         }}
       >
         <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-          maxWidth: '1500px',
+          maxWidth: '1400px',
           margin: '0 auto',
-          gap: 'clamp(80px, 12vw, 150px)',
-          flexWrap: 'wrap',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '60px',
+          alignItems: 'center',
           opacity: heroVisible ? 1 : 0,
           transform: heroVisible ? 'translateY(0)' : 'translateY(40px)',
           transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
         }}>
-          {/* Left Column - Title */}
-          <div style={{ flex: '1 1 400px', maxWidth: '700px' }}>
-            <p style={{
-              fontSize: 'clamp(12px, 1.5vw, 16px)',
-              fontWeight: '500',
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-              marginBottom: '24px',
-              opacity: 0.7,
-            }}>
-              Case Studies
-            </p>
+          {/* Left - Content */}
+          <div>
+            <span style={getCategoryStyle(featuredArticle.category)}>
+              {featuredArticle.category}
+            </span>
+
             <h1 style={{
-              fontSize: 'clamp(36px, 6vw, 72px)',
-              fontWeight: '400',
-              lineHeight: '1.05',
-              margin: 0,
-              fontFamily: '"Inter", sans-serif',
-              letterSpacing: '-2px',
-            }}>
-              Real results.<br />Real impact.
-            </h1>
-          </div>
-
-          {/* Right Column - Description */}
-          <div style={{
-            flex: '1 1 400px',
-            maxWidth: '500px',
-            paddingTop: '60px',
-          }}>
-            <p style={{
-              fontSize: 'clamp(14px, 1.8vw, 20px)',
-              lineHeight: '1.6',
-              fontWeight: '400',
-              margin: 0,
-              fontFamily: '"Inter", sans-serif',
-            }}>
-              Discover how leading companies are leveraging FORMLESS technology to transform their revenue models and create meaningful connections with their communities.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Gradient Fade to Black */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          height: '200px',
-          background: 'linear-gradient(to bottom, transparent 0%, #000 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Featured Case Study - Symphonic Distribution */}
-      <section
-        style={{
-          position: 'relative',
-          zIndex: 3,
-          padding: '80px clamp(16px, 3vw, 40px)',
-          backgroundColor: '#000',
-        }}
-      >
-        <div style={{
-          maxWidth: '1500px',
-          margin: '0 auto',
-        }}>
-          {/* Case Study Header */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '24px',
-            marginBottom: '80px',
-          }}>
-            {/* Hexagon Shape */}
-            <svg
-              width="30"
-              height="30"
-              viewBox="0 0 16 18"
-              fill="white"
-              style={{
-                flexShrink: 0,
-                marginTop: '16px',
-              }}
-            >
-              <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
-            </svg>
-
-            <h2 style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
               fontWeight: '400',
               lineHeight: '1.1',
-              fontFamily: '"Inter", sans-serif',
-              margin: 0,
+              margin: '24px 0',
               letterSpacing: '-1px',
             }}>
-              Symphonic Distribution
-            </h2>
-          </div>
+              {featuredArticle.title}
+            </h1>
 
-          {/* Partner Info */}
-          <div style={{
-            display: 'flex',
-            gap: 'clamp(40px, 8vw, 120px)',
-            marginBottom: '100px',
-            flexWrap: 'wrap',
-          }}>
-            <div>
-              <p style={{
-                fontSize: '14px',
-                opacity: 0.6,
-                marginBottom: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-              }}>
-                Industry
-              </p>
-              <p style={{
-                fontSize: 'clamp(18px, 2vw, 24px)',
-                fontWeight: '400',
-              }}>
-                Music Distribution & Royalties
-              </p>
-            </div>
-            <div>
-              <p style={{
-                fontSize: '14px',
-                opacity: 0.6,
-                marginBottom: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-              }}>
-                Location
-              </p>
-              <p style={{
-                fontSize: 'clamp(18px, 2vw, 24px)',
-                fontWeight: '400',
-              }}>
-                United States
-              </p>
-            </div>
-            <div>
-              <p style={{
-                fontSize: '14px',
-                opacity: 0.6,
-                marginBottom: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-              }}>
-                Partnership
-              </p>
-              <p style={{
-                fontSize: 'clamp(18px, 2vw, 24px)',
-                fontWeight: '400',
-              }}>
-                SHARE Protocol Integration
-              </p>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div
-            ref={statsRef}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'clamp(30px, 4vw, 60px)',
-              marginBottom: '120px',
-              padding: '60px 0',
-              borderTop: '1px solid rgba(255,255,255,0.1)',
-              borderBottom: '1px solid rgba(255,255,255,0.1)',
-            }}
-          >
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                style={{
-                  textAlign: 'center',
-                  opacity: statsVisible ? 1 : 0,
-                  transform: statsVisible ? 'translateY(0)' : 'translateY(30px)',
-                  transition: `opacity 0.6s ease-out ${index * 0.1}s, transform 0.6s ease-out ${index * 0.1}s`,
-                }}
-              >
-                <p style={{
-                  fontSize: 'clamp(48px, 8vw, 80px)',
-                  fontWeight: '300',
-                  margin: '0 0 16px 0',
-                  letterSpacing: '-2px',
-                  background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}>
-                  {stat.value}
-                </p>
-                <p style={{
-                  fontSize: 'clamp(14px, 1.5vw, 18px)',
-                  opacity: 0.7,
-                  margin: 0,
-                }}>
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Case Study Details */}
-          <div
-            ref={detailsRef}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-              gap: 'clamp(40px, 6vw, 100px)',
-              marginBottom: '100px',
-            }}
-          >
-            {/* Challenge */}
-            <div style={{
-              opacity: detailsVisible ? 1 : 0,
-              transform: detailsVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(24px, 3vw, 32px)',
-                fontWeight: '400',
-                marginBottom: '24px',
-                letterSpacing: '-0.5px',
-              }}>
-                The Challenge
-              </h3>
-              <p style={{
-                fontSize: 'clamp(16px, 1.5vw, 18px)',
-                lineHeight: '1.7',
-                opacity: 0.85,
-              }}>
-                Symphonic Distribution, an industry leader in music distribution and royalty payments,
-                faced the challenge of slow payment cycles and limited fan engagement. Traditional
-                royalty systems meant artists waited months for payments, and there was no mechanism
-                for fans to participate in an artist's success.
-              </p>
-            </div>
-
-            {/* Solution */}
-            <div style={{
-              opacity: detailsVisible ? 1 : 0,
-              transform: detailsVisible ? 'translateY(0)' : 'translateY(30px)',
-              transition: 'opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s',
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(24px, 3vw, 32px)',
-                fontWeight: '400',
-                marginBottom: '24px',
-                letterSpacing: '-0.5px',
-              }}>
-                The Solution
-              </h3>
-              <p style={{
-                fontSize: 'clamp(16px, 1.5vw, 18px)',
-                lineHeight: '1.7',
-                opacity: 0.85,
-              }}>
-                By integrating the SHARE Protocol, Symphonic enabled instant stablecoin payments
-                and community revenue sharing. Artists could now receive payments in real-time,
-                while fans could participate in royalty splits, creating a new paradigm for
-                creator-fan relationships in the music industry.
-              </p>
-            </div>
-          </div>
-
-          {/* Results Section */}
-          <div style={{
-            backgroundColor: 'rgba(255,255,255,0.03)',
-            borderRadius: '16px',
-            padding: 'clamp(40px, 5vw, 80px)',
-            marginBottom: '80px',
-            opacity: detailsVisible ? 1 : 0,
-            transform: detailsVisible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 0.8s ease-out 0.4s, transform 0.8s ease-out 0.4s',
-          }}>
-            <h3 style={{
-              fontSize: 'clamp(24px, 3vw, 32px)',
-              fontWeight: '400',
-              marginBottom: '40px',
-              letterSpacing: '-0.5px',
-            }}>
-              The Results
-            </h3>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '32px',
-            }}>
-              {[
-                {
-                  title: 'Instant Payments',
-                  description: '200X faster time-to-revenue with instant stablecoin payments, eliminating months-long payment cycles.',
-                },
-                {
-                  title: 'Revenue Per Stream',
-                  description: '$160 generated on only 100 streams in 24 hours, achieving $1.60 per stream compared to fractions of a cent traditionally.',
-                },
-                {
-                  title: 'Community Engagement',
-                  description: '5000% increase in link clicks and 177% increase in impressions through community-driven revenue sharing.',
-                },
-                {
-                  title: 'Fan Participation',
-                  description: 'Enabled businesses and consumers to participate in royalty splits, creating true community ownership.',
-                },
-              ].map((result, index) => (
-                <div key={index}>
-                  <h4 style={{
-                    fontSize: '18px',
-                    fontWeight: '500',
-                    marginBottom: '12px',
-                  }}>
-                    {result.title}
-                  </h4>
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.6',
-                    opacity: 0.75,
-                    margin: 0,
-                  }}>
-                    {result.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quote Section */}
-          <div style={{
-            maxWidth: '900px',
-            margin: '0 auto 100px',
-            textAlign: 'center',
-            opacity: detailsVisible ? 1 : 0,
-            transform: detailsVisible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 0.8s ease-out 0.6s, transform 0.8s ease-out 0.6s',
-          }}>
-            <blockquote style={{
-              fontSize: 'clamp(24px, 3.5vw, 36px)',
-              fontWeight: '300',
-              lineHeight: '1.4',
-              fontStyle: 'italic',
-              margin: '0 0 32px 0',
-            }}>
-              "The integration of SHARE Protocol has fundamentally changed how we think about
-              artist payments and fan engagement. This is the future of the creator economy."
-            </blockquote>
             <p style={{
               fontSize: '16px',
-              opacity: 0.7,
+              color: 'rgba(255,255,255,0.5)',
             }}>
-              — Symphonic Distribution Team
+              {featuredArticle.date} - {featuredArticle.readTime}
             </p>
+          </div>
+
+          {/* Right - Featured Image */}
+          <div style={{
+            height: '350px',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.1)',
+          }}>
+            {renderCardImage(featuredArticle.image)}
           </div>
         </div>
       </section>
 
-      {/* Gradient Transition */}
-      <div
+      {/* Latest Articles Section */}
+      <section
+        ref={articlesRef}
         style={{
           position: 'relative',
-          zIndex: 2,
-          height: '300px',
-          background: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
-          pointerEvents: 'none',
+          zIndex: 3,
+          padding: '60px clamp(16px, 5vw, 60px) 80px',
+          backgroundColor: 'transparent',
         }}
-      />
+      >
+        <div style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+        }}>
+          {/* Section Title */}
+          <h2 style={{
+            fontSize: 'clamp(32px, 4vw, 48px)',
+            fontWeight: '400',
+            marginBottom: '60px',
+            letterSpacing: '-1px',
+            opacity: articlesVisible ? 1 : 0,
+            transform: articlesVisible ? 'translateY(0)' : 'translateY(20px)',
+            transition: 'opacity 0.6s ease-out, transform 0.6s ease-out',
+          }}>
+            Latest articles
+          </h2>
+
+          {/* Articles Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+            gap: '32px',
+          }}>
+            {articles.map((article, index) => (
+              <article
+                key={article.id}
+                style={{
+                  cursor: 'pointer',
+                  opacity: articlesVisible ? 1 : 0,
+                  transform: articlesVisible ? 'translateY(0)' : 'translateY(30px)',
+                  transition: `opacity 0.6s ease-out ${Math.min(index * 0.05, 0.5)}s, transform 0.6s ease-out ${Math.min(index * 0.05, 0.5)}s`,
+                }}
+                onMouseEnter={(e) => {
+                  const img = e.currentTarget.querySelector('.card-image');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  if (img) img.style.transform = 'scale(1.02)';
+                  if (title) title.style.color = 'rgba(255,255,255,0.8)';
+                }}
+                onMouseLeave={(e) => {
+                  const img = e.currentTarget.querySelector('.card-image');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  if (img) img.style.transform = 'scale(1)';
+                  if (title) title.style.color = 'white';
+                }}
+              >
+                {/* Image Container */}
+                <div style={{
+                  height: '220px',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  marginBottom: '20px',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                }}>
+                  <div
+                    className="card-image"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      transition: 'transform 0.4s ease',
+                    }}
+                  >
+                    {renderCardImage(article.image)}
+                  </div>
+                </div>
+
+                {/* Category Badge */}
+                <span style={getCategoryStyle(article.category)}>
+                  {article.category}
+                </span>
+
+                {/* Title */}
+                <h3
+                  className="card-title"
+                  style={{
+                    fontSize: 'clamp(20px, 2.5vw, 26px)',
+                    fontWeight: '400',
+                    lineHeight: '1.25',
+                    margin: '16px 0 12px',
+                    letterSpacing: '-0.5px',
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {article.title}
+                </h3>
+
+                {/* Description */}
+                <p style={{
+                  fontSize: '15px',
+                  lineHeight: '1.5',
+                  color: 'rgba(255,255,255,0.6)',
+                  margin: '0 0 16px',
+                }}>
+                  {article.description}
+                </p>
+
+                {/* Date & Read Time */}
+                <p style={{
+                  fontSize: '14px',
+                  color: 'rgba(255,255,255,0.4)',
+                  margin: 0,
+                }}>
+                  {article.date} - {article.readTime}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Join the Network Section */}
       <section
@@ -473,13 +885,12 @@ const CaseStudies = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '80vh',
+          minHeight: '60vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '100px 40px',
-          marginTop: '-150px',
         }}
       >
         <div style={{
@@ -489,23 +900,15 @@ const CaseStudies = () => {
           transition: 'opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s',
         }}>
           <h2 style={{
-            fontSize: 'clamp(36px, 6vw, 72px)',
-            fontWeight: '300',
+            fontSize: 'clamp(42px, 7vw, 90px)',
+            fontWeight: '400',
             lineHeight: '1.1',
             fontFamily: '"Inter", sans-serif',
-            margin: '0 0 24px 0',
+            margin: '0 0 50px 0',
             letterSpacing: '-2px',
           }}>
-            Ready to transform your<br />revenue model?
+            Join the network today.
           </h2>
-          <p style={{
-            fontSize: 'clamp(16px, 2vw, 20px)',
-            opacity: 0.7,
-            marginBottom: '48px',
-            maxWidth: '600px',
-          }}>
-            Join industry leaders who are already leveraging FORMLESS technology.
-          </p>
 
           <a
             href="/contact"
@@ -518,21 +921,18 @@ const CaseStudies = () => {
               fontSize: '18px',
               fontWeight: '400',
               fontFamily: '"Inter", sans-serif',
-              padding: '16px 32px',
-              border: '1px solid white',
-              borderRadius: '50px',
-              transition: 'all 0.3s ease',
+              paddingBottom: '8px',
+              borderBottom: '1px solid transparent',
+              transition: 'border-color 0.4s ease-in',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'white';
-              e.currentTarget.style.color = 'black';
+              e.currentTarget.style.borderColor = 'white';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.color = 'white';
+              e.currentTarget.style.borderColor = 'transparent';
             }}
           >
-            Get Started
+            Schedule a Meeting
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M7 17L17 7M17 7H10M17 7V14"/>
             </svg>
@@ -545,15 +945,16 @@ const CaseStudies = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          padding: '20px 20px 5px 20px',
+          padding: '40px 20px 20px',
           background: 'transparent',
         }}
       >
         {/* Social Media Icons */}
         <div style={{
           display: 'flex',
-          gap: '80px',
-          marginBottom: '30px',
+          gap: '60px',
+          marginBottom: '40px',
+          flexWrap: 'wrap',
         }}>
           {/* X (Twitter) */}
           <a href="https://x.com/formless_xyz" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
@@ -574,7 +975,7 @@ const CaseStudies = () => {
           </a>
 
           {/* Instagram */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="https://instagram.com/formless_xyz" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -583,7 +984,7 @@ const CaseStudies = () => {
           </a>
 
           {/* Discord */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="https://discord.gg/formless" target="_blank" rel="noopener noreferrer" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -596,22 +997,20 @@ const CaseStudies = () => {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '32px',
+          gap: '24px',
           marginBottom: '40px',
+          flexWrap: 'wrap',
         }}>
-          {/* Big Logo Image */}
           <img
             src="/logomain.png"
             alt="Formless Logo"
             style={{
-              height: 'clamp(100px, 18vw, 180px)',
+              height: 'clamp(80px, 15vw, 160px)',
               width: 'auto',
             }}
           />
-
-          {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(60px, 14vw, 180px)',
+            fontSize: 'clamp(50px, 12vw, 160px)',
             fontWeight: '600',
             letterSpacing: '0px',
             margin: 0,
@@ -629,46 +1028,34 @@ const CaseStudies = () => {
         {/* Footer Links */}
         <div style={{
           display: 'flex',
-          gap: '130px',
+          gap: '80px',
           fontSize: '12px',
           fontFamily: '"Inter", sans-serif',
-          marginBottom: '30px',
+          marginBottom: '20px',
           color: 'white',
+          flexWrap: 'wrap',
         }}>
           <span>© FORMLESS</span>
-          <a href="#" style={{
-            color: 'rgba(255,255,255,0.7)',
+          <a href="/privacy" style={{
+            color: 'rgba(255,255,255,0.6)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
           }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
+          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>
             Privacy Policy
           </a>
-          <a href="#" style={{
-            color: 'rgba(255,255,255,0.7)',
+          <a href="/terms" style={{
+            color: 'rgba(255,255,255,0.6)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
           }}
           onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
+          onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}>
             Terms of Service
           </a>
         </div>
       </footer>
-
-      {/* Responsive Styles */}
-      <style>
-        {`
-          @media (max-width: 768px) {
-            .footer-logo {
-              flex-direction: column;
-              align-items: flex-start;
-              gap: 16px !important;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 };
