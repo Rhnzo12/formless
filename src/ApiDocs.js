@@ -2402,9 +2402,113 @@ headers = {
 response = requests.post(url, json=payload, headers=headers)
 
 print(response.text)`;
+                        const javascriptCode = `const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    id: '1',
+    method: 'identity_get_by_email_address',
+    params: {email_address: 'user@example.com'}
+  })
+};
+
+fetch('https://share-ddn.formless.xyz/v1#identity_get_by_email_address', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));`;
+                        const phpCode = `<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://share-ddn.formless.xyz/v1#identity_get_by_email_address",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS => json_encode([
+    'jsonrpc' => '2.0',
+    'id' => '1',
+    'method' => 'identity_get_by_email_address',
+    'params' => [
+        'email_address' => 'user@example.com'
+    ]
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer <token>",
+    "Content-Type: application/json"
+  ],
+]);
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}`;
+                        const goCode = `package main
+
+import (
+	"fmt"
+	"strings"
+	"net/http"
+	"io"
+)
+
+func main() {
+
+	url := "https://share-ddn.formless.xyz/v1#identity_get_by_email_address"
+
+	payload := strings.NewReader("{\\"jsonrpc\\": \\"2.0\\",\\"id\\": \\"1\\",\\"method\\": \\"identity_get_by_email_address\\",\\"params\\": {\\"email_address\\": \\"user@example.com\\"}}")
+
+	req, _ := http.NewRequest("POST", url, payload)
+
+	req.Header.Add("Authorization", "Bearer <token>")
+	req.Header.Add("Content-Type", "application/json")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+
+	fmt.Println(string(body))
+
+}`;
+                        const javaCode = `HttpResponse<String> response = Unirest.post("https://share-ddn.formless.xyz/v1#identity_get_by_email_address")
+  .header("Authorization", "Bearer <token>")
+  .header("Content-Type", "application/json")
+  .body("{\\"jsonrpc\\": \\"2.0\\",\\"id\\": \\"1\\",\\"method\\": \\"identity_get_by_email_address\\",\\"params\\": {\\"email_address\\": \\"user@example.com\\"}}")
+  .asString();`;
+                        const rubyCode = `require 'uri'
+require 'net/http'
+
+url = URI("https://share-ddn.formless.xyz/v1#identity_get_by_email_address")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = 'Bearer <token>'
+request["Content-Type"] = 'application/json'
+request.body = "{\\"jsonrpc\\": \\"2.0\\",\\"id\\": \\"1\\",\\"method\\": \\"identity_get_by_email_address\\",\\"params\\": {\\"email_address\\": \\"user@example.com\\"}}"
+
+response = http.request(request)
+puts response.read_body`;
                         const codeMap = {
                           'curl': curlCode,
                           'Python': pythonCode,
+                          'JavaScript': javascriptCode,
+                          'PHP': phpCode,
+                          'Go': goCode,
+                          'Java': javaCode,
+                          'Ruby': rubyCode,
                         };
                         copyToClipboard(codeMap[selectedLanguage] || curlCode, 'code-identity');
                       }}
@@ -2478,6 +2582,125 @@ print(response.text)`;
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
 
 `}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.text)`}
+                      </>
+                    )}
+                    {selectedLanguage === 'JavaScript' && (
+                      <>
+<span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{`}<span style={{ color: '#9cdcfe' }}>Authorization</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>, <span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`},
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#dcdcaa' }}>JSON.stringify</span>{`({
+    `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'identity_get_by_email_address'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>params</span>: {`{`}<span style={{ color: '#9cdcfe' }}>email_address</span>: <span style={{ color: '#fbbf24' }}>'user@example.com'</span>{`}
+  })
+};
+
+`}<span style={{ color: '#dcdcaa' }}>fetch</span>{`(`}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{`, options)
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(res => res.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(res => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(res))
+  .`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(err => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(err));`}
+                      </>
+                    )}
+                    {selectedLanguage === 'PHP' && (
+                      <>
+<span style={{ color: '#c586c0' }}>&lt;?php</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>$curl</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_init</span>{`();
+
+`}<span style={{ color: '#dcdcaa' }}>curl_setopt_array</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`, [
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_URL</span>{` => `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#identity_get_by_email_address"</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_RETURNTRANSFER</span>{` => `}<span style={{ color: '#4ade80' }}>true</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_ENCODING</span>{` => `}<span style={{ color: '#fbbf24' }}>""</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_MAXREDIRS</span>{` => `}<span style={{ color: '#b5cea8' }}>10</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_TIMEOUT</span>{` => `}<span style={{ color: '#b5cea8' }}>30</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_HTTP_VERSION</span>{` => `}<span style={{ color: '#9cdcfe' }}>CURL_HTTP_VERSION_1_1</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_CUSTOMREQUEST</span>{` => `}<span style={{ color: '#fbbf24' }}>"POST"</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_POSTFIELDS</span>{` => `}<span style={{ color: '#dcdcaa' }}>json_encode</span>{`([
+    `}<span style={{ color: '#fbbf24' }}>'jsonrpc'</span>{` => `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'id'</span>{` => `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'method'</span>{` => `}<span style={{ color: '#fbbf24' }}>'identity_get_by_email_address'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'params'</span>{` => [
+        `}<span style={{ color: '#fbbf24' }}>'email_address'</span>{` => `}<span style={{ color: '#fbbf24' }}>'user@example.com'</span>{`
+    ]
+  ]),
+  `}<span style={{ color: '#9cdcfe' }}>CURLOPT_HTTPHEADER</span>{` => [
+    `}<span style={{ color: '#fbbf24' }}>"Authorization: Bearer &lt;token&gt;"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type: application/json"</span>{`
+  ],
+]);
+
+`}<span style={{ color: '#9cdcfe' }}>$response</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_exec</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#9cdcfe' }}>$err</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_error</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+
+`}<span style={{ color: '#dcdcaa' }}>curl_close</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+
+`}<span style={{ color: '#c586c0' }}>if</span>{` (`}<span style={{ color: '#9cdcfe' }}>$err</span>{`) {
+  `}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#fbbf24' }}>"cURL Error #:"</span>{` . `}<span style={{ color: '#9cdcfe' }}>$err</span>{`;
+} `}<span style={{ color: '#c586c0' }}>else</span>{` {
+  `}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#9cdcfe' }}>$response</span>{`;
+}`}
+                      </>
+                    )}
+                    {selectedLanguage === 'Go' && (
+                      <>
+<span style={{ color: '#c586c0' }}>package</span>{` main
+
+`}<span style={{ color: '#c586c0' }}>import</span>{` (
+	`}<span style={{ color: '#fbbf24' }}>"fmt"</span>{`
+	`}<span style={{ color: '#fbbf24' }}>"strings"</span>{`
+	`}<span style={{ color: '#fbbf24' }}>"net/http"</span>{`
+	`}<span style={{ color: '#fbbf24' }}>"io"</span>{`
+)
+
+`}<span style={{ color: '#c586c0' }}>func</span>{` `}<span style={{ color: '#dcdcaa' }}>main</span>{`() {
+
+	`}<span style={{ color: '#9cdcfe' }}>url</span>{` := `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#identity_get_by_email_address"</span>{`
+
+	`}<span style={{ color: '#9cdcfe' }}>payload</span>{` := strings.`}<span style={{ color: '#dcdcaa' }}>NewReader</span>{`(`}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"id\": \"1\",\"method\": \"identity_get_by_email_address\",\"params\": {\"email_address\": \"user@example.com\"}}"}`</span>{`)
+
+	`}<span style={{ color: '#9cdcfe' }}>req</span>{`, _ := http.`}<span style={{ color: '#dcdcaa' }}>NewRequest</span>{`(`}<span style={{ color: '#fbbf24' }}>"POST"</span>{`, url, payload)
+
+	req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+	req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+
+	`}<span style={{ color: '#9cdcfe' }}>res</span>{`, _ := http.DefaultClient.`}<span style={{ color: '#dcdcaa' }}>Do</span>{`(req)
+
+	`}<span style={{ color: '#c586c0' }}>defer</span>{` res.Body.`}<span style={{ color: '#dcdcaa' }}>Close</span>{`()
+	`}<span style={{ color: '#9cdcfe' }}>body</span>{`, _ := io.`}<span style={{ color: '#dcdcaa' }}>ReadAll</span>{`(res.Body)
+
+	fmt.`}<span style={{ color: '#dcdcaa' }}>Println</span>{`(`}<span style={{ color: '#dcdcaa' }}>string</span>{`(body))
+
+}`}
+                      </>
+                    )}
+                    {selectedLanguage === 'Java' && (
+                      <>
+<span style={{ color: '#4ec9b0' }}>HttpResponse</span>{`<`}<span style={{ color: '#4ec9b0' }}>String</span>{`> `}<span style={{ color: '#9cdcfe' }}>response</span>{` = `}<span style={{ color: '#4ec9b0' }}>Unirest</span>{`.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#identity_get_by_email_address"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>body</span>{`(`}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"id\": \"1\",\"method\": \"identity_get_by_email_address\",\"params\": {\"email_address\": \"user@example.com\"}}"}`</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>asString</span>{`();`}
+                      </>
+                    )}
+                    {selectedLanguage === 'Ruby' && (
+                      <>
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#identity_get_by_email_address"</span>{`)
+
+`}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
+http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
+request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"id\": \"1\",\"method\": \"identity_get_by_email_address\",\"params\": {\"email_address\": \"user@example.com\"}}"}`</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
+`}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
                       </>
                     )}
                   </pre>
