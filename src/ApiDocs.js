@@ -599,14 +599,16 @@ const ApiDocs = () => {
       </aside>
 
       {/* Main Content */}
-      <main style={{
-        flex: 1,
-        marginLeft: '280px',
-        marginRight: activeSection === 'identity-lookup' ? '480px' : '260px',
-        padding: '40px 60px',
-        paddingTop: '136px',
-        transition: 'margin-right 0.2s ease',
-      }}>
+      <main
+        className={`main-content ${activeSection === 'identity-lookup' ? 'identity-lookup-active' : ''}`}
+        style={{
+          flex: 1,
+          marginLeft: '280px',
+          marginRight: activeSection === 'identity-lookup' ? '480px' : '260px',
+          padding: '40px 60px',
+          paddingTop: '136px',
+          transition: 'margin-right 0.2s ease',
+        }}>
         {/* Welcome Page Content */}
         {activeSection === 'welcome' && (
           <>
@@ -1157,9 +1159,10 @@ const ApiDocs = () => {
         {activeSection === 'identity-lookup' && (
           <>
             {/* Two Column Layout */}
-            <div style={{ display: 'flex', gap: '40px' }}>
+            <div className="identity-lookup-layout" style={{ display: 'flex', gap: '40px' }}>
               {/* Left Column - Documentation */}
               <div
+                className="identity-lookup-content"
                 style={{
                   flex: 1,
                   minWidth: 0,
@@ -2250,6 +2253,7 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panels (Fixed) */}
             <div
+              className="code-panel-right"
               style={{
                 width: '420px',
                 flexShrink: 0,
@@ -2878,11 +2882,44 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
             scrollbar-color: ${isDarkMode ? '#333 transparent' : '#ccc transparent'};
           }
 
+          @media (max-width: 1400px) {
+            .code-panel-right {
+              width: 380px !important;
+              right: 20px !important;
+            }
+            main.identity-lookup-active {
+              margin-right: 420px !important;
+            }
+          }
+
           @media (max-width: 1200px) {
             aside:last-child {
               display: none;
             }
-            main {
+            .code-panel-right {
+              width: 340px !important;
+              right: 10px !important;
+            }
+            main.main-content:not(.identity-lookup-active) {
+              margin-right: 0 !important;
+            }
+            main.identity-lookup-active {
+              margin-right: 360px !important;
+            }
+          }
+
+          @media (max-width: 1024px) {
+            .identity-lookup-layout {
+              flex-direction: column !important;
+            }
+            .code-panel-right {
+              position: static !important;
+              width: 100% !important;
+              right: auto !important;
+              top: auto !important;
+              margin-top: 32px;
+            }
+            main.main-content {
               margin-right: 0 !important;
             }
           }
@@ -2891,9 +2928,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
             aside:first-child {
               display: none;
             }
-            main {
+            main.main-content {
               margin-left: 0 !important;
               padding: 24px !important;
+              padding-top: 100px !important;
+            }
+            .code-panel-right {
+              position: static !important;
+              width: 100% !important;
+              margin-top: 24px;
             }
           }
         `}
