@@ -220,93 +220,148 @@ const About = () => {
             }
           }
           @media (max-width: 768px) {
+            :root {
+              --team-card-width: calc(100vw - 32px);
+              --team-card-gap: 0px;
+            }
             .about-hero-section {
               padding-top: 100px !important;
               padding-bottom: 60px !important;
+              min-height: auto !important;
             }
             .about-hero-flex {
               flex-direction: column !important;
-              gap: 30px !important;
+              gap: 40px !important;
+            }
+            .about-hero-flex > div:first-child {
+              max-width: 100% !important;
+            }
+            .about-hero-flex h1 {
+              font-size: clamp(32px, 8vw, 48px) !important;
             }
             .about-hero-right {
               padding-top: 0 !important;
               padding-left: 0 !important;
+              max-width: 100% !important;
+            }
+            .about-hero-right p {
+              font-size: 16px !important;
             }
             .about-3d-container {
-              height: 300px !important;
+              height: 350px !important;
               min-width: 100% !important;
+            }
+            .about-creators-section {
+              min-height: auto !important;
+              padding: 60px 16px !important;
             }
             .about-creators-flex {
               flex-direction: column !important;
+              gap: 40px !important;
+            }
+            .about-creators-flex h2 {
+              font-size: clamp(32px, 8vw, 48px) !important;
+            }
+            .about-creators-flex p {
+              font-size: 16px !important;
             }
             .about-funds-grid {
               grid-template-columns: 1fr !important;
             }
             .about-funds-grid > div {
-              padding: 30px 15px !important;
+              padding: 40px 20px !important;
+              min-height: 150px !important;
+            }
+            .about-funds-grid img {
+              max-width: 200px !important;
             }
             .about-angels-grid {
               grid-template-columns: 1fr !important;
             }
-            :root {
-              --team-card-width: calc(100vw - 32px);
-              --team-card-gap: 16px;
+            .about-angels-grid > div {
+              padding: 30px 20px !important;
+            }
+            .about-founders-section {
+              padding: 80px 16px !important;
+              min-height: auto !important;
+            }
+            .about-founders-section h2 {
+              font-size: clamp(40px, 10vw, 80px) !important;
             }
             .about-team-section {
               padding: 60px 0 !important;
             }
-            .about-team-carousel {
+            .about-team-progress {
               padding-left: 16px !important;
               padding-right: 16px !important;
-              gap: 16px !important;
+              margin-bottom: 20px !important;
+            }
+            .about-team-carousel {
+              padding-left: 16px !important;
+              padding-right: 0 !important;
+              gap: 0 !important;
             }
             .about-team-card {
               width: calc(100vw - 32px) !important;
+              padding-right: 16px !important;
             }
             .about-team-card h3 {
-              font-size: 24px !important;
+              font-size: 28px !important;
+              margin-bottom: 12px !important;
             }
-            .about-team-card p.bio-text {
+            .about-team-card .team-title {
+              font-size: 16px !important;
+              margin-bottom: 30px !important;
+            }
+            .about-team-card .team-bio {
+              font-size: 18px !important;
+              line-height: 1.5 !important;
+            }
+            .about-team-card .read-more-btn {
               font-size: 16px !important;
             }
             .about-team-nav {
               padding-left: 16px !important;
-              margin-top: 40px !important;
+              margin-top: 50px !important;
+            }
+            .about-join-section {
+              padding: 80px 16px !important;
+              min-height: auto !important;
+            }
+            .about-join-section h2 {
+              font-size: clamp(36px, 9vw, 60px) !important;
             }
             .about-footer-social {
               flex-direction: column !important;
-              gap: 24px !important;
+              gap: 20px !important;
               align-items: flex-start !important;
             }
             .about-footer-logo {
               flex-wrap: wrap !important;
               gap: 16px !important;
-              justify-content: center !important;
+              justify-content: flex-start !important;
             }
             .about-footer-logo img {
               height: 80px !important;
             }
             .about-footer-logo h2 {
-              font-size: clamp(40px, 12vw, 80px) !important;
+              font-size: clamp(48px, 15vw, 100px) !important;
             }
             .about-footer-links {
               flex-wrap: wrap !important;
-              gap: 16px 30px !important;
+              gap: 12px 24px !important;
               justify-content: flex-start !important;
-            }
-            .about-join-section {
-              padding: 60px 20px !important;
-            }
-            .about-founders-section {
-              padding: 80px 20px !important;
             }
           }
           @media (max-width: 480px) {
-            .about-team-card {
-              width: calc(100vw - 32px) !important;
+            :root {
+              --team-card-width: calc(100vw - 32px);
             }
-            .about-footer-links {
-              gap: 12px 20px !important;
+            .about-hero-flex h1 {
+              font-size: 28px !important;
+            }
+            .about-footer-logo h2 {
+              font-size: clamp(40px, 14vw, 80px) !important;
             }
           }
         `}
@@ -391,6 +446,7 @@ const About = () => {
       {/* By Creators Section with 3D Logo */}
       <section
         ref={creatorsRef}
+        className="about-creators-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -750,7 +806,7 @@ const About = () => {
           position: 'relative',
         }}>
           {/* Progress Indicator */}
-          <div style={{
+          <div className="about-team-progress" style={{
             display: 'flex',
             gap: '8px',
             paddingLeft: 'clamp(16px, 3vw, 40px)',
@@ -839,26 +895,26 @@ const About = () => {
                   </h3>
 
                   {/* Title */}
-                  <p style={{
+                  <p className="team-title" style={{
                     fontSize: 'clamp(14px, 1.2vw, 16px)',
                     fontWeight: '400',
                     fontFamily: '"Inter", sans-serif',
-                    margin: '0 0 20px 0',
+                    margin: '0 0 24px 0',
                     color: 'rgba(255,255,255,0.9)',
                   }}>
                     {member.title}
                   </p>
 
                   {/* Bio */}
-                  <p style={{
-                    fontSize: 'clamp(18px, 1.1vw, 20px)',
+                  <p className="team-bio" style={{
+                    fontSize: 'clamp(16px, 1.3vw, 20px)',
                     fontWeight: '400',
                     fontFamily: '"Inter", sans-serif',
-                    lineHeight: '1.6',
-                    margin: '0 0 16px 0',
+                    lineHeight: '1.55',
+                    margin: '0 0 20px 0',
                     color: 'rgba(255,255,255,0.85)',
                     display: expandedBios[index] ? 'block' : '-webkit-box',
-                    WebkitLineClamp: expandedBios[index] ? 'unset' : 4,
+                    WebkitLineClamp: expandedBios[index] ? 'unset' : 5,
                     WebkitBoxOrient: 'vertical',
                     overflow: expandedBios[index] ? 'visible' : 'hidden',
                   }}>
@@ -867,6 +923,7 @@ const About = () => {
 
                   {/* Read More/Less Button */}
                   <button
+                    className="read-more-btn"
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleBio(index);
@@ -912,7 +969,7 @@ const About = () => {
                 width: '50px',
                 height: '50px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
+                border: '1px solid rgba(255,255,255,0.4)',
                 background: 'transparent',
                 cursor: 'pointer',
                 display: 'flex',
@@ -925,12 +982,12 @@ const About = () => {
                 e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
                 e.currentTarget.style.background = 'transparent';
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
 
@@ -941,7 +998,7 @@ const About = () => {
                 width: '50px',
                 height: '50px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
+                border: '1px solid rgba(255,255,255,0.4)',
                 background: 'transparent',
                 cursor: 'pointer',
                 display: 'flex',
@@ -954,12 +1011,12 @@ const About = () => {
                 e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.4)';
                 e.currentTarget.style.background = 'transparent';
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
               </svg>
             </button>
           </div>
