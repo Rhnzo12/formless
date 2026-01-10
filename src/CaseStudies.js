@@ -5,8 +5,10 @@ import FluidBackground from './components/FluidBackground';
 const CaseStudies = () => {
   const [heroVisible, setHeroVisible] = useState(false);
   const [articlesVisible, setArticlesVisible] = useState(false);
+  const [joinVisible, setJoinVisible] = useState(false);
   const heroRef = useRef(null);
   const articlesRef = useRef(null);
+  const joinRef = useRef(null);
 
   useEffect(() => {
     document.title = 'Case Studies | FORMLESS';
@@ -23,6 +25,9 @@ const CaseStudies = () => {
             if (entry.target === articlesRef.current) {
               setArticlesVisible(true);
             }
+            if (entry.target === joinRef.current) {
+              setJoinVisible(true);
+            }
           }
         });
       },
@@ -31,6 +36,7 @@ const CaseStudies = () => {
 
     if (heroRef.current) observer.observe(heroRef.current);
     if (articlesRef.current) observer.observe(articlesRef.current);
+    if (joinRef.current) observer.observe(joinRef.current);
 
     return () => observer.disconnect();
   }, []);
@@ -44,7 +50,7 @@ const CaseStudies = () => {
     image: 'skyton',
   };
 
-  // All articles
+  // All articles - comprehensive list from formless.xyz/blog
   const articles = [
     {
       id: 1,
@@ -127,6 +133,87 @@ const CaseStudies = () => {
       readTime: '3 Min Read',
       image: 'latasha',
     },
+    {
+      id: 10,
+      category: 'Case Study',
+      title: 'KIKI uses revenue sharing to promote their Onchain Summer campaign',
+      description: 'Participants received $820 in shared revenue',
+      date: '17 Jul 2024',
+      readTime: '2 Min Read',
+      image: 'kiki',
+    },
+    {
+      id: 11,
+      category: 'Case Study',
+      title: 'FORMLESS uses revenue sharing to increase brand awareness',
+      description: 'Participants received over $800 in shared revenue',
+      date: '16 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'formless3d',
+    },
+    {
+      id: 12,
+      category: 'Case Study',
+      title: 'PYNRS uses revenue sharing to help drive foot traffic for retail',
+      description: 'Participants received over $1,500 in shared revenue',
+      date: '10 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'pynrs',
+    },
+    {
+      id: 13,
+      category: 'Case Study',
+      title: 'Kickback Boston uses revenue sharing to promote its events',
+      description: 'Community shares revenue for event promotion',
+      date: '02 Jul 2024',
+      readTime: '3 Min Read',
+      image: 'kickback',
+    },
+    {
+      id: 14,
+      category: 'Case Study',
+      title: 'IYK uses community revenue sharing to promote creator economy',
+      description: 'Participants received over $2,100 in shared revenue',
+      date: '18 Jun 2024',
+      readTime: '3 Min Read',
+      image: 'iyk',
+    },
+    {
+      id: 15,
+      category: 'Case Study',
+      title: 'Latashá uses revenue sharing to generate awareness for her music',
+      description: 'Community shares revenue for increasing impressions',
+      date: '22 May 2024',
+      readTime: '3 Min Read',
+      image: 'latasha-photo',
+    },
+    {
+      id: 16,
+      category: 'Case Study',
+      title: 'Artist TDot uses revenue sharing to promote his song',
+      description: 'Participants received $500 in shared revenue',
+      date: '02 Apr 2024',
+      readTime: '2 Min Read',
+      image: 'tdot',
+    },
+    {
+      id: 17,
+      category: 'Case Study',
+      title: 'Symphonic distributes music using the SHARE Protocol',
+      description: 'Community receives $160 with the first 24 hours',
+      date: '01 Feb 2024',
+      readTime: '3 Min Read',
+      image: 'symphonic',
+    },
+    {
+      id: 18,
+      category: 'Whitepaper',
+      title: 'SHARE: Decentralized distribution using peer-to-peer transactions',
+      description: 'The SHARE Protocol',
+      date: '16 Feb 2022',
+      readTime: '2 Min Read',
+      image: 'formless',
+    },
   ];
 
   // Render image placeholder based on type
@@ -156,6 +243,26 @@ const CaseStudies = () => {
               }}>
                 FORMLESS<sup style={{ fontSize: '10px' }}>™</sup>
               </span>
+            </div>
+          </div>
+        );
+      case 'formless3d':
+        return (
+          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%)'}}>
+            <div style={{
+              width: '100px',
+              height: '100px',
+              border: '2px solid rgba(255,255,255,0.3)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
+              boxShadow: '0 0 40px rgba(100,150,255,0.2)',
+            }}>
+              <svg width="50" height="50" viewBox="0 0 16 18" fill="white" opacity="0.8">
+                <polygon points="8,0 16,4.5 16,13.5 8,18 0,13.5 0,4.5"/>
+              </svg>
             </div>
           </div>
         );
@@ -197,28 +304,42 @@ const CaseStudies = () => {
           <div style={{...baseStyle, backgroundColor: '#111'}}>
             <div style={{ textAlign: 'center' }}>
               <div style={{
-                width: '120px',
-                height: '120px',
+                width: '100px',
+                height: '100px',
                 border: '3px solid white',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 8px',
+                margin: '0 auto 12px',
+                position: 'relative',
               }}>
-                <span style={{ fontSize: '32px', fontWeight: '600', color: 'white' }}>$</span>
+                <span style={{ fontSize: '36px', fontWeight: '400', color: 'white' }}>$</span>
+                {/* Laurel wreath decoration */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-10px',
+                  left: '-20px',
+                  right: '-20px',
+                  bottom: '-10px',
+                  border: '2px solid rgba(255,255,255,0.3)',
+                  borderRadius: '50%',
+                }}/>
               </div>
-              <span style={{ fontSize: '14px', fontWeight: '600', color: 'white', letterSpacing: '2px' }}>
-                SKYTON ACADEMY
-              </span>
+              <div style={{ letterSpacing: '3px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '400', color: 'white' }}>SKYTON</span>
+              </div>
+              <div style={{ letterSpacing: '3px' }}>
+                <span style={{ fontSize: '10px', fontWeight: '400', color: 'rgba(255,255,255,0.7)' }}>ACADEMY</span>
+              </div>
             </div>
           </div>
         );
       case 'haz':
         return (
-          <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
+          <div style={{...baseStyle, background: 'linear-gradient(180deg, #2a3a2a 0%, #0a0a0a 100%)'}}>
             <span style={{
-              fontSize: '48px',
+              fontSize: '56px',
               fontWeight: '700',
               color: 'white',
               letterSpacing: '4px',
@@ -244,10 +365,10 @@ const CaseStudies = () => {
         return (
           <div style={{...baseStyle, background: 'linear-gradient(135deg, #2a2a2a 0%, #0a0a0a 100%)'}}>
             <span style={{
-              fontSize: '42px',
+              fontSize: '52px',
               fontWeight: '300',
-              color: '#888',
-              fontFamily: 'serif',
+              color: '#666',
+              fontFamily: 'Georgia, serif',
               fontStyle: 'italic',
             }}>
               ℰ
@@ -258,13 +379,153 @@ const CaseStudies = () => {
         return (
           <div style={{...baseStyle, background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)'}}>
             <span style={{
-              fontSize: '32px',
+              fontSize: '36px',
               fontWeight: '400',
               color: 'white',
               fontStyle: 'italic',
               letterSpacing: '2px',
             }}>
               LATASHÁ
+            </span>
+          </div>
+        );
+      case 'latasha-photo':
+        return (
+          <div style={{
+            ...baseStyle,
+            background: 'linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%)',
+            position: 'relative',
+          }}>
+            {/* Simulated photo placeholder */}
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(45deg, #1a1a2a 0%, #2a2a3a 50%, #1a1a2a 100%)',
+            }}>
+              <div style={{
+                width: '80px',
+                height: '80px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #3a3a4a 0%, #2a2a3a 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <span style={{ fontSize: '32px', color: 'rgba(255,255,255,0.5)' }}>👤</span>
+              </div>
+            </div>
+          </div>
+        );
+      case 'kiki':
+        return (
+          <div style={baseStyle}>
+            <span style={{
+              fontSize: '48px',
+              fontWeight: '800',
+              color: 'white',
+              letterSpacing: '8px',
+              fontFamily: 'Arial Black, sans-serif',
+            }}>
+              KIKI
+            </span>
+          </div>
+        );
+      case 'pynrs':
+        return (
+          <div style={baseStyle}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {/* Mountain/Peak icon */}
+              <svg width="40" height="30" viewBox="0 0 40 30" fill="white">
+                <polygon points="20,0 40,30 0,30"/>
+                <polygon points="30,10 40,30 20,30" fill="rgba(255,255,255,0.5)"/>
+              </svg>
+              <span style={{
+                fontSize: '32px',
+                fontWeight: '700',
+                color: 'white',
+                letterSpacing: '4px',
+              }}>
+                PYNRS
+              </span>
+            </div>
+          </div>
+        );
+      case 'kickback':
+        return (
+          <div style={baseStyle}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '36px',
+                fontWeight: '800',
+                color: 'white',
+                letterSpacing: '2px',
+                display: 'block',
+              }}>
+                KICKBACK
+              </span>
+              <span style={{
+                fontSize: '14px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.7)',
+                letterSpacing: '8px',
+              }}>
+                BOSTON
+              </span>
+            </div>
+          </div>
+        );
+      case 'iyk':
+        return (
+          <div style={baseStyle}>
+            <span style={{
+              fontSize: '48px',
+              fontWeight: '300',
+              color: 'white',
+              letterSpacing: '16px',
+            }}>
+              IYK<sup style={{ fontSize: '16px', verticalAlign: 'super' }}>*</sup>
+            </span>
+          </div>
+        );
+      case 'tdot':
+        return (
+          <div style={baseStyle}>
+            <div style={{ textAlign: 'center' }}>
+              <span style={{
+                fontSize: '36px',
+                fontWeight: '800',
+                color: 'white',
+                fontFamily: 'Impact, sans-serif',
+                fontStyle: 'italic',
+                display: 'block',
+              }}>
+                TDOT
+              </span>
+              <span style={{
+                fontSize: '18px',
+                fontWeight: '400',
+                color: 'rgba(255,255,255,0.8)',
+                fontStyle: 'italic',
+              }}>
+                ILLDUDE
+              </span>
+            </div>
+          </div>
+        );
+      case 'symphonic':
+        return (
+          <div style={baseStyle}>
+            <span style={{
+              fontSize: '28px',
+              fontWeight: '400',
+              color: 'white',
+              letterSpacing: '6px',
+              textTransform: 'uppercase',
+            }}>
+              SYMPHONIC
             </span>
           </div>
         );
@@ -369,7 +630,7 @@ const CaseStudies = () => {
         style={{
           position: 'relative',
           zIndex: 3,
-          padding: '60px clamp(16px, 5vw, 60px) 120px',
+          padding: '60px clamp(16px, 5vw, 60px) 80px',
           backgroundColor: 'transparent',
         }}
       >
@@ -403,15 +664,19 @@ const CaseStudies = () => {
                   cursor: 'pointer',
                   opacity: articlesVisible ? 1 : 0,
                   transform: articlesVisible ? 'translateY(0)' : 'translateY(30px)',
-                  transition: `opacity 0.6s ease-out ${index * 0.05}s, transform 0.6s ease-out ${index * 0.05}s`,
+                  transition: `opacity 0.6s ease-out ${Math.min(index * 0.05, 0.5)}s, transform 0.6s ease-out ${Math.min(index * 0.05, 0.5)}s`,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.querySelector('.card-image').style.transform = 'scale(1.02)';
-                  e.currentTarget.querySelector('.card-title').style.color = 'rgba(255,255,255,0.8)';
+                  const img = e.currentTarget.querySelector('.card-image');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  if (img) img.style.transform = 'scale(1.02)';
+                  if (title) title.style.color = 'rgba(255,255,255,0.8)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.querySelector('.card-image').style.transform = 'scale(1)';
-                  e.currentTarget.querySelector('.card-title').style.color = 'white';
+                  const img = e.currentTarget.querySelector('.card-image');
+                  const title = e.currentTarget.querySelector('.card-title');
+                  if (img) img.style.transform = 'scale(1)';
+                  if (title) title.style.color = 'white';
                 }}
               >
                 {/* Image Container */}
@@ -478,12 +743,73 @@ const CaseStudies = () => {
         </div>
       </section>
 
+      {/* Join the Network Section */}
+      <section
+        ref={joinRef}
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          minHeight: '60vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '100px 40px',
+        }}
+      >
+        <div style={{
+          textAlign: 'center',
+          opacity: joinVisible ? 1 : 0,
+          transform: joinVisible ? 'translateY(0)' : 'translateY(40px)',
+          transition: 'opacity 0.8s ease-out 0.3s, transform 0.8s ease-out 0.3s',
+        }}>
+          <h2 style={{
+            fontSize: 'clamp(42px, 7vw, 90px)',
+            fontWeight: '400',
+            lineHeight: '1.1',
+            fontFamily: '"Inter", sans-serif',
+            margin: '0 0 50px 0',
+            letterSpacing: '-2px',
+          }}>
+            Join the network today.
+          </h2>
+
+          <a
+            href="/contact"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              color: 'white',
+              textDecoration: 'none',
+              fontSize: '18px',
+              fontWeight: '400',
+              fontFamily: '"Inter", sans-serif',
+              paddingBottom: '8px',
+              borderBottom: '1px solid transparent',
+              transition: 'border-color 0.4s ease-in',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
+          >
+            Schedule a Meeting
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M7 17L17 7M17 7H10M17 7V14"/>
+            </svg>
+          </a>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer
         style={{
           position: 'relative',
           zIndex: 2,
-          padding: '60px 20px 20px',
+          padding: '40px 20px 20px',
           background: 'transparent',
         }}
       >
@@ -594,18 +920,6 @@ const CaseStudies = () => {
           </a>
         </div>
       </footer>
-
-      {/* Responsive Styles */}
-      <style>
-        {`
-          @media (max-width: 768px) {
-            .footer-logo {
-              flex-direction: column;
-              align-items: flex-start;
-            }
-          }
-        `}
-      </style>
     </div>
   );
 };
