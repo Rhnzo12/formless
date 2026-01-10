@@ -1001,14 +1001,27 @@ const CaseStudies = () => {
           marginBottom: '40px',
           flexWrap: 'wrap',
         }}>
-          <img
-            src="/logomain.png"
-            alt="Formless Logo"
-            style={{
-              height: 'clamp(80px, 15vw, 160px)',
-              width: 'auto',
-            }}
-          />
+          {/* Hexagon Logo SVG */}
+          <svg
+            width="clamp(80px, 12vw, 140px)"
+            height="clamp(80px, 12vw, 140px)"
+            viewBox="0 0 100 100"
+            fill="none"
+            style={{ flexShrink: 0 }}
+          >
+            {/* Hexagon border */}
+            <path
+              d="M50 2 L93 27 L93 73 L50 98 L7 73 L7 27 Z"
+              stroke="white"
+              strokeWidth="2"
+              fill="none"
+            />
+            {/* Inner triangle */}
+            <path
+              d="M50 25 L75 65 L25 65 Z"
+              fill="white"
+            />
+          </svg>
           <h2 style={{
             fontSize: 'clamp(50px, 12vw, 160px)',
             fontWeight: '600',
