@@ -30,9 +30,9 @@ const Header = ({ activePage }) => {
 
   const navLinks = [
     { href: '/api-docs', label: 'API Docs', id: 'api-docs', newTab: true },
-    { href: '/case-studies', label: 'Case Studies', id: 'case-studies' },
+    { href: '/case-studies', label: 'Case Studies', id: 'case-studies', newTab: true },
     { href: '/about', label: 'About', id: 'about' },
-    { href: '/contact', label: 'Contact Us', id: 'contact' },
+    { href: '/contact', label: 'Contact Us', id: 'contact', newTab: true },
   ];
 
   return (
