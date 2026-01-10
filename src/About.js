@@ -186,12 +186,132 @@ const About = () => {
   ];
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       backgroundColor: '#000',
       color: 'white',
       fontFamily: '"Inter", sans-serif',
     }}>
+      {/* Responsive Styles */}
+      <style>
+        {`
+          :root {
+            --team-card-width: min(550px, 40vw);
+            --team-card-gap: 30px;
+          }
+          @media (max-width: 1024px) {
+            :root {
+              --team-card-width: min(450px, 60vw);
+            }
+            .about-hero-flex {
+              gap: 60px !important;
+            }
+            .about-3d-container {
+              height: 400px !important;
+            }
+            .about-funds-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .about-angels-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .about-team-card {
+              width: min(450px, 60vw) !important;
+            }
+          }
+          @media (max-width: 768px) {
+            .about-hero-section {
+              padding-top: 100px !important;
+              padding-bottom: 60px !important;
+            }
+            .about-hero-flex {
+              flex-direction: column !important;
+              gap: 30px !important;
+            }
+            .about-hero-right {
+              padding-top: 0 !important;
+              padding-left: 0 !important;
+            }
+            .about-3d-container {
+              height: 300px !important;
+              min-width: 100% !important;
+            }
+            .about-creators-flex {
+              flex-direction: column !important;
+            }
+            .about-funds-grid {
+              grid-template-columns: 1fr !important;
+            }
+            .about-funds-grid > div {
+              padding: 30px 15px !important;
+            }
+            .about-angels-grid {
+              grid-template-columns: 1fr !important;
+            }
+            :root {
+              --team-card-width: calc(100vw - 32px);
+              --team-card-gap: 16px;
+            }
+            .about-team-section {
+              padding: 60px 0 !important;
+            }
+            .about-team-carousel {
+              padding-left: 16px !important;
+              padding-right: 16px !important;
+              gap: 16px !important;
+            }
+            .about-team-card {
+              width: calc(100vw - 32px) !important;
+            }
+            .about-team-card h3 {
+              font-size: 24px !important;
+            }
+            .about-team-card p.bio-text {
+              font-size: 16px !important;
+            }
+            .about-team-nav {
+              padding-left: 16px !important;
+              margin-top: 40px !important;
+            }
+            .about-footer-social {
+              flex-direction: column !important;
+              gap: 24px !important;
+              align-items: flex-start !important;
+            }
+            .about-footer-logo {
+              flex-wrap: wrap !important;
+              gap: 16px !important;
+              justify-content: center !important;
+            }
+            .about-footer-logo img {
+              height: 80px !important;
+            }
+            .about-footer-logo h2 {
+              font-size: clamp(40px, 12vw, 80px) !important;
+            }
+            .about-footer-links {
+              flex-wrap: wrap !important;
+              gap: 16px 30px !important;
+              justify-content: flex-start !important;
+            }
+            .about-join-section {
+              padding: 60px 20px !important;
+            }
+            .about-founders-section {
+              padding: 80px 20px !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .about-team-card {
+              width: calc(100vw - 32px) !important;
+            }
+            .about-footer-links {
+              gap: 12px 20px !important;
+            }
+          }
+        `}
+      </style>
+
       {/* Fluid Background Animation */}
       <FluidBackground />
       
@@ -200,6 +320,7 @@ const About = () => {
       
       {/* Hero Section */}
       <section
+        className="about-hero-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -212,9 +333,9 @@ const About = () => {
           paddingRight: 'clamp(16px, 3vw, 40px)',
         }}
       >
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <div className="about-hero-flex" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
           maxWidth: '1500px',
@@ -237,7 +358,7 @@ const About = () => {
           </div>
           
           {/* Right Column - Description */}
-          <div style={{ 
+          <div className="about-hero-right" style={{
             flex: '1 1 400px',
             maxWidth: '550px',
             paddingTop: '50px',
@@ -280,7 +401,7 @@ const About = () => {
           backgroundColor: '#000',
         }}
       >
-        <div style={{
+        <div className="about-creators-flex" style={{
           display: 'flex',
           alignItems: 'center',
           width: '100%',
@@ -290,7 +411,7 @@ const About = () => {
           flexWrap: 'wrap',
         }}>
           {/* Left - 3D Logo */}
-          <div style={{
+          <div className="about-3d-container" style={{
             flex: '1 1 400px',
             height: '600px',
             minWidth: '300px',
@@ -450,7 +571,7 @@ const About = () => {
           </h3>
 
           {/* Funds Logo Grid */}
-          <div style={{
+          <div className="about-funds-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -524,7 +645,7 @@ const About = () => {
           </h3>
 
           {/* Angel Investors Grid */}
-          <div style={{
+          <div className="about-angels-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -585,6 +706,7 @@ const About = () => {
       {/* Meet the Founders Section */}
       <section
         ref={foundersRef}
+        className="about-founders-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -614,6 +736,7 @@ const About = () => {
       {/* Team Section */}
       <section
         ref={teamRef}
+        className="about-team-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -626,13 +749,38 @@ const About = () => {
           width: '100%',
           position: 'relative',
         }}>
+          {/* Progress Indicator */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            paddingLeft: 'clamp(16px, 3vw, 40px)',
+            paddingRight: 'clamp(16px, 3vw, 40px)',
+            marginBottom: '30px',
+            opacity: teamVisible ? 1 : 0,
+            transition: 'opacity 0.6s ease-out',
+          }}>
+            {teamMembers.map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  flex: 1,
+                  height: '3px',
+                  backgroundColor: index === teamIndex ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)',
+                  borderRadius: '2px',
+                  transition: 'background-color 0.3s ease',
+                }}
+              />
+            ))}
+          </div>
+
           {/* Team Cards Container - Carousel */}
-          <div 
+          <div
+            className="about-team-carousel"
             style={{
               display: 'flex',
-              gap: '30px',
+              gap: 'var(--team-card-gap)',
               paddingLeft: 'clamp(16px, 3vw, 40px)',
-              transform: `translateX(calc(-${teamIndex} * (min(550px, 40vw) + 30px) + ${dragOffset}px))`,
+              transform: `translateX(calc(-${teamIndex} * (var(--team-card-width) + var(--team-card-gap)) + ${dragOffset}px))`,
               transition: isDragging ? 'none' : 'transform 0.5s ease-out',
               cursor: isDragging ? 'grabbing' : 'grab',
               userSelect: 'none',
@@ -650,9 +798,10 @@ const About = () => {
               return (
                 <div
                   key={index}
+                  className="about-team-card"
                   style={{
                     flex: '0 0 auto',
-                    width: 'min(550px, 40vw)',
+                    width: 'var(--team-card-width)',
                     opacity: teamVisible ? 1 : 0,
                     transform: teamVisible ? 'translateY(0)' : 'translateY(40px)',
                     transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`,
@@ -748,7 +897,7 @@ const About = () => {
           </div>
 
           {/* Navigation Arrows */}
-          <div style={{
+          <div className="about-team-nav" style={{
             display: 'flex',
             gap: '16px',
             marginTop: '60px',
@@ -831,6 +980,7 @@ const About = () => {
       {/* Join the Network Section */}
       <section
         ref={joinRef}
+        className="about-join-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -904,7 +1054,7 @@ const About = () => {
         }}
       >
         {/* Social Media Icons */}
-        <div style={{
+        <div className="about-footer-social" style={{
           display: 'flex',
           gap: '80px',
           marginBottom: '30px',
@@ -947,7 +1097,7 @@ const About = () => {
         </div>
         
         {/* Large FORMLESS Logo */}
-        <div style={{
+        <div className="about-footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '32px',
@@ -981,7 +1131,7 @@ const About = () => {
         </div>
         
         {/* Footer Links */}
-        <div style={{
+        <div className="about-footer-links" style={{
           display: 'flex',
           gap: '130px',
           fontSize: '12px',

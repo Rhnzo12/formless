@@ -16,15 +16,16 @@ const Header = ({ activePage }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu when clicking outside
+  // Prevent body scroll when menu is open
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuOpen && !e.target.closest('.mobile-menu') && !e.target.closest('.menu-toggle')) {
-        setMenuOpen(false);
-      }
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
     };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
   }, [menuOpen]);
 
   const navLinks = [
@@ -47,7 +48,7 @@ const Header = ({ activePage }) => {
             }
           }
           @media (min-width: 769px) {
-            .mobile-menu {
+            .mobile-menu-fullscreen {
               display: none !important;
             }
           }
@@ -64,8 +65,8 @@ const Header = ({ activePage }) => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: scrolled || menuOpen ? 'rgba(0, 0, 0, 0.95)' : 'transparent',
-          backdropFilter: scrolled || menuOpen ? 'blur(10px)' : 'none',
+          backgroundColor: scrolled ? 'rgba(0, 0, 0, 0.95)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
           transition: 'background-color 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
@@ -131,85 +132,125 @@ const Header = ({ activePage }) => {
           })}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Toggle - White Circle with Hamburger */}
         <button
           className="menu-toggle"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={() => setMenuOpen(true)}
           style={{
             display: 'none',
-            flexDirection: 'column',
-            gap: '5px',
-            background: 'none',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            backgroundColor: 'white',
             border: 'none',
             cursor: 'pointer',
-            padding: '8px',
+            padding: 0,
           }}
-          aria-label="Toggle menu"
+          aria-label="Open menu"
         >
-          <span style={{
-            width: '24px',
-            height: '2px',
-            backgroundColor: 'white',
-            transition: 'all 0.3s ease',
-            transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none',
-          }} />
-          <span style={{
-            width: '24px',
-            height: '2px',
-            backgroundColor: 'white',
-            transition: 'all 0.3s ease',
-            opacity: menuOpen ? 0 : 1,
-          }} />
-          <span style={{
-            width: '24px',
-            height: '2px',
-            backgroundColor: 'white',
-            transition: 'all 0.3s ease',
-            transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none',
-          }} />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
         </button>
       </header>
 
-      {/* Mobile Menu */}
-      <nav
-        className="mobile-menu"
+      {/* Full-screen Mobile Menu */}
+      <div
+        className="mobile-menu-fullscreen"
         style={{
           position: 'fixed',
-          top: menuOpen ? '60px' : '-100%',
+          top: 0,
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.98)',
-          backdropFilter: 'blur(10px)',
-          padding: '20px 16px',
+          bottom: 0,
+          backgroundColor: '#000',
+          zIndex: 2000,
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px',
-          zIndex: 999,
-          transition: 'top 0.3s ease',
+          opacity: menuOpen ? 1 : 0,
+          visibility: menuOpen ? 'visible' : 'hidden',
+          transition: 'opacity 0.3s ease, visibility 0.3s ease',
         }}
       >
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            target={link.newTab ? '_blank' : undefined}
-            rel={link.newTab ? 'noopener noreferrer' : undefined}
+        {/* Menu Header */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: 'clamp(20px, 3vw, 28px) 20px',
+          }}
+        >
+          {/* Logo in menu */}
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+            <img
+              src="/logomain.png"
+              alt="Formless Logo"
+              style={{
+                height: 'clamp(24px, 4vw, 30px)',
+                width: 'auto',
+              }}
+            />
+          </a>
+
+          {/* Close Button - White Circle with X */}
+          <button
             onClick={() => setMenuOpen(false)}
             style={{
-              color: 'white',
-              textDecoration: 'none',
-              fontSize: '18px',
-              fontWeight: '400',
-              opacity: 0.9,
-              transition: 'opacity 0.2s ease',
-              fontFamily: '"Inter", sans-serif',
-              padding: '8px 0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              backgroundColor: 'white',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
             }}
+            aria-label="Close menu"
           >
-            {link.label}
-          </a>
-        ))}
-      </nav>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <nav
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '40px 20px',
+            gap: '24px',
+          }}
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              target={link.newTab ? '_blank' : undefined}
+              rel={link.newTab ? 'noopener noreferrer' : undefined}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                color: 'white',
+                textDecoration: 'none',
+                fontSize: 'clamp(32px, 8vw, 48px)',
+                fontWeight: '400',
+                fontFamily: '"Inter", sans-serif',
+                lineHeight: '1.3',
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
     </>
   );
 };
