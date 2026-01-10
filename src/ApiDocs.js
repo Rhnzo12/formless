@@ -96,6 +96,7 @@ const ApiDocs = () => {
   const [copyDropdownOpen, setCopyDropdownOpen] = useState(null); // 'welcome' or 'identity' or null
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('curl');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -176,7 +177,7 @@ const ApiDocs = () => {
     return (
       <a
         href={href}
-        onClick={(e) => { e.preventDefault(); scrollToSection(section); }}
+        onClick={(e) => { e.preventDefault(); scrollToSection(section); setMobileMenuOpen(false); }}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -268,6 +269,28 @@ const ApiDocs = () => {
   const filteredSearchItems = searchItems.filter(item =>
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Breadcrumb configuration
+  const getBreadcrumb = () => {
+    switch (activeSection) {
+      case 'welcome':
+        return { category: 'Getting Started', title: 'Welcome' };
+      case 'identity-lookup':
+        return { category: 'Account Management', title: 'Identity Lookup' };
+      case 'create-contract':
+        return { category: 'Revenue Sharing', title: 'Create Contract' };
+      case 'fetch-split-data':
+        return { category: 'Revenue Sharing', title: 'Fetch Split Data' };
+      case 'execute-payout':
+        return { category: 'Payouts', title: 'Execute Payout' };
+      case 'query-batch-status':
+        return { category: 'Payouts', title: 'Query Batch Status' };
+      default:
+        return { category: 'Getting Started', title: 'Welcome' };
+    }
+  };
+
+  const breadcrumb = getBreadcrumb();
 
   return (
     <>
@@ -374,7 +397,7 @@ const ApiDocs = () => {
         </div>
       )}
       {/* Fixed Header */}
-      <header style={{
+      <header className="docs-header" style={{
         position: 'fixed',
         top: 0,
         left: 0,
@@ -389,13 +412,13 @@ const ApiDocs = () => {
         zIndex: 1000,
       }}>
         {/* Logo */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+        <a href="/" className="docs-logo" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <img
             src="/logomain.png"
             alt="Formless Logo"
             style={{ height: '28px', width: 'auto', filter: isDarkMode ? 'none' : 'invert(1)' }}
           />
-          <span style={{
+          <span className="docs-logo-text" style={{
             color: theme.text,
             fontSize: '16px',
             fontWeight: '600',
@@ -405,8 +428,9 @@ const ApiDocs = () => {
           </span>
         </a>
 
-        {/* Search Bar - Center */}
+        {/* Search Bar - Center (hidden on mobile) */}
         <div
+          className="docs-search-bar"
           onClick={() => setSearchOpen(true)}
           style={{
             display: 'flex',
@@ -437,47 +461,156 @@ const ApiDocs = () => {
           }}>Ctrl K</span>
         </div>
 
-        {/* Theme Toggle */}
+        {/* Right side icons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Mobile Search Icon */}
+          <button
+            className="mobile-search-btn"
+            onClick={() => setSearchOpen(true)}
+            style={{
+              display: 'none',
+              background: 'none',
+              border: 'none',
+              color: theme.textMuted,
+              cursor: 'pointer',
+              padding: '8px',
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+          </button>
+
+          {/* Theme Toggle */}
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: theme.textMuted,
+              cursor: 'pointer',
+              padding: '8px',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = theme.text}
+            onMouseLeave={(e) => e.currentTarget.style.color = theme.textMuted}
+            title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDarkMode ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+            )}
+          </button>
+
+          {/* Mobile Menu Icon */}
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(true)}
+            style={{
+              display: 'none',
+              background: 'none',
+              border: 'none',
+              color: theme.textMuted,
+              cursor: 'pointer',
+              padding: '8px',
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="1"/>
+              <circle cx="12" cy="5" r="1"/>
+              <circle cx="12" cy="19" r="1"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Breadcrumb Navigation Bar */}
+      <div className="mobile-breadcrumb-bar" style={{
+        display: 'none',
+        position: 'fixed',
+        top: '64px',
+        left: 0,
+        right: 0,
+        height: '56px',
+        backgroundColor: theme.bg,
+        borderBottom: `1px solid ${theme.border}`,
+        alignItems: 'center',
+        padding: '0 16px',
+        zIndex: 999,
+        gap: '12px',
+      }}>
+        {/* Hamburger Menu Button */}
         <button
-          onClick={toggleTheme}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{
             background: 'none',
             border: 'none',
-            color: theme.textMuted,
+            color: theme.text,
             cursor: 'pointer',
             padding: '8px',
-            transition: 'color 0.2s ease',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-          onMouseEnter={(e) => e.currentTarget.style.color = theme.text}
-          onMouseLeave={(e) => e.currentTarget.style.color = theme.textMuted}
-          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {isDarkMode ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-          )}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
         </button>
-      </header>
+
+        {/* Breadcrumb */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, overflow: 'hidden' }}>
+          <span style={{ color: theme.textMuted, fontSize: '14px', whiteSpace: 'nowrap' }}>{breadcrumb.category}</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+          <span style={{ color: theme.text, fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{breadcrumb.title}</span>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="mobile-menu-overlay"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1100,
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
 
       {/* Left Sidebar */}
-      <aside style={{
-        width: '280px',
-        backgroundColor: theme.bgSecondary,
-        borderRight: `1px solid ${theme.border}`,
-        padding: '24px 0',
-        paddingTop: '125px',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        overflowY: 'auto',
-      }}>
+      <aside
+        className={`docs-sidebar ${mobileMenuOpen ? 'mobile-open' : ''}`}
+        style={{
+          width: '280px',
+          backgroundColor: theme.bgSecondary,
+          borderRight: `1px solid ${theme.border}`,
+          padding: '24px 0',
+          paddingTop: '125px',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          height: '100vh',
+          overflowY: 'auto',
+          zIndex: 1200,
+        }}>
         {/* Documentation Title */}
         <div style={{ padding: '0 20px', marginBottom: '16px' }}>
           <h2 style={{
@@ -1282,19 +1415,21 @@ const ApiDocs = () => {
               </p>
 
               {/* API Endpoint Bar */}
-              <div style={{
+              <div className="api-endpoint-bar" style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '16px',
+                gap: '12px',
                 marginBottom: '32px',
+                flexWrap: 'wrap',
               }}>
                 <span style={{
                   backgroundColor: 'transparent',
                   color: '#60a5fa',
                   fontSize: '14px',
                   fontWeight: '700',
-                  padding: '8px 16px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
+                  flexShrink: 0,
                 }}>POST</span>
                 <div style={{
                   display: 'flex',
@@ -1304,11 +1439,14 @@ const ApiDocs = () => {
                   color: theme.textSecondary,
                   fontFamily: 'Monaco, Consolas, monospace',
                   backgroundColor: theme.bgCard,
-                  padding: '8px 16px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
                   border: `1px solid ${theme.border}`,
+                  flex: '1 1 auto',
+                  minWidth: 0,
+                  overflow: 'hidden',
                 }}>
-                  <code>/v1#identity_get_by_email_address</code>
+                  <code style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>/v1#identity_get_by_email_address</code>
                   <button
                     onClick={() => copyToClipboard('/v1#identity_get_by_email_address', 'identity-endpoint')}
                     style={{
@@ -1338,13 +1476,15 @@ const ApiDocs = () => {
                   color: 'white',
                   fontSize: '14px',
                   fontWeight: '600',
-                  padding: '8px 20px',
+                  padding: '6px 12px',
                   borderRadius: '6px',
                   border: 'none',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                 }}>
                   Try it
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -2925,18 +3065,69 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
           }
 
           @media (max-width: 768px) {
-            aside:first-child {
-              display: none;
+            /* Mobile header adjustments */
+            .docs-header {
+              padding: 0 16px !important;
             }
+            .docs-logo-text {
+              display: none !important;
+            }
+            .docs-search-bar {
+              display: none !important;
+            }
+            .mobile-search-btn {
+              display: flex !important;
+            }
+            .mobile-menu-btn {
+              display: flex !important;
+            }
+
+            /* Show mobile breadcrumb bar */
+            .mobile-breadcrumb-bar {
+              display: flex !important;
+            }
+
+            /* Sidebar - hidden by default, shown when open */
+            .docs-sidebar {
+              left: -280px !important;
+              transition: left 0.3s ease;
+            }
+            .docs-sidebar.mobile-open {
+              left: 0 !important;
+            }
+
+            /* Main content adjustments */
             main.main-content {
               margin-left: 0 !important;
-              padding: 24px !important;
-              padding-top: 100px !important;
+              padding: 16px !important;
+              padding-top: 136px !important;
             }
             .code-panel-right {
               position: static !important;
               width: 100% !important;
               margin-top: 24px;
+            }
+            .api-endpoint-bar {
+              flex-direction: column !important;
+              align-items: stretch !important;
+              gap: 8px !important;
+            }
+            .api-endpoint-bar > span:first-child {
+              align-self: flex-start;
+            }
+            .api-endpoint-bar > button {
+              align-self: flex-start;
+            }
+          }
+
+          @media (max-width: 480px) {
+            main.main-content {
+              padding: 12px !important;
+              padding-top: 130px !important;
+            }
+            main.main-content h1,
+            main.main-content h2 {
+              font-size: 24px !important;
             }
           }
         `}
