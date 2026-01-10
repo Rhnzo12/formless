@@ -56,6 +56,12 @@ const ServicesSection = () => {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const activeIndexRef = useRef(activeIndex);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,15 +70,15 @@ const ServicesSection = () => {
       const rect = sectionRef.current.getBoundingClientRect();
       const sectionHeight = sectionRef.current.offsetHeight;
       const viewportHeight = window.innerHeight;
-      
+
       const scrollTop = -rect.top;
       const scrollableHeight = sectionHeight - viewportHeight;
       const progress = Math.max(0, Math.min(1, scrollTop / scrollableHeight));
-      
+
       setScrollProgress(progress);
 
       const newIndex = Math.min(2, Math.floor(progress * 3));
-      if (newIndex !== activeIndex) {
+      if (newIndex !== activeIndexRef.current) {
         setActiveIndex(newIndex);
       }
     };
@@ -81,7 +87,7 @@ const ServicesSection = () => {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeIndex]);
+  }, []);
 
   const currentService = services[activeIndex];
 
