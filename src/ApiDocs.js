@@ -2267,7 +2267,7 @@ const ApiDocs = () => {
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
                 border: `1px solid ${theme.border}`,
-                overflow: 'hidden',
+                overflow: 'visible',
               }}>
                 {/* Panel Header */}
                 <div style={{
@@ -2277,6 +2277,7 @@ const ApiDocs = () => {
                   padding: '12px 16px',
                   borderBottom: `1px solid ${theme.border}`,
                   backgroundColor: theme.bgSecondary,
+                  borderRadius: '12px 12px 0 0',
                 }}>
                   <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Identity Lookup</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -2537,7 +2538,7 @@ puts response.read_body`;
                 </div>
 
                 {/* Code with both scrollbars fixed */}
-                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
                   <pre style={{
                     fontSize: '11px',
                     fontFamily: 'Monaco, Consolas, monospace',
@@ -2722,6 +2723,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                   alignItems: 'center',
                   padding: '10px 16px',
                   backgroundColor: theme.bgSecondary,
+                  borderRadius: '12px 12px 0 0',
                 }}>
                   <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
                   <button
