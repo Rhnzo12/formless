@@ -186,12 +186,103 @@ const About = () => {
   ];
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       backgroundColor: '#000',
       color: 'white',
       fontFamily: '"Inter", sans-serif',
     }}>
+      {/* Responsive Styles */}
+      <style>
+        {`
+          @media (max-width: 1024px) {
+            .about-hero-flex {
+              gap: 60px !important;
+            }
+            .about-3d-container {
+              height: 400px !important;
+            }
+            .about-funds-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .about-angels-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .about-team-card {
+              width: min(450px, 60vw) !important;
+            }
+          }
+          @media (max-width: 768px) {
+            .about-hero-section {
+              padding-top: 100px !important;
+              padding-bottom: 60px !important;
+            }
+            .about-hero-flex {
+              flex-direction: column !important;
+              gap: 30px !important;
+            }
+            .about-hero-right {
+              padding-top: 0 !important;
+              padding-left: 0 !important;
+            }
+            .about-3d-container {
+              height: 300px !important;
+              min-width: 100% !important;
+            }
+            .about-creators-flex {
+              flex-direction: column !important;
+            }
+            .about-funds-grid {
+              grid-template-columns: 1fr !important;
+            }
+            .about-funds-grid > div {
+              padding: 30px 15px !important;
+            }
+            .about-angels-grid {
+              grid-template-columns: 1fr !important;
+            }
+            .about-team-card {
+              width: min(350px, 85vw) !important;
+            }
+            .about-footer-social {
+              flex-direction: column !important;
+              gap: 24px !important;
+              align-items: flex-start !important;
+            }
+            .about-footer-logo {
+              flex-wrap: wrap !important;
+              gap: 16px !important;
+              justify-content: center !important;
+            }
+            .about-footer-logo img {
+              height: 80px !important;
+            }
+            .about-footer-logo h2 {
+              font-size: clamp(40px, 12vw, 80px) !important;
+            }
+            .about-footer-links {
+              flex-wrap: wrap !important;
+              gap: 16px 30px !important;
+              justify-content: flex-start !important;
+            }
+            .about-join-section {
+              padding: 60px 20px !important;
+            }
+            .about-founders-section {
+              padding: 80px 20px !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .about-team-card {
+              width: calc(100vw - 40px) !important;
+            }
+            .about-footer-links {
+              gap: 12px 20px !important;
+            }
+          }
+        `}
+      </style>
+
       {/* Fluid Background Animation */}
       <FluidBackground />
       
@@ -200,6 +291,7 @@ const About = () => {
       
       {/* Hero Section */}
       <section
+        className="about-hero-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -212,9 +304,9 @@ const About = () => {
           paddingRight: 'clamp(16px, 3vw, 40px)',
         }}
       >
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
+        <div className="about-hero-flex" style={{
+          display: 'flex',
+          justifyContent: 'space-between',
           alignItems: 'center',
           width: '100%',
           maxWidth: '1500px',
@@ -237,7 +329,7 @@ const About = () => {
           </div>
           
           {/* Right Column - Description */}
-          <div style={{ 
+          <div className="about-hero-right" style={{
             flex: '1 1 400px',
             maxWidth: '550px',
             paddingTop: '50px',
@@ -280,7 +372,7 @@ const About = () => {
           backgroundColor: '#000',
         }}
       >
-        <div style={{
+        <div className="about-creators-flex" style={{
           display: 'flex',
           alignItems: 'center',
           width: '100%',
@@ -290,7 +382,7 @@ const About = () => {
           flexWrap: 'wrap',
         }}>
           {/* Left - 3D Logo */}
-          <div style={{
+          <div className="about-3d-container" style={{
             flex: '1 1 400px',
             height: '600px',
             minWidth: '300px',
@@ -450,7 +542,7 @@ const About = () => {
           </h3>
 
           {/* Funds Logo Grid */}
-          <div style={{
+          <div className="about-funds-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -524,7 +616,7 @@ const About = () => {
           </h3>
 
           {/* Angel Investors Grid */}
-          <div style={{
+          <div className="about-angels-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             borderTop: '1px solid rgba(255,255,255,0.15)',
@@ -585,6 +677,7 @@ const About = () => {
       {/* Meet the Founders Section */}
       <section
         ref={foundersRef}
+        className="about-founders-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -650,6 +743,7 @@ const About = () => {
               return (
                 <div
                   key={index}
+                  className="about-team-card"
                   style={{
                     flex: '0 0 auto',
                     width: 'min(550px, 40vw)',
@@ -831,6 +925,7 @@ const About = () => {
       {/* Join the Network Section */}
       <section
         ref={joinRef}
+        className="about-join-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -904,7 +999,7 @@ const About = () => {
         }}
       >
         {/* Social Media Icons */}
-        <div style={{
+        <div className="about-footer-social" style={{
           display: 'flex',
           gap: '80px',
           marginBottom: '30px',
@@ -947,7 +1042,7 @@ const About = () => {
         </div>
         
         {/* Large FORMLESS Logo */}
-        <div style={{
+        <div className="about-footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '32px',
@@ -981,7 +1076,7 @@ const About = () => {
         </div>
         
         {/* Footer Links */}
-        <div style={{
+        <div className="about-footer-links" style={{
           display: 'flex',
           gap: '130px',
           fontSize: '12px',
