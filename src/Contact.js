@@ -73,7 +73,7 @@ const Contact = () => {
   ];
 
   useEffect(() => {
-    document.title = 'Contact Us';
+    document.title = 'Contact Us | FORMLESS';
   }, []);
 
   // Loading animation
