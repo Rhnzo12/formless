@@ -195,7 +195,14 @@ const About = () => {
       {/* Responsive Styles */}
       <style>
         {`
+          :root {
+            --team-card-width: min(550px, 40vw);
+            --team-card-gap: 30px;
+          }
           @media (max-width: 1024px) {
+            :root {
+              --team-card-width: min(450px, 60vw);
+            }
             .about-hero-flex {
               gap: 60px !important;
             }
@@ -241,8 +248,30 @@ const About = () => {
             .about-angels-grid {
               grid-template-columns: 1fr !important;
             }
+            :root {
+              --team-card-width: calc(100vw - 32px);
+              --team-card-gap: 16px;
+            }
+            .about-team-section {
+              padding: 60px 0 !important;
+            }
+            .about-team-carousel {
+              padding-left: 16px !important;
+              padding-right: 16px !important;
+              gap: 16px !important;
+            }
             .about-team-card {
-              width: min(350px, 85vw) !important;
+              width: calc(100vw - 32px) !important;
+            }
+            .about-team-card h3 {
+              font-size: 24px !important;
+            }
+            .about-team-card p.bio-text {
+              font-size: 16px !important;
+            }
+            .about-team-nav {
+              padding-left: 16px !important;
+              margin-top: 40px !important;
             }
             .about-footer-social {
               flex-direction: column !important;
@@ -274,7 +303,7 @@ const About = () => {
           }
           @media (max-width: 480px) {
             .about-team-card {
-              width: calc(100vw - 40px) !important;
+              width: calc(100vw - 32px) !important;
             }
             .about-footer-links {
               gap: 12px 20px !important;
@@ -707,6 +736,7 @@ const About = () => {
       {/* Team Section */}
       <section
         ref={teamRef}
+        className="about-team-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -719,13 +749,38 @@ const About = () => {
           width: '100%',
           position: 'relative',
         }}>
+          {/* Progress Indicator */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            paddingLeft: 'clamp(16px, 3vw, 40px)',
+            paddingRight: 'clamp(16px, 3vw, 40px)',
+            marginBottom: '30px',
+            opacity: teamVisible ? 1 : 0,
+            transition: 'opacity 0.6s ease-out',
+          }}>
+            {teamMembers.map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  flex: 1,
+                  height: '3px',
+                  backgroundColor: index === teamIndex ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)',
+                  borderRadius: '2px',
+                  transition: 'background-color 0.3s ease',
+                }}
+              />
+            ))}
+          </div>
+
           {/* Team Cards Container - Carousel */}
-          <div 
+          <div
+            className="about-team-carousel"
             style={{
               display: 'flex',
-              gap: '30px',
+              gap: 'var(--team-card-gap)',
               paddingLeft: 'clamp(16px, 3vw, 40px)',
-              transform: `translateX(calc(-${teamIndex} * (min(550px, 40vw) + 30px) + ${dragOffset}px))`,
+              transform: `translateX(calc(-${teamIndex} * (var(--team-card-width) + var(--team-card-gap)) + ${dragOffset}px))`,
               transition: isDragging ? 'none' : 'transform 0.5s ease-out',
               cursor: isDragging ? 'grabbing' : 'grab',
               userSelect: 'none',
@@ -746,7 +801,7 @@ const About = () => {
                   className="about-team-card"
                   style={{
                     flex: '0 0 auto',
-                    width: 'min(550px, 40vw)',
+                    width: 'var(--team-card-width)',
                     opacity: teamVisible ? 1 : 0,
                     transform: teamVisible ? 'translateY(0)' : 'translateY(40px)',
                     transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`,
@@ -842,7 +897,7 @@ const About = () => {
           </div>
 
           {/* Navigation Arrows */}
-          <div style={{
+          <div className="about-team-nav" style={{
             display: 'flex',
             gap: '16px',
             marginTop: '60px',
