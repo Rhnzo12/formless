@@ -2369,7 +2369,8 @@ const ApiDocs = () => {
                       )}
                     </div>
                     <button
-                      onClick={() => copyToClipboard(`curl --request POST \\
+                      onClick={() => {
+                        const curlCode = `curl --request POST \\
   --url 'https://share-ddn.formless.xyz/v1#identity_get_by_email_address' \\
   --header 'Authorization: Bearer <token>' \\
   --header 'Content-Type: application/json' \\
@@ -2382,7 +2383,31 @@ const ApiDocs = () => {
     "email_address": "user@example.com"
   }
 }
-'`, 'curl-identity')}
+'`;
+                        const pythonCode = `import requests
+
+url = "https://share-ddn.formless.xyz/v1#identity_get_by_email_address"
+
+payload = {
+    "jsonrpc": "2.0",
+    "id": "1",
+    "method": "identity_get_by_email_address",
+    "params": { "email_address": "user@example.com" }
+}
+headers = {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)`;
+                        const codeMap = {
+                          'curl': curlCode,
+                          'Python': pythonCode,
+                        };
+                        copyToClipboard(codeMap[selectedLanguage] || curlCode, 'code-identity');
+                      }}
                       style={{
                         background: 'none',
                         border: 'none',
@@ -2391,7 +2416,7 @@ const ApiDocs = () => {
                         padding: '4px',
                       }}
                     >
-                      {copiedCode === 'curl-identity' ? (
+                      {copiedCode === 'code-identity' ? (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
@@ -2405,7 +2430,7 @@ const ApiDocs = () => {
                   </div>
                 </div>
 
-                {/* cURL Code with both scrollbars fixed */}
+                {/* Code with both scrollbars fixed */}
                 <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
                   <pre style={{
                     fontSize: '11px',
@@ -2415,6 +2440,8 @@ const ApiDocs = () => {
                     color: theme.textSecondary,
                     whiteSpace: 'pre',
                   }}>
+                    {selectedLanguage === 'curl' && (
+                      <>
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#identity_get_by_email_address'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
@@ -2429,6 +2456,30 @@ const ApiDocs = () => {
   }
 }
 `}<span style={{ color: '#fbbf24' }}>'</span>
+                      </>
+                    )}
+                    {selectedLanguage === 'Python' && (
+                      <>
+<span style={{ color: '#c586c0' }}>import</span>{` requests
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#identity_get_by_email_address"</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {
+    `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"identity_get_by_email_address"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{ `}<span style={{ color: '#60a5fa' }}>"email_address"</span>: <span style={{ color: '#fbbf24' }}>"user@example.com"</span>{` }
+}
+`}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
+    `}<span style={{ color: '#60a5fa' }}>"Authorization"</span>: <span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"Content-Type"</span>: <span style={{ color: '#fbbf24' }}>"application/json"</span>{`
+}
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
+
+`}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.text)`}
+                      </>
+                    )}
                   </pre>
                 </div>
               </div>
