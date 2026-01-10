@@ -96,6 +96,8 @@ const ApiDocs = () => {
   const [copyDropdownOpen, setCopyDropdownOpen] = useState(null); // 'welcome' or 'identity' or null
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('curl');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileCodePanelOpen, setMobileCodePanelOpen] = useState(false);
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -123,6 +125,22 @@ const ApiDocs = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (mobileMenuOpen && !e.target.closest('.mobile-sidebar') && !e.target.closest('.mobile-menu-toggle')) {
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [mobileMenuOpen]);
+
+  // Close mobile menu when navigating
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [activeSection]);
 
   const copyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text);
@@ -388,25 +406,67 @@ const ApiDocs = () => {
         padding: '0 24px',
         zIndex: 1000,
       }}>
-        {/* Logo */}
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <img
-            src="/logomain.png"
-            alt="Formless Logo"
-            style={{ height: '28px', width: 'auto', filter: isDarkMode ? 'none' : 'invert(1)' }}
-          />
-          <span style={{
-            color: theme.text,
-            fontSize: '16px',
-            fontWeight: '600',
-            letterSpacing: '0.5px',
-          }}>
-            FORMLESS<sup style={{ fontSize: '8px', marginLeft: '2px' }}>™</sup>
-          </span>
-        </a>
+        {/* Left side - Hamburger + Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Mobile Menu Toggle */}
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              gap: '5px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+            }}
+            aria-label="Toggle menu"
+          >
+            <span style={{
+              width: '20px',
+              height: '2px',
+              backgroundColor: theme.text,
+              transition: 'all 0.3s ease',
+              transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none',
+            }} />
+            <span style={{
+              width: '20px',
+              height: '2px',
+              backgroundColor: theme.text,
+              transition: 'all 0.3s ease',
+              opacity: mobileMenuOpen ? 0 : 1,
+            }} />
+            <span style={{
+              width: '20px',
+              height: '2px',
+              backgroundColor: theme.text,
+              transition: 'all 0.3s ease',
+              transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none',
+            }} />
+          </button>
 
-        {/* Search Bar - Center */}
+          {/* Logo */}
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+            <img
+              src="/logomain.png"
+              alt="Formless Logo"
+              style={{ height: '28px', width: 'auto', filter: isDarkMode ? 'none' : 'invert(1)' }}
+            />
+            <span className="logo-text" style={{
+              color: theme.text,
+              fontSize: '16px',
+              fontWeight: '600',
+              letterSpacing: '0.5px',
+            }}>
+              FORMLESS<sup style={{ fontSize: '8px', marginLeft: '2px' }}>™</sup>
+            </span>
+          </a>
+        </div>
+
+        {/* Search Bar - Center (hidden on mobile) */}
         <div
+          className="desktop-search"
           onClick={() => setSearchOpen(true)}
           style={{
             display: 'flex',
@@ -437,47 +497,74 @@ const ApiDocs = () => {
           }}>Ctrl K</span>
         </div>
 
-        {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: theme.textMuted,
-            cursor: 'pointer',
-            padding: '8px',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = theme.text}
-          onMouseLeave={(e) => e.currentTarget.style.color = theme.textMuted}
-          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        >
-          {isDarkMode ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        {/* Right side - Search icon (mobile) + Theme Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Mobile Search Button */}
+          <button
+            className="mobile-search-btn"
+            onClick={() => setSearchOpen(true)}
+            style={{
+              display: 'none',
+              background: 'none',
+              border: 'none',
+              color: theme.textMuted,
+              cursor: 'pointer',
+              padding: '8px',
+            }}
+            aria-label="Search"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
             </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-          )}
-        </button>
+          </button>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: theme.textMuted,
+              cursor: 'pointer',
+              padding: '8px',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = theme.text}
+            onMouseLeave={(e) => e.currentTarget.style.color = theme.textMuted}
+            title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {isDarkMode ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="5"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+            )}
+          </button>
+        </div>
       </header>
 
       {/* Left Sidebar */}
-      <aside style={{
-        width: '280px',
-        backgroundColor: theme.bgSecondary,
-        borderRight: `1px solid ${theme.border}`,
-        padding: '24px 0',
-        paddingTop: '125px',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        height: '100vh',
-        overflowY: 'auto',
-      }}>
+      <aside
+        className="mobile-sidebar"
+        style={{
+          width: '280px',
+          backgroundColor: theme.bgSecondary,
+          borderRight: `1px solid ${theme.border}`,
+          padding: '24px 0',
+          paddingTop: '125px',
+          position: 'fixed',
+          top: 0,
+          left: mobileMenuOpen ? 0 : '-280px',
+          height: '100vh',
+          overflowY: 'auto',
+          transition: 'left 0.3s ease',
+          zIndex: 999,
+        }}>
         {/* Documentation Title */}
         <div style={{ padding: '0 20px', marginBottom: '16px' }}>
           <h2 style={{
@@ -599,14 +686,16 @@ const ApiDocs = () => {
       </aside>
 
       {/* Main Content */}
-      <main style={{
-        flex: 1,
-        marginLeft: '280px',
-        marginRight: activeSection === 'identity-lookup' ? '20px' : '260px',
-        padding: '40px 60px',
-        paddingTop: '136px',
-        transition: 'margin-right 0.2s ease',
-      }}>
+      <main
+        className="main-content"
+        style={{
+          flex: 1,
+          marginLeft: '280px',
+          marginRight: activeSection === 'identity-lookup' ? '20px' : '260px',
+          padding: '40px 60px',
+          paddingTop: '136px',
+          transition: 'margin-right 0.2s ease',
+        }}>
         {/* Welcome Page Content */}
         {activeSection === 'welcome' && (
           <>
@@ -1157,9 +1246,10 @@ const ApiDocs = () => {
         {activeSection === 'identity-lookup' && (
           <>
             {/* Two Column Layout */}
-            <div style={{ display: 'flex', gap: '40px' }}>
+            <div className="api-two-column-layout" style={{ display: 'flex', gap: '40px' }}>
               {/* Left Column - Documentation */}
               <div
+                className="left-content-column"
                 style={{
                   flex: 1,
                   minWidth: 0,
@@ -1183,7 +1273,7 @@ const ApiDocs = () => {
                 justifyContent: 'space-between',
                 marginBottom: '16px',
               }}>
-                <h2 style={{
+                <h2 className="page-title" style={{
                   fontSize: '36px',
                   fontWeight: '700',
                   margin: 0,
@@ -1271,7 +1361,7 @@ const ApiDocs = () => {
               </div>
 
               {/* Description */}
-              <p style={{
+              <p className="page-subtitle" style={{
                 fontSize: '18px',
                 color: theme.textMuted,
                 marginBottom: '24px',
@@ -2251,6 +2341,7 @@ const ApiDocs = () => {
 
             {/* Right Column - Code Panels (Fixed) */}
             <div
+              className="right-code-panel"
               style={{
                 width: '420px',
                 flexShrink: 0,
@@ -2859,6 +2950,22 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
         </aside>
       )}
 
+      {/* Mobile Sidebar Overlay */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 998,
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Responsive Styles */}
       <style>
         {`
@@ -2883,22 +2990,74 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
             scrollbar-color: ${isDarkMode ? '#333 transparent' : '#ccc transparent'};
           }
 
-          @media (max-width: 1200px) {
-            aside:last-child {
-              display: none;
+          /* Desktop - show sidebar normally */
+          @media (min-width: 769px) {
+            .mobile-sidebar {
+              left: 0 !important;
             }
-            main {
+            .mobile-menu-toggle {
+              display: none !important;
+            }
+          }
+
+          /* Tablet - hide right panel */
+          @media (max-width: 1200px) {
+            .right-code-panel {
+              display: none !important;
+            }
+            .main-content {
+              margin-right: 0 !important;
+            }
+            .left-content-column {
               margin-right: 0 !important;
             }
           }
 
+          /* Mobile - hamburger menu & responsive layout */
           @media (max-width: 768px) {
-            aside:first-child {
-              display: none;
+            .mobile-menu-toggle {
+              display: flex !important;
             }
-            main {
+            .mobile-sidebar {
+              left: ${mobileMenuOpen ? '0' : '-280px'} !important;
+            }
+            .desktop-search {
+              display: none !important;
+            }
+            .mobile-search-btn {
+              display: flex !important;
+            }
+            .main-content {
               margin-left: 0 !important;
-              padding: 24px !important;
+              padding: 16px !important;
+            }
+            .left-content-column {
+              margin-right: 0 !important;
+            }
+            .right-code-panel {
+              display: none !important;
+            }
+            .api-two-column-layout {
+              flex-direction: column !important;
+            }
+            .page-title {
+              font-size: 28px !important;
+            }
+            .page-subtitle {
+              font-size: 16px !important;
+            }
+          }
+
+          /* Small mobile adjustments */
+          @media (max-width: 480px) {
+            header {
+              padding: 0 16px !important;
+            }
+            .main-content {
+              padding: 12px !important;
+            }
+            .page-title {
+              font-size: 24px !important;
             }
           }
         `}
