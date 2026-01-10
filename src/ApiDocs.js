@@ -1163,7 +1163,7 @@ const ApiDocs = () => {
                 style={{
                   flex: 1,
                   minWidth: 0,
-                  marginRight: '460px',
+                  marginRight: '480px',
                 }}>
                 {/* Inner content wrapper */}
                 <div>
@@ -2267,7 +2267,6 @@ const ApiDocs = () => {
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
                 border: `1px solid ${theme.border}`,
-                overflow: 'hidden',
               }}>
                 {/* Panel Header */}
                 <div style={{
@@ -2277,6 +2276,7 @@ const ApiDocs = () => {
                   padding: '12px 16px',
                   borderBottom: `1px solid ${theme.border}`,
                   backgroundColor: theme.bgSecondary,
+                  borderRadius: '12px 12px 0 0',
                 }}>
                   <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Identity Lookup</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -2313,8 +2313,6 @@ const ApiDocs = () => {
                           borderRadius: '6px',
                           padding: '4px 0',
                           minWidth: '140px',
-                          maxHeight: '280px',
-                          overflowY: 'auto',
                           zIndex: 1000,
                           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                         }}>
@@ -2537,7 +2535,7 @@ puts response.read_body`;
                 </div>
 
                 {/* Code with both scrollbars fixed */}
-                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'hidden' }}>
                   <pre style={{
                     fontSize: '11px',
                     fontFamily: 'Monaco, Consolas, monospace',
