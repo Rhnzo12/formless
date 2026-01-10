@@ -344,12 +344,20 @@
   .services-content {
     width: 100% !important;
     height: auto !important;
-    padding: 20px !important;
+    padding: 40px 16px 60px !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+
+  .services-content > div {
+    max-width: 100% !important;
+    width: 100% !important;
   }
 
   .services-content > div > div:first-child {
-    font-size: 80px !important;
-    margin-bottom: 30px !important;
+    font-size: 100px !important;
+    margin-bottom: 40px !important;
+    letter-spacing: -4px !important;
   }
 
   .scroll-indicator {

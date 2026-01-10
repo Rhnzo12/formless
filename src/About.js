@@ -297,32 +297,41 @@ const About = () => {
               margin-bottom: 20px !important;
             }
             .about-team-carousel {
+              flex-direction: column !important;
               padding-left: 16px !important;
-              padding-right: 0 !important;
-              gap: 0 !important;
+              padding-right: 16px !important;
+              gap: 40px !important;
+              transform: none !important;
             }
             .about-team-card {
-              width: calc(100vw - 32px) !important;
-              padding-right: 16px !important;
+              width: 100% !important;
+              padding-right: 0 !important;
+              display: block !important;
             }
             .about-team-card h3 {
-              font-size: 28px !important;
-              margin-bottom: 12px !important;
+              font-size: 24px !important;
+              margin-bottom: 8px !important;
             }
             .about-team-card .team-title {
-              font-size: 16px !important;
-              margin-bottom: 30px !important;
+              font-size: 14px !important;
+              margin-bottom: 20px !important;
             }
             .about-team-card .team-bio {
-              font-size: 18px !important;
+              font-size: 16px !important;
               line-height: 1.5 !important;
             }
             .about-team-card .read-more-btn {
-              font-size: 16px !important;
+              font-size: 14px !important;
+            }
+            .about-team-card .team-image-container {
+              aspect-ratio: 4/3 !important;
+              margin-bottom: 20px !important;
             }
             .about-team-nav {
-              padding-left: 16px !important;
-              margin-top: 50px !important;
+              display: none !important;
+            }
+            .about-team-progress {
+              display: none !important;
             }
             .about-join-section {
               padding: 80px 16px !important;
@@ -349,8 +358,16 @@ const About = () => {
             }
             .about-footer-links {
               flex-wrap: wrap !important;
-              gap: 12px 24px !important;
+              gap: 12px 20px !important;
               justify-content: flex-start !important;
+            }
+            .about-funds-grid,
+            .about-angels-grid {
+              gap: 0 !important;
+            }
+            .about-funds-grid > div,
+            .about-angels-grid > div {
+              text-align: center !important;
             }
           }
           @media (max-width: 480px) {
@@ -864,12 +881,15 @@ const About = () => {
                   }}
                 >
                   {/* Image */}
-                  <div style={{
-                    width: '100%',
-                    aspectRatio: '5/4',
-                    overflow: 'hidden',
-                    marginBottom: '24px',
-                  }}>
+                  <div
+                    className="team-image-container"
+                    style={{
+                      width: '100%',
+                      aspectRatio: '5/4',
+                      overflow: 'hidden',
+                      marginBottom: '24px',
+                    }}
+                  >
                     <img
                       src={member.image}
                       alt={member.name}

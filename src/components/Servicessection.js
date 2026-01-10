@@ -89,16 +89,44 @@ const ServicesSection = () => {
     <>
       <style>
         {`
+          .mobile-progress-indicator {
+            display: none;
+          }
           @media (max-width: 768px) {
             .scroll-indicator {
               display: none !important;
+            }
+            .mobile-progress-indicator {
+              display: flex !important;
+              justify-content: center;
+              gap: 12px;
+              padding: 20px 16px;
+              width: 100%;
             }
             .services-3d {
               height: 40vh !important;
               min-height: 300px !important;
             }
             .services-content {
-              min-height: 40vh !important;
+              min-height: auto !important;
+              padding: 30px 16px 60px !important;
+              display: flex !important;
+              align-items: flex-start !important;
+              justify-content: center !important;
+            }
+            .services-content > div {
+              max-width: 100% !important;
+              width: 100% !important;
+            }
+            .services-number {
+              font-size: 100px !important;
+              margin-bottom: 40px !important;
+            }
+            .services-title {
+              font-size: 20px !important;
+            }
+            .services-desc {
+              font-size: 14px !important;
             }
           }
         `}
@@ -166,6 +194,31 @@ const ServicesSection = () => {
           zIndex: 2,
         }}
       >
+        {/* Mobile Horizontal Progress Indicator */}
+        <div
+          className="mobile-progress-indicator"
+          style={{
+            position: 'absolute',
+            top: '80px',
+            left: 0,
+            right: 0,
+            zIndex: 10,
+          }}
+        >
+          {services.map((_, index) => (
+            <div
+              key={index}
+              style={{
+                flex: 1,
+                maxWidth: '200px',
+                height: '2px',
+                backgroundColor: index <= activeIndex ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.2)',
+                transition: 'background-color 0.3s ease',
+              }}
+            />
+          ))}
+        </div>
+
         {/* Left - 3D Logo */}
         <div
           className="services-3d"
@@ -215,6 +268,7 @@ const ServicesSection = () => {
             {/* Large Number */}
             <div
               key={`number-${activeIndex}`}
+              className="services-number"
               style={{
                 fontSize: '140px',
                 fontWeight: '200',
@@ -232,6 +286,7 @@ const ServicesSection = () => {
             {/* Title */}
             <h3
               key={`title-${activeIndex}`}
+              className="services-title"
               style={{
                 fontSize: '22px',
                 fontWeight: '600',
@@ -246,6 +301,7 @@ const ServicesSection = () => {
             {/* Description 1 */}
             <p
               key={`desc1-${activeIndex}`}
+              className="services-desc"
               style={{
                 fontSize: '12px',
                 lineHeight: '1.7',
@@ -262,6 +318,7 @@ const ServicesSection = () => {
             {/* Description 2 */}
             <p
               key={`desc2-${activeIndex}`}
+              className="services-desc"
               style={{
                 fontSize: '12px',
                 lineHeight: '1.7',
