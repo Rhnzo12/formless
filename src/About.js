@@ -962,7 +962,7 @@ const About = () => {
         <div className="footer-logo" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '30px',
+          gap: '24px',
           marginBottom: '40px',
         }}>
           {/* Logo PNG */}
@@ -970,25 +970,28 @@ const About = () => {
             src="/logomain.png"
             alt="Formless Logo"
             style={{
-              height: 'clamp(120px, 18vw, 220px)',
+              height: 'clamp(100px, 15vw, 200px)',
               width: 'auto',
             }}
           />
 
           {/* Big FORMLESS Text */}
           <h2 style={{
-            fontSize: 'clamp(80px, 18vw, 240px)',
+            fontSize: 'clamp(60px, 13vw, 180px)',
             fontWeight: '400',
-            letterSpacing: '-4px',
+            letterSpacing: '-2px',
             margin: 0,
             color: 'white',
             fontFamily: '"Inter", sans-serif',
+            lineHeight: 1,
           }}>
             FORMLESS<sup style={{
-              fontSize: '15%',
-              verticalAlign: 'super',
+              fontSize: '18%',
+              verticalAlign: 'top',
               fontWeight: '400',
-              marginLeft: '8px',
+              marginLeft: '4px',
+              position: 'relative',
+              top: '0.1em',
             }}>™</sup>
           </h2>
         </div>
