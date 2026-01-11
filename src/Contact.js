@@ -628,10 +628,11 @@ const Contact = () => {
             </>
           )}
 
-          {/* OK Button for choices - shows after selection */}
-          {currentQuestion.type === 'choice' && formData[currentQuestion.id] && (
+          {/* OK Button for choices */}
+          {currentQuestion.type === 'choice' && (
             <button
               onClick={() => handleNext()}
+              disabled={!formData[currentQuestion.id]}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -640,15 +641,17 @@ const Contact = () => {
                 fontSize: '14px',
                 fontWeight: '500',
                 fontFamily: '"Inter", sans-serif',
-                backgroundColor: 'white',
-                color: 'black',
+                backgroundColor: formData[currentQuestion.id] ? 'white' : 'rgba(255, 255, 255, 0.3)',
+                color: formData[currentQuestion.id] ? 'black' : 'rgba(0, 0, 0, 0.5)',
                 border: 'none',
                 borderRadius: '4px',
-                cursor: 'pointer',
+                cursor: formData[currentQuestion.id] ? 'pointer' : 'not-allowed',
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.9';
+                if (formData[currentQuestion.id]) {
+                  e.currentTarget.style.opacity = '0.9';
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.opacity = '1';
