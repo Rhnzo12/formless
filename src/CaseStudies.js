@@ -11,7 +11,7 @@ const CaseStudies = () => {
   const joinRef = useRef(null);
 
   useEffect(() => {
-    document.title = 'Case Studies | FORMLESS';
+    document.title = 'Blog';
   }, []);
 
   useEffect(() => {
