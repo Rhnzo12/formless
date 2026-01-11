@@ -54,7 +54,7 @@ const Contact = () => {
     } else if (formData.reason === 'sdk-api') {
       baseQuestions.push({
         id: 'reasonDetails',
-        label: 'Please describe your use case for the SHARE Protocol SDK or API.',
+        label: 'Please describe the type of product or service you intend to build using the SHARE Protocol SDK or API.',
         placeholder: 'Type your answer here...',
         type: 'text',
         required: true,
@@ -62,7 +62,7 @@ const Contact = () => {
     } else if (formData.reason === 'general') {
       baseQuestions.push({
         id: 'reasonDetails',
-        label: 'Please describe your question or inquiry.',
+        label: 'How can we help?',
         placeholder: 'Type your answer here...',
         type: 'text',
         required: true,
