@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,112 +17,90 @@ const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const inputRefs = useRef([]);
 
-  // Dynamic questions based on reason selection
-  const getQuestions = () => {
-    const baseQuestions = [
-      {
-        id: 'reason',
-        label: 'What best describes your reason for contacting us?',
-        type: 'choice',
-        required: true,
-        options: [
-          { key: 'A', value: 'collaborating', label: "I'm interested in collaborating" },
-          { key: 'B', value: 'investing', label: "I'm interested in investing" },
-          { key: 'C', value: 'sdk-api', label: "I'm interested in using the SHARE Protocol SDK or API" },
-          { key: 'D', value: 'general', label: 'I have a general question' },
-        ],
-      },
-    ];
-
-    // Add follow-up question based on reason
-    if (formData.reason === 'collaborating') {
-      baseQuestions.push({
-        id: 'reasonDetails',
-        label: 'Please describe the type of collaboration you\'re interested in (e.g. partnership, technical integration, or a release using SHARE).',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: true,
-      });
-    } else if (formData.reason === 'investing') {
-      baseQuestions.push({
-        id: 'reasonDetails',
-        label: 'Please describe the focus of your investments (e.g. industry and stage) and your interest in FORMLESS.',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: true,
-      });
-    } else if (formData.reason === 'sdk-api') {
-      baseQuestions.push({
-        id: 'reasonDetails',
-        label: 'Please describe your use case for the SHARE Protocol SDK or API.',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: true,
-      });
-    } else if (formData.reason === 'general') {
-      baseQuestions.push({
-        id: 'reasonDetails',
-        label: 'Please describe your question or inquiry.',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: true,
-      });
+  // Get the follow-up question label based on reason
+  const getReasonDetailsLabel = useCallback((reason) => {
+    switch (reason) {
+      case 'collaborating':
+        return "Please describe the type of collaboration you're interested in (e.g. partnership, technical integration, or a release using SHARE).";
+      case 'investing':
+        return 'Please describe the focus of your investments (e.g. industry and stage) and your interest in FORMLESS.';
+      case 'sdk-api':
+        return 'Please describe your use case for the SHARE Protocol SDK or API.';
+      case 'general':
+        return 'Please describe your question or inquiry.';
+      default:
+        return 'Please provide more details.';
     }
+  }, []);
 
-    // Add remaining questions
-    baseQuestions.push(
-      {
-        id: 'name',
-        label: 'Name',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: true,
-      },
-      {
-        id: 'email',
-        label: 'Email',
-        placeholder: 'name@example.com',
-        type: 'email',
-        required: true,
-      },
-      {
-        id: 'company',
-        label: 'Name of your Company or Organization',
-        placeholder: 'Type your answer here...',
-        type: 'text',
-        required: false,
-      },
-      {
-        id: 'hearAboutUs',
-        label: 'How did you hear about us?',
-        type: 'choice',
-        required: true,
-        options: [
-          { key: 'A', value: 'twitter', label: 'X (Formerly Twitter)' },
-          { key: 'B', value: 'instagram', label: 'Instagram' },
-          { key: 'C', value: 'linkedin', label: 'LinkedIn' },
-          { key: 'D', value: 'google', label: 'Google/Search Engine' },
-          { key: 'E', value: 'referral', label: 'Referral' },
-          { key: 'F', value: 'other', label: 'Other' },
-        ],
-      },
-      {
-        id: 'subscribe',
-        label: 'Stay connected with us! Subscribe to our email list to receive updates on our latest products, promotions, and news.',
-        subtext: '(You can change your preferences at any time. Read our Privacy Policy here.)',
-        type: 'choice',
-        required: true,
-        options: [
-          { key: 'A', value: 'yes', label: 'Yes, I would like to subscribe.' },
-          { key: 'B', value: 'no', label: 'No thanks, I prefer not to subscribe.' },
-        ],
-      }
-    );
-
-    return baseQuestions;
-  };
-
-  const questions = getQuestions();
+  // Static questions array - always 7 questions
+  const questions = useMemo(() => [
+    {
+      id: 'reason',
+      label: 'What best describes your reason for contacting us?',
+      type: 'choice',
+      required: true,
+      options: [
+        { key: 'A', value: 'collaborating', label: "I'm interested in collaborating" },
+        { key: 'B', value: 'investing', label: "I'm interested in investing" },
+        { key: 'C', value: 'sdk-api', label: "I'm interested in using the SHARE Protocol SDK or API" },
+        { key: 'D', value: 'general', label: 'I have a general question' },
+      ],
+    },
+    {
+      id: 'reasonDetails',
+      label: getReasonDetailsLabel(formData.reason),
+      placeholder: 'Type your answer here...',
+      type: 'text',
+      required: true,
+    },
+    {
+      id: 'name',
+      label: 'Name',
+      placeholder: 'Type your answer here...',
+      type: 'text',
+      required: true,
+    },
+    {
+      id: 'email',
+      label: 'Email',
+      placeholder: 'name@example.com',
+      type: 'email',
+      required: true,
+    },
+    {
+      id: 'company',
+      label: 'Name of your Company or Organization',
+      placeholder: 'Type your answer here...',
+      type: 'text',
+      required: false,
+    },
+    {
+      id: 'hearAboutUs',
+      label: 'How did you hear about us?',
+      type: 'choice',
+      required: true,
+      options: [
+        { key: 'A', value: 'twitter', label: 'X (Formerly Twitter)' },
+        { key: 'B', value: 'instagram', label: 'Instagram' },
+        { key: 'C', value: 'linkedin', label: 'LinkedIn' },
+        { key: 'D', value: 'google', label: 'Google/Search Engine' },
+        { key: 'E', value: 'referral', label: 'Referral' },
+        { key: 'F', value: 'other', label: 'Other' },
+      ],
+    },
+    {
+      id: 'subscribe',
+      label: 'Stay connected with us! Subscribe to our email list to receive updates on our latest products, promotions, and news.',
+      subtext: '(You can change your preferences at any time. Read our Privacy Policy here.)',
+      type: 'choice',
+      required: true,
+      options: [
+        { key: 'A', value: 'yes', label: 'Yes, I would like to subscribe.' },
+        { key: 'B', value: 'no', label: 'No thanks, I prefer not to subscribe.' },
+      ],
+    },
+  ], [formData.reason, getReasonDetailsLabel]);
 
   useEffect(() => {
     document.title = 'Contact Us | FORMLESS';
@@ -154,6 +132,61 @@ const Contact = () => {
     }
   }, [currentStep, isLoading, isTransitioning]);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const canProceed = useCallback(() => {
+    const currentQuestion = questions[currentStep];
+    if (!currentQuestion) return false;
+
+    const value = formData[currentQuestion.id];
+
+    if (currentQuestion.required) {
+      if (currentQuestion.type === 'email') {
+        return value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      }
+      return value && value.toString().trim().length > 0;
+    }
+    return true;
+  }, [currentStep, formData, questions]);
+
+  const handleNext = useCallback((skipCheck = false) => {
+    if (!skipCheck && !canProceed()) return;
+
+    if (currentStep < questions.length - 1) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep(prev => prev + 1);
+        setIsTransitioning(false);
+      }, 300);
+    } else {
+      // Submit form
+      handleSubmit();
+    }
+  }, [canProceed, currentStep, questions.length]);
+
+  const handleChoiceSelect = useCallback((value) => {
+    const currentQuestion = questions[currentStep];
+    setFormData(prev => ({
+      ...prev,
+      [currentQuestion.id]: value
+    }));
+
+    // Auto-advance after selection - use functional update to avoid stale closure
+    setTimeout(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep(prev => prev + 1);
+        setIsTransitioning(false);
+      }, 300);
+    }, 300);
+  }, [currentStep, questions]);
+
   // Handle keyboard shortcuts for choices
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -171,63 +204,12 @@ const Contact = () => {
 
     window.addEventListener('keypress', handleKeyPress);
     return () => window.removeEventListener('keypress', handleKeyPress);
-  }, [currentStep, isLoading, isTransitioning, isSubmitted, questions]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleChoiceSelect = (value) => {
-    const currentQuestion = questions[currentStep];
-    setFormData(prev => ({
-      ...prev,
-      [currentQuestion.id]: value
-    }));
-
-    // Auto-advance after selection
-    setTimeout(() => {
-      handleNext(true);
-    }, 300);
-  };
+  }, [currentStep, isLoading, isTransitioning, isSubmitted, questions, handleChoiceSelect]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleNext();
-    }
-  };
-
-  const canProceed = () => {
-    const currentQuestion = questions[currentStep];
-    if (!currentQuestion) return false;
-
-    const value = formData[currentQuestion.id];
-
-    if (currentQuestion.required) {
-      if (currentQuestion.type === 'email') {
-        return value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      }
-      return value && value.toString().trim().length > 0;
-    }
-    return true;
-  };
-
-  const handleNext = (skipCheck = false) => {
-    if (!skipCheck && !canProceed()) return;
-
-    if (currentStep < questions.length - 1) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentStep(prev => prev + 1);
-        setIsTransitioning(false);
-      }, 300);
-    } else {
-      // Submit form
-      handleSubmit();
     }
   };
 
