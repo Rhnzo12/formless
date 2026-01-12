@@ -152,16 +152,8 @@ const ApiDocs = () => {
   const PRODUCTION_URL = 'https://formless-41ci.onrender.com';
 
   const getMarkdownUrl = (section = '') => {
-    const sectionPaths = {
-      'welcome': '/api-docs',
-      'identity-lookup': '/api-docs/account-management/identity-lookup',
-      'create-contract': '/api-docs/revenue-sharing/create-contract',
-      'fetch-split-data': '/api-docs/revenue-sharing/fetch-split-data',
-      'execute-payout': '/api-docs/payouts/execute-payout',
-      'query-batch-status': '/api-docs/payouts/query-batch-status',
-    };
-    const path = sectionPaths[section] || sectionPaths[activeSection] || '/api-docs';
-    return `${PRODUCTION_URL}${path}.md`;
+    const sectionKey = section || activeSection || 'welcome';
+    return `${PRODUCTION_URL}/api-docs/markdown?section=${sectionKey}`;
   };
 
   const getPageUrl = (section = '') => {
