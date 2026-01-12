@@ -691,7 +691,7 @@ const ApiDocs = () => {
         style={{
           flex: 1,
           marginLeft: '280px',
-          marginRight: activeSection === 'identity-lookup' ? '20px' : '260px',
+          marginRight: activeSection === 'identity-lookup' ? '480px' : '260px',
           padding: '40px 60px',
           paddingTop: '136px',
           transition: 'margin-right 0.2s ease',
@@ -1253,7 +1253,6 @@ const ApiDocs = () => {
                 style={{
                   flex: 1,
                   minWidth: 0,
-                  marginRight: '460px',
                 }}>
                 {/* Inner content wrapper */}
                 <div>
