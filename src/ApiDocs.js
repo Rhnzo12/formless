@@ -203,17 +203,20 @@ const ApiDocs = () => {
   };
 
   const handleCopyMCPServer = () => {
-    copyToClipboard('mcp://docs.formless.xyz', 'mcp');
+    const mcpUrl = `${PRODUCTION_URL}/mcp`;
+    copyToClipboard(mcpUrl, 'mcp');
     setCopyDropdownOpen(null);
   };
 
   const handleConnectToCursor = () => {
-    window.open('cursor://install-mcp?url=mcp://docs.formless.xyz', '_blank');
+    const mcpUrl = encodeURIComponent(`${PRODUCTION_URL}/mcp`);
+    window.open(`cursor://anysphere.cursor-deeplink/mcp/install?url=${mcpUrl}`, '_blank');
     setCopyDropdownOpen(null);
   };
 
   const handleConnectToVSCode = () => {
-    window.open('vscode://install-mcp?url=mcp://docs.formless.xyz', '_blank');
+    const mcpUrl = encodeURIComponent(`${PRODUCTION_URL}/mcp`);
+    window.open(`vscode://anthropic.claude-dev/mcp/install?url=${mcpUrl}`, '_blank');
     setCopyDropdownOpen(null);
   };
 
