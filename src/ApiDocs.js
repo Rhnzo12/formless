@@ -98,6 +98,12 @@ const ApiDocs = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('curl');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCodePanelOpen, setMobileCodePanelOpen] = useState(false);
+  // Create Contract section states
+  const [showCreateContractParamsChildren, setShowCreateContractParamsChildren] = useState(false);
+  const [showCreateContractResultChildren, setShowCreateContractResultChildren] = useState(true);
+  const [createContractResponseOption, setCreateContractResponseOption] = useState(1);
+  const [createContractLanguageDropdownOpen, setCreateContractLanguageDropdownOpen] = useState(false);
+  const [createContractSelectedLanguage, setCreateContractSelectedLanguage] = useState('curl');
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -763,7 +769,7 @@ const ApiDocs = () => {
         style={{
           flex: 1,
           marginLeft: '280px',
-          marginRight: activeSection === 'identity-lookup' ? '520px' : '260px',
+          marginRight: (activeSection === 'identity-lookup' || activeSection === 'create-contract') ? '520px' : '260px',
           padding: '40px 60px',
           paddingTop: '136px',
           transition: 'margin-right 0.2s ease',
@@ -2939,10 +2945,703 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
 
           </>
         )}
+
+        {activeSection === 'create-contract' && (
+          <>
+            {/* Two Column Layout */}
+            <div className="api-two-column-layout" style={{ display: 'flex', gap: '40px' }}>
+              {/* Left Column - Documentation */}
+              <div
+                className="left-content-column"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                }}>
+                {/* Inner content wrapper */}
+                <div>
+                {/* Breadcrumb */}
+                <div style={{
+                  fontSize: '14px',
+                  color: theme.textDimmed,
+                  marginBottom: '16px',
+                }}>
+                  Revenue Sharing
+                </div>
+
+                {/* Title with Copy page button */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                gap: '16px',
+              }}>
+                <h2 className="page-title" style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                  whiteSpace: 'nowrap',
+                }}>
+                  Create Contract
+                </h2>
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  <button
+                    onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'create-contract' ? null : 'create-contract')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 16px',
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy page
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                  {copyDropdownOpen === 'create-contract' && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '8px',
+                      padding: '8px 0',
+                      minWidth: '280px',
+                      zIndex: 1000,
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    }}>
+                      <button className="dropdown-item" onClick={() => handleCopyPage('create-contract-page', 'create-contract')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy page</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy page as Markdown for LLMs</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleViewAsMarkdown('create-contract')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>View as Markdown <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>View this page as plain text</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={() => handleOpenInChatGPT('create-contract')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08-4.778 2.758a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in ChatGPT <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInClaude('create-contract')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529.08-.08 6.467-3.627c.344-.193.554-.57.537-.965a1.077 1.077 0 0 0-.601-.913l-.644-.322a.537.537 0 0 0-.483 0L4.144 12.48a1.077 1.077 0 0 0-.601.913c-.016.394.193.772.538.965l.628.354v1.243z"/><path d="M19.291 8.045l-4.72 2.647-.08.08-2.726 1.529-.08.08-6.467 3.627a1.077 1.077 0 0 0-.537.965c.017.378.242.716.601.913l.644.322a.537.537 0 0 0 .483 0l13.447-7.545c.36-.193.584-.535.601-.913a1.077 1.077 0 0 0-.538-.965l-.628-.354v-1.243z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Claude <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInPerplexity('create-contract')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={handleCopyMCPServer} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy MCP Server</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy MCP Server URL to clipboard</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToCursor} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to Cursor <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on Cursor</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToVSCode} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to VS Code <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on VS Code</div></div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="page-subtitle" style={{
+                fontSize: '18px',
+                color: theme.textMuted,
+                marginBottom: '24px',
+              }}>
+                Create a revenue sharing smart contract
+              </p>
+
+              {/* API Endpoint Bar */}
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                marginBottom: '32px',
+                overflow: 'hidden',
+              }}>
+                <span style={{
+                  backgroundColor: isDarkMode ? '#1a2744' : '#dbeafe',
+                  color: '#60a5fa',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  padding: '10px 16px',
+                }}>POST</span>
+                <code style={{
+                  fontSize: '14px',
+                  color: theme.textSecondary,
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  padding: '10px 16px',
+                  borderLeft: `1px solid ${theme.border}`,
+                  borderRight: `1px solid ${theme.border}`,
+                }}>/v1#contracts_create</code>
+                <button style={{
+                  backgroundColor: '#3064e3',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  padding: '10px 20px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}>
+                  Try it
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
+
+              {/* Method Description */}
+              <p style={{
+                fontSize: '16px',
+                color: theme.textSecondary,
+                marginBottom: '40px',
+                lineHeight: '1.7',
+              }}>
+                Create a revenue sharing smart contract on the blockchain to automatically split payments among recipients and community members.
+              </p>
+
+          {/* Authorizations Section */}
+          <div style={{ marginBottom: '40px' }}>
+            <h3 style={{
+              fontSize: '24px',
+              fontWeight: '700',
+              marginBottom: '24px',
+              paddingBottom: '12px',
+              borderBottom: `1px solid ${theme.border}`,
+            }}>
+              Authorizations
+            </h3>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              marginBottom: '16px',
+            }}>
+              <span style={{ color: theme.text, fontWeight: '500' }}>Authorization</span>
+              <span style={{
+                backgroundColor: theme.bgTertiary,
+                color: theme.text,
+                fontSize: '12px',
+                padding: '2px 8px',
+                borderRadius: '4px',
+              }}>string</span>
+              <span style={{
+                backgroundColor: theme.bgTertiary,
+                color: theme.text,
+                fontSize: '12px',
+                padding: '2px 8px',
+                borderRadius: '4px',
+              }}>header</span>
+              <span style={{
+                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                color: '#f25c5c',
+                fontSize: '12px',
+                fontWeight: '600',
+                padding: '2px 8px',
+                borderRadius: '4px',
+              }}>required</span>
+            </div>
+            <p style={{
+              fontSize: '14px',
+              color: theme.textMuted,
+            }}>
+              JWT token with Unique ID identification
+            </p>
+          </div>
+
+          {/* Body Section */}
+          <div style={{ marginBottom: '40px' }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '24px',
+              paddingBottom: '12px',
+              borderBottom: `1px solid ${theme.border}`,
+            }}>
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                margin: 0,
+              }}>
+                Body
+              </h3>
+              <span style={{
+                color: theme.textMuted,
+                fontSize: '14px',
+              }}>application/json</span>
+            </div>
+
+            {/* jsonrpc field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+              <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code>
+              </p>
+            </div>
+
+            {/* id field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+            </div>
+
+            {/* method field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <span style={{ color: theme.textMuted, fontWeight: '400' }}>method</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>contracts_create</span></span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+              <p style={{ fontSize: '14px', color: theme.textMuted }}>
+                Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>contracts_create</code>
+              </p>
+            </div>
+
+            {/* params field */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>params</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+
+              {/* Collapsible params container */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div
+                  onClick={() => setShowCreateContractParamsChildren(!showCreateContractParamsChildren)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer', transition: 'background-color 0.2s ease' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme.bgHover}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showCreateContractParamsChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}>
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                  {showCreateContractParamsChildren ? 'Hide child attributes' : 'Show child attributes'}
+                </div>
+
+                {showCreateContractParamsChildren && (
+                  <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                    {/* params.type */}
+                    <div style={{ paddingTop: '16px', marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>type</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>digital_property_with_revenue_share</span></span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                      <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>digital_property_with_revenue_share</code></p>
+                    </div>
+
+                    {/* params.network */}
+                    <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>network</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>base</span></span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                      <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>base</code></p>
+                    </div>
+
+                    {/* params.title */}
+                    <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>title</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>HYPERMAX SNEAKER RELEASE</span></span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                    </div>
+
+                    {/* params.description */}
+                    <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>description</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>Community revenue sharing for HYPERMAX sneaker release</span></span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                    </div>
+
+                    {/* params.creator_name */}
+                    <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>creator_name</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>HYPERMAX Brand</span></span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                    </div>
+
+                    {/* params.revenue_share */}
+                    <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>revenue_share</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                      </div>
+                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, padding: '16px' }}>
+                        <div style={{ color: theme.textMuted, fontSize: '13px' }}>
+                          Contains: recipients (object), community_allocation_percent (number, default: 100), community_split_count (integer, default: 100), distribution_unit (object with value and currency)
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* params.revenue_source */}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>revenue_source</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                      </div>
+                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, padding: '16px' }}>
+                        <div style={{ color: theme.textMuted, fontSize: '13px' }}>
+                          Contains: product (object with type enum, default: "product")
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Response Section */}
+          <div style={{ marginBottom: '40px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '12px', borderBottom: `1px solid ${theme.border}` }}>
+              <h3 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>Response</h3>
+              <span style={{ color: theme.textMuted, fontSize: '14px' }}>200 - application/json</span>
+            </div>
+
+            <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '24px' }}>Successful response</p>
+
+            {/* Response jsonrpc field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>jsonrpc</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+              <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
+            </div>
+
+            {/* Response id field */}
+            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>id</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+            </div>
+
+            {/* Response result field */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <span style={{ color: theme.text, fontWeight: '500' }}>result</span>
+                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+              </div>
+
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', borderBottom: `1px solid ${theme.border}` }}>
+                  <button onClick={() => setCreateContractResponseOption(1)} style={{ padding: '12px 20px', backgroundColor: 'transparent', border: 'none', color: createContractResponseOption === 1 ? theme.text : theme.textMuted, fontSize: '14px', fontWeight: createContractResponseOption === 1 ? '500' : '400', cursor: 'pointer', borderBottom: createContractResponseOption === 1 ? `2px solid ${theme.text}` : '2px solid transparent', marginBottom: '-1px' }}>Option 1</button>
+                  <button onClick={() => setCreateContractResponseOption(2)} style={{ padding: '12px 20px', backgroundColor: 'transparent', border: 'none', color: createContractResponseOption === 2 ? theme.text : theme.textMuted, fontSize: '14px', fontWeight: createContractResponseOption === 2 ? '500' : '400', cursor: 'pointer', borderBottom: createContractResponseOption === 2 ? `2px solid ${theme.text}` : '2px solid transparent', marginBottom: '-1px' }}>Option 2</button>
+                </div>
+
+                <div style={{ padding: '20px' }}>
+                  <div onClick={() => setShowCreateContractResultChildren(!showCreateContractResultChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showCreateContractResultChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                    {showCreateContractResultChildren ? 'Hide child attributes' : 'Show child attributes'}
+                  </div>
+
+                  {showCreateContractResultChildren && createContractResponseOption === 1 && (
+                    <>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>status</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>Status of the contract creation</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>success</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>code</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;integer&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>HTTP status code</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>200</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>network_id</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The network ID where the contract was deployed</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>blockchain_name</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The name of the blockchain (e.g., "base")</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>revenue_share_smart_contract_address</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed revenue sharing smart contract</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>digital_property_contract_address</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed digital property contract</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>digital_property_contract_id</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The ID of the digital property contract</p>
+                      </div>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>join_splits_url</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string&lt;uri&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>URL where community members can join the revenue split</p>
+                      </div>
+                    </>
+                  )}
+
+                  {showCreateContractResultChildren && createContractResponseOption === 2 && (
+                    <>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>status</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>Status indicating failure</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failure</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>code</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>HTTP error status code</p>
+                      </div>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>message</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Error message describing what went wrong</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '24px', borderTop: `1px solid ${theme.border}`, marginTop: '40px', marginBottom: '40px' }}>
+            <a href="#identity-lookup" onClick={(e) => { e.preventDefault(); scrollToSection('identity-lookup'); }} style={{ display: 'flex', alignItems: 'center', gap: '16px', color: theme.text, textDecoration: 'none', fontSize: '14px', transition: 'opacity 0.2s ease' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+              Identity Lookup
+            </a>
+            <a href="#fetch-split-data" onClick={(e) => { e.preventDefault(); scrollToSection('fetch-split-data'); }} style={{ display: 'flex', alignItems: 'center', gap: '16px', color: theme.text, textDecoration: 'none', fontSize: '14px', transition: 'opacity 0.2s ease' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
+              Fetch Split Data
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+            </a>
+          </div>
+
+          {/* Footer */}
+          <footer style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '24px', borderTop: `1px solid ${theme.border}` }}>
+            <a href="https://github.com/formless" target="_blank" rel="noopener noreferrer" style={{ color: theme.textDimmed, transition: 'color 0.2s ease' }} onMouseEnter={(e) => e.currentTarget.style.color = 'white'} onMouseLeave={(e) => e.currentTarget.style.color = '#666'}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <span style={{ color: theme.textDimmed, fontSize: '14px' }}>Powered by{' '}<a href="https://mintlify.com" target="_blank" rel="noopener noreferrer" style={{ color: 'white', fontWeight: '600', textDecoration: 'none' }}>mintlify</a></span>
+          </footer>
+                </div>
+              </div>
+
+            {/* Right Column - Code Panels */}
+            <div className="right-code-panel" style={{ width: '420px', flexShrink: 0, position: 'fixed', top: '120px', right: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Request Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'visible' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Create Revenue Sharing Contract</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ position: 'relative' }}>
+                      <div onClick={() => setCreateContractLanguageDropdownOpen(!createContractLanguageDropdownOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: theme.bgTertiary, padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>{createContractSelectedLanguage === 'curl' ? 'cURL' : createContractSelectedLanguage}</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+                      </div>
+                      {createContractLanguageDropdownOpen && (
+                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+                          {['curl', 'Python', 'JavaScript', 'Ruby'].map(lang => (
+                            <button key={lang} className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage(lang); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                              {lang === 'curl' ? 'cURL' : lang}
+                              {createContractSelectedLanguage === lang && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <button onClick={() => copyToClipboard('curl request...', 'code-create-contract')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                      {copiedCode === 'code-create-contract' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                    </button>
+                  </div>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
+                  <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
+{createContractSelectedLanguage === 'curl' && <>{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1","method":"contracts_create","params":{"type":"digital_property_with_revenue_share","network":"base","title":"HYPERMAX SNEAKER RELEASE"}}'</span></>}
+{createContractSelectedLanguage === 'Ruby' && <><span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`)
+
+`}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
+http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
+{createContractSelectedLanguage === 'Python' && <><span style={{ color: '#c586c0' }}>import</span>{` requests
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {"jsonrpc": "2.0", "id": "1", "method": "contracts_create"}
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.post(url, json=payload)`}</>}
+{createContractSelectedLanguage === 'JavaScript' && <><span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{Authorization: 'Bearer <token>'}
+};
+fetch('https://share-ddn.formless.xyz/v1#contracts_create', options);`}</>}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Response Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"status":"success","code":200,"network_id":123}}', 'response-create-contract')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                    {copiedCode === 'response-create-contract' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                  </button>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
+{`{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"result"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"status"</span>: <span style={{ color: '#fbbf24' }}>"success"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"code"</span>: <span style={{ color: '#b5cea8' }}>200</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"network_id"</span>: <span style={{ color: '#b5cea8' }}>123</span>{`
+  }
+}`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          </>
+        )}
       </main>
 
-      {/* Right Sidebar - On This Page (hidden on Identity Lookup) */}
-      {activeSection !== 'identity-lookup' && (
+      {/* Right Sidebar - On This Page (hidden on Identity Lookup and Create Contract) */}
+      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && (
         <aside style={{
           width: '240px',
           position: 'fixed',
