@@ -152,28 +152,28 @@ const ApiDocs = () => {
   const getMarkdownUrl = (section = '') => {
     const baseUrl = window.location.origin;
     const sectionPaths = {
-      'welcome': '',
-      'identity-lookup': '/account-management/identity-lookup',
-      'create-contract': '/revenue-sharing/create-contract',
-      'fetch-split-data': '/revenue-sharing/fetch-split-data',
-      'execute-payout': '/payouts/execute-payout',
-      'query-batch-status': '/payouts/query-batch-status',
+      'welcome': '/api-docs',
+      'identity-lookup': '/api-docs/account-management/identity-lookup',
+      'create-contract': '/api-docs/revenue-sharing/create-contract',
+      'fetch-split-data': '/api-docs/revenue-sharing/fetch-split-data',
+      'execute-payout': '/api-docs/payouts/execute-payout',
+      'query-batch-status': '/api-docs/payouts/query-batch-status',
     };
-    const path = sectionPaths[section] || sectionPaths[activeSection] || '';
+    const path = sectionPaths[section] || sectionPaths[activeSection] || '/api-docs';
     return `${baseUrl}${path}.md`;
   };
 
   const getPageUrl = (section = '') => {
     const baseUrl = window.location.origin;
     const sectionPaths = {
-      'welcome': '',
-      'identity-lookup': '/account-management/identity-lookup',
-      'create-contract': '/revenue-sharing/create-contract',
-      'fetch-split-data': '/revenue-sharing/fetch-split-data',
-      'execute-payout': '/payouts/execute-payout',
-      'query-batch-status': '/payouts/query-batch-status',
+      'welcome': '/api-docs',
+      'identity-lookup': '/api-docs/account-management/identity-lookup',
+      'create-contract': '/api-docs/revenue-sharing/create-contract',
+      'fetch-split-data': '/api-docs/revenue-sharing/fetch-split-data',
+      'execute-payout': '/api-docs/payouts/execute-payout',
+      'query-batch-status': '/api-docs/payouts/query-batch-status',
     };
-    const path = sectionPaths[section] || sectionPaths[activeSection] || '';
+    const path = sectionPaths[section] || sectionPaths[activeSection] || '/api-docs';
     return `${baseUrl}${path}`;
   };
 
