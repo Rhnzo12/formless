@@ -3502,10 +3502,20 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
                           <span style={{ color: theme.text, fontWeight: '500' }}>status</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
                           <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                         </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Error status</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>Status indicating failure</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failure</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.text, fontWeight: '500' }}>code</span>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>HTTP error status code</p>
                       </div>
                       <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
@@ -3514,7 +3524,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                           <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
                           <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                         </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Error message</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Error message describing what went wrong</p>
                       </div>
                     </>
                   )}
