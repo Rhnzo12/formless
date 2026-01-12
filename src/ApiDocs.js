@@ -98,12 +98,27 @@ const ApiDocs = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('curl');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCodePanelOpen, setMobileCodePanelOpen] = useState(false);
+  const [tryItOpen, setTryItOpen] = useState(false);
   // Create Contract section states
   const [showCreateContractParamsChildren, setShowCreateContractParamsChildren] = useState(false);
   const [showCreateContractResultChildren, setShowCreateContractResultChildren] = useState(true);
-  const [createContractResponseOption, setCreateContractResponseOption] = useState(1);
+  const [createContractResponseOption, setCreateContractResponseOption] = useState(2);
   const [createContractLanguageDropdownOpen, setCreateContractLanguageDropdownOpen] = useState(false);
   const [createContractSelectedLanguage, setCreateContractSelectedLanguage] = useState('curl');
+  // Nested collapsible states for Create Contract params
+  const [showRevenueShareChildren, setShowRevenueShareChildren] = useState(true);
+  const [showRecipientsChildren, setShowRecipientsChildren] = useState(true);
+  const [showDistributionUnitChildren, setShowDistributionUnitChildren] = useState(true);
+  const [showRevenueSourceChildren, setShowRevenueSourceChildren] = useState(true);
+  const [showRevenueSourceProductChildren, setShowRevenueSourceProductChildren] = useState(true);
+  // Fetch Split Data section states
+  const [showFetchSplitParamsChildren, setShowFetchSplitParamsChildren] = useState(false);
+  const [showFetchSplitResultChildren, setShowFetchSplitResultChildren] = useState(true);
+  const [fetchSplitResponseOption, setFetchSplitResponseOption] = useState(2);
+  const [fetchSplitLanguageDropdownOpen, setFetchSplitLanguageDropdownOpen] = useState(false);
+  const [fetchSplitSelectedLanguage, setFetchSplitSelectedLanguage] = useState('curl');
+  const [showFetchSplitSplitsDataChildren, setShowFetchSplitSplitsDataChildren] = useState(false);
+  const [showFetchSplitPaginationChildren, setShowFetchSplitPaginationChildren] = useState(false);
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -769,7 +784,7 @@ const ApiDocs = () => {
         style={{
           flex: 1,
           marginLeft: '280px',
-          marginRight: (activeSection === 'identity-lookup' || activeSection === 'create-contract') ? '520px' : '260px',
+          marginRight: (activeSection === 'identity-lookup' || activeSection === 'create-contract' || activeSection === 'fetch-split-data') ? '480px' : '260px',
           padding: '40px 60px',
           paddingTop: '136px',
           transition: 'margin-right 0.2s ease',
@@ -1324,7 +1339,7 @@ const ApiDocs = () => {
         {activeSection === 'identity-lookup' && (
           <>
             {/* Two Column Layout */}
-            <div className="api-two-column-layout" style={{ display: 'flex', gap: '40px' }}>
+            <div className="api-two-column-layout" style={{ display: 'flex' }}>
               {/* Left Column - Documentation */}
               <div
                 className="left-content-column"
@@ -2541,7 +2556,7 @@ payload = {
     "params": { "email_address": "user@example.com" }
 }
 headers = {
-    "Authorization": "Bearer <token>",
+    "Authorization": "Bearer &lt;token&gt;",
     "Content-Type": "application/json"
 }
 
@@ -2550,7 +2565,7 @@ response = requests.post(url, json=payload, headers=headers)
 print(response.text)`;
                         const javascriptCode = `const options = {
   method: 'POST',
-  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'application/json'},
+  headers: {Authorization: 'Bearer &lt;token&gt;', 'Content-Type': 'application/json'},
   body: JSON.stringify({
     jsonrpc: '2.0',
     id: '1',
@@ -2616,7 +2631,7 @@ func main() {
 
 	req, _ := http.NewRequest("POST", url, payload)
 
-	req.Header.Add("Authorization", "Bearer <token>")
+	req.Header.Add("Authorization", "Bearer &lt;token&gt;")
 	req.Header.Add("Content-Type", "application/json")
 
 	res, _ := http.DefaultClient.Do(req)
@@ -2628,7 +2643,7 @@ func main() {
 
 }`;
                         const javaCode = `HttpResponse<String> response = Unirest.post("https://share-ddn.formless.xyz/v1#identity_get_by_email_address")
-  .header("Authorization", "Bearer <token>")
+  .header("Authorization", "Bearer &lt;token&gt;")
   .header("Content-Type", "application/json")
   .body("{\\"jsonrpc\\": \\"2.0\\",\\"id\\": \\"1\\",\\"method\\": \\"identity_get_by_email_address\\",\\"params\\": {\\"email_address\\": \\"user@example.com\\"}}")
   .asString();`;
@@ -2641,7 +2656,7 @@ http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
 
 request = Net::HTTP::Post.new(url)
-request["Authorization"] = 'Bearer <token>'
+request["Authorization"] = 'Bearer &lt;token&gt;'
 request["Content-Type"] = 'application/json'
 request.body = "{\\"jsonrpc\\": \\"2.0\\",\\"id\\": \\"1\\",\\"method\\": \\"identity_get_by_email_address\\",\\"params\\": {\\"email_address\\": \\"user@example.com\\"}}"
 
@@ -2949,7 +2964,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
         {activeSection === 'create-contract' && (
           <>
             {/* Two Column Layout */}
-            <div className="api-two-column-layout" style={{ display: 'flex', gap: '40px' }}>
+            <div className="api-two-column-layout" style={{ display: 'flex' }}>
               {/* Left Column - Documentation */}
               <div
                 className="left-content-column"
@@ -3320,7 +3335,6 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                     {/* params.creator_name */}
                     <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
                         <span style={{ color: theme.textMuted, fontWeight: '400' }}>creator_name</span>
                       </div>
@@ -3341,10 +3355,128 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                         <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
                         <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                       </div>
-                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, padding: '16px' }}>
-                        <div style={{ color: theme.textMuted, fontSize: '13px' }}>
-                          Contains: recipients (object), community_allocation_percent (number, default: 100), community_split_count (integer, default: 100), distribution_unit (object with value and currency)
+                      
+                      {/* Collapsible revenue_share children */}
+                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                        <div onClick={() => setShowRevenueShareChildren(!showRevenueShareChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showRevenueShareChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                          {showRevenueShareChildren ? 'Hide child attributes' : 'Show child attributes'}
                         </div>
+                        
+                        {showRevenueShareChildren && (
+                          <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                            {/* params.revenue_share.recipients */}
+                            <div style={{ paddingTop: '16px', marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.</span>
+                                <span style={{ color: theme.textMuted, fontWeight: '400' }}>recipients</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                              </div>
+                              
+                              {/* Collapsible recipients children */}
+                              <div style={{ backgroundColor: theme.bgSecondary, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                                <div onClick={() => setShowRecipientsChildren(!showRecipientsChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showRecipientsChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                                  {showRecipientsChildren ? 'Hide child attributes' : 'Show child attributes'}
+                                </div>
+                                
+                                {showRecipientsChildren && (
+                                  <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                                    <div style={{ paddingTop: '16px' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.recipients.</span>
+                                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>{'{key}'}</span>
+                                      </div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>number</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {/* params.revenue_share.community_allocation_percent */}
+                            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.</span>
+                                <span style={{ color: theme.textMuted, fontWeight: '400' }}>community_allocation_percent</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>number</span>
+                                <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>100</span></span>
+                                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                              </div>
+                            </div>
+                            
+                            {/* params.revenue_share.community_split_count */}
+                            <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.</span>
+                                <span style={{ color: theme.textMuted, fontWeight: '400' }}>community_split_count</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
+                                <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>100</span></span>
+                                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                              </div>
+                            </div>
+                            
+                            {/* params.revenue_share.distribution_unit */}
+                            <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.</span>
+                                <span style={{ color: theme.textMuted, fontWeight: '400' }}>distribution_unit</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                                <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                              </div>
+                              
+                              {/* Collapsible distribution_unit children */}
+                              <div style={{ backgroundColor: theme.bgSecondary, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                                <div onClick={() => setShowDistributionUnitChildren(!showDistributionUnitChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showDistributionUnitChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                                  {showDistributionUnitChildren ? 'Hide child attributes' : 'Show child attributes'}
+                                </div>
+                                
+                                {showDistributionUnitChildren && (
+                                  <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                                    {/* distribution_unit.value */}
+                                    <div style={{ paddingTop: '16px', marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.distribution_unit.</span>
+                                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>value</span>
+                                      </div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>number</span>
+                                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
+                                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                                      </div>
+                                    </div>
+                                    
+                                    {/* distribution_unit.currency */}
+                                    <div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_share.distribution_unit.</span>
+                                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>currency</span>
+                                      </div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>USD</span></span>
+                                        <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                                      </div>
+                                      <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>USD</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>USDC</code></p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -3357,10 +3489,52 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
                         <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
                       </div>
-                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, padding: '16px' }}>
-                        <div style={{ color: theme.textMuted, fontSize: '13px' }}>
-                          Contains: product (object with type enum, default: "product")
+                      
+                      {/* Collapsible revenue_source children */}
+                      <div style={{ backgroundColor: theme.bgCard, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                        <div onClick={() => setShowRevenueSourceChildren(!showRevenueSourceChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showRevenueSourceChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                          {showRevenueSourceChildren ? 'Hide child attributes' : 'Show child attributes'}
                         </div>
+                        
+                        {showRevenueSourceChildren && (
+                          <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                            {/* params.revenue_source.product */}
+                            <div style={{ paddingTop: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_source.</span>
+                                <span style={{ color: theme.textMuted, fontWeight: '400' }}>product</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                                <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>object</span>
+                              </div>
+                              
+                              {/* Collapsible product children */}
+                              <div style={{ backgroundColor: theme.bgSecondary, borderRadius: '8px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                                <div onClick={() => setShowRevenueSourceProductChildren(!showRevenueSourceProductChildren)} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 20px', color: theme.textMuted, fontSize: '14px', cursor: 'pointer' }}>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: showRevenueSourceProductChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}><path d="M9 18l6-6-6-6"/></svg>
+                                  {showRevenueSourceProductChildren ? 'Hide child attributes' : 'Show child attributes'}
+                                </div>
+                                
+                                {showRevenueSourceProductChildren && (
+                                  <div style={{ padding: '0 20px 20px 20px', borderTop: `1px solid ${theme.border}` }}>
+                                    <div style={{ paddingTop: '16px' }}>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                        <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.revenue_source.product.</span>
+                                        <span style={{ color: theme.textMuted, fontWeight: '400' }}>type</span>
+                                      </div>
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                        <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                                        <span style={{ backgroundColor: theme.bgTertiary, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>product</span></span>
+                                      </div>
+                                      <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>product</code></p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -3417,91 +3591,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                     {showCreateContractResultChildren ? 'Hide child attributes' : 'Show child attributes'}
                   </div>
 
+                  {/* Option 1 - Failure case */}
                   {showCreateContractResultChildren && createContractResponseOption === 1 && (
                     <>
                       <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>status</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>status</span>
                         </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>Status of the contract creation</p>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>success</code></p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>code</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;integer&gt;</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>HTTP status code</p>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>200</code></p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>network_id</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The network ID where the contract was deployed</p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>blockchain_name</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The name of the blockchain (e.g., "base")</p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>revenue_share_smart_contract_address</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed revenue sharing smart contract</p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>digital_property_contract_address</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed digital property contract</p>
-                      </div>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>digital_property_contract_id</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The ID of the digital property contract</p>
-                      </div>
-                      <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>join_splits_url</span>
-                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string&lt;uri&gt;</span>
-                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
-                        </div>
-                        <p style={{ fontSize: '14px', color: theme.textMuted }}>URL where community members can join the revenue split</p>
-                      </div>
-                    </>
-                  )}
-
-                  {showCreateContractResultChildren && createContractResponseOption === 2 && (
-                    <>
-                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>status</span>
                           <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
                           <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                         </div>
@@ -3509,22 +3607,116 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                         <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failure</code></p>
                       </div>
                       <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>code</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>code</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
                           <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                         </div>
                         <p style={{ fontSize: '14px', color: theme.textMuted }}>HTTP error status code</p>
                       </div>
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
-                          <span style={{ color: theme.text, fontWeight: '500' }}>message</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>message</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
                           <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
                           <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
                         </div>
                         <p style={{ fontSize: '14px', color: theme.textMuted }}>Error message describing what went wrong</p>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Option 2 - Success case */}
+                  {showCreateContractResultChildren && createContractResponseOption === 2 && (
+                    <>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>status</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;string&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>Status of the contract creation</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>success</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>code</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>enum&lt;integer&gt;</span>
+                          <span style={{ backgroundColor: 'rgba(220, 38, 38, 0.15)', color: '#f25c5c', fontSize: '12px', fontWeight: '600', padding: '2px 8px', borderRadius: '4px' }}>required</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '8px' }}>HTTP status code</p>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>200</code></p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>network_id</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>integer</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The network ID where the contract was deployed</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>blockchain_name</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The name of the blockchain (e.g., 'base')</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>revenue_share_smart_contract_address</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed revenue sharing smart contract</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>digital_property_contract_address</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The address of the deployed digital property contract</p>
+                      </div>
+                      <div style={{ marginBottom: '24px', paddingBottom: '24px', borderBottom: `1px solid ${theme.border}` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>digital_property_contract_id</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>The ID of the digital property contract</p>
+                      </div>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ color: theme.textMuted, fontSize: '14px' }}>result.</span>
+                          <span style={{ color: theme.textMuted, fontWeight: '400' }}>join_splits_url</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ backgroundColor: theme.bgTertiary, color: theme.text, fontSize: '12px', padding: '2px 8px', borderRadius: '4px' }}>string&lt;uri&gt;</span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: theme.textMuted }}>URL where community members can join the revenue split</p>
                       </div>
                     </>
                   )}
@@ -3560,7 +3752,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
               {/* Request Panel */}
               <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'visible' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
-                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Create Revenue Sharing Contract</span>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Create Contract</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ position: 'relative' }}>
                       <div onClick={() => setCreateContractLanguageDropdownOpen(!createContractLanguageDropdownOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: theme.bgTertiary, padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }}>
@@ -3569,45 +3761,243 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
                       </div>
                       {createContractLanguageDropdownOpen && (
-                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-                          {['curl', 'Python', 'JavaScript', 'Ruby'].map(lang => (
-                            <button key={lang} className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage(lang); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
-                              {lang === 'curl' ? 'cURL' : lang}
-                              {createContractSelectedLanguage === lang && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
-                            </button>
-                          ))}
+                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', maxHeight: '280px', overflowY: 'auto', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('curl'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                              CURL
+                            </div>
+                            {createContractSelectedLanguage === 'curl' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('Python'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#3776AB"><path d="M12 0C5.372 0 5.729 2.597 5.729 2.597l.007 2.69h6.395v.808H3.894S0 5.611 0 12.021c0 6.41 3.397 6.181 3.397 6.181h2.027v-2.975s-.109-3.397 3.342-3.397h5.755s3.232.052 3.232-3.125V3.054S18.24 0 12 0zm-3.2 1.76a1.043 1.043 0 110 2.086 1.043 1.043 0 010-2.086z"/><path d="M12 24c6.628 0 6.271-2.597 6.271-2.597l-.007-2.69h-6.395v-.808h8.237S24 18.389 24 11.979c0-6.41-3.397-6.181-3.397-6.181h-2.027v2.975s.109 3.397-3.342 3.397H9.479s-3.232-.052-3.232 3.125v5.651S5.76 24 12 24zm3.2-1.76a1.043 1.043 0 110-2.086 1.043 1.043 0 010 2.086z"/></svg>
+                              Python
+                            </div>
+                            {createContractSelectedLanguage === 'Python' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('JavaScript'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F7DF1E"><rect width="24" height="24" rx="2"/><path d="M6 18.5l1.5-1c.3.5.6.9 1.2.9.6 0 1-.2 1-1.1V11h2v6.4c0 1.8-1.1 2.6-2.7 2.6-1.4 0-2.3-.7-2.7-1.5h-.3zm6.5-.3l1.5-.9c.4.6.9 1.1 1.8 1.1.8 0 1.2-.4 1.2-.9 0-.6-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.5.9c-.3-.6-.7-.8-1.2-.8s-.9.3-.9.8c0 .5.3.8 1.2 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.4 2.7-3.2 2.7-1.8 0-3-.9-3.5-2z" fill="#000"/></svg>
+                              JavaScript
+                            </div>
+                            {createContractSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('PHP'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#777BB4"><ellipse cx="12" cy="12" rx="12" ry="7"/><text x="12" y="15" fontSize="8" fill="white" textAnchor="middle" fontWeight="bold">php</text></svg>
+                              PHP
+                            </div>
+                            {createContractSelectedLanguage === 'PHP' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('Go'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ADD8"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">Go</text></svg>
+                              Go
+                            </div>
+                            {createContractSelectedLanguage === 'Go' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('Java'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#007396"><path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.762.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218"/><path d="M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0 0-8.216 2.052-4.292 6.573"/><path d="M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82"/><path d="M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0 0 .07-.062.09-.118"/><path d="M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.889 4.832 0 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.189-7.627"/><path d="M9.734 23.924c4.322.277 10.959-.154 11.116-2.198 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0 0 .553.457 3.393.639"/></svg>
+                              Java
+                            </div>
+                            {createContractSelectedLanguage === 'Java' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setCreateContractSelectedLanguage('Ruby'); setCreateContractLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#CC342D"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007 5.236-9.264h.024l-.025.025.077-4.083.019-.083 7.082-1.272zM6.597 22.607l.027-.002-.027.002z"/></svg>
+                              Ruby
+                            </div>
+                            {createContractSelectedLanguage === 'Ruby' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
                         </div>
                       )}
                     </div>
-                    <button onClick={() => copyToClipboard('curl request...', 'code-create-contract')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                    <button
+                      onClick={() => {
+                        const curlCode = `curl --request POST \\
+  --url 'https://share-ddn.formless.xyz/v1#contracts_create' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '
+{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "contracts_create",
+  "params": {
+    "type": "digital_property_with_revenue_share",
+    "network": "base",
+    "title": "HYPERMAX SNEAKER RELEASE"
+  }
+}
+'`;
+                        const pythonCode = `import requests
+
+url = "https://share-ddn.formless.xyz/v1#contracts_create"
+
+payload = {
+    "jsonrpc": "2.0",
+    "id": "1",
+    "method": "contracts_create",
+    "params": {
+        "type": "digital_property_with_revenue_share",
+        "network": "base",
+        "title": "HYPERMAX SNEAKER RELEASE"
+    }
+}
+headers = {
+    "Authorization": "Bearer &lt;token&gt;",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)`;
+                        const javascriptCode = `const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer &lt;token&gt;', 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    id: '1',
+    method: 'contracts_create',
+    params: {
+      type: 'digital_property_with_revenue_share',
+      network: 'base',
+      title: 'HYPERMAX SNEAKER RELEASE'
+    }
+  })
+};
+
+fetch('https://share-ddn.formless.xyz/v1#contracts_create', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));`;
+                        const rubyCode = `require 'uri'
+require 'net/http'
+
+url = URI("https://share-ddn.formless.xyz/v1#contracts_create")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = 'Bearer &lt;token&gt;'
+request["Content-Type"] = 'application/json'
+request.body = '{"jsonrpc": "2.0","id": "1","method": "contracts_create","params": {"type": "digital_property_with_revenue_share","network": "base","title": "HYPERMAX SNEAKER RELEASE"}}'
+
+response = http.request(request)
+puts response.read_body`;
+                        const codeMap = {
+                          'curl': curlCode,
+                          'Python': pythonCode,
+                          'JavaScript': javascriptCode,
+                          'Ruby': rubyCode,
+                          'PHP': curlCode,
+                          'Go': curlCode,
+                          'Java': curlCode,
+                        };
+                        copyToClipboard(codeMap[createContractSelectedLanguage] || curlCode, 'code-create-contract');
+                      }}
+                      style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}
+                    >
                       {copiedCode === 'code-create-contract' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
                     </button>
                   </div>
                 </div>
                 <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
                   <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
-{createContractSelectedLanguage === 'curl' && <>{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+                    {createContractSelectedLanguage === 'curl' && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"contracts_create","params":{"type":"digital_property_with_revenue_share","network":"base","title":"HYPERMAX SNEAKER RELEASE"}}\''}</span></>}
-{createContractSelectedLanguage === 'Ruby' && <><span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'</span>{`
+{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"contracts_create"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"type"</span>: <span style={{ color: '#fbbf24' }}>"digital_property_with_revenue_share"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"network"</span>: <span style={{ color: '#fbbf24' }}>"base"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"title"</span>: <span style={{ color: '#fbbf24' }}>"HYPERMAX SNEAKER RELEASE"</span>{`
+  }
+}
+`}<span style={{ color: '#fbbf24' }}>'</span>
+                      </>
+                    )}
+                    {createContractSelectedLanguage === 'Python' && (
+                      <>
+<span style={{ color: '#c586c0' }}>import</span>{` requests
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {
+    `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"contracts_create"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{
+        `}<span style={{ color: '#60a5fa' }}>"type"</span>: <span style={{ color: '#fbbf24' }}>"digital_property_with_revenue_share"</span>,{`
+        `}<span style={{ color: '#60a5fa' }}>"network"</span>: <span style={{ color: '#fbbf24' }}>"base"</span>{`
+    }
+}
+`}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
+    `}<span style={{ color: '#60a5fa' }}>"Authorization"</span>: <span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"Content-Type"</span>: <span style={{ color: '#fbbf24' }}>"application/json"</span>{`
+}
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
+
+`}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.text)`}
+                      </>
+                    )}
+                    {createContractSelectedLanguage === 'JavaScript' && (
+                      <>
+<span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{`}<span style={{ color: '#9cdcfe' }}>Authorization</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>, <span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`},
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#dcdcaa' }}>JSON.stringify</span>{`({
+    `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'contracts_create'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>params</span>: {`{`}<span style={{ color: '#9cdcfe' }}>type</span>: <span style={{ color: '#fbbf24' }}>'digital_property_with_revenue_share'</span>{`}
+  })
+};
+
+`}<span style={{ color: '#dcdcaa' }}>fetch</span>{`(`}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{`, options)
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(res => res.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(res => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(res))
+  .`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(err => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(err));`}
+                      </>
+                    )}
+                    {createContractSelectedLanguage === 'Ruby' && (
+                      <>
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
 `}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`)
 
 `}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
-http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
-{createContractSelectedLanguage === 'Python' && <><span style={{ color: '#c586c0' }}>import</span>{` requests
+http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
 
-`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`
-`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = `}{'{"jsonrpc": "2.0", "id": "1", "method": "contracts_create"}'}{`
-`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.post(url, json=payload)`}</>}
-{createContractSelectedLanguage === 'JavaScript' && <><span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = `}{'{'}
-{`  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
-  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {'{'}{`Authorization: 'Bearer <token>'`}{'}'}
-{'};'}
-{`fetch('https://share-ddn.formless.xyz/v1#contracts_create', options);`}</>}
+`}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
+request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"contracts_create"}\''}</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
+`}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
+                      </>
+                    )}
+                    {(createContractSelectedLanguage === 'PHP' || createContractSelectedLanguage === 'Go' || createContractSelectedLanguage === 'Java') && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+                      </>
+                    )}
                   </pre>
                 </div>
               </div>
@@ -3616,7 +4006,7 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
               <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
                   <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
-                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"status":"success","code":200,"network_id":123}}', 'response-create-contract')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"status":"success","code":200,"network_id":123,"blockchain_name":"base","revenue_share_smart_contract_address":"0x...","digital_property_contract_address":"0x...","digital_property_contract_id":"...","join_splits_url":"https://..."}}', 'response-create-contract')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
                     {copiedCode === 'response-create-contract' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
                   </button>
                 </div>
@@ -3628,7 +4018,8 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
   `}<span style={{ color: '#60a5fa' }}>"result"</span>: {`{
     `}<span style={{ color: '#60a5fa' }}>"status"</span>: <span style={{ color: '#fbbf24' }}>"success"</span>,{`
     `}<span style={{ color: '#60a5fa' }}>"code"</span>: <span style={{ color: '#b5cea8' }}>200</span>,{`
-    `}<span style={{ color: '#60a5fa' }}>"network_id"</span>: <span style={{ color: '#b5cea8' }}>123</span>{`
+    `}<span style={{ color: '#60a5fa' }}>"network_id"</span>: <span style={{ color: '#b5cea8' }}>123</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"blockchain_name"</span>: <span style={{ color: '#fbbf24' }}>"base"</span>{`
   }
 }`}
                   </pre>
@@ -3638,10 +4029,1175 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
           </div>
           </>
         )}
+
+        {/* Fetch Split Data Page Content */}
+        {activeSection === 'fetch-split-data' && (
+          <>
+            {/* Two Column Layout */}
+            <div className="api-two-column-layout" style={{ display: 'flex' }}>
+              {/* Left Column - Documentation */}
+              <div
+                className="left-content-column"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                }}>
+                {/* Inner content wrapper */}
+                <div>
+                {/* Breadcrumb */}
+                <div style={{
+                  fontSize: '14px',
+                  color: theme.textDimmed,
+                  marginBottom: '16px',
+                }}>
+                  Revenue Sharing
+                </div>
+
+                {/* Title with Copy page button */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                gap: '16px',
+              }}>
+                <h2 className="page-title" style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                  whiteSpace: 'nowrap',
+                }}>
+                  Fetch Split Data
+                </h2>
+                <div style={{ position: 'relative', flexShrink: 0 }}>
+                  <button
+                    onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'fetch-split-data' ? null : 'fetch-split-data')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 16px',
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy page
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                  {copyDropdownOpen === 'fetch-split-data' && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '8px',
+                      padding: '8px 0',
+                      minWidth: '280px',
+                      zIndex: 1000,
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    }}>
+                      <button className="dropdown-item" onClick={() => handleCopyPage('fetch-split-data-page', 'fetch-split-data')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy page</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy page as Markdown for LLMs</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleViewAsMarkdown('fetch-split-data')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>View as Markdown <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>View this page as plain text</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={() => handleOpenInChatGPT('fetch-split-data')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08-4.778 2.758a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in ChatGPT <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInClaude('fetch-split-data')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.709 15.955l4.72-2.647.08-.08 2.726-1.529.08-.08 6.467-3.627c.344-.193.554-.57.537-.965a1.077 1.077 0 0 0-.601-.913l-.644-.322a.537.537 0 0 0-.483 0L4.144 12.48a1.077 1.077 0 0 0-.601.913c-.016.394.193.772.538.965l.628.354v1.243z"/><path d="M19.291 8.045l-4.72 2.647-.08.08-2.726 1.529-.08.08-6.467 3.627a1.077 1.077 0 0 0-.537.965c.017.378.242.716.601.913l.644.322a.537.537 0 0 0 .483 0l13.447-7.545c.36-.193.584-.535.601-.913a1.077 1.077 0 0 0-.538-.965l-.628-.354v-1.243z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Claude <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInPerplexity('fetch-split-data')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={handleCopyMCPServer} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy MCP Server</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy MCP Server URL to clipboard</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToCursor} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to Cursor <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on Cursor</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToVSCode} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to VS Code <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on VS Code</div></div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="page-subtitle" style={{
+                fontSize: '18px',
+                color: theme.textMuted,
+                marginBottom: '24px',
+              }}>
+                Retrieve revenue split information for a smart contract
+              </p>
+
+                {/* POST Endpoint Bar */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: '24px',
+                  flexWrap: 'wrap',
+                }}>
+                  <span style={{
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                  }}>
+                    POST
+                  </span>
+                  <code style={{
+                    backgroundColor: theme.bgSecondary,
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    color: theme.text,
+                    border: `1px solid ${theme.border}`,
+                  }}>
+                    /v1#splits_fetch_data
+                  </code>
+                  <button
+                    onClick={() => setTryItOpen(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      backgroundColor: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Try it
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Detailed Description */}
+                <p style={{
+                  fontSize: '15px',
+                  color: theme.textMuted,
+                  lineHeight: '1.7',
+                  marginBottom: '32px',
+                }}>
+                  Fetch detailed information about revenue splits for a contract, including all split holders, their percentages, and identity information. Results are paginated with a maximum of 25 splits per page.
+                </p>
+
+                {/* Authorizations Section */}
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: theme.text,
+                  marginBottom: '16px',
+                  paddingBottom: '12px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  Authorizations
+                </h3>
+
+                <div style={{
+                  marginBottom: '32px',
+                  paddingBottom: '16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ fontWeight: '400', color: theme.textMuted }}>Authorization</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>header</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                  </div>
+                  <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>JWT token with Unique ID identification</p>
+                </div>
+
+                {/* Body Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Body
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    application/json
+                  </span>
+                </div>
+
+                {/* Body Parameters */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:2.0</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>2.0</code></p>
+                  </div>
+
+                  {/* id */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:1</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* method */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>method</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:splits_fetch_data</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>splits_fetch_data</code></p>
+                  </div>
+
+                  {/* params */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>params</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                    
+                    {/* Collapsible params children */}
+                    <div 
+                      onClick={() => setShowFetchSplitParamsChildren(!showFetchSplitParamsChildren)}
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginTop: '12px',
+                      }}
+                    >
+                      <svg 
+                        width="16" 
+                        height="16" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2"
+                        style={{ transform: showFetchSplitParamsChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showFetchSplitParamsChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showFetchSplitParamsChildren && (
+                      <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* params.contract_address */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.contract_address</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:0x1234567890abcdef1234567890abcdef12345678</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>The digital property contract address</p>
+                        </div>
+
+                        {/* params.network_id */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.network_id</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;integer&gt;</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:8453</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Blockchain network ID (8453 for Base)</p>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>8453</code></p>
+                        </div>
+
+                        {/* params.page */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.page</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:0</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Page number for pagination (starts at 0)</p>
+                        </div>
+
+                        {/* params.page_size */}
+                        <div style={{ paddingBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.page_size</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:25</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Number of splits per page (max 25)</p>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Required range: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>x &lt;= 25</code></p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Response Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                  paddingBottom: '12px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Response
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    200 - application/json
+                  </span>
+                </div>
+
+                <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '24px' }}>Successful response</p>
+
+                {/* Response Fields */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>2.0</code></p>
+                  </div>
+
+                  {/* id response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                      </svg>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* result response with options */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    </div>
+
+                    {/* Option tabs */}
+                    <div style={{
+                      display: 'flex',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      backgroundColor: theme.bgSecondary,
+                      padding: '4px',
+                      borderRadius: '8px',
+                      width: 'fit-content',
+                    }}>
+                      <button
+                        onClick={() => setFetchSplitResponseOption(1)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: fetchSplitResponseOption === 1 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: fetchSplitResponseOption === 1 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: fetchSplitResponseOption === 1 ? '500' : '400',
+                        }}
+                      >
+                        Option 1
+                      </button>
+                      <button
+                        onClick={() => setFetchSplitResponseOption(2)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: fetchSplitResponseOption === 2 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: fetchSplitResponseOption === 2 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: fetchSplitResponseOption === 2 ? '500' : '400',
+                        }}
+                      >
+                        Option 2
+                      </button>
+                    </div>
+
+                    {/* Collapsible result children */}
+                    <div 
+                      onClick={() => setShowFetchSplitResultChildren(!showFetchSplitResultChildren)}
+                      style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginBottom: '16px',
+                      }}
+                    >
+                      <svg 
+                        width="16" 
+                        height="16" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2"
+                        style={{ transform: showFetchSplitResultChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showFetchSplitResultChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showFetchSplitResultChildren && (
+                      <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* Option 1 - Failure */}
+                        {fetchSplitResponseOption === 1 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.success</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;boolean&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>false</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message</p>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Option 2 - Success */}
+                        {fetchSplitResponseOption === 2 && (
+                          <>
+                            {/* result.total_slots */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.total_slots</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total number of slots in the revenue split contract</p>
+                            </div>
+
+                            {/* result.total_splits */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.total_splits</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total number of unique split holders</p>
+                            </div>
+
+                            {/* result.community_allocation_percent */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.community_allocation_percent</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage of revenue allocated to community splits</p>
+                            </div>
+
+                            {/* result.percent_per_slot */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.percent_per_slot</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage of revenue per individual slot</p>
+                            </div>
+
+                            {/* result.splits_data */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>object[]</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '0 0 12px 0' }}>Array of split holder information for the current page</p>
+                              
+                              {/* Collapsible splits_data children */}
+                              <div 
+                                onClick={() => setShowFetchSplitSplitsDataChildren(!showFetchSplitSplitsDataChildren)}
+                                style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '8px', 
+                                  cursor: 'pointer',
+                                  color: theme.textMuted,
+                                  fontSize: '14px',
+                                }}
+                              >
+                                <svg 
+                                  width="16" 
+                                  height="16" 
+                                  viewBox="0 0 24 24" 
+                                  fill="none" 
+                                  stroke="currentColor" 
+                                  strokeWidth="2"
+                                  style={{ transform: showFetchSplitSplitsDataChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                                >
+                                  <path d="M9 18l6-6-6-6"/>
+                                </svg>
+                                {showFetchSplitSplitsDataChildren ? 'Hide' : 'Show'} child attributes
+                              </div>
+
+                              {showFetchSplitSplitsDataChildren && (
+                                <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.wallet_address</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Wallet address of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.percentage</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage of revenue this holder receives</p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* result.pagination */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>object</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              
+                              {/* Collapsible pagination children */}
+                              <div 
+                                onClick={() => setShowFetchSplitPaginationChildren(!showFetchSplitPaginationChildren)}
+                                style={{ 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  gap: '8px', 
+                                  cursor: 'pointer',
+                                  color: theme.textMuted,
+                                  fontSize: '14px',
+                                  marginTop: '12px',
+                                }}
+                              >
+                                <svg 
+                                  width="16" 
+                                  height="16" 
+                                  viewBox="0 0 24 24" 
+                                  fill="none" 
+                                  stroke="currentColor" 
+                                  strokeWidth="2"
+                                  style={{ transform: showFetchSplitPaginationChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                                >
+                                  <path d="M9 18l6-6-6-6"/>
+                                </svg>
+                                {showFetchSplitPaginationChildren ? 'Hide' : 'Show'} child attributes
+                              </div>
+
+                              {showFetchSplitPaginationChildren && (
+                                <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.total_pages</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total number of pages</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.next_page</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Next page number (null if on last page)</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.prev_page</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Previous page number (null if on first page)</p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* result.email_addresses */}
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.email_addresses</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string[]</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Email addresses of split holders on current page</p>
+                            </div>
+
+                            {/* result.split_percentage_owned_by_unique_id */}
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.split_percentage_owned_by_unique_id</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage owned by the requesting user's Unique ID</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '24px',
+                  borderTop: `1px solid ${theme.border}`,
+                  marginTop: '32px',
+                }}>
+                  <button
+                    onClick={() => setActiveSection('create-contract')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.text,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Create Contract
+                  </button>
+                  <button
+                    onClick={() => setActiveSection('execute-payout')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.text,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Execute Payout
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                  </button>
+                </div>
+
+                </div>
+              </div>
+            </div>
+            {/* End Two Column Layout */}
+
+            {/* Right Column - Code Panels */}
+            <div className="right-code-panel" style={{ width: '420px', flexShrink: 0, position: 'fixed', top: '120px', right: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+              {/* First Panel - cURL Request */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'visible',
+              }}>
+                {/* Panel Header */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>Fetch Revenue Split Data</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {/* Language Dropdown */}
+                    <div style={{ position: 'relative' }}>
+                      <div 
+                        onClick={() => setFetchSplitLanguageDropdownOpen(!fetchSplitLanguageDropdownOpen)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          cursor: 'pointer',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: theme.bgSecondary,
+                        }}
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                          <line x1="8" y1="21" x2="16" y2="21"/>
+                          <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
+                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>{fetchSplitSelectedLanguage === 'curl' ? 'cURL' : fetchSplitSelectedLanguage}</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                          <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                      </div>
+                      {fetchSplitLanguageDropdownOpen && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '100%',
+                          right: 0,
+                          marginTop: '4px',
+                          backgroundColor: theme.bgSecondary,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          padding: '4px 0',
+                          minWidth: '140px',
+                          maxHeight: '280px',
+                          overflowY: 'auto',
+                          zIndex: 1000,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                        }}>
+                          {[
+                            { id: 'curl', label: 'cURL', color: '#4ade80' },
+                            { id: 'Python', label: 'Python', color: '#3776AB' },
+                            { id: 'JavaScript', label: 'JavaScript', color: '#F7DF1E' },
+                            { id: 'PHP', label: 'PHP', color: '#777BB4' },
+                            { id: 'Go', label: 'Go', color: '#00ADD8' },
+                            { id: 'Java', label: 'Java', color: '#007396' },
+                            { id: 'Ruby', label: 'Ruby', color: '#CC342D' },
+                          ].map(lang => (
+                            <div
+                              key={lang.id}
+                              onClick={() => {
+                                setFetchSplitSelectedLanguage(lang.id);
+                                setFetchSplitLanguageDropdownOpen(false);
+                              }}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '8px 12px',
+                                cursor: 'pointer',
+                                backgroundColor: fetchSplitSelectedLanguage === lang.id ? theme.bg : 'transparent',
+                              }}
+                            >
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: lang.color }} />
+                                <span style={{ fontSize: '13px', color: theme.text }}>{lang.label}</span>
+                              </div>
+                              {fetchSplitSelectedLanguage === lang.id && (
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2">
+                                  <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    {/* Copy Button */}
+                    <button
+                      onClick={() => {
+                        const codeMap = {
+                          'curl': `curl --request POST \\
+  --url 'https://share-ddn.formless.xyz/v1#splits_fetch_data' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "splits_fetch_data",
+  "params": {
+    "contract_address": "0x1234567890abcdef1234567890abcdef12345678",
+    "network_id": 8453,
+    "page": 0,
+    "page_size": 25
+  }
+}'`,
+                          'Python': `import requests
+
+url = "https://share-ddn.formless.xyz/v1#splits_fetch_data"
+headers = {
+    "Authorization": "Bearer &lt;token&gt;",
+    "Content-Type": "application/json"
+}
+payload = {
+    "jsonrpc": "2.0",
+    "id": "1",
+    "method": "splits_fetch_data",
+    "params": {
+        "contract_address": "0x1234567890abcdef1234567890abcdef12345678",
+        "network_id": 8453,
+        "page": 0,
+        "page_size": 25
+    }
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())`,
+                          'JavaScript': `fetch('https://share-ddn.formless.xyz/v1#splits_fetch_data', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer &lt;token&gt;',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    id: '1',
+    method: 'splits_fetch_data',
+    params: {
+      contract_address: '0x1234567890abcdef1234567890abcdef12345678',
+      network_id: 8453,
+      page: 0,
+      page_size: 25
+    }
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));`,
+                          'Ruby': `require 'net/http'
+require 'uri'
+require 'json'
+
+url = URI("https://share-ddn.formless.xyz/v1#splits_fetch_data")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = "Bearer &lt;token&gt;"
+request["Content-Type"] = "application/json"
+request.body = '{"jsonrpc":"2.0","id":"1","method":"splits_fetch_data","params":{"contract_address":"0x1234...","network_id":8453}}'
+
+response = http.request(request)
+puts response.read_body`,
+                        };
+                        navigator.clipboard.writeText(codeMap[fetchSplitSelectedLanguage] || codeMap['curl']);
+                      }}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                {/* Code Content */}
+                <div style={{
+                  padding: '16px',
+                  maxHeight: '300px',
+                  overflowY: 'auto',
+                }}>
+                  <pre style={{
+                    margin: 0,
+                    fontSize: '13px',
+                    lineHeight: '1.5',
+                    color: theme.text,
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-all',
+                  }}>
+                    {fetchSplitSelectedLanguage === 'curl' && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#splits_fetch_data'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` '
+{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"splits_fetch_data"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"contract_address"</span>: <span style={{ color: '#fbbf24' }}>"0x1234..."</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"network_id"</span>: <span style={{ color: '#b5cea8' }}>8453</span>{`
+  }
+}'`}
+                      </>
+                    )}
+                    {fetchSplitSelectedLanguage === 'Python' && (
+                      <>
+<span style={{ color: '#c586c0' }}>import</span>{` `}<span style={{ color: '#4ec9b0' }}>requests</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`
+`}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>: <span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>: <span style={{ color: '#fbbf24' }}>"application/json"</span>{`
+}
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"splits_fetch_data"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"params"</span>: {`{
+        `}<span style={{ color: '#fbbf24' }}>"contract_address"</span>: <span style={{ color: '#fbbf24' }}>"0x1234..."</span>,{`
+        `}<span style={{ color: '#fbbf24' }}>"network_id"</span>: <span style={{ color: '#b5cea8' }}>8453</span>{`
+    }
+}
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
+`}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
+                      </>
+                    )}
+                    {fetchSplitSelectedLanguage === 'JavaScript' && (
+                      <>
+<span style={{ color: '#dcdcaa' }}>fetch</span>{`(`}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#splits_fetch_data'</span>{`, {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{
+    `}<span style={{ color: '#fbbf24' }}>'Authorization'</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+  `}{'}'},{`
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`({
+    `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'splits_fetch_data'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>params</span>: {`{
+      `}<span style={{ color: '#9cdcfe' }}>contract_address</span>: <span style={{ color: '#fbbf24' }}>'0x1234...'</span>,{`
+      `}<span style={{ color: '#9cdcfe' }}>network_id</span>: <span style={{ color: '#b5cea8' }}>8453</span>{`
+    `}{'}'}
+  {')'}
+{'})'}
+.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>response</span>{` => response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`(`}{'))'}{`
+.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data`}{'))'}{`
+.`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>error</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(`}<span style={{ color: '#fbbf24' }}>'Error:'</span>{`, error`}{'));'}`}
+                      </>
+                    )}
+                    {fetchSplitSelectedLanguage === 'Ruby' && (
+                      <>
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'json'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`)
+
+`}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
+http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
+request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"splits_fetch_data"}\''}</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
+`}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
+                      </>
+                    )}
+                    {(fetchSplitSelectedLanguage === 'PHP' || fetchSplitSelectedLanguage === 'Go' || fetchSplitSelectedLanguage === 'Java') && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#splits_fetch_data'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>}
+                      </>
+                    )}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Second Panel - Response */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
+              }}>
+                {/* Panel Header */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <span style={{ fontWeight: '500', fontSize: '14px', color: theme.text }}>200</span>
+                  <button
+                    onClick={() => {
+                      const response = `{
+  "jsonrpc": "2.0",
+  "id": "<string>",
+  "result": {
+    "total_slots": "<string>",
+    "total_splits": 123,
+    "community_allocation_percent": 123,
+    "percent_per_slot": 123,
+    "splits_data": [
+      {
+        "wallet_address": "0x...",
+        "percentage": 10.5
+      }
+    ],
+    "pagination": {
+      "total_pages": 5,
+      "next_page": 1,
+      "prev_page": null
+    },
+    "email_addresses": ["user@example.com"],
+    "split_percentage_owned_by_unique_id": 25.5
+  }
+}`;
+                      navigator.clipboard.writeText(response);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                  </button>
+                </div>
+                {/* Response Content */}
+                <div style={{
+                  padding: '16px',
+                  maxHeight: '300px',
+                  overflowY: 'auto',
+                }}>
+                  <pre style={{
+                    margin: 0,
+                    fontSize: '13px',
+                    lineHeight: '1.5',
+                    color: theme.text,
+                    fontFamily: 'Monaco, Consolas, monospace',
+                  }}>
+{`{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"result"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"total_slots"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"total_splits"</span>: <span style={{ color: '#b5cea8' }}>123</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"community_allocation_percent"</span>: <span style={{ color: '#b5cea8' }}>123</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"percent_per_slot"</span>: <span style={{ color: '#b5cea8' }}>123</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"splits_data"</span>: [{`
+      {
+        `}<span style={{ color: '#60a5fa' }}>"wallet_address"</span>: <span style={{ color: '#fbbf24' }}>"0x..."</span>,{`
+        `}<span style={{ color: '#60a5fa' }}>"percentage"</span>: <span style={{ color: '#b5cea8' }}>10.5</span>{`
+      }
+    ],
+    `}<span style={{ color: '#60a5fa' }}>"pagination"</span>: {`{
+      `}<span style={{ color: '#60a5fa' }}>"total_pages"</span>: <span style={{ color: '#b5cea8' }}>5</span>,{`
+      `}<span style={{ color: '#60a5fa' }}>"next_page"</span>: <span style={{ color: '#b5cea8' }}>1</span>,{`
+      `}<span style={{ color: '#60a5fa' }}>"prev_page"</span>: <span style={{ color: '#c586c0' }}>null</span>{`
+    }
+  }
+}`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </main>
 
-      {/* Right Sidebar - On This Page (hidden on Identity Lookup and Create Contract) */}
-      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && (
+      {/* Right Sidebar - On This Page (hidden on Identity Lookup, Create Contract, and Fetch Split Data) */}
+      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && activeSection !== 'fetch-split-data' && (
         <aside style={{
           width: '240px',
           position: 'fixed',
@@ -3745,6 +5301,26 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
             }
           }
 
+          /* Large screens - full layout */
+          @media (min-width: 1400px) {
+            .right-code-panel {
+              width: 420px !important;
+              right: 40px !important;
+            }
+          }
+
+          /* Medium-large screens - slightly narrower right panel */
+          @media (max-width: 1399px) and (min-width: 1201px) {
+            .main-content {
+              margin-right: 460px !important;
+              padding-right: 40px !important;
+            }
+            .right-code-panel {
+              width: 380px !important;
+              right: 30px !important;
+            }
+          }
+
           /* Tablet - hide right panel */
           @media (max-width: 1200px) {
             .right-code-panel {
@@ -3752,9 +5328,11 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
             }
             .main-content {
               margin-right: 0 !important;
+              padding: 40px 60px !important;
             }
             .left-content-column {
               margin-right: 0 !important;
+              overflow: visible !important;
             }
           }
 
@@ -3775,9 +5353,11 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
             .main-content {
               margin-left: 0 !important;
               padding: 16px !important;
+              padding-top: 100px !important;
             }
             .left-content-column {
               margin-right: 0 !important;
+              overflow: visible !important;
             }
             .right-code-panel {
               display: none !important;
@@ -3787,6 +5367,7 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
             }
             .page-title {
               font-size: 28px !important;
+              white-space: normal !important;
             }
             .page-subtitle {
               font-size: 16px !important;
@@ -3800,10 +5381,33 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
             }
             .main-content {
               padding: 12px !important;
+              padding-top: 100px !important;
             }
             .page-title {
               font-size: 24px !important;
+              white-space: normal !important;
             }
+          }
+
+          /* Code panel scrollbar */
+          .code-panel-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+          }
+          .code-panel-scroll::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .code-panel-scroll::-webkit-scrollbar-thumb {
+            background: ${isDarkMode ? '#444' : '#ccc'};
+            border-radius: 3px;
+          }
+          .code-panel-scroll::-webkit-scrollbar-thumb:hover {
+            background: ${isDarkMode ? '#555' : '#aaa'};
+          }
+
+          /* Dropdown hover effects */
+          .dropdown-item:hover {
+            background-color: ${isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'} !important;
           }
         `}
       </style>
