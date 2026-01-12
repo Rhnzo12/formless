@@ -3590,7 +3590,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1","method":"contracts_create","params":{"type":"digital_property_with_revenue_share","network":"base","title":"HYPERMAX SNEAKER RELEASE"}}'</span></>}
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"contracts_create","params":{"type":"digital_property_with_revenue_share","network":"base","title":"HYPERMAX SNEAKER RELEASE"}}\''}</span></>}
 {createContractSelectedLanguage === 'Ruby' && <><span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
 `}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
 
@@ -3601,13 +3601,13 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span></>}
 {createContractSelectedLanguage === 'Python' && <><span style={{ color: '#c586c0' }}>import</span>{` requests
 
 `}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`
-`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {"jsonrpc": "2.0", "id": "1", "method": "contracts_create"}
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = `}{'{"jsonrpc": "2.0", "id": "1", "method": "contracts_create"}'}{`
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.post(url, json=payload)`}</>}
-{createContractSelectedLanguage === 'JavaScript' && <><span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
-  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
-  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{Authorization: 'Bearer <token>'}
-};
-fetch('https://share-ddn.formless.xyz/v1#contracts_create', options);`}</>}
+{createContractSelectedLanguage === 'JavaScript' && <><span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = `}{'{'}
+{`  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {'{'}{`Authorization: 'Bearer <token>'`}{'}'}
+{'};'}
+{`fetch('https://share-ddn.formless.xyz/v1#contracts_create', options);`}</>}
                   </pre>
                 </div>
               </div>
