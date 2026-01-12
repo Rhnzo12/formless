@@ -149,8 +149,9 @@ const ApiDocs = () => {
   };
 
   // Dropdown handler functions
+  const PRODUCTION_URL = 'https://formless-41ci.onrender.com';
+
   const getMarkdownUrl = (section = '') => {
-    const baseUrl = window.location.origin;
     const sectionPaths = {
       'welcome': '/api-docs',
       'identity-lookup': '/api-docs/account-management/identity-lookup',
@@ -160,11 +161,10 @@ const ApiDocs = () => {
       'query-batch-status': '/api-docs/payouts/query-batch-status',
     };
     const path = sectionPaths[section] || sectionPaths[activeSection] || '/api-docs';
-    return `${baseUrl}${path}.md`;
+    return `${PRODUCTION_URL}${path}.md`;
   };
 
   const getPageUrl = (section = '') => {
-    const baseUrl = window.location.origin;
     const sectionPaths = {
       'welcome': '/api-docs',
       'identity-lookup': '/api-docs/account-management/identity-lookup',
@@ -174,7 +174,7 @@ const ApiDocs = () => {
       'query-batch-status': '/api-docs/payouts/query-batch-status',
     };
     const path = sectionPaths[section] || sectionPaths[activeSection] || '/api-docs';
-    return `${baseUrl}${path}`;
+    return `${PRODUCTION_URL}${path}`;
   };
 
   const handleCopyPage = (pageId, section = '') => {
