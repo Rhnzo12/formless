@@ -7,6 +7,7 @@ import About from './About';
 import ApiDocs from './ApiDocs';
 import CaseStudies from './CaseStudies';
 import Contact from './Contact';
+import MarkdownView from './MarkdownView';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/about" element={<About />} />
         <Route path="/api-docs" element={<ApiDocs />} />
+        <Route path="/api-docs/markdown" element={<MarkdownView />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
