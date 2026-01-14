@@ -3991,18 +3991,71 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
 `}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
 request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
 request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
-request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"contracts_create"}\''}</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
 `}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
                       </>
                     )}
-                    {(createContractSelectedLanguage === 'PHP' || createContractSelectedLanguage === 'Go' || createContractSelectedLanguage === 'Java') && (
+                    {createContractSelectedLanguage === 'PHP' && (
                       <>
-{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#contracts_create'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+<span style={{ color: '#c586c0' }}>&lt;?php</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>$curl</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_init</span>{`();
+
+`}<span style={{ color: '#dcdcaa' }}>curl_setopt_array</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`, [
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_URL</span>{` => `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_RETURNTRANSFER</span>{` => `}<span style={{ color: '#4ade80' }}>true</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_CUSTOMREQUEST</span>{` => `}<span style={{ color: '#fbbf24' }}>"POST"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_POSTFIELDS</span>{` => `}<span style={{ color: '#dcdcaa' }}>json_encode</span>{`([
+    `}<span style={{ color: '#fbbf24' }}>'jsonrpc'</span>{` => `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'id'</span>{` => `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'method'</span>{` => `}<span style={{ color: '#fbbf24' }}>'contracts_create'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'params'</span>{` => [`}<span style={{ color: '#6b7280' }}>...</span>{`]
+  ]),
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_HTTPHEADER</span>{` => [
+    `}<span style={{ color: '#fbbf24' }}>"Authorization: Bearer &lt;token&gt;"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type: application/json"</span>{`
+  ],
+]);
+
+`}<span style={{ color: '#9cdcfe' }}>$response</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_exec</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#dcdcaa' }}>curl_close</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#9cdcfe' }}>$response</span>{`;`}
+                      </>
+                    )}
+                    {createContractSelectedLanguage === 'Go' && (
+                      <>
+<span style={{ color: '#c586c0' }}>package</span>{` main
+
+`}<span style={{ color: '#c586c0' }}>import</span>{` (
+  `}<span style={{ color: '#fbbf24' }}>"fmt"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"strings"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"net/http"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"io"</span>{`
+)
+
+`}<span style={{ color: '#c586c0' }}>func</span>{` `}<span style={{ color: '#dcdcaa' }}>main</span>{`() {
+  `}<span style={{ color: '#9cdcfe' }}>url</span>{` := `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`
+  `}<span style={{ color: '#9cdcfe' }}>payload</span>{` := strings.`}<span style={{ color: '#dcdcaa' }}>NewReader</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0",...}'</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>req</span>{`, _ := http.`}<span style={{ color: '#dcdcaa' }}>NewRequest</span>{`(`}<span style={{ color: '#fbbf24' }}>"POST"</span>{`, url, payload)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>res</span>{`, _ := http.DefaultClient.`}<span style={{ color: '#dcdcaa' }}>Do</span>{`(req)
+  `}<span style={{ color: '#c586c0' }}>defer</span>{` res.Body.`}<span style={{ color: '#dcdcaa' }}>Close</span>{`()
+  `}<span style={{ color: '#9cdcfe' }}>body</span>{`, _ := io.`}<span style={{ color: '#dcdcaa' }}>ReadAll</span>{`(res.Body)
+  fmt.`}<span style={{ color: '#dcdcaa' }}>Println</span>{`(`}<span style={{ color: '#dcdcaa' }}>string</span>{`(body))
+}`}
+                      </>
+                    )}
+                    {createContractSelectedLanguage === 'Java' && (
+                      <>
+<span style={{ color: '#4ec9b0' }}>HttpResponse</span>{`<`}<span style={{ color: '#4ec9b0' }}>String</span>{`> `}<span style={{ color: '#9cdcfe' }}>response</span>{` = `}<span style={{ color: '#4ec9b0' }}>Unirest</span>{`
+  .`}<span style={{ color: '#dcdcaa' }}>post</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#contracts_create"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>body</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>asString</span>{`();`}
                       </>
                     )}
                   </pre>
@@ -5070,9 +5123,8 @@ puts response.read_body`;
                     )}
                     {fetchSplitSelectedLanguage === 'Ruby' && (
                       <>
-<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
-`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
-`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'json'</span>{`
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`)
 
@@ -5082,18 +5134,71 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
 `}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
 request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
 request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
-request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"splits_fetch_data"}\''}</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
 `}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
                       </>
                     )}
-                    {(fetchSplitSelectedLanguage === 'PHP' || fetchSplitSelectedLanguage === 'Go' || fetchSplitSelectedLanguage === 'Java') && (
+                    {fetchSplitSelectedLanguage === 'PHP' && (
                       <>
-{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#splits_fetch_data'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+<span style={{ color: '#c586c0' }}>&lt;?php</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>$curl</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_init</span>{`();
+
+`}<span style={{ color: '#dcdcaa' }}>curl_setopt_array</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`, [
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_URL</span>{` => `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_RETURNTRANSFER</span>{` => `}<span style={{ color: '#4ade80' }}>true</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_CUSTOMREQUEST</span>{` => `}<span style={{ color: '#fbbf24' }}>"POST"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_POSTFIELDS</span>{` => `}<span style={{ color: '#dcdcaa' }}>json_encode</span>{`([
+    `}<span style={{ color: '#fbbf24' }}>'jsonrpc'</span>{` => `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'id'</span>{` => `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'method'</span>{` => `}<span style={{ color: '#fbbf24' }}>'splits_fetch_data'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'params'</span>{` => [`}<span style={{ color: '#6b7280' }}>...</span>{`]
+  ]),
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_HTTPHEADER</span>{` => [
+    `}<span style={{ color: '#fbbf24' }}>"Authorization: Bearer &lt;token&gt;"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type: application/json"</span>{`
+  ],
+]);
+
+`}<span style={{ color: '#9cdcfe' }}>$response</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_exec</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#dcdcaa' }}>curl_close</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#9cdcfe' }}>$response</span>{`;`}
+                      </>
+                    )}
+                    {fetchSplitSelectedLanguage === 'Go' && (
+                      <>
+<span style={{ color: '#c586c0' }}>package</span>{` main
+
+`}<span style={{ color: '#c586c0' }}>import</span>{` (
+  `}<span style={{ color: '#fbbf24' }}>"fmt"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"strings"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"net/http"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"io"</span>{`
+)
+
+`}<span style={{ color: '#c586c0' }}>func</span>{` `}<span style={{ color: '#dcdcaa' }}>main</span>{`() {
+  `}<span style={{ color: '#9cdcfe' }}>url</span>{` := `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`
+  `}<span style={{ color: '#9cdcfe' }}>payload</span>{` := strings.`}<span style={{ color: '#dcdcaa' }}>NewReader</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0",...}'</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>req</span>{`, _ := http.`}<span style={{ color: '#dcdcaa' }}>NewRequest</span>{`(`}<span style={{ color: '#fbbf24' }}>"POST"</span>{`, url, payload)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>res</span>{`, _ := http.DefaultClient.`}<span style={{ color: '#dcdcaa' }}>Do</span>{`(req)
+  `}<span style={{ color: '#c586c0' }}>defer</span>{` res.Body.`}<span style={{ color: '#dcdcaa' }}>Close</span>{`()
+  `}<span style={{ color: '#9cdcfe' }}>body</span>{`, _ := io.`}<span style={{ color: '#dcdcaa' }}>ReadAll</span>{`(res.Body)
+  fmt.`}<span style={{ color: '#dcdcaa' }}>Println</span>{`(`}<span style={{ color: '#dcdcaa' }}>string</span>{`(body))
+}`}
+                      </>
+                    )}
+                    {fetchSplitSelectedLanguage === 'Java' && (
+                      <>
+<span style={{ color: '#4ec9b0' }}>HttpResponse</span>{`<`}<span style={{ color: '#4ec9b0' }}>String</span>{`> `}<span style={{ color: '#9cdcfe' }}>response</span>{` = `}<span style={{ color: '#4ec9b0' }}>Unirest</span>{`
+  .`}<span style={{ color: '#dcdcaa' }}>post</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#splits_fetch_data"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>body</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>asString</span>{`();`}
                       </>
                     )}
                   </pre>
@@ -6044,9 +6149,8 @@ puts response.read_body`;
                     )}
                     {executePayoutSelectedLanguage === 'Ruby' && (
                       <>
-<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
-`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
-`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'json'</span>{`
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`)
 
@@ -6056,18 +6160,71 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
 `}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
 request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
 request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
-request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"payouts"}\''}</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
 `}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
                       </>
                     )}
-                    {(executePayoutSelectedLanguage === 'PHP' || executePayoutSelectedLanguage === 'Go' || executePayoutSelectedLanguage === 'Java') && (
+                    {executePayoutSelectedLanguage === 'PHP' && (
                       <>
-{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
-  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+<span style={{ color: '#c586c0' }}>&lt;?php</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>$curl</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_init</span>{`();
+
+`}<span style={{ color: '#dcdcaa' }}>curl_setopt_array</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`, [
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_URL</span>{` => `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_RETURNTRANSFER</span>{` => `}<span style={{ color: '#4ade80' }}>true</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_CUSTOMREQUEST</span>{` => `}<span style={{ color: '#fbbf24' }}>"POST"</span>{`,
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_POSTFIELDS</span>{` => `}<span style={{ color: '#dcdcaa' }}>json_encode</span>{`([
+    `}<span style={{ color: '#fbbf24' }}>'jsonrpc'</span>{` => `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'id'</span>{` => `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'method'</span>{` => `}<span style={{ color: '#fbbf24' }}>'payouts'</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>'params'</span>{` => [`}<span style={{ color: '#6b7280' }}>...</span>{`]
+  ]),
+  `}<span style={{ color: '#b5cea8' }}>CURLOPT_HTTPHEADER</span>{` => [
+    `}<span style={{ color: '#fbbf24' }}>"Authorization: Bearer &lt;token&gt;"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type: application/json"</span>{`
+  ],
+]);
+
+`}<span style={{ color: '#9cdcfe' }}>$response</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_exec</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#dcdcaa' }}>curl_close</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#9cdcfe' }}>$response</span>{`;`}
+                      </>
+                    )}
+                    {executePayoutSelectedLanguage === 'Go' && (
+                      <>
+<span style={{ color: '#c586c0' }}>package</span>{` main
+
+`}<span style={{ color: '#c586c0' }}>import</span>{` (
+  `}<span style={{ color: '#fbbf24' }}>"fmt"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"strings"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"net/http"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"io"</span>{`
+)
+
+`}<span style={{ color: '#c586c0' }}>func</span>{` `}<span style={{ color: '#dcdcaa' }}>main</span>{`() {
+  `}<span style={{ color: '#9cdcfe' }}>url</span>{` := `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`
+  `}<span style={{ color: '#9cdcfe' }}>payload</span>{` := strings.`}<span style={{ color: '#dcdcaa' }}>NewReader</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0",...}'</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>req</span>{`, _ := http.`}<span style={{ color: '#dcdcaa' }}>NewRequest</span>{`(`}<span style={{ color: '#fbbf24' }}>"POST"</span>{`, url, payload)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>res</span>{`, _ := http.DefaultClient.`}<span style={{ color: '#dcdcaa' }}>Do</span>{`(req)
+  `}<span style={{ color: '#c586c0' }}>defer</span>{` res.Body.`}<span style={{ color: '#dcdcaa' }}>Close</span>{`()
+  `}<span style={{ color: '#9cdcfe' }}>body</span>{`, _ := io.`}<span style={{ color: '#dcdcaa' }}>ReadAll</span>{`(res.Body)
+  fmt.`}<span style={{ color: '#dcdcaa' }}>Println</span>{`(`}<span style={{ color: '#dcdcaa' }}>string</span>{`(body))
+}`}
+                      </>
+                    )}
+                    {executePayoutSelectedLanguage === 'Java' && (
+                      <>
+<span style={{ color: '#4ec9b0' }}>HttpResponse</span>{`<`}<span style={{ color: '#4ec9b0' }}>String</span>{`> `}<span style={{ color: '#9cdcfe' }}>response</span>{` = `}<span style={{ color: '#4ec9b0' }}>Unirest</span>{`
+  .`}<span style={{ color: '#dcdcaa' }}>post</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>body</span>{`(`}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0","id":"1",...}'</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>asString</span>{`();`}
                       </>
                     )}
                   </pre>
