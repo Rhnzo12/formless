@@ -5097,77 +5097,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
               </div>
 
               {/* Second Panel - Response */}
-              <div style={{
-                backgroundColor: theme.bgCard,
-                borderRadius: '12px',
-                border: `1px solid ${theme.border}`,
-                overflow: 'hidden',
-              }}>
-                {/* Panel Header */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '12px 16px',
-                  borderBottom: `1px solid ${theme.border}`,
-                }}>
-                  <span style={{ fontWeight: '500', fontSize: '14px', color: theme.text }}>200</span>
-                  <button
-                    onClick={() => {
-                      const response = `{
-  "jsonrpc": "2.0",
-  "id": "<string>",
-  "result": {
-    "total_slots": "<string>",
-    "total_splits": 123,
-    "community_allocation_percent": 123,
-    "percent_per_slot": 123,
-    "splits_data": [
-      {
-        "wallet_address": "0x...",
-        "percentage": 10.5
-      }
-    ],
-    "pagination": {
-      "total_pages": 5,
-      "next_page": 1,
-      "prev_page": null
-    },
-    "email_addresses": ["user@example.com"],
-    "split_percentage_owned_by_unique_id": 25.5
-  }
-}`;
-                      navigator.clipboard.writeText(response);
-                    }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      padding: '4px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                    </svg>
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"total_slots":"<string>","total_splits":123,"community_allocation_percent":123,"percent_per_slot":123,"splits_data":[{"wallet_address":"0x...","percentage":10.5}],"pagination":{"total_pages":5,"next_page":1,"prev_page":null},"email_addresses":["user@example.com"],"split_percentage_owned_by_unique_id":25.5}}', 'response-fetch-split')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                    {copiedCode === 'response-fetch-split' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
                   </button>
                 </div>
-                {/* Response Content */}
-                <div style={{
-                  padding: '16px',
-                  maxHeight: '300px',
-                  overflowY: 'auto',
-                }}>
-                  <pre style={{
-                    margin: 0,
-                    fontSize: '13px',
-                    lineHeight: '1.5',
-                    color: theme.text,
-                    fontFamily: 'Monaco, Consolas, monospace',
-                  }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
 {`{
   `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
   `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
