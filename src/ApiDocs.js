@@ -119,6 +119,13 @@ const ApiDocs = () => {
   const [fetchSplitSelectedLanguage, setFetchSplitSelectedLanguage] = useState('curl');
   const [showFetchSplitSplitsDataChildren, setShowFetchSplitSplitsDataChildren] = useState(false);
   const [showFetchSplitPaginationChildren, setShowFetchSplitPaginationChildren] = useState(false);
+  // Execute Payout section states
+  const [showExecutePayoutParamsChildren, setShowExecutePayoutParamsChildren] = useState(false);
+  const [showExecutePayoutAmountChildren, setShowExecutePayoutAmountChildren] = useState(false);
+  const [showExecutePayoutResultChildren, setShowExecutePayoutResultChildren] = useState(true);
+  const [executePayoutResponseOption, setExecutePayoutResponseOption] = useState(1);
+  const [executePayoutLanguageDropdownOpen, setExecutePayoutLanguageDropdownOpen] = useState(false);
+  const [executePayoutSelectedLanguage, setExecutePayoutSelectedLanguage] = useState('curl');
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -5130,10 +5137,821 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
             </div>
           </>
         )}
+
+        {/* Execute Payout Page Content */}
+        {activeSection === 'execute-payout' && (
+          <>
+            {/* Two Column Layout */}
+            <div className="api-two-column-layout" style={{ display: 'flex' }}>
+              {/* Left Column - Documentation */}
+              <div
+                className="left-content-column"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                }}>
+                {/* Inner content wrapper */}
+                <div>
+                {/* Breadcrumb */}
+                <div style={{
+                  fontSize: '14px',
+                  color: theme.textDimmed,
+                  marginBottom: '16px',
+                }}>
+                  Payouts
+                </div>
+
+                {/* Title with Copy page button */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                gap: '16px',
+              }}>
+                <h2 className="page-title" style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                }}>
+                  Execute Payout
+                </h2>
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'execute-payout' ? null : 'execute-payout')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 12px',
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy page
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                  {copyDropdownOpen === 'execute-payout' && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '4px',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      padding: '4px',
+                      minWidth: '160px',
+                      zIndex: 100,
+                    }}>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          setCopyDropdownOpen(null);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.text,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          borderRadius: '4px',
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                        Copy link
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Subtitle */}
+              <p style={{
+                fontSize: '18px',
+                color: theme.textMuted,
+                marginBottom: '24px',
+                lineHeight: '1.5',
+              }}>
+                Execute a payout to a smart contract based recipient
+              </p>
+
+                {/* Endpoint URL */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '12px 16px',
+                  backgroundColor: theme.bgCard,
+                  borderRadius: '8px',
+                  marginBottom: '24px',
+                  border: `1px solid ${theme.border}`,
+                }}>
+                  <span style={{
+                    backgroundColor: '#22c55e',
+                    color: '#000',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                  }}>POST</span>
+                  <code style={{
+                    color: theme.textMuted,
+                    fontSize: '14px',
+                    flex: 1,
+                  }}>/v1#payouts</code>
+                  <button style={{
+                    backgroundColor: '#3b82f6',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}>
+                    Try it
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Detailed Description */}
+                <p style={{
+                  fontSize: '15px',
+                  color: theme.textMuted,
+                  lineHeight: '1.7',
+                  marginBottom: '32px',
+                }}>
+                  Execute a payout to distribute revenue to a smart contract recipient. Use idempotency keys to prevent duplicate payouts.
+                </p>
+
+                {/* Authorizations Section */}
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: theme.text,
+                  marginBottom: '16px',
+                  paddingBottom: '12px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  Authorizations
+                </h3>
+
+                <div style={{
+                  marginBottom: '32px',
+                  paddingBottom: '16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ fontWeight: '500', color: theme.text }}>Authorization</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>header</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                  </div>
+                  <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>JWT token with Unique ID identification</p>
+                </div>
+
+                {/* Body Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Body
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    application/json
+                  </span>
+                </div>
+
+                {/* Body Parameters */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
+                  </div>
+
+                  {/* id */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* method */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>method</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>payouts</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>payouts</code></p>
+                  </div>
+
+                  {/* params */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>params</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+
+                    {/* Collapsible params children */}
+                    <div
+                      onClick={() => setShowExecutePayoutParamsChildren(!showExecutePayoutParamsChildren)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginTop: '12px',
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        style={{ transform: showExecutePayoutParamsChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showExecutePayoutParamsChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showExecutePayoutParamsChildren && (
+                      <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* params.idempotency_key */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>idempotency_key</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>unique-payout-key-123</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Unique key to prevent duplicate payouts</p>
+                        </div>
+
+                        {/* params.recipient_type */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>recipient_type</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>smart_contract</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Type of recipient</p>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>smart_contract</code></p>
+                        </div>
+
+                        {/* params.recipient_id */}
+                        <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>recipient_id</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>7a2ab0d5-27d8-482f-becf-0ac3217e0b1a</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>ID of the recipient contract</p>
+                        </div>
+
+                        {/* params.amount */}
+                        <div style={{ paddingBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>amount</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                          </div>
+
+                          {/* Collapsible amount children */}
+                          <div
+                            onClick={() => setShowExecutePayoutAmountChildren(!showExecutePayoutAmountChildren)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              cursor: 'pointer',
+                              color: theme.textMuted,
+                              fontSize: '14px',
+                              marginTop: '12px',
+                            }}
+                          >
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              style={{ transform: showExecutePayoutAmountChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                            >
+                              <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                            {showExecutePayoutAmountChildren ? 'Hide' : 'Show'} child attributes
+                          </div>
+
+                          {showExecutePayoutAmountChildren && (
+                            <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                              {/* params.amount.value */}
+                              <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                  <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.amount.</span>
+                                  <span style={{ color: theme.textMuted, fontWeight: '400' }}>value</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>number</span>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>10</span></span>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                                </div>
+                                <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Amount to pay out</p>
+                              </div>
+
+                              {/* params.amount.currency */}
+                              <div style={{ paddingBottom: '16px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                                  <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.amount.</span>
+                                  <span style={{ color: theme.textMuted, fontWeight: '400' }}>currency</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>USD</span></span>
+                                  <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                                </div>
+                                <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Currency type</p>
+                                <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>USD</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>USDC</code></p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Response Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                  paddingBottom: '12px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Response
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    200 - application/json
+                  </span>
+                </div>
+
+                <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '24px' }}>Successful response</p>
+
+                {/* Response Fields */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
+                  </div>
+
+                  {/* id response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* result response with options */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+
+                    {/* Option tabs */}
+                    <div style={{
+                      display: 'flex',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      backgroundColor: theme.bgSecondary,
+                      padding: '4px',
+                      borderRadius: '8px',
+                      width: 'fit-content',
+                    }}>
+                      <button
+                        onClick={() => setExecutePayoutResponseOption(1)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: executePayoutResponseOption === 1 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: executePayoutResponseOption === 1 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: executePayoutResponseOption === 1 ? '500' : '400',
+                        }}
+                      >
+                        Option 1
+                      </button>
+                      <button
+                        onClick={() => setExecutePayoutResponseOption(2)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: executePayoutResponseOption === 2 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: executePayoutResponseOption === 2 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: executePayoutResponseOption === 2 ? '500' : '400',
+                        }}
+                      >
+                        Option 2
+                      </button>
+                    </div>
+
+                    {/* Collapsible result children */}
+                    <div
+                      onClick={() => setShowExecutePayoutResultChildren(!showExecutePayoutResultChildren)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginBottom: '16px',
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        style={{ transform: showExecutePayoutResultChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showExecutePayoutResultChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showExecutePayoutResultChildren && (
+                      <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* Option 1 - Failure */}
+                        {executePayoutResponseOption === 1 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status indicating failure</p>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failed</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message describing what went wrong</p>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Option 2 - Success */}
+                        {executePayoutResponseOption === 2 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.batch_id</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Unique identifier for the payout batch</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status of the payout</p>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>pending</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status message about the payout processing</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: '24px',
+                  borderTop: `1px solid ${theme.border}`,
+                  marginTop: '32px',
+                }}>
+                  <button
+                    onClick={() => setActiveSection('fetch-split-data')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.text,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Fetch Split Data
+                  </button>
+                  <button
+                    onClick={() => setActiveSection('query-batch-status')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.text,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Query Batch Status
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                  </button>
+                </div>
+
+                </div>
+              </div>
+            </div>
+            {/* End Two Column Layout */}
+
+            {/* Right Column - Code Panels */}
+            <div className="right-code-panel" style={{ width: '420px', flexShrink: 0, position: 'fixed', top: '120px', right: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+              {/* Request Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'visible' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Execute Payout</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ position: 'relative' }}>
+                      <div onClick={() => setExecutePayoutLanguageDropdownOpen(!executePayoutLanguageDropdownOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: theme.bgTertiary, padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>{executePayoutSelectedLanguage === 'curl' ? 'cURL' : executePayoutSelectedLanguage}</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+                      </div>
+                      {executePayoutLanguageDropdownOpen && (
+                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', maxHeight: '280px', overflowY: 'auto', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('curl'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                              CURL
+                            </div>
+                            {executePayoutSelectedLanguage === 'curl' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('Python'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#3776AB"><path d="M12 0C5.372 0 5.729 2.597 5.729 2.597l.007 2.69h6.395v.808H3.894S0 5.611 0 12.021c0 6.41 3.397 6.181 3.397 6.181h2.027v-2.975s-.109-3.397 3.342-3.397h5.755s3.232.052 3.232-3.125V3.054S18.24 0 12 0zm-3.2 1.76a1.043 1.043 0 110 2.086 1.043 1.043 0 010-2.086z"/><path d="M12 24c6.628 0 6.271-2.597 6.271-2.597l-.007-2.69h-6.395v-.808h8.237S24 18.389 24 11.979c0-6.41-3.397-6.181-3.397-6.181h-2.027v2.975s.109 3.397-3.342 3.397H9.479s-3.232-.052-3.232 3.125v5.651S5.76 24 12 24zm3.2-1.76a1.043 1.043 0 110-2.086 1.043 1.043 0 010 2.086z"/></svg>
+                              Python
+                            </div>
+                            {executePayoutSelectedLanguage === 'Python' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('JavaScript'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F7DF1E"><rect width="24" height="24" rx="2"/><path d="M6 18.5l1.5-1c.3.5.6.9 1.2.9.6 0 1-.2 1-1.1V11h2v6.4c0 1.8-1.1 2.6-2.7 2.6-1.4 0-2.3-.7-2.7-1.5h-.3zm6.5-.3l1.5-.9c.4.6.9 1.1 1.8 1.1.8 0 1.2-.4 1.2-.9 0-.6-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.5.9c-.3-.6-.7-.8-1.2-.8s-.9.3-.9.8c0 .5.3.8 1.2 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.4 2.7-3.2 2.7-1.8 0-3-.9-3.5-2z" fill="#000"/></svg>
+                              JavaScript
+                            </div>
+                            {executePayoutSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('Ruby'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#CC342D"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007 5.236-9.264h.024l-.025.025.077-4.083.019-.083 7.082-1.272zM6.597 22.607l.027-.002-.027.002z"/></svg>
+                              Ruby
+                            </div>
+                            {executePayoutSelectedLanguage === 'Ruby' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <button onClick={() => copyToClipboard(`curl --request POST \\
+  --url 'https://share-ddn.formless.xyz/v1#payouts' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "payouts",
+  "params": {
+    "idempotency_key": "unique-payout-key-123",
+    "recipient_type": "smart_contract",
+    "recipient_id": "7a2ab0d5-27d8-482f-becf-0ac3217e0b1a",
+    "amount": {
+      "value": 10,
+      "currency": "USD"
+    }
+  }
+}'`, 'code-execute-payout')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                      {copiedCode === 'code-execute-payout' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                    </button>
+                  </div>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
+                  <pre style={{
+                    margin: 0,
+                    fontSize: '13px',
+                    lineHeight: '1.5',
+                    color: theme.text,
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-all',
+                  }}>
+                    {executePayoutSelectedLanguage === 'curl' && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+                      </>
+                    )}
+                    {executePayoutSelectedLanguage === 'Python' && (
+                      <>
+<span style={{ color: '#c586c0' }}>import</span>{` `}<span style={{ color: '#4ec9b0' }}>requests</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`
+`}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>: <span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>: <span style={{ color: '#fbbf24' }}>"application/json"</span>{`
+}
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, headers=headers)
+`}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
+                      </>
+                    )}
+                    {executePayoutSelectedLanguage === 'JavaScript' && (
+                      <>
+<span style={{ color: '#dcdcaa' }}>fetch</span>{`(`}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts'</span>{`, {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'POST'</span>,{`
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{
+    `}<span style={{ color: '#fbbf24' }}>'Authorization'</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+  `}{'}'}
+{'})'}
+{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>response</span>{` => response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
+{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data));`}
+                      </>
+                    )}
+                    {executePayoutSelectedLanguage === 'Ruby' && (
+                      <>
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`)
+
+`}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
+http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
+request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
+`}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
+                      </>
+                    )}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Response Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"batch_id":"<string>","status":"pending","message":"<string>"}}', 'response-execute-payout')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                    {copiedCode === 'response-execute-payout' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                  </button>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
+{`{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"result"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"batch_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"status"</span>: <span style={{ color: '#fbbf24' }}>"pending"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"message"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>{`
+  }
+}`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </main>
 
-      {/* Right Sidebar - On This Page (hidden on Identity Lookup, Create Contract, and Fetch Split Data) */}
-      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && activeSection !== 'fetch-split-data' && (
+      {/* Right Sidebar - On This Page (hidden on Identity Lookup, Create Contract, Fetch Split Data, and Execute Payout) */}
+      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && activeSection !== 'fetch-split-data' && activeSection !== 'execute-payout' && (
         <aside style={{
           width: '240px',
           position: 'fixed',
