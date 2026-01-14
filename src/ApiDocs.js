@@ -5374,47 +5374,47 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                 {/* Endpoint URL */}
                 <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                marginBottom: '32px',
+                overflow: 'hidden',
+              }}>
+                <span style={{
+                  backgroundColor: isDarkMode ? '#1a2744' : '#dbeafe',
+                  color: '#60a5fa',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  padding: '10px 16px',
+                }}>POST</span>
+                <code style={{
+                  fontSize: '14px',
+                  color: theme.textSecondary,
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  padding: '10px 16px',
+                  borderLeft: `1px solid ${theme.border}`,
+                  borderRight: `1px solid ${theme.border}`,
+                }}>/v1#splits_fetch_data</code>
+                <button style={{
+                  backgroundColor: '#3064e3',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  padding: '10px 20px',
+                  border: 'none',
+                  cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '16px',
-                  padding: '12px 16px',
-                  backgroundColor: theme.bgCard,
-                  borderRadius: '8px',
-                  marginBottom: '24px',
-                  border: `1px solid ${theme.border}`,
+                  gap: '6px',
                 }}>
-                  <span style={{
-                    backgroundColor: '#22c55e',
-                    color: '#000',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                  }}>POST</span>
-                  <code style={{
-                    color: theme.textMuted,
-                    fontSize: '14px',
-                    flex: 1,
-                  }}>/v1#payouts</code>
-                  <button style={{
-                    backgroundColor: '#3b82f6',
-                    color: '#fff',
-                    border: 'none',
-                    padding: '8px 16px',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                  }}>
-                    Try it
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </button>
-                </div>
+                  Try it
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </button>
+              </div>
 
                 {/* Detailed Description */}
                 <p style={{
