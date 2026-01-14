@@ -5833,6 +5833,27 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                             </div>
                             {executePayoutSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
                           </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('PHP'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#777BB4"><ellipse cx="12" cy="12" rx="12" ry="7"/><text x="12" y="15" fontSize="8" fill="white" textAnchor="middle" fontWeight="bold">php</text></svg>
+                              PHP
+                            </div>
+                            {executePayoutSelectedLanguage === 'PHP' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('Go'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ADD8"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">Go</text></svg>
+                              Go
+                            </div>
+                            {executePayoutSelectedLanguage === 'Go' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('Java'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#007396"><path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.762.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218"/><path d="M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0 0-8.216 2.052-4.292 6.573"/><path d="M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82"/><path d="M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0 0 .07-.062.09-.118"/><path d="M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.889 4.832 0 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.189-7.627"/><path d="M9.734 23.924c4.322.277 10.959-.154 11.116-2.198 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0 0 .553.457 3.393.639"/></svg>
+                              Java
+                            </div>
+                            {executePayoutSelectedLanguage === 'Java' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
                           <button className="dropdown-item" onClick={() => { setExecutePayoutSelectedLanguage('Ruby'); setExecutePayoutLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                               <svg width="14" height="14" viewBox="0 0 24 24" fill="#CC342D"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007 5.236-9.264h.024l-.025.025.077-4.083.019-.083 7.082-1.272zM6.597 22.607l.027-.002-.027.002z"/></svg>
@@ -5843,11 +5864,14 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                         </div>
                       )}
                     </div>
-                    <button onClick={() => copyToClipboard(`curl --request POST \\
+                    <button
+                      onClick={() => {
+                        const curlCode = `curl --request POST \\
   --url 'https://share-ddn.formless.xyz/v1#payouts' \\
   --header 'Authorization: Bearer <token>' \\
   --header 'Content-Type: application/json' \\
-  --data '{
+  --data '
+{
   "jsonrpc": "2.0",
   "id": "1",
   "method": "payouts",
@@ -5860,7 +5884,85 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
       "currency": "USD"
     }
   }
-}'`, 'code-execute-payout')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+}
+'`;
+                        const pythonCode = `import requests
+
+url = "https://share-ddn.formless.xyz/v1#payouts"
+
+payload = {
+    "jsonrpc": "2.0",
+    "id": "1",
+    "method": "payouts",
+    "params": {
+        "idempotency_key": "unique-payout-key-123",
+        "recipient_type": "smart_contract",
+        "recipient_id": "7a2ab0d5-27d8-482f-becf-0ac3217e0b1a",
+        "amount": {
+            "value": 10,
+            "currency": "USD"
+        }
+    }
+}
+headers = {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)`;
+                        const javascriptCode = `const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    id: '1',
+    method: 'payouts',
+    params: {
+      idempotency_key: 'unique-payout-key-123',
+      recipient_type: 'smart_contract',
+      recipient_id: '7a2ab0d5-27d8-482f-becf-0ac3217e0b1a',
+      amount: {
+        value: 10,
+        currency: 'USD'
+      }
+    }
+  })
+};
+
+fetch('https://share-ddn.formless.xyz/v1#payouts', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));`;
+                        const rubyCode = `require 'uri'
+require 'net/http'
+
+url = URI("https://share-ddn.formless.xyz/v1#payouts")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = 'Bearer <token>'
+request["Content-Type"] = 'application/json'
+request.body = '{"jsonrpc": "2.0","id": "1","method": "payouts","params": {"idempotency_key": "unique-payout-key-123","recipient_type": "smart_contract","recipient_id": "7a2ab0d5-...","amount": {"value": 10,"currency": "USD"}}}'
+
+response = http.request(request)
+puts response.read_body`;
+                        const codeMap = {
+                          'curl': curlCode,
+                          'Python': pythonCode,
+                          'JavaScript': javascriptCode,
+                          'Ruby': rubyCode,
+                          'PHP': curlCode,
+                          'Go': curlCode,
+                          'Java': curlCode,
+                        };
+                        copyToClipboard(codeMap[executePayoutSelectedLanguage] || curlCode, 'code-execute-payout');
+                      }}
+                      style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}
+                    >
                       {copiedCode === 'code-execute-payout' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
                     </button>
                   </div>
@@ -5880,7 +5982,22 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` '
+{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"payouts"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"idempotency_key"</span>: <span style={{ color: '#fbbf24' }}>"unique-payout-key-123"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"recipient_type"</span>: <span style={{ color: '#fbbf24' }}>"smart_contract"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"recipient_id"</span>: <span style={{ color: '#fbbf24' }}>"7a2ab0d5-..."</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"amount"</span>: {`{
+      `}<span style={{ color: '#60a5fa' }}>"value"</span>: <span style={{ color: '#b5cea8' }}>10</span>,{`
+      `}<span style={{ color: '#60a5fa' }}>"currency"</span>: <span style={{ color: '#fbbf24' }}>"USD"</span>{`
+    }
+  }
+}'`}
                       </>
                     )}
                     {executePayoutSelectedLanguage === 'Python' && (
@@ -5892,7 +6009,19 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
     `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>: <span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>,{`
     `}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>: <span style={{ color: '#fbbf24' }}>"application/json"</span>{`
 }
-`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, headers=headers)
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"payouts"</span>,{`
+    `}<span style={{ color: '#fbbf24' }}>"params"</span>: {`{
+        `}<span style={{ color: '#fbbf24' }}>"idempotency_key"</span>: <span style={{ color: '#fbbf24' }}>"unique-payout-key-123"</span>,{`
+        `}<span style={{ color: '#fbbf24' }}>"recipient_type"</span>: <span style={{ color: '#fbbf24' }}>"smart_contract"</span>,{`
+        `}<span style={{ color: '#fbbf24' }}>"recipient_id"</span>: <span style={{ color: '#fbbf24' }}>"7a2ab0d5-..."</span>,{`
+        `}<span style={{ color: '#fbbf24' }}>"amount"</span>: {`{`}<span style={{ color: '#fbbf24' }}>"value"</span>: <span style={{ color: '#b5cea8' }}>10</span>, <span style={{ color: '#fbbf24' }}>"currency"</span>: <span style={{ color: '#fbbf24' }}>"USD"</span>{`}
+    }
+}
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
 `}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
                       </>
                     )}
@@ -5903,16 +6032,28 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
   `}<span style={{ color: '#9cdcfe' }}>headers</span>: {`{
     `}<span style={{ color: '#fbbf24' }}>'Authorization'</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>,{`
     `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`
-  `}{'}'}
+  `}{'}'},{`
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>{`.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`(`}{'{'}{`
+    `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'payouts'</span>,{`
+    `}<span style={{ color: '#9cdcfe' }}>params</span>: {`{
+      `}<span style={{ color: '#9cdcfe' }}>idempotency_key</span>: <span style={{ color: '#fbbf24' }}>'unique-payout-key-123'</span>,{`
+      `}<span style={{ color: '#9cdcfe' }}>recipient_type</span>: <span style={{ color: '#fbbf24' }}>'smart_contract'</span>,{`
+      `}<span style={{ color: '#9cdcfe' }}>amount</span>: {`{`}<span style={{ color: '#9cdcfe' }}>value</span>: <span style={{ color: '#b5cea8' }}>10</span>, <span style={{ color: '#9cdcfe' }}>currency</span>: <span style={{ color: '#fbbf24' }}>'USD'</span>{`}
+    `}{'}'}
+  {')'}
 {'})'}
 {`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>response</span>{` => response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
-{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data));`}
+{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data))`}
+{`.`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>error</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(`}<span style={{ color: '#fbbf24' }}>'Error:'</span>{`, error));`}
                       </>
                     )}
                     {executePayoutSelectedLanguage === 'Ruby' && (
                       <>
 <span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
 `}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'json'</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts"</span>{`)
 
@@ -5921,9 +6062,19 @@ http.use_ssl = `}<span style={{ color: '#4ade80' }}>true</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
 request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request[`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1","method":"payouts"}\''}</span>{`
 
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
 `}<span style={{ color: '#dcdcaa' }}>puts</span>{` response.read_body`}
+                      </>
+                    )}
+                    {(executePayoutSelectedLanguage === 'PHP' || executePayoutSelectedLanguage === 'Go' || executePayoutSelectedLanguage === 'Java') && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
                       </>
                     )}
                   </pre>
