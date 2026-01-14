@@ -5406,7 +5406,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   padding: '10px 16px',
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
-                }}>/v1#splits_fetch_data</code>
+                }}>/v1#payouts</code>
                 <button style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
