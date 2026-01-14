@@ -5048,7 +5048,7 @@ puts response.read_body`,
     `}<span style={{ color: '#fbbf24' }}>'Authorization'</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>,{`
     `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`
   `}{'}'},{`
-  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`(`}{'{'}{`
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>{`.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`(`}{'{'}{`
     `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
     `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
     `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'splits_fetch_data'</span>,{`
