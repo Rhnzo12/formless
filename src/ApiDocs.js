@@ -4637,13 +4637,41 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                                     </div>
                                     <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Wallet address of the split holder</p>
                                   </div>
-                                  <div style={{ paddingBottom: '16px' }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                                       <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.percentage</span>
                                       <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
                                       <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
                                     </div>
                                     <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage of revenue this holder receives</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.unique_id</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Unique ID of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.display_name</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Display name of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.email_address</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Email address of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.verified_identity</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>boolean</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Whether the identity has been verified</p>
                                   </div>
                                 </div>
                               )}
@@ -4686,6 +4714,22 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                               {showFetchSplitPaginationChildren && (
                                 <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.total_records</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total number of split holders</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.current_page</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Current page number</p>
+                                  </div>
                                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                                       <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.total_pages</span>
