@@ -4637,13 +4637,41 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                                     </div>
                                     <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Wallet address of the split holder</p>
                                   </div>
-                                  <div style={{ paddingBottom: '16px' }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                                       <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.percentage</span>
                                       <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
                                       <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
                                     </div>
                                     <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage of revenue this holder receives</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.unique_id</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Unique ID of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.display_name</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Display name of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.email_address</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string | null</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Email address of the split holder</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.splits_data.verified_identity</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>boolean</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Whether the identity has been verified</p>
                                   </div>
                                 </div>
                               )}
@@ -4686,6 +4714,22 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                               {showFetchSplitPaginationChildren && (
                                 <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.total_records</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total number of split holders</p>
+                                  </div>
+                                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.current_page</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
+                                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                                    </div>
+                                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Current page number</p>
+                                  </div>
                                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                                       <span style={{ fontWeight: '400', color: theme.textMuted }}>result.pagination.total_pages</span>
@@ -4793,203 +4837,160 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
             {/* Right Column - Code Panels */}
             <div className="right-code-panel" style={{ width: '420px', flexShrink: 0, position: 'fixed', top: '120px', right: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
 
-              {/* First Panel - cURL Request */}
-              <div style={{
-                backgroundColor: theme.bgCard,
-                borderRadius: '12px',
-                border: `1px solid ${theme.border}`,
-                overflow: 'visible',
-              }}>
-                {/* Panel Header */}
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '12px 16px',
-                  borderBottom: `1px solid ${theme.border}`,
-                }}>
-                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>Fetch Revenue Split Data</span>
+              {/* Request Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'visible' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Fetch Split Data</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    {/* Language Dropdown */}
                     <div style={{ position: 'relative' }}>
-                      <div 
-                        onClick={() => setFetchSplitLanguageDropdownOpen(!fetchSplitLanguageDropdownOpen)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          cursor: 'pointer',
-                          padding: '4px 8px',
-                          borderRadius: '4px',
-                          backgroundColor: theme.bgSecondary,
-                        }}
-                      >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                          <line x1="8" y1="21" x2="16" y2="21"/>
-                          <line x1="12" y1="17" x2="12" y2="21"/>
-                        </svg>
+                      <div onClick={() => setFetchSplitLanguageDropdownOpen(!fetchSplitLanguageDropdownOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: theme.bgTertiary, padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <span style={{ color: theme.textMuted, fontSize: '12px' }}>{fetchSplitSelectedLanguage === 'curl' ? 'cURL' : fetchSplitSelectedLanguage}</span>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                          <path d="M6 9l6 6 6-6"/>
-                        </svg>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
                       </div>
                       {fetchSplitLanguageDropdownOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          right: 0,
-                          marginTop: '4px',
-                          backgroundColor: theme.bgSecondary,
-                          border: `1px solid ${theme.border}`,
-                          borderRadius: '6px',
-                          padding: '4px 0',
-                          minWidth: '140px',
-                          maxHeight: '280px',
-                          overflowY: 'auto',
-                          zIndex: 1000,
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                        }}>
-                          {[
-                            { id: 'curl', label: 'cURL', color: '#4ade80' },
-                            { id: 'Python', label: 'Python', color: '#3776AB' },
-                            { id: 'JavaScript', label: 'JavaScript', color: '#F7DF1E' },
-                            { id: 'PHP', label: 'PHP', color: '#777BB4' },
-                            { id: 'Go', label: 'Go', color: '#00ADD8' },
-                            { id: 'Java', label: 'Java', color: '#007396' },
-                            { id: 'Ruby', label: 'Ruby', color: '#CC342D' },
-                          ].map(lang => (
-                            <div
-                              key={lang.id}
-                              onClick={() => {
-                                setFetchSplitSelectedLanguage(lang.id);
-                                setFetchSplitLanguageDropdownOpen(false);
-                              }}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                padding: '8px 12px',
-                                cursor: 'pointer',
-                                backgroundColor: fetchSplitSelectedLanguage === lang.id ? theme.bg : 'transparent',
-                              }}
-                            >
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: lang.color }} />
-                                <span style={{ fontSize: '13px', color: theme.text }}>{lang.label}</span>
-                              </div>
-                              {fetchSplitSelectedLanguage === lang.id && (
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2">
-                                  <polyline points="20 6 9 17 4 12"/>
-                                </svg>
-                              )}
+                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', maxHeight: '280px', overflowY: 'auto', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('curl'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                              CURL
                             </div>
-                          ))}
+                            {fetchSplitSelectedLanguage === 'curl' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('Python'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#3776AB"><path d="M12 0C5.372 0 5.729 2.597 5.729 2.597l.007 2.69h6.395v.808H3.894S0 5.611 0 12.021c0 6.41 3.397 6.181 3.397 6.181h2.027v-2.975s-.109-3.397 3.342-3.397h5.755s3.232.052 3.232-3.125V3.054S18.24 0 12 0zm-3.2 1.76a1.043 1.043 0 110 2.086 1.043 1.043 0 010-2.086z"/><path d="M12 24c6.628 0 6.271-2.597 6.271-2.597l-.007-2.69h-6.395v-.808h8.237S24 18.389 24 11.979c0-6.41-3.397-6.181-3.397-6.181h-2.027v2.975s.109 3.397-3.342 3.397H9.479s-3.232-.052-3.232 3.125v5.651S5.76 24 12 24zm3.2-1.76a1.043 1.043 0 110-2.086 1.043 1.043 0 010 2.086z"/></svg>
+                              Python
+                            </div>
+                            {fetchSplitSelectedLanguage === 'Python' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('JavaScript'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F7DF1E"><rect width="24" height="24" rx="2"/><path d="M6 18.5l1.5-1c.3.5.6.9 1.2.9.6 0 1-.2 1-1.1V11h2v6.4c0 1.8-1.1 2.6-2.7 2.6-1.4 0-2.3-.7-2.7-1.5h-.3zm6.5-.3l1.5-.9c.4.6.9 1.1 1.8 1.1.8 0 1.2-.4 1.2-.9 0-.6-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.5.9c-.3-.6-.7-.8-1.2-.8s-.9.3-.9.8c0 .5.3.8 1.2 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.4 2.7-3.2 2.7-1.8 0-3-.9-3.5-2z" fill="#000"/></svg>
+                              JavaScript
+                            </div>
+                            {fetchSplitSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('PHP'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#777BB4"><ellipse cx="12" cy="12" rx="12" ry="7"/><text x="12" y="15" fontSize="8" fill="white" textAnchor="middle" fontWeight="bold">php</text></svg>
+                              PHP
+                            </div>
+                            {fetchSplitSelectedLanguage === 'PHP' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('Go'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ADD8"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">Go</text></svg>
+                              Go
+                            </div>
+                            {fetchSplitSelectedLanguage === 'Go' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('Java'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#007396"><path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.762.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218"/><path d="M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0 0-8.216 2.052-4.292 6.573"/><path d="M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82"/><path d="M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0 0 .07-.062.09-.118"/><path d="M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.889 4.832 0 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.189-7.627"/><path d="M9.734 23.924c4.322.277 10.959-.154 11.116-2.198 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0 0 .553.457 3.393.639"/></svg>
+                              Java
+                            </div>
+                            {fetchSplitSelectedLanguage === 'Java' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setFetchSplitSelectedLanguage('Ruby'); setFetchSplitLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#CC342D"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007 5.236-9.264h.024l-.025.025.077-4.083.019-.083 7.082-1.272zM6.597 22.607l.027-.002-.027.002z"/></svg>
+                              Ruby
+                            </div>
+                            {fetchSplitSelectedLanguage === 'Ruby' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
                         </div>
                       )}
                     </div>
-                    {/* Copy Button */}
                     <button
                       onClick={() => {
-                        const codeMap = {
-                          'curl': `curl --request POST \\
+                        const curlCode = `curl --request POST \\
   --url 'https://share-ddn.formless.xyz/v1#splits_fetch_data' \\
   --header 'Authorization: Bearer <token>' \\
   --header 'Content-Type: application/json' \\
-  --data '{
+  --data '
+{
   "jsonrpc": "2.0",
   "id": "1",
   "method": "splits_fetch_data",
   "params": {
     "contract_address": "0x1234567890abcdef1234567890abcdef12345678",
-    "network_id": 8453,
-    "page": 0,
-    "page_size": 25
+    "network_id": 8453
   }
-}'`,
-                          'Python': `import requests
+}
+'`;
+                        const pythonCode = `import requests
 
 url = "https://share-ddn.formless.xyz/v1#splits_fetch_data"
-headers = {
-    "Authorization": "Bearer &lt;token&gt;",
-    "Content-Type": "application/json"
-}
+
 payload = {
     "jsonrpc": "2.0",
     "id": "1",
     "method": "splits_fetch_data",
     "params": {
         "contract_address": "0x1234567890abcdef1234567890abcdef12345678",
-        "network_id": 8453,
-        "page": 0,
-        "page_size": 25
+        "network_id": 8453
     }
+}
+headers = {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "application/json"
 }
 
 response = requests.post(url, json=payload, headers=headers)
-print(response.json())`,
-                          'JavaScript': `fetch('https://share-ddn.formless.xyz/v1#splits_fetch_data', {
+
+print(response.text)`;
+                        const javascriptCode = `const options = {
   method: 'POST',
-  headers: {
-    'Authorization': 'Bearer &lt;token&gt;',
-    'Content-Type': 'application/json'
-  },
+  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'application/json'},
   body: JSON.stringify({
     jsonrpc: '2.0',
     id: '1',
     method: 'splits_fetch_data',
     params: {
       contract_address: '0x1234567890abcdef1234567890abcdef12345678',
-      network_id: 8453,
-      page: 0,
-      page_size: 25
+      network_id: 8453
     }
   })
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error('Error:', error));`,
-                          'Ruby': `require 'net/http'
-require 'uri'
-require 'json'
+};
+
+fetch('https://share-ddn.formless.xyz/v1#splits_fetch_data', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));`;
+                        const rubyCode = `require 'uri'
+require 'net/http'
 
 url = URI("https://share-ddn.formless.xyz/v1#splits_fetch_data")
+
 http = Net::HTTP.new(url.host, url.port)
 http.use_ssl = true
 
 request = Net::HTTP::Post.new(url)
-request["Authorization"] = "Bearer &lt;token&gt;"
-request["Content-Type"] = "application/json"
-request.body = '{"jsonrpc":"2.0","id":"1","method":"splits_fetch_data","params":{"contract_address":"0x1234...","network_id":8453}}'
+request["Authorization"] = 'Bearer <token>'
+request["Content-Type"] = 'application/json'
+request.body = '{"jsonrpc": "2.0","id": "1","method": "splits_fetch_data","params": {"contract_address": "0x1234...","network_id": 8453}}'
 
 response = http.request(request)
-puts response.read_body`,
+puts response.read_body`;
+                        const codeMap = {
+                          'curl': curlCode,
+                          'Python': pythonCode,
+                          'JavaScript': javascriptCode,
+                          'Ruby': rubyCode,
+                          'PHP': curlCode,
+                          'Go': curlCode,
+                          'Java': curlCode,
                         };
-                        navigator.clipboard.writeText(codeMap[fetchSplitSelectedLanguage] || codeMap['curl']);
+                        copyToClipboard(codeMap[fetchSplitSelectedLanguage] || curlCode, 'code-fetch-split');
                       }}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '4px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
+                      style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                      </svg>
+                      {copiedCode === 'code-fetch-split' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
                     </button>
                   </div>
                 </div>
-                {/* Code Content */}
-                <div style={{
-                  padding: '16px',
-                  maxHeight: '300px',
-                  overflowY: 'auto',
-                }}>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
                   <pre style={{
                     margin: 0,
                     fontSize: '13px',
