@@ -126,6 +126,12 @@ const ApiDocs = () => {
   const [executePayoutResponseOption, setExecutePayoutResponseOption] = useState(1);
   const [executePayoutLanguageDropdownOpen, setExecutePayoutLanguageDropdownOpen] = useState(false);
   const [executePayoutSelectedLanguage, setExecutePayoutSelectedLanguage] = useState('curl');
+  // Query Batch Status section states
+  const [showQueryBatchParamsChildren, setShowQueryBatchParamsChildren] = useState(false);
+  const [showQueryBatchResultChildren, setShowQueryBatchResultChildren] = useState(true);
+  const [queryBatchResponseOption, setQueryBatchResponseOption] = useState(1);
+  const [queryBatchLanguageDropdownOpen, setQueryBatchLanguageDropdownOpen] = useState(false);
+  const [queryBatchSelectedLanguage, setQueryBatchSelectedLanguage] = useState('curl');
   // Set page title based on active section
   useEffect(() => {
     const titles = {
