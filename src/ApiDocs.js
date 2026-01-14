@@ -114,7 +114,7 @@ const ApiDocs = () => {
   // Fetch Split Data section states
   const [showFetchSplitParamsChildren, setShowFetchSplitParamsChildren] = useState(false);
   const [showFetchSplitResultChildren, setShowFetchSplitResultChildren] = useState(true);
-  const [fetchSplitResponseOption, setFetchSplitResponseOption] = useState(2);
+  const [fetchSplitResponseOption, setFetchSplitResponseOption] = useState(1);
   const [fetchSplitLanguageDropdownOpen, setFetchSplitLanguageDropdownOpen] = useState(false);
   const [fetchSplitSelectedLanguage, setFetchSplitSelectedLanguage] = useState('curl');
   const [showFetchSplitSplitsDataChildren, setShowFetchSplitSplitsDataChildren] = useState(false);
@@ -4238,10 +4238,10 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderBottom: `1px solid ${theme.border}`,
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ fontWeight: '400', color: theme.textMuted }}>Authorization</span>
-                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
-                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>header</span>
-                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                    <span style={{ fontWeight: '500', color: theme.text }}>Authorization</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>header</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                   </div>
                   <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>JWT token with Unique ID identification</p>
                 </div>
@@ -4274,21 +4274,21 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   {/* jsonrpc */}
                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;string&gt;</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:2.0</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                      <span style={{ fontWeight: '500', color: theme.text }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                     </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>2.0</code></p>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
                   </div>
 
                   {/* id */}
                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:1</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                      <span style={{ fontWeight: '500', color: theme.text }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                     </div>
                   </div>
 
@@ -4296,19 +4296,19 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                       <span style={{ fontWeight: '400', color: theme.textMuted }}>method</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;string&gt;</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:splits_fetch_data</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>splits_fetch_data</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                     </div>
-                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>splits_fetch_data</code></p>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>splits_fetch_data</code></p>
                   </div>
 
                   {/* params */}
                   <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: '400', color: theme.textMuted }}>params</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>object</span>
-                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                      <span style={{ fontWeight: '500', color: theme.text }}>params</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                     </div>
                     
                     {/* Collapsible params children */}
@@ -4342,54 +4342,58 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                       <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
                         {/* params.contract_address */}
                         <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.contract_address</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>contract_address</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:0x1234567890abcdef1234567890abcdef12345678</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>0x1234...</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                           </div>
                           <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>The digital property contract address</p>
                         </div>
 
                         {/* params.network_id */}
                         <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.network_id</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>network_id</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;integer&gt;</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:8453</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;integer&gt;</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>8453</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                           </div>
                           <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Blockchain network ID (8453 for Base)</p>
-                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>8453</code></p>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>8453</code></p>
                         </div>
 
                         {/* params.page */}
                         <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.page</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>page</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:0</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>integer</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>0</span></span>
                           </div>
                           <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Page number for pagination (starts at 0)</p>
                         </div>
 
                         {/* params.page_size */}
                         <div style={{ paddingBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontWeight: '400', color: theme.textMuted }}>params.page_size</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>page_size</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>integer</span>
-                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>default:25</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>integer</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>25</span></span>
                           </div>
                           <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Number of splits per page (max 25)</p>
-                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Required range: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>x &lt;= 25</code></p>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Required range: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>x &lt;= 25</code></p>
                         </div>
                       </div>
                     )}
@@ -4527,30 +4531,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                     {showFetchSplitResultChildren && (
                       <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
-                        {/* Option 1 - Failure */}
+                        {/* Option 1 - Success */}
                         {fetchSplitResponseOption === 1 && (
-                          <>
-                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.success</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;boolean&gt;</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
-                              </div>
-                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>false</code></p>
-                            </div>
-                            <div style={{ paddingBottom: '16px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
-                              </div>
-                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message</p>
-                            </div>
-                          </>
-                        )}
-
-                        {/* Option 2 - Success */}
-                        {fetchSplitResponseOption === 2 && (
                           <>
                             {/* result.total_slots */}
                             <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
@@ -4772,6 +4754,28 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                                 <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>number</span>
                               </div>
                               <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Percentage owned by the requesting user's Unique ID</p>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Option 2 - Failure */}
+                        {fetchSplitResponseOption === 2 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.success</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>enum&lt;boolean&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>true</code> , <code style={{ backgroundColor: theme.bgSecondary, padding: '2px 6px', borderRadius: '4px' }}>false</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgSecondary, borderRadius: '4px', color: theme.textMuted }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(239, 68, 68, 0.2)', borderRadius: '4px', color: '#ef4444' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message</p>
                             </div>
                           </>
                         )}
