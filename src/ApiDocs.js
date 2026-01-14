@@ -1239,7 +1239,7 @@ const ApiDocs = () => {
   `}<span style={{ color: '#60a5fa' }}>"id"</span>{`: `}<span style={{ color: '#22c55e' }}>"1"</span>{`,
   `}<span style={{ color: '#60a5fa' }}>"method"</span>{`: `}<span style={{ color: '#22c55e' }}>"method_name"</span>{`,
   `}<span style={{ color: '#60a5fa' }}>"params"</span>{`: {
-    `}<span style={{ color: theme.textDimmed }}>// your parameters here</span>{`
+    `}<span style={{ color: theme.textDimmed }}>{'// your parameters here'}</span>{`
   }
 }`}
               </pre>
@@ -5048,7 +5048,7 @@ puts response.read_body`,
     `}<span style={{ color: '#fbbf24' }}>'Authorization'</span>: <span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>,{`
     `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>: <span style={{ color: '#fbbf24' }}>'application/json'</span>{`
   `}{'}'},{`
-  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`({
+  `}<span style={{ color: '#9cdcfe' }}>body</span>: <span style={{ color: '#4ec9b0' }}>JSON</span>.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`(`}{'{'}{`
     `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>: <span style={{ color: '#fbbf24' }}>'2.0'</span>,{`
     `}<span style={{ color: '#9cdcfe' }}>id</span>: <span style={{ color: '#fbbf24' }}>'1'</span>,{`
     `}<span style={{ color: '#9cdcfe' }}>method</span>: <span style={{ color: '#fbbf24' }}>'splits_fetch_data'</span>,{`
@@ -5058,9 +5058,9 @@ puts response.read_body`,
     `}{'}'}
   {')'}
 {'})'}
-.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>response</span>{` => response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`(`}{'))'}{`
-.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data`}{'))'}{`
-.`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>error</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(`}<span style={{ color: '#fbbf24' }}>'Error:'</span>{`, error`}{'));'}`}
+{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>response</span>{` => response.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())`}
+{`.`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>data</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(data))`}
+{`.`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>error</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(`}<span style={{ color: '#fbbf24' }}>'Error:'</span>{`, error));`}
                       </>
                     )}
                     {fetchSplitSelectedLanguage === 'Ruby' && (
@@ -5088,7 +5088,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 {`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
   `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#splits_fetch_data'</span>{` \\
   `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
-  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>}
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>
                       </>
                     )}
                   </pre>
