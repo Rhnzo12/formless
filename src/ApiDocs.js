@@ -5684,31 +5684,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                     {showExecutePayoutResultChildren && (
                       <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
-                        {/* Option 1 - Failure */}
+                        {/* Option 1 - Success */}
                         {executePayoutResponseOption === 1 && (
-                          <>
-                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
-                              </div>
-                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status indicating failure</p>
-                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failed</code></p>
-                            </div>
-                            <div style={{ paddingBottom: '16px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
-                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
-                              </div>
-                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message describing what went wrong</p>
-                            </div>
-                          </>
-                        )}
-
-                        {/* Option 2 - Success */}
-                        {executePayoutResponseOption === 2 && (
                           <>
                             <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
@@ -5734,6 +5711,29 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                                 <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
                               </div>
                               <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status message about the payout processing</p>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Option 2 - Failure */}
+                        {executePayoutResponseOption === 2 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status indicating failure</p>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failed</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message describing what went wrong</p>
                             </div>
                           </>
                         )}
