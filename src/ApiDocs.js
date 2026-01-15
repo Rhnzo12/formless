@@ -6727,8 +6727,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
 
                     {showQueryBatchResultChildren && (
                       <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
-                        {/* Option 1 - Failure */}
-                        {queryBatchResponseOption === 1 && (
+                        {/* Option 2 - Failure */}
+                        {queryBatchResponseOption === 2 && (
                           <>
                             <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
@@ -6750,8 +6750,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                           </>
                         )}
 
-                        {/* Option 2 - Success */}
-                        {queryBatchResponseOption === 2 && (
+                        {/* Option 1 - Success */}
+                        {queryBatchResponseOption === 1 && (
                           <>
                             <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
