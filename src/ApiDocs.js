@@ -6394,6 +6394,19 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">P</text></svg>
                         <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
                       </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={handleCopyMCPServer} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy MCP Server</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy MCP Server URL to clipboard</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToCursor} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to Cursor <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on Cursor</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={handleConnectToVSCode} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Connect to VS Code <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Install MCP Server on VS Code</div></div>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -6917,6 +6930,34 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                             </div>
                             {queryBatchSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
                           </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('PHP'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#777BB4"><ellipse cx="12" cy="12" rx="12" ry="7"/><text x="12" y="15" fontSize="8" fill="white" textAnchor="middle" fontWeight="bold">php</text></svg>
+                              PHP
+                            </div>
+                            {queryBatchSelectedLanguage === 'PHP' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('Go'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ADD8"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">Go</text></svg>
+                              Go
+                            </div>
+                            {queryBatchSelectedLanguage === 'Go' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('Java'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#007396"><path d="M8.851 18.56s-.917.534.653.714c1.902.218 2.874.187 4.969-.211 0 0 .552.346 1.321.646-4.699 2.013-10.633-.118-6.943-1.149M8.276 15.933s-1.028.762.542.924c2.032.209 3.636.227 6.413-.308 0 0 .384.389.987.602-5.679 1.661-12.007.13-7.942-1.218"/><path d="M13.116 11.475c1.158 1.333-.304 2.533-.304 2.533s2.939-1.518 1.589-3.418c-1.261-1.772-2.228-2.652 3.007-5.688 0 0-8.216 2.052-4.292 6.573"/><path d="M19.33 20.504s.679.559-.747.991c-2.712.822-11.288 1.069-13.669.033-.856-.373.75-.89 1.254-.998.527-.114.828-.093.828-.093-.953-.671-6.156 1.317-2.643 1.887 9.58 1.553 17.462-.7 14.977-1.82"/><path d="M9.292 13.21s-4.362 1.036-1.544 1.412c1.189.159 3.561.123 5.77-.062 1.806-.152 3.618-.477 3.618-.477s-.637.272-1.098.587c-4.429 1.165-12.986.623-10.522-.568 2.082-1.006 3.776-.892 3.776-.892M17.116 17.584c4.503-2.34 2.421-4.589.968-4.285-.355.074-.515.138-.515.138s.132-.207.385-.297c2.875-1.011 5.086 2.981-.928 4.562 0 0 .07-.062.09-.118"/><path d="M14.401 0s2.494 2.494-2.365 6.33c-3.896 3.077-.889 4.832 0 6.836-2.274-2.053-3.943-3.858-2.824-5.539 1.644-2.469 6.197-3.665 5.189-7.627"/><path d="M9.734 23.924c4.322.277 10.959-.154 11.116-2.198 0 0-.302.775-3.572 1.391-3.688.694-8.239.613-10.937.168 0 0 .553.457 3.393.639"/></svg>
+                              Java
+                            </div>
+                            {queryBatchSelectedLanguage === 'Java' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('Ruby'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#CC342D"><path d="M20.156.083c3.033.525 3.893 2.598 3.829 4.77L24 4.822 22.635 22.71 4.89 23.926h.016C3.433 23.864.15 23.729 0 19.139l1.645-3 2.819 6.586.503 1.172 2.805-9.144-.03.007 5.236-9.264h.024l-.025.025.077-4.083.019-.083 7.082-1.272zM6.597 22.607l.027-.002-.027.002z"/></svg>
+                              Ruby
+                            </div>
+                            {queryBatchSelectedLanguage === 'Ruby' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
                         </div>
                       )}
                     </div>
@@ -6973,10 +7014,75 @@ fetch('https://share-ddn.formless.xyz/v1#payouts_query_batch', options)
   .then(res => res.json())
   .then(res => console.log(res))
   .catch(err => console.error(err));`;
+                        const phpCode = `<?php
+$curl = curl_init();
+curl_setopt_array($curl, [
+  CURLOPT_URL => "https://share-ddn.formless.xyz/v1#payouts_query_batch",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_POST => true,
+  CURLOPT_POSTFIELDS => json_encode([
+    "jsonrpc" => "2.0",
+    "id" => "1",
+    "method" => "payouts",
+    "params" => ["batch_id" => "89de4f6d-a8e5-4808-9c29-ebac29dec4cb"]
+  ]),
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer <token>",
+    "Content-Type: application/json"
+  ],
+]);
+$response = curl_exec($curl);
+curl_close($curl);
+echo $response;`;
+                        const goCode = `package main
+
+import (
+  "fmt"
+  "strings"
+  "net/http"
+  "io"
+)
+
+func main() {
+  url := "https://share-ddn.formless.xyz/v1#payouts_query_batch"
+  payload := strings.NewReader(\`{"jsonrpc":"2.0","id":"1","method":"payouts","params":{"batch_id":"89de4f6d-a8e5-4808-9c29-ebac29dec4cb"}}\`)
+  req, _ := http.NewRequest("POST", url, payload)
+  req.Header.Add("Authorization", "Bearer <token>")
+  req.Header.Add("Content-Type", "application/json")
+  res, _ := http.DefaultClient.Do(req)
+  defer res.Body.Close()
+  body, _ := io.ReadAll(res.Body)
+  fmt.Println(string(body))
+}`;
+                        const javaCode = `HttpResponse<String> response = Unirest
+  .post("https://share-ddn.formless.xyz/v1#payouts_query_batch")
+  .header("Authorization", "Bearer <token>")
+  .header("Content-Type", "application/json")
+  .body("{\\"jsonrpc\\":\\"2.0\\",\\"id\\":\\"1\\",\\"method\\":\\"payouts\\",\\"params\\":{\\"batch_id\\":\\"89de4f6d-...\\"}}")
+  .asString();`;
+                        const rubyCode = `require 'uri'
+require 'net/http'
+
+url = URI("https://share-ddn.formless.xyz/v1#payouts_query_batch")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Post.new(url)
+request["Authorization"] = 'Bearer <token>'
+request["Content-Type"] = 'application/json'
+request.body = '{"jsonrpc":"2.0","id":"1","method":"payouts","params":{"batch_id":"89de4f6d-a8e5-4808-9c29-ebac29dec4cb"}}'
+
+response = http.request(request)
+puts response.read_body`;
                         const codeMap = {
                           'curl': curlCode,
                           'Python': pythonCode,
                           'JavaScript': javascriptCode,
+                          'PHP': phpCode,
+                          'Go': goCode,
+                          'Java': javaCode,
+                          'Ruby': rubyCode,
                         };
                         copyToClipboard(codeMap[queryBatchSelectedLanguage] || curlCode, 'code-query-batch');
                       }}
@@ -7056,6 +7162,73 @@ fetch('https://share-ddn.formless.xyz/v1#payouts_query_batch', options)
   .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>res</span>{` => res.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())
   .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>res</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(res))
   .`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>err</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(err));`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'PHP' && (
+                      <>
+<span style={{ color: '#c586c0' }}>&lt;?php</span>{`
+`}<span style={{ color: '#9cdcfe' }}>$curl</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_init</span>{`();
+`}<span style={{ color: '#dcdcaa' }}>curl_setopt_array</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`, [
+  `}<span style={{ color: '#4ec9b0' }}>CURLOPT_URL</span>{` => `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts_query_batch"</span>{`,
+  `}<span style={{ color: '#4ec9b0' }}>CURLOPT_RETURNTRANSFER</span>{` => `}<span style={{ color: '#569cd6' }}>true</span>{`,
+  `}<span style={{ color: '#4ec9b0' }}>CURLOPT_POST</span>{` => `}<span style={{ color: '#569cd6' }}>true</span>{`,
+  `}<span style={{ color: '#4ec9b0' }}>CURLOPT_POSTFIELDS</span>{` => `}<span style={{ color: '#dcdcaa' }}>json_encode</span>{`([...]),
+  `}<span style={{ color: '#4ec9b0' }}>CURLOPT_HTTPHEADER</span>{` => [
+    `}<span style={{ color: '#fbbf24' }}>"Authorization: Bearer &lt;token&gt;"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type: application/json"</span>{`
+  ],
+]);
+`}<span style={{ color: '#9cdcfe' }}>$response</span>{` = `}<span style={{ color: '#dcdcaa' }}>curl_exec</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#dcdcaa' }}>curl_close</span>{`(`}<span style={{ color: '#9cdcfe' }}>$curl</span>{`);
+`}<span style={{ color: '#c586c0' }}>echo</span>{` `}<span style={{ color: '#9cdcfe' }}>$response</span>{`;`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'Go' && (
+                      <>
+<span style={{ color: '#c586c0' }}>package</span>{` main
+
+`}<span style={{ color: '#c586c0' }}>import</span>{` (
+  `}<span style={{ color: '#fbbf24' }}>"fmt"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"strings"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"net/http"</span>{`
+  `}<span style={{ color: '#fbbf24' }}>"io"</span>{`
+)
+
+`}<span style={{ color: '#c586c0' }}>func</span>{` `}<span style={{ color: '#dcdcaa' }}>main</span>{`() {
+  `}<span style={{ color: '#9cdcfe' }}>url</span>{` := `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts_query_batch"</span>{`
+  `}<span style={{ color: '#9cdcfe' }}>payload</span>{` := strings.`}<span style={{ color: '#dcdcaa' }}>NewReader</span>{`(\`{...}\`)
+  `}<span style={{ color: '#9cdcfe' }}>req</span>{`, _ := http.`}<span style={{ color: '#dcdcaa' }}>NewRequest</span>{`(`}<span style={{ color: '#fbbf24' }}>"POST"</span>{`, url, payload)
+  req.Header.`}<span style={{ color: '#dcdcaa' }}>Add</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  `}<span style={{ color: '#9cdcfe' }}>res</span>{`, _ := http.DefaultClient.`}<span style={{ color: '#dcdcaa' }}>Do</span>{`(req)
+  `}<span style={{ color: '#c586c0' }}>defer</span>{` res.Body.`}<span style={{ color: '#dcdcaa' }}>Close</span>{`()
+  `}<span style={{ color: '#9cdcfe' }}>body</span>{`, _ := io.`}<span style={{ color: '#dcdcaa' }}>ReadAll</span>{`(res.Body)
+  fmt.`}<span style={{ color: '#dcdcaa' }}>Println</span>{`(`}<span style={{ color: '#dcdcaa' }}>string</span>{`(body))
+}`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'Java' && (
+                      <>
+<span style={{ color: '#4ec9b0' }}>HttpResponse</span>{`<`}<span style={{ color: '#4ec9b0' }}>String</span>{`> `}<span style={{ color: '#9cdcfe' }}>response</span>{` = `}<span style={{ color: '#4ec9b0' }}>Unirest</span>{`
+  .`}<span style={{ color: '#dcdcaa' }}>post</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts_query_batch"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`, `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>header</span>{`(`}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`, `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>body</span>{`(`}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1",...}\''}</span>{`)
+  .`}<span style={{ color: '#dcdcaa' }}>asString</span>{`();`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'Ruby' && (
+                      <>
+<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'uri'</span>{`
+`}<span style={{ color: '#c586c0' }}>require</span>{` `}<span style={{ color: '#fbbf24' }}>'net/http'</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#4ec9b0' }}>URI</span>{`(`}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts_query_batch"</span>{`)
+`}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
+http.use_ssl = `}<span style={{ color: '#569cd6' }}>true</span>{`
+`}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
+request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0",...}'</span>{`
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
+`}<span style={{ color: '#c586c0' }}>puts</span>{` response.read_body`}
                       </>
                     )}
                   </pre>
