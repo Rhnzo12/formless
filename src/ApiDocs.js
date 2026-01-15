@@ -7030,7 +7030,7 @@ fetch('https://share-ddn.formless.xyz/v1#payouts_query_batch', options)
     }
 }
 `}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
-    `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`: `}<span style={{ color: '#fbbf24' }}>"Bearer <token>"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`: `}<span style={{ color: '#fbbf24' }}>"Bearer &lt;token&gt;"</span>{`,
     `}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`: `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`
 }
 
@@ -7042,7 +7042,7 @@ fetch('https://share-ddn.formless.xyz/v1#payouts_query_batch', options)
                       <>
 <span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
   `}<span style={{ color: '#9cdcfe' }}>method</span>{`: `}<span style={{ color: '#fbbf24' }}>'POST'</span>{`,
-  `}<span style={{ color: '#9cdcfe' }}>headers</span>{`: {`}<span style={{ color: '#9cdcfe' }}>Authorization</span>{`: `}<span style={{ color: '#fbbf24' }}>'Bearer <token>'</span>{`, `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>{`: `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`},
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>{`: {`}<span style={{ color: '#9cdcfe' }}>Authorization</span>{`: `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`, `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>{`: `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`},
   `}<span style={{ color: '#9cdcfe' }}>body</span>{`: `}<span style={{ color: '#4ec9b0' }}>JSON</span>{`.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`({
     `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>{`: `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
     `}<span style={{ color: '#9cdcfe' }}>id</span>{`: `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
