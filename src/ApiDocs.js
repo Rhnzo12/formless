@@ -6292,10 +6292,806 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
             </div>
           </>
         )}
+
+        {/* Query Batch Status Page Content */}
+        {activeSection === 'query-batch-status' && (
+          <>
+            {/* Two Column Layout */}
+            <div className="api-two-column-layout" style={{ display: 'flex' }}>
+              {/* Left Column - Documentation */}
+              <div
+                className="left-content-column"
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                }}>
+                {/* Inner content wrapper */}
+                <div>
+                {/* Breadcrumb */}
+                <div style={{
+                  fontSize: '14px',
+                  color: theme.textDimmed,
+                  marginBottom: '16px',
+                }}>
+                  Payouts
+                </div>
+
+                {/* Title with Copy page button */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+                gap: '16px',
+              }}>
+                <h2 className="page-title" style={{
+                  fontSize: '36px',
+                  fontWeight: '700',
+                  margin: 0,
+                  lineHeight: '1.2',
+                }}>
+                  Query Batch Status
+                </h2>
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setCopyDropdownOpen(copyDropdownOpen === 'query-batch-status' ? null : 'query-batch-status')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 12px',
+                      backgroundColor: 'transparent',
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      color: theme.textMuted,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    Copy page
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </button>
+                  {copyDropdownOpen === 'query-batch-status' && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '8px',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '8px',
+                      padding: '8px 0',
+                      minWidth: '280px',
+                      zIndex: 1000,
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                    }}>
+                      <button className="dropdown-item" onClick={() => handleCopyPage('query-batch-status-page', 'query-batch-status')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Copy page</div><div style={{ fontSize: '12px', color: theme.textMuted }}>Copy page as Markdown for LLMs</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleViewAsMarkdown('query-batch-status')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>View as Markdown <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>View this page as plain text</div></div>
+                      </button>
+                      <div style={{ height: '1px', backgroundColor: theme.border, margin: '8px 0' }} />
+                      <button className="dropdown-item" onClick={() => handleOpenInChatGPT('query-batch-status')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.2 8.3c.2-.6.3-1.3.3-2 0-3.5-2.8-6.3-6.3-6.3-1.4 0-2.7.5-3.8 1.3C11.4.5 10.1 0 8.7 0 5.2 0 2.4 2.8 2.4 6.3c0 .7.1 1.4.3 2C1 9.4 0 11.1 0 13c0 3.5 2.8 6.3 6.3 6.3 1.4 0 2.7-.5 3.8-1.3 1 .8 2.3 1.3 3.7 1.3 3.5 0 6.3-2.8 6.3-6.3 0-1.9-1-3.6-2.6-4.7h.7z"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in ChatGPT <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInClaude('query-batch-status')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Claude <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                      <button className="dropdown-item" onClick={() => handleOpenInPerplexity('query-batch-status')} style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 16px', background: 'none', border: 'none', color: theme.text, fontSize: '14px', cursor: 'pointer', textAlign: 'left' }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" fontSize="10" fill="white" textAnchor="middle" fontWeight="bold">P</text></svg>
+                        <div><div style={{ fontWeight: '500' }}>Open in Perplexity <span style={{ fontSize: '12px' }}>↗</span></div><div style={{ fontSize: '12px', color: theme.textMuted }}>Ask questions about this page</div></div>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+                {/* Subtitle */}
+                <p style={{
+                  fontSize: '16px',
+                  color: theme.textMuted,
+                  marginBottom: '24px',
+                  lineHeight: '1.5',
+                }}>
+                  Query the status of a payout batch by batch ID
+                </p>
+
+                {/* Endpoint Badge */}
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  backgroundColor: theme.bgSecondary,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: '9999px',
+                  padding: '10px 16px',
+                  marginBottom: '24px',
+                }}>
+                  <span style={{
+                    backgroundColor: '#22c55e',
+                    color: 'white',
+                    padding: '4px 12px',
+                    borderRadius: '9999px',
+                    fontSize: '12px',
+                    fontWeight: '600',
+                  }}>
+                    POST
+                  </span>
+                  <code style={{ color: theme.text, fontSize: '14px' }}>/v1#payouts_query_batch</code>
+                  <button
+                    onClick={() => window.open('https://share-ddn.formless.xyz/v1#payouts_query_batch', '_blank')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '9999px',
+                      padding: '6px 16px',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Try it
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Description */}
+                <p style={{
+                  fontSize: '16px',
+                  color: theme.textMuted,
+                  marginBottom: '32px',
+                  lineHeight: '1.6',
+                }}>
+                  Query the status of a payout batch using the batch ID returned from the execute payout endpoint. The batch status can be pending, complete, or failed.
+                </p>
+
+                {/* Authorizations */}
+                <h3 style={{
+                  fontSize: '20px',
+                  fontWeight: '600',
+                  color: theme.text,
+                  marginBottom: '16px',
+                  paddingBottom: '12px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  Authorizations
+                </h3>
+
+                <div style={{
+                  marginBottom: '32px',
+                  paddingBottom: '16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ fontWeight: '500', color: theme.text }}>Authorization</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>header</span>
+                    <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                  </div>
+                  <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>JWT token with Unique ID identification</p>
+                </div>
+
+                {/* Body Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Body
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    application/json
+                  </span>
+                </div>
+
+                {/* Body Parameters */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>2.0</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
+                  </div>
+
+                  {/* id */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>1</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* method */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>method</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>payouts</span></span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>payouts</code></p>
+                  </div>
+
+                  {/* params */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>params</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+
+                    {/* Collapsible params children */}
+                    <div
+                      onClick={() => setShowQueryBatchParamsChildren(!showQueryBatchParamsChildren)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginTop: '12px',
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        style={{ transform: showQueryBatchParamsChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showQueryBatchParamsChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showQueryBatchParamsChildren && (
+                      <div style={{ marginLeft: '16px', marginTop: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* params.batch_id */}
+                        <div style={{ paddingBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                            <span style={{ color: theme.textMuted, fontSize: '14px' }}>params.</span>
+                            <span style={{ color: theme.textMuted, fontWeight: '400' }}>batch_id</span>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px' }}><span style={{ color: theme.textMuted }}>default:</span><span style={{ color: theme.text }}>89de4f6d-a8e5-4808-9c29-ebac29dec4cb</span></span>
+                            <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                          </div>
+                          <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Batch ID to query status for</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Response Section */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '16px',
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: '600',
+                    color: theme.text,
+                    margin: 0,
+                  }}>
+                    Response
+                  </h3>
+                  <span style={{
+                    fontSize: '14px',
+                    color: theme.textMuted,
+                  }}>
+                    200 - application/json
+                  </span>
+                </div>
+
+                <p style={{ fontSize: '14px', color: theme.textMuted, marginBottom: '24px' }}>Successful response</p>
+
+                {/* Response Fields */}
+                <div style={{ marginBottom: '32px' }}>
+                  {/* jsonrpc response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>jsonrpc</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                    <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>2.0</code></p>
+                  </div>
+
+                  {/* id response */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>id</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+                  </div>
+
+                  {/* result response with options */}
+                  <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: '400', color: theme.textMuted }}>result</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                      <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                    </div>
+
+                    {/* Option tabs */}
+                    <div style={{
+                      display: 'flex',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      backgroundColor: theme.bgSecondary,
+                      padding: '4px',
+                      borderRadius: '8px',
+                      width: 'fit-content',
+                    }}>
+                      <button
+                        onClick={() => setQueryBatchResponseOption(1)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: queryBatchResponseOption === 1 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: queryBatchResponseOption === 1 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: queryBatchResponseOption === 1 ? '500' : '400',
+                        }}
+                      >
+                        Option 1
+                      </button>
+                      <button
+                        onClick={() => setQueryBatchResponseOption(2)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: queryBatchResponseOption === 2 ? theme.bg : 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          color: queryBatchResponseOption === 2 ? theme.text : theme.textMuted,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          fontWeight: queryBatchResponseOption === 2 ? '500' : '400',
+                        }}
+                      >
+                        Option 2
+                      </button>
+                    </div>
+
+                    {/* Collapsible result children */}
+                    <div
+                      onClick={() => setShowQueryBatchResultChildren(!showQueryBatchResultChildren)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        cursor: 'pointer',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        marginBottom: '16px',
+                      }}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        style={{ transform: showQueryBatchResultChildren ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}
+                      >
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                      {showQueryBatchResultChildren ? 'Hide' : 'Show'} child attributes
+                    </div>
+
+                    {showQueryBatchResultChildren && (
+                      <div style={{ marginLeft: '16px', paddingLeft: '16px', borderLeft: `2px solid ${theme.border}` }}>
+                        {/* Option 1 - Failure */}
+                        {queryBatchResponseOption === 1 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status indicating failure</p>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failed</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Error message describing what went wrong</p>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Option 2 - Success */}
+                        {queryBatchResponseOption === 2 && (
+                          <>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.payout_batch_id</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>The batch ID</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.status</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>enum&lt;string&gt;</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Current status of the batch</p>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: '8px 0 0 0' }}>Available options: <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>pending</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>complete</code> , <code style={{ backgroundColor: theme.bgTertiary, padding: '2px 6px', borderRadius: '4px', color: theme.text }}>failed</code></p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.submitter</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: 'rgba(220, 38, 38, 0.15)', borderRadius: '4px', color: '#f25c5c', fontWeight: '600' }}>required</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Unique ID of the user who submitted the batch</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.timestamp</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>When the batch was created</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.details</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Batch details object containing contract_address, network_id, amount_usd, etc.</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.activity_details</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>object</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Activity information for the payout (isrc_code, upc_code, month, year, day, etc.)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.successful_txns</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>integer</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Number of successful transactions (present when status is complete)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.incomplete_txns</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>integer</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Number of incomplete transactions (present when status is complete)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.completion_percentage</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>number</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Completion percentage (present when status is complete)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.total_amount_paid_usd</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>number</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Total amount paid in USD (present when status is complete)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px', borderBottom: `1px solid ${theme.border}`, marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.message</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Status message (present when status is complete or failed)</p>
+                            </div>
+                            <div style={{ paddingBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: '400', color: theme.textMuted }}>result.failure</span>
+                                <span style={{ fontSize: '12px', padding: '2px 8px', backgroundColor: theme.bgTertiary, borderRadius: '4px', color: theme.text }}>string</span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: theme.textMuted, margin: 0 }}>Failure reason (present when status is failed)</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom Navigation */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  paddingTop: '32px',
+                  borderTop: `1px solid ${theme.border}`,
+                  marginTop: '32px',
+                }}>
+                  <button
+                    onClick={() => setActiveSection('execute-payout')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '12px 16px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.text,
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Execute Payout
+                  </button>
+                </div>
+                </div>
+              </div>
+            </div>
+            {/* End Two Column Layout */}
+
+            {/* Right Column - Code Panels */}
+            <div className="right-code-panel" style={{ width: '420px', flexShrink: 0, position: 'fixed', top: '120px', right: '40px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+
+              {/* Request Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'visible' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: `1px solid ${theme.border}`, backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ fontWeight: '600', color: theme.text, fontSize: '14px' }}>Query Batch Status</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ position: 'relative' }}>
+                      <div onClick={() => setQueryBatchLanguageDropdownOpen(!queryBatchLanguageDropdownOpen)} style={{ display: 'flex', alignItems: 'center', gap: '6px', backgroundColor: theme.bgTertiary, padding: '4px 10px', borderRadius: '4px', cursor: 'pointer' }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>{queryBatchSelectedLanguage === 'curl' ? 'cURL' : queryBatchSelectedLanguage}</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
+                      </div>
+                      {queryBatchLanguageDropdownOpen && (
+                        <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '4px', backgroundColor: theme.bgSecondary, border: `1px solid ${theme.border}`, borderRadius: '6px', padding: '4px 0', minWidth: '140px', maxHeight: '280px', overflowY: 'auto', zIndex: 1000, boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('curl'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                              CURL
+                            </div>
+                            {queryBatchSelectedLanguage === 'curl' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('Python'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#3776AB"><path d="M12 0C5.372 0 5.729 2.597 5.729 2.597l.007 2.69h6.395v.808H3.894S0 5.611 0 12.021c0 6.41 3.397 6.181 3.397 6.181h2.027v-2.975s-.109-3.397 3.342-3.397h5.755s3.232.052 3.232-3.125V3.054S18.24 0 12 0zm-3.2 1.76a1.043 1.043 0 110 2.086 1.043 1.043 0 010-2.086z"/><path d="M12 24c6.628 0 6.271-2.597 6.271-2.597l-.007-2.69h-6.395v-.808h8.237S24 18.389 24 11.979c0-6.41-3.397-6.181-3.397-6.181h-2.027v2.975s.109 3.397-3.342 3.397H9.479s-3.232-.052-3.232 3.125v5.651S5.76 24 12 24zm3.2-1.76a1.043 1.043 0 110-2.086 1.043 1.043 0 010 2.086z"/></svg>
+                              Python
+                            </div>
+                            {queryBatchSelectedLanguage === 'Python' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                          <button className="dropdown-item" onClick={() => { setQueryBatchSelectedLanguage('JavaScript'); setQueryBatchLanguageDropdownOpen(false); }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', padding: '8px 12px', background: 'none', border: 'none', color: theme.text, fontSize: '13px', cursor: 'pointer', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="#F7DF1E"><rect width="24" height="24" rx="2"/><path d="M6 18.5l1.5-1c.3.5.6.9 1.2.9.6 0 1-.2 1-1.1V11h2v6.4c0 1.8-1.1 2.6-2.7 2.6-1.4 0-2.3-.7-2.7-1.5h-.3zm6.5-.3l1.5-.9c.4.6.9 1.1 1.8 1.1.8 0 1.2-.4 1.2-.9 0-.6-.5-.9-1.4-1.3l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.9 0-1.4 1.1-2.5 2.8-2.5 1.2 0 2.1.4 2.7 1.5l-1.5.9c-.3-.6-.7-.8-1.2-.8s-.9.3-.9.8c0 .5.3.8 1.2 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.4 2.7-3.2 2.7-1.8 0-3-.9-3.5-2z" fill="#000"/></svg>
+                              JavaScript
+                            </div>
+                            {queryBatchSelectedLanguage === 'JavaScript' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => {
+                        const curlCode = `curl --request POST \\
+  --url 'https://share-ddn.formless.xyz/v1#payouts_query_batch' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '
+{
+  "jsonrpc": "2.0",
+  "id": "1",
+  "method": "payouts",
+  "params": {
+    "batch_id": "89de4f6d-a8e5-4808-9c29-ebac29dec4cb"
+  }
+}
+'`;
+                        const pythonCode = `import requests
+
+url = "https://share-ddn.formless.xyz/v1#payouts_query_batch"
+
+payload = {
+    "jsonrpc": "2.0",
+    "id": "1",
+    "method": "payouts",
+    "params": {
+        "batch_id": "89de4f6d-a8e5-4808-9c29-ebac29dec4cb"
+    }
+}
+headers = {
+    "Authorization": "Bearer <token>",
+    "Content-Type": "application/json"
+}
+
+response = requests.post(url, json=payload, headers=headers)
+
+print(response.text)`;
+                        const javascriptCode = `const options = {
+  method: 'POST',
+  headers: {Authorization: 'Bearer <token>', 'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    id: '1',
+    method: 'payouts',
+    params: {
+      batch_id: '89de4f6d-a8e5-4808-9c29-ebac29dec4cb'
+    }
+  })
+};
+
+fetch('https://share-ddn.formless.xyz/v1#payouts_query_batch', options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));`;
+                        const codeMap = {
+                          'curl': curlCode,
+                          'Python': pythonCode,
+                          'JavaScript': javascriptCode,
+                        };
+                        copyToClipboard(codeMap[queryBatchSelectedLanguage] || curlCode, 'code-query-batch');
+                      }}
+                      style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}
+                    >
+                      {copiedCode === 'code-query-batch' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                    </button>
+                  </div>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px', borderRadius: '0 0 12px 12px', overflow: 'auto' }}>
+                  <pre style={{
+                    margin: 0,
+                    fontSize: '13px',
+                    lineHeight: '1.5',
+                    color: theme.text,
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-all',
+                  }}>
+                    {queryBatchSelectedLanguage === 'curl' && (
+                      <>
+{`curl `}<span style={{ color: '#f472b6' }}>--request</span>{` POST \\
+  `}<span style={{ color: '#f472b6' }}>--url</span>{` `}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts_query_batch'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Authorization: Bearer &lt;token&gt;'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--header</span>{` `}<span style={{ color: '#fbbf24' }}>'Content-Type: application/json'</span>{` \\
+  `}<span style={{ color: '#f472b6' }}>--data</span>{` '
+{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"1"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"method"</span>: <span style={{ color: '#fbbf24' }}>"payouts"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"params"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"batch_id"</span>: <span style={{ color: '#fbbf24' }}>"89de4f6d-..."</span>{`
+  }
+}
+'`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'Python' && (
+                      <>
+<span style={{ color: '#c586c0' }}>import</span>{` requests
+
+`}<span style={{ color: '#9cdcfe' }}>url</span>{` = `}<span style={{ color: '#fbbf24' }}>"https://share-ddn.formless.xyz/v1#payouts_query_batch"</span>{`
+
+`}<span style={{ color: '#9cdcfe' }}>payload</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"jsonrpc"</span>{`: `}<span style={{ color: '#fbbf24' }}>"2.0"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"id"</span>{`: `}<span style={{ color: '#fbbf24' }}>"1"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"method"</span>{`: `}<span style={{ color: '#fbbf24' }}>"payouts"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"params"</span>{`: {
+        `}<span style={{ color: '#fbbf24' }}>"batch_id"</span>{`: `}<span style={{ color: '#fbbf24' }}>"89de4f6d-..."</span>{`
+    }
+}
+`}<span style={{ color: '#9cdcfe' }}>headers</span>{` = {
+    `}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`: `}<span style={{ color: '#fbbf24' }}>"Bearer <token>"</span>{`,
+    `}<span style={{ color: '#fbbf24' }}>"Content-Type"</span>{`: `}<span style={{ color: '#fbbf24' }}>"application/json"</span>{`
+}
+
+`}<span style={{ color: '#9cdcfe' }}>response</span>{` = requests.`}<span style={{ color: '#dcdcaa' }}>post</span>{`(url, json=payload, headers=headers)
+`}<span style={{ color: '#dcdcaa' }}>print</span>{`(response.text)`}
+                      </>
+                    )}
+                    {queryBatchSelectedLanguage === 'JavaScript' && (
+                      <>
+<span style={{ color: '#c586c0' }}>const</span>{` `}<span style={{ color: '#9cdcfe' }}>options</span>{` = {
+  `}<span style={{ color: '#9cdcfe' }}>method</span>{`: `}<span style={{ color: '#fbbf24' }}>'POST'</span>{`,
+  `}<span style={{ color: '#9cdcfe' }}>headers</span>{`: {`}<span style={{ color: '#9cdcfe' }}>Authorization</span>{`: `}<span style={{ color: '#fbbf24' }}>'Bearer <token>'</span>{`, `}<span style={{ color: '#fbbf24' }}>'Content-Type'</span>{`: `}<span style={{ color: '#fbbf24' }}>'application/json'</span>{`},
+  `}<span style={{ color: '#9cdcfe' }}>body</span>{`: `}<span style={{ color: '#4ec9b0' }}>JSON</span>{`.`}<span style={{ color: '#dcdcaa' }}>stringify</span>{`({
+    `}<span style={{ color: '#9cdcfe' }}>jsonrpc</span>{`: `}<span style={{ color: '#fbbf24' }}>'2.0'</span>{`,
+    `}<span style={{ color: '#9cdcfe' }}>id</span>{`: `}<span style={{ color: '#fbbf24' }}>'1'</span>{`,
+    `}<span style={{ color: '#9cdcfe' }}>method</span>{`: `}<span style={{ color: '#fbbf24' }}>'payouts'</span>{`,
+    `}<span style={{ color: '#9cdcfe' }}>params</span>{`: {
+      `}<span style={{ color: '#9cdcfe' }}>batch_id</span>{`: `}<span style={{ color: '#fbbf24' }}>'89de4f6d-...'</span>{`
+    }
+  })
+};
+
+`}<span style={{ color: '#dcdcaa' }}>fetch</span>{`(`}<span style={{ color: '#fbbf24' }}>'https://share-ddn.formless.xyz/v1#payouts_query_batch'</span>{`, options)
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>res</span>{` => res.`}<span style={{ color: '#dcdcaa' }}>json</span>{`())
+  .`}<span style={{ color: '#dcdcaa' }}>then</span>{`(`}<span style={{ color: '#9cdcfe' }}>res</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>log</span>{`(res))
+  .`}<span style={{ color: '#dcdcaa' }}>catch</span>{`(`}<span style={{ color: '#9cdcfe' }}>err</span>{` => `}<span style={{ color: '#9cdcfe' }}>console</span>{`.`}<span style={{ color: '#dcdcaa' }}>error</span>{`(err));`}
+                      </>
+                    )}
+                  </pre>
+                </div>
+              </div>
+
+              {/* Response Panel */}
+              <div style={{ backgroundColor: theme.bgCard, borderRadius: '12px', border: `1px solid ${theme.border}`, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', backgroundColor: theme.bgSecondary, borderRadius: '12px 12px 0 0' }}>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>200</span>
+                  <button onClick={() => copyToClipboard('{"jsonrpc":"2.0","id":"<string>","result":{"payout_batch_id":"<string>","status":"pending","submitter":"<string>"}}', 'response-query-batch')} style={{ background: 'none', border: 'none', color: theme.textMuted, cursor: 'pointer', padding: '4px' }}>
+                    {copiedCode === 'response-query-batch' ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>}
+                  </button>
+                </div>
+                <div className="code-panel-scroll" style={{ maxHeight: '160px', padding: '14px' }}>
+                  <pre style={{ fontSize: '11px', fontFamily: 'Monaco, Consolas, monospace', margin: 0, lineHeight: '1.5', color: theme.textSecondary, whiteSpace: 'pre' }}>
+{`{
+  `}<span style={{ color: '#60a5fa' }}>"jsonrpc"</span>: <span style={{ color: '#fbbf24' }}>"2.0"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+  `}<span style={{ color: '#60a5fa' }}>"result"</span>: {`{
+    `}<span style={{ color: '#60a5fa' }}>"payout_batch_id"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"status"</span>: <span style={{ color: '#fbbf24' }}>"pending"</span>,{`
+    `}<span style={{ color: '#60a5fa' }}>"submitter"</span>: <span style={{ color: '#fbbf24' }}>"&lt;string&gt;"</span>{`
+  }
+}`}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </main>
 
-      {/* Right Sidebar - On This Page (hidden on Identity Lookup, Create Contract, Fetch Split Data, and Execute Payout) */}
-      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && activeSection !== 'fetch-split-data' && activeSection !== 'execute-payout' && (
+      {/* Right Sidebar - On This Page (hidden on Identity Lookup, Create Contract, Fetch Split Data, Execute Payout, and Query Batch Status) */}
+      {activeSection !== 'identity-lookup' && activeSection !== 'create-contract' && activeSection !== 'fetch-split-data' && activeSection !== 'execute-payout' && activeSection !== 'query-batch-status' && (
         <aside style={{
           width: '240px',
           position: 'fixed',
