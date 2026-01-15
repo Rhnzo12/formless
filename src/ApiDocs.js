@@ -7225,8 +7225,8 @@ puts response.read_body`;
 `}<span style={{ color: '#9cdcfe' }}>http</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url.host, url.port)
 http.use_ssl = `}<span style={{ color: '#569cd6' }}>true</span>{`
 `}<span style={{ color: '#9cdcfe' }}>request</span>{` = `}<span style={{ color: '#4ec9b0' }}>Net::HTTP::Post</span>{`.`}<span style={{ color: '#dcdcaa' }}>new</span>{`(url)
-request[`}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{`] = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
-request.body = `}<span style={{ color: '#fbbf24' }}>'{"jsonrpc":"2.0",...}'</span>{`
+request`}{'['}<span style={{ color: '#fbbf24' }}>"Authorization"</span>{']'}{` = `}<span style={{ color: '#fbbf24' }}>'Bearer &lt;token&gt;'</span>{`
+request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''}</span>{`
 `}<span style={{ color: '#9cdcfe' }}>response</span>{` = http.`}<span style={{ color: '#dcdcaa' }}>request</span>{`(request)
 `}<span style={{ color: '#c586c0' }}>puts</span>{` response.read_body`}
                       </>
