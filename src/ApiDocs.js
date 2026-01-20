@@ -8352,7 +8352,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
               {/* Response Panel - Always on top when visible */}
               {playgroundResponse && (
                 <div style={{
-                  flex: 1,
+                  height: '280px',
+                  minHeight: '280px',
                   backgroundColor: theme.bgCard,
                   borderBottom: `1px solid ${theme.border}`,
                   display: 'flex',
@@ -8363,30 +8364,32 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 16px',
+                    padding: '10px 16px',
                     borderBottom: `1px solid ${theme.border}`,
                     backgroundColor: theme.bgSecondary,
+                    minHeight: '44px',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5">
                         <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 8 12 12 14 14"/>
+                        <polyline points="9 12 11 14 15 10"/>
                       </svg>
-                      <span style={{ color: '#22c55e', fontWeight: '600', fontSize: '14px' }}>
+                      <span style={{ color: '#22c55e', fontWeight: '500', fontSize: '14px' }}>
                         {playgroundResponse.status} - {playgroundResponse.statusText}
                       </span>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '4px',
                         backgroundColor: theme.bgTertiary,
-                        padding: '4px 10px',
+                        padding: '5px 10px',
                         borderRadius: '4px',
+                        cursor: 'pointer',
                       }}>
-                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>Body</span>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <span style={{ color: theme.text, fontSize: '13px' }}>Body</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                           <path d="M6 9l6 6 6-6"/>
                         </svg>
                       </div>
@@ -8396,15 +8399,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '28px',
-                          height: '28px',
+                          width: '32px',
+                          height: '32px',
                           backgroundColor: 'transparent',
                           border: 'none',
                           color: theme.textMuted,
                           cursor: 'pointer',
                         }}
                       >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                           <polyline points="7 10 12 15 17 10"/>
                           <line x1="12" y1="15" x2="12" y2="3"/>
@@ -8417,8 +8420,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: '28px',
-                          height: '28px',
+                          width: '32px',
+                          height: '32px',
                           backgroundColor: 'transparent',
                           border: 'none',
                           color: theme.textMuted,
@@ -8426,11 +8429,11 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         }}
                       >
                         {copiedCode === 'playground-response' ? (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
                             <polyline points="20 6 9 17 4 12"/>
                           </svg>
                         ) : (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                           </svg>
@@ -8455,7 +8458,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
 
               {/* cURL Panel - Always at bottom */}
               <div style={{
-                flex: playgroundResponse ? 1 : 2,
+                flex: 1,
                 backgroundColor: theme.bgCard,
                 display: 'flex',
                 flexDirection: 'column',
@@ -8465,27 +8468,29 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '12px 16px',
+                  padding: '10px 16px',
                   borderBottom: `1px solid ${theme.border}`,
                   backgroundColor: theme.bgSecondary,
+                  minHeight: '44px',
                 }}>
-                  <span style={{ fontWeight: '600', fontSize: '14px' }}>{currentEndpointConfig.name}</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>{currentEndpointConfig.name}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
+                      gap: '4px',
                       backgroundColor: theme.bgTertiary,
-                      padding: '4px 10px',
+                      padding: '5px 10px',
                       borderRadius: '4px',
+                      cursor: 'pointer',
                     }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
                         <line x1="8" y1="21" x2="16" y2="21"/>
                         <line x1="12" y1="17" x2="12" y2="21"/>
                       </svg>
-                      <span style={{ color: theme.textMuted, fontSize: '12px' }}>cURL</span>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                      <span style={{ color: theme.text, fontSize: '13px' }}>cURL</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                         <path d="M6 9l6 6 6-6"/>
                       </svg>
                     </div>
@@ -8495,8 +8500,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '28px',
-                        height: '28px',
+                        width: '32px',
+                        height: '32px',
                         backgroundColor: 'transparent',
                         border: 'none',
                         color: theme.textMuted,
@@ -8504,11 +8509,11 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                       }}
                     >
                       {copiedCode === 'playground-curl' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
                           <polyline points="20 6 9 17 4 12"/>
                         </svg>
                       ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                         </svg>
@@ -8525,8 +8530,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   color: theme.textSecondary,
                   backgroundColor: '#1a1a2e',
                   overflow: 'auto',
-                  whiteSpace: 'pre-wrap',
-                  wordBreak: 'break-all',
+                  lineHeight: '1.6',
                 }}>
                   <code>
                     <span style={{ color: '#ff79c6' }}>curl</span> --request <span style={{ color: '#8be9fd' }}>POST</span> \{'\n'}
