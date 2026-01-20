@@ -8342,18 +8342,121 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
               </div>
             </div>
 
-            {/* Right Panel - Code and Response */}
+            {/* Right Panel - Response and Code */}
             <div style={{
               width: '50%',
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden',
             }}>
-              {/* cURL Panel */}
+              {/* Response Panel - Always on top when visible */}
+              {playgroundResponse && (
+                <div style={{
+                  flex: 1,
+                  backgroundColor: theme.bgCard,
+                  borderBottom: `1px solid ${theme.border}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 16px',
+                    borderBottom: `1px solid ${theme.border}`,
+                    backgroundColor: theme.bgSecondary,
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 8 12 12 14 14"/>
+                      </svg>
+                      <span style={{ color: '#22c55e', fontWeight: '600', fontSize: '14px' }}>
+                        {playgroundResponse.status} - {playgroundResponse.statusText}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        backgroundColor: theme.bgTertiary,
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                      }}>
+                        <span style={{ color: theme.textMuted, fontSize: '12px' }}>Body</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                          <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                      </div>
+                      {/* Download icon */}
+                      <button
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.textMuted,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                          <polyline points="7 10 12 15 17 10"/>
+                          <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                      </button>
+                      {/* Copy icon */}
+                      <button
+                        onClick={() => copyToClipboard(JSON.stringify(playgroundResponse.body, null, 2), 'playground-response')}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.textMuted,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {copiedCode === 'playground-response' ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        ) : (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <pre style={{
+                    flex: 1,
+                    margin: 0,
+                    padding: '16px',
+                    fontSize: '13px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    color: theme.textSecondary,
+                    backgroundColor: '#1a1a2e',
+                    overflow: 'auto',
+                  }}>
+                    <code>{JSON.stringify(playgroundResponse.body, null, 2)}</code>
+                  </pre>
+                </div>
+              )}
+
+              {/* cURL Panel - Always at bottom */}
               <div style={{
                 flex: playgroundResponse ? 1 : 2,
                 backgroundColor: theme.bgCard,
-                borderBottom: `1px solid ${theme.border}`,
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'hidden',
@@ -8442,80 +8545,42 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                 </pre>
               </div>
 
-              {/* Response Panel */}
+              {/* Status indicator at bottom right */}
               {playgroundResponse && (
                 <div style={{
-                  flex: 1,
-                  backgroundColor: theme.bgCard,
+                  position: 'absolute',
+                  bottom: '16px',
+                  right: '16px',
                   display: 'flex',
-                  flexDirection: 'column',
-                  overflow: 'hidden',
+                  alignItems: 'center',
+                  gap: '8px',
+                  backgroundColor: theme.bgSecondary,
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  border: `1px solid ${theme.border}`,
                 }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 16px',
-                    borderBottom: `1px solid ${theme.border}`,
-                    backgroundColor: theme.bgSecondary,
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="16 12 12 8 8 12"/>
-                        <line x1="12" y1="16" x2="12" y2="8"/>
-                      </svg>
-                      <span style={{ color: '#22c55e', fontWeight: '600', fontSize: '14px' }}>
-                        {playgroundResponse.status} - {playgroundResponse.statusText}
-                      </span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{
-                        backgroundColor: theme.bgTertiary,
-                        padding: '4px 10px',
-                        borderRadius: '4px',
-                        color: theme.textMuted,
-                        fontSize: '12px',
-                      }}>Body</span>
-                      <button
-                        onClick={() => copyToClipboard(JSON.stringify(playgroundResponse.body, null, 2), 'playground-response')}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '28px',
-                          height: '28px',
-                          backgroundColor: 'transparent',
-                          border: 'none',
-                          color: theme.textMuted,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {copiedCode === 'playground-response' ? (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                            <polyline points="20 6 9 17 4 12"/>
-                          </svg>
-                        ) : (
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                          </svg>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                  <pre style={{
-                    flex: 1,
-                    margin: 0,
-                    padding: '16px',
-                    fontSize: '13px',
-                    fontFamily: 'Monaco, Consolas, monospace',
-                    color: theme.textSecondary,
-                    backgroundColor: '#1a1a2e',
-                    overflow: 'auto',
-                  }}>
-                    <code>{JSON.stringify(playgroundResponse.body, null, 2)}</code>
-                  </pre>
+                  <span style={{ color: theme.textMuted, fontSize: '13px' }}>{playgroundResponse.status}</span>
+                  <button
+                    onClick={() => copyToClipboard(JSON.stringify(playgroundResponse.body, null, 2), 'playground-status')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.textMuted,
+                      cursor: 'pointer',
+                      padding: 0,
+                    }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                  </button>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
                 </div>
               )}
             </div>
