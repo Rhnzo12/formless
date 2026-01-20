@@ -99,6 +99,17 @@ const ApiDocs = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCodePanelOpen, setMobileCodePanelOpen] = useState(false);
   const [tryItOpen, setTryItOpen] = useState(false);
+  // Playground states
+  const [playgroundEndpoint, setPlaygroundEndpoint] = useState('identity-lookup');
+  const [playgroundBearerToken, setPlaygroundBearerToken] = useState('');
+  const [playgroundJsonrpc, setPlaygroundJsonrpc] = useState('2.0');
+  const [playgroundId, setPlaygroundId] = useState('1');
+  const [playgroundParams, setPlaygroundParams] = useState({ email_address: 'user@example.com' });
+  const [playgroundResponse, setPlaygroundResponse] = useState(null);
+  const [playgroundLoading, setPlaygroundLoading] = useState(false);
+  const [playgroundEndpointDropdownOpen, setPlaygroundEndpointDropdownOpen] = useState(false);
+  const [playgroundJsonrpcDropdownOpen, setPlaygroundJsonrpcDropdownOpen] = useState(false);
+  const [playgroundMethodDropdownOpen, setPlaygroundMethodDropdownOpen] = useState(false);
   // Create Contract section states
   const [showCreateContractParamsChildren, setShowCreateContractParamsChildren] = useState(false);
   const [showCreateContractResultChildren, setShowCreateContractResultChildren] = useState(true);
@@ -132,6 +143,203 @@ const ApiDocs = () => {
   const [queryBatchResponseOption, setQueryBatchResponseOption] = useState(1);
   const [queryBatchLanguageDropdownOpen, setQueryBatchLanguageDropdownOpen] = useState(false);
   const [queryBatchSelectedLanguage, setQueryBatchSelectedLanguage] = useState('curl');
+
+  // Playground endpoint configurations
+  const playgroundEndpoints = {
+    'identity-lookup': {
+      name: 'Identity Lookup',
+      method: 'identity_get_by_email_address',
+      path: '/v1#identity_get_by_email_address',
+      params: [
+        { key: 'email_address', type: 'string<email>', required: true, default: 'user@example.com' }
+      ],
+      successResponse: {
+        jsonrpc: '2.0',
+        id: '<string>',
+        result: {
+          success: true,
+          user_unique_id: '<string>',
+          email_address: 'jsmith@example.com',
+          display_name: '<string>',
+          verified_identity: true,
+          financial_accounts: [{}],
+          verifications: [{}]
+        }
+      },
+      errorResponse: {
+        jsonrpc: '2.0',
+        id: '1',
+        error: {
+          code: 0,
+          message: 'jwt must be provided'
+        }
+      }
+    },
+    'create-contract': {
+      name: 'Create Contract',
+      method: 'contract_create',
+      path: '/v1#contract_create',
+      params: [
+        { key: 'contract_name', type: 'string', required: true, default: 'My Contract' },
+        { key: 'revenue_share', type: 'object', required: true, default: {} }
+      ],
+      successResponse: {
+        jsonrpc: '2.0',
+        id: '<string>',
+        result: {
+          success: true,
+          contract_id: '<string>'
+        }
+      },
+      errorResponse: {
+        jsonrpc: '2.0',
+        id: '1',
+        error: {
+          code: 0,
+          message: 'jwt must be provided'
+        }
+      }
+    },
+    'fetch-split-data': {
+      name: 'Fetch Split Data',
+      method: 'split_data_fetch',
+      path: '/v1#split_data_fetch',
+      params: [
+        { key: 'contract_id', type: 'string', required: true, default: 'contract_123' }
+      ],
+      successResponse: {
+        jsonrpc: '2.0',
+        id: '<string>',
+        result: {
+          success: true,
+          splits_data: [{}],
+          pagination: {}
+        }
+      },
+      errorResponse: {
+        jsonrpc: '2.0',
+        id: '1',
+        error: {
+          code: 0,
+          message: 'jwt must be provided'
+        }
+      }
+    },
+    'execute-payout': {
+      name: 'Execute Payout',
+      method: 'payout_execute',
+      path: '/v1#payout_execute',
+      params: [
+        { key: 'contract_id', type: 'string', required: true, default: 'contract_123' },
+        { key: 'amount', type: 'object', required: true, default: { value: '100', currency: 'USD' } }
+      ],
+      successResponse: {
+        jsonrpc: '2.0',
+        id: '<string>',
+        result: {
+          success: true,
+          payout_id: '<string>'
+        }
+      },
+      errorResponse: {
+        jsonrpc: '2.0',
+        id: '1',
+        error: {
+          code: 0,
+          message: 'jwt must be provided'
+        }
+      }
+    },
+    'query-batch-status': {
+      name: 'Query Batch Status',
+      method: 'batch_status_query',
+      path: '/v1#batch_status_query',
+      params: [
+        { key: 'batch_id', type: 'string', required: true, default: 'batch_123' }
+      ],
+      successResponse: {
+        jsonrpc: '2.0',
+        id: '<string>',
+        result: {
+          success: true,
+          batch_status: 'completed'
+        }
+      },
+      errorResponse: {
+        jsonrpc: '2.0',
+        id: '1',
+        error: {
+          code: 0,
+          message: 'jwt must be provided'
+        }
+      }
+    }
+  };
+
+  // Get current endpoint config
+  const currentEndpointConfig = playgroundEndpoints[playgroundEndpoint] || playgroundEndpoints['identity-lookup'];
+
+  // Handle endpoint change
+  const handlePlaygroundEndpointChange = (endpoint) => {
+    setPlaygroundEndpoint(endpoint);
+    const config = playgroundEndpoints[endpoint];
+    // Reset params based on new endpoint
+    const newParams = {};
+    config.params.forEach(p => {
+      newParams[p.key] = typeof p.default === 'object' ? JSON.stringify(p.default) : p.default;
+    });
+    setPlaygroundParams(newParams);
+    setPlaygroundResponse(null);
+    setPlaygroundEndpointDropdownOpen(false);
+  };
+
+  // Handle send request
+  const handlePlaygroundSend = () => {
+    setPlaygroundLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      if (!playgroundBearerToken) {
+        setPlaygroundResponse({
+          status: 200,
+          statusText: 'OK',
+          body: currentEndpointConfig.errorResponse
+        });
+      } else {
+        setPlaygroundResponse({
+          status: 200,
+          statusText: 'OK',
+          body: currentEndpointConfig.successResponse
+        });
+      }
+      setPlaygroundLoading(false);
+    }, 500);
+  };
+
+  // Generate cURL for playground
+  const generatePlaygroundCurl = () => {
+    const params = {};
+    Object.keys(playgroundParams).forEach(key => {
+      try {
+        params[key] = JSON.parse(playgroundParams[key]);
+      } catch {
+        params[key] = playgroundParams[key];
+      }
+    });
+
+    return `curl --request POST \\
+  --url 'https://share-ddn.formless.xyz${currentEndpointConfig.path}' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '
+{
+  "jsonrpc": "${playgroundJsonrpc}",
+  "id": "${playgroundId}",
+  "method": "${currentEndpointConfig.method}",
+  "params": ${JSON.stringify(params, null, 4).split('\n').join('\n    ')}
+}
+'`;
+  };
+
   // Set page title based on active section
   useEffect(() => {
     const titles = {
@@ -1523,7 +1731,9 @@ const ApiDocs = () => {
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#identity_get_by_email_address</code>
-                <button style={{
+                <button
+                  onClick={() => { handlePlaygroundEndpointChange('identity-lookup'); setTryItOpen(true); }}
+                  style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
@@ -3148,7 +3358,9 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#contracts_create</code>
-                <button style={{
+                <button
+                  onClick={() => { handlePlaygroundEndpointChange('create-contract'); setTryItOpen(true); }}
+                  style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
@@ -4271,7 +4483,9 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#splits_fetch_data</code>
-                <button style={{
+                <button
+                  onClick={() => { handlePlaygroundEndpointChange('fetch-split-data'); setTryItOpen(true); }}
+                  style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
@@ -5434,7 +5648,9 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
-                <button style={{
+                <button
+                  onClick={() => { handlePlaygroundEndpointChange('execute-payout'); setTryItOpen(true); }}
+                  style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
@@ -6468,7 +6684,9 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderLeft: `1px solid ${theme.border}`,
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
-                <button style={{
+                <button
+                  onClick={() => { handlePlaygroundEndpointChange('query-batch-status'); setTryItOpen(true); }}
+                  style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
                   fontSize: '14px',
@@ -7509,6 +7727,801 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
           }
         `}
       </style>
+
+      {/* API Playground Modal */}
+      {tryItOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: theme.bg,
+          zIndex: 2000,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}>
+          {/* Playground Header */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 24px',
+            borderBottom: `1px solid ${theme.border}`,
+            backgroundColor: theme.bgSecondary,
+          }}>
+            {/* Left side - Endpoint selector and URL */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1 }}>
+              {/* Endpoint Selector Dropdown */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setPlaygroundEndpointDropdownOpen(!playgroundEndpointDropdownOpen)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 12px',
+                    backgroundColor: theme.bgCard,
+                    border: `1px solid ${theme.border}`,
+                    borderRadius: '6px',
+                    color: theme.text,
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    minWidth: '200px',
+                  }}
+                >
+                  <span style={{
+                    backgroundColor: isDarkMode ? '#1a2744' : '#dbeafe',
+                    color: '#60a5fa',
+                    fontSize: '12px',
+                    fontWeight: '700',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                  }}>POST</span>
+                  <span style={{ fontWeight: '500' }}>{currentEndpointConfig.name}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: 'auto' }}>
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </button>
+                {playgroundEndpointDropdownOpen && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    marginTop: '4px',
+                    backgroundColor: theme.bgSecondary,
+                    border: `1px solid ${theme.border}`,
+                    borderRadius: '8px',
+                    padding: '4px 0',
+                    minWidth: '250px',
+                    zIndex: 1000,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                  }}>
+                    {/* Search input */}
+                    <div style={{ padding: '8px 12px', borderBottom: `1px solid ${theme.border}` }}>
+                      <input
+                        type="text"
+                        placeholder="Search for endpoint..."
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: theme.bgCard,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          color: theme.text,
+                          fontSize: '14px',
+                          outline: 'none',
+                        }}
+                      />
+                    </div>
+                    {Object.entries(playgroundEndpoints).map(([key, config]) => (
+                      <button
+                        key={key}
+                        className="dropdown-item"
+                        onClick={() => handlePlaygroundEndpointChange(key)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '10px 12px',
+                          background: playgroundEndpoint === key ? (isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)') : 'none',
+                          border: 'none',
+                          color: theme.text,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                        }}
+                      >
+                        <span style={{
+                          backgroundColor: isDarkMode ? '#1a2744' : '#dbeafe',
+                          color: '#60a5fa',
+                          fontSize: '11px',
+                          fontWeight: '700',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                        }}>POST</span>
+                        {config.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* URL Display */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: theme.bgCard,
+                border: `1px solid ${theme.border}`,
+                borderRadius: '6px',
+                flex: 1,
+                maxWidth: '500px',
+              }}>
+                <span style={{
+                  backgroundColor: isDarkMode ? '#1a2744' : '#dbeafe',
+                  color: '#60a5fa',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  padding: '10px 12px',
+                  borderRight: `1px solid ${theme.border}`,
+                }}>POST</span>
+                <code style={{
+                  flex: 1,
+                  fontSize: '13px',
+                  color: theme.textSecondary,
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  padding: '10px 12px',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}>{currentEndpointConfig.path}</code>
+              </div>
+            </div>
+
+            {/* Right side - Send button and Close */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <button
+                onClick={handlePlaygroundSend}
+                disabled={playgroundLoading}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 24px',
+                  backgroundColor: '#3064e3',
+                  border: 'none',
+                  borderRadius: '6px',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: playgroundLoading ? 'wait' : 'pointer',
+                  opacity: playgroundLoading ? 0.7 : 1,
+                }}
+              >
+                {playgroundLoading ? 'Sending...' : 'Send'}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+              </button>
+              <button
+                onClick={() => { setTryItOpen(false); setPlaygroundResponse(null); }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '36px',
+                  height: '36px',
+                  backgroundColor: 'transparent',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: '6px',
+                  color: theme.textMuted,
+                  cursor: 'pointer',
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Playground Body */}
+          <div style={{
+            display: 'flex',
+            flex: 1,
+            overflow: 'hidden',
+          }}>
+            {/* Left Panel - Form */}
+            <div style={{
+              flex: 1,
+              overflowY: 'auto',
+              padding: '24px',
+              borderRight: `1px solid ${theme.border}`,
+            }}>
+              {/* Page Title */}
+              <h2 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                marginBottom: '8px',
+              }}>{currentEndpointConfig.name}</h2>
+              <p style={{
+                fontSize: '14px',
+                color: theme.textMuted,
+                marginBottom: '24px',
+              }}>Retrieve user identity information by email address</p>
+
+              {/* Authorization Section */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                marginBottom: '16px',
+                overflow: 'hidden',
+              }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 16px',
+                    borderBottom: `1px solid ${theme.border}`,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                    <span style={{ fontWeight: '600', fontSize: '14px' }}>Authorization</span>
+                  </div>
+                </div>
+                <div style={{ padding: '16px' }}>
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '500', fontSize: '14px' }}>Authorization</span>
+                      <span style={{
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        color: theme.textMuted,
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>string{'<bearer>'}</span>
+                      <span style={{
+                        backgroundColor: '#7c3aed20',
+                        color: '#a78bfa',
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      backgroundColor: theme.bgSecondary,
+                      border: `1px solid ${theme.border}`,
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                    }}>
+                      <span style={{
+                        padding: '10px 12px',
+                        color: theme.textMuted,
+                        fontSize: '14px',
+                        borderRight: `1px solid ${theme.border}`,
+                        backgroundColor: theme.bgCard,
+                      }}>Bearer</span>
+                      <input
+                        type="text"
+                        placeholder="enter bearer token"
+                        value={playgroundBearerToken}
+                        onChange={(e) => setPlaygroundBearerToken(e.target.value)}
+                        style={{
+                          flex: 1,
+                          padding: '10px 12px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.text,
+                          fontSize: '14px',
+                          outline: 'none',
+                        }}
+                      />
+                    </div>
+                    <p style={{ fontSize: '12px', color: theme.textMuted, marginTop: '8px' }}>
+                      JWT token with Unique ID identification
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Body Section */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '8px',
+                border: `1px solid ${theme.border}`,
+                overflow: 'hidden',
+              }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 16px',
+                    borderBottom: `1px solid ${theme.border}`,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                    <span style={{ fontWeight: '600', fontSize: '14px' }}>Body</span>
+                  </div>
+                </div>
+                <div style={{ padding: '16px' }}>
+                  {/* jsonrpc field */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '500', fontSize: '14px' }}>jsonrpc</span>
+                      <span style={{
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        color: theme.textMuted,
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>enum{'<string>'}</span>
+                      <span style={{
+                        backgroundColor: '#7c3aed20',
+                        color: '#a78bfa',
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <div style={{ position: 'relative' }}>
+                      <button
+                        onClick={() => setPlaygroundJsonrpcDropdownOpen(!playgroundJsonrpcDropdownOpen)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          padding: '10px 12px',
+                          backgroundColor: theme.bgSecondary,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          color: theme.text,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {playgroundJsonrpc}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                      </button>
+                      {playgroundJsonrpcDropdownOpen && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '100%',
+                          left: 0,
+                          right: 0,
+                          marginTop: '4px',
+                          backgroundColor: theme.bgSecondary,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          zIndex: 100,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        }}>
+                          <div style={{ padding: '4px 8px', color: theme.textMuted, fontSize: '12px' }}>select jsonrpc</div>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => { setPlaygroundJsonrpc('2.0'); setPlaygroundJsonrpcDropdownOpen(false); }}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              padding: '8px 12px',
+                              background: playgroundJsonrpc === '2.0' ? '#3064e3' : 'none',
+                              border: 'none',
+                              color: playgroundJsonrpc === '2.0' ? 'white' : theme.text,
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              textAlign: 'left',
+                            }}
+                          >
+                            2.0
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* id field */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '500', fontSize: '14px' }}>id</span>
+                      <span style={{
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        color: theme.textMuted,
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>string</span>
+                      <span style={{
+                        backgroundColor: '#7c3aed20',
+                        color: '#a78bfa',
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <input
+                      type="text"
+                      value={playgroundId}
+                      onChange={(e) => setPlaygroundId(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '10px 12px',
+                        backgroundColor: theme.bgSecondary,
+                        border: `1px solid ${theme.border}`,
+                        borderRadius: '6px',
+                        color: theme.text,
+                        fontSize: '14px',
+                        outline: 'none',
+                      }}
+                    />
+                  </div>
+
+                  {/* method field */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '500', fontSize: '14px' }}>method</span>
+                      <span style={{
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        color: theme.textMuted,
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>enum{'<string>'}</span>
+                      <span style={{
+                        backgroundColor: '#7c3aed20',
+                        color: '#a78bfa',
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                    </div>
+                    <div style={{ position: 'relative' }}>
+                      <button
+                        onClick={() => setPlaygroundMethodDropdownOpen(!playgroundMethodDropdownOpen)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          padding: '10px 12px',
+                          backgroundColor: theme.bgSecondary,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          color: theme.text,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {currentEndpointConfig.method}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                      </button>
+                      {playgroundMethodDropdownOpen && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '100%',
+                          left: 0,
+                          right: 0,
+                          marginTop: '4px',
+                          backgroundColor: theme.bgSecondary,
+                          border: `1px solid ${theme.border}`,
+                          borderRadius: '6px',
+                          zIndex: 100,
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                        }}>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => setPlaygroundMethodDropdownOpen(false)}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              padding: '8px 12px',
+                              background: '#3064e3',
+                              border: 'none',
+                              color: 'white',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              textAlign: 'left',
+                            }}
+                          >
+                            {currentEndpointConfig.method}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* params section */}
+                  <div style={{ marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '500', fontSize: '14px' }}>params</span>
+                      <span style={{
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        color: theme.textMuted,
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>object</span>
+                      <span style={{
+                        backgroundColor: '#7c3aed20',
+                        color: '#a78bfa',
+                        fontSize: '11px',
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                      }}>required</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2" style={{ marginLeft: 'auto', cursor: 'pointer' }}>
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    </div>
+
+                    {/* Params fields */}
+                    <div style={{
+                      marginLeft: '16px',
+                      paddingLeft: '16px',
+                      borderLeft: `2px solid ${theme.border}`,
+                    }}>
+                      {currentEndpointConfig.params.map((param) => (
+                        <div key={param.key} style={{ marginBottom: '16px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                            <span style={{ fontWeight: '500', fontSize: '14px' }}>params.{param.key}</span>
+                            <span style={{
+                              backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                              color: theme.textMuted,
+                              fontSize: '11px',
+                              padding: '2px 6px',
+                              borderRadius: '4px',
+                            }}>{param.type}</span>
+                            {param.required && (
+                              <span style={{
+                                backgroundColor: '#7c3aed20',
+                                color: '#a78bfa',
+                                fontSize: '11px',
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                              }}>required</span>
+                            )}
+                          </div>
+                          <input
+                            type="text"
+                            value={playgroundParams[param.key] || ''}
+                            onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
+                            style={{
+                              width: '100%',
+                              padding: '10px 12px',
+                              backgroundColor: theme.bgSecondary,
+                              border: `1px solid ${theme.border}`,
+                              borderRadius: '6px',
+                              color: theme.text,
+                              fontSize: '14px',
+                              outline: 'none',
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Add new property button */}
+                  <button style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '8px 12px',
+                    backgroundColor: 'transparent',
+                    border: `1px dashed ${theme.border}`,
+                    borderRadius: '6px',
+                    color: theme.textMuted,
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    width: '100%',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Add new property
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Panel - Code and Response */}
+            <div style={{
+              width: '50%',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+            }}>
+              {/* cURL Panel */}
+              <div style={{
+                flex: playgroundResponse ? 1 : 2,
+                backgroundColor: theme.bgCard,
+                borderBottom: `1px solid ${theme.border}`,
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '12px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                  backgroundColor: theme.bgSecondary,
+                }}>
+                  <span style={{ fontWeight: '600', fontSize: '14px' }}>{currentEndpointConfig.name}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      backgroundColor: theme.bgTertiary,
+                      padding: '4px 10px',
+                      borderRadius: '4px',
+                    }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                      </svg>
+                      <span style={{ color: theme.textMuted, fontSize: '12px' }}>cURL</span>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    </div>
+                    <button
+                      onClick={() => copyToClipboard(generatePlaygroundCurl(), 'playground-curl')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '28px',
+                        height: '28px',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        color: theme.textMuted,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {copiedCode === 'playground-curl' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      ) : (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
+                <pre style={{
+                  flex: 1,
+                  margin: 0,
+                  padding: '16px',
+                  fontSize: '13px',
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  color: theme.textSecondary,
+                  backgroundColor: '#1a1a2e',
+                  overflow: 'auto',
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-all',
+                }}>
+                  <code>
+                    <span style={{ color: '#ff79c6' }}>curl</span> --request <span style={{ color: '#8be9fd' }}>POST</span> \{'\n'}
+                    {'  '}--url <span style={{ color: '#f1fa8c' }}>'https://share-ddn.formless.xyz{currentEndpointConfig.path}'</span> \{'\n'}
+                    {'  '}--header <span style={{ color: '#f1fa8c' }}>'Authorization: Bearer {'<token>'}'</span> \{'\n'}
+                    {'  '}--header <span style={{ color: '#f1fa8c' }}>'Content-Type: application/json'</span> \{'\n'}
+                    {'  '}--data <span style={{ color: '#f1fa8c' }}>'</span>{'\n'}
+                    <span style={{ color: '#f8f8f2' }}>{JSON.stringify({
+                      jsonrpc: playgroundJsonrpc,
+                      id: playgroundId,
+                      method: currentEndpointConfig.method,
+                      params: playgroundParams
+                    }, null, 2)}</span>{'\n'}
+                    <span style={{ color: '#f1fa8c' }}>'</span>
+                  </code>
+                </pre>
+              </div>
+
+              {/* Response Panel */}
+              {playgroundResponse && (
+                <div style={{
+                  flex: 1,
+                  backgroundColor: theme.bgCard,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 16px',
+                    borderBottom: `1px solid ${theme.border}`,
+                    backgroundColor: theme.bgSecondary,
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="16 12 12 8 8 12"/>
+                        <line x1="12" y1="16" x2="12" y2="8"/>
+                      </svg>
+                      <span style={{ color: '#22c55e', fontWeight: '600', fontSize: '14px' }}>
+                        {playgroundResponse.status} - {playgroundResponse.statusText}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        backgroundColor: theme.bgTertiary,
+                        padding: '4px 10px',
+                        borderRadius: '4px',
+                        color: theme.textMuted,
+                        fontSize: '12px',
+                      }}>Body</span>
+                      <button
+                        onClick={() => copyToClipboard(JSON.stringify(playgroundResponse.body, null, 2), 'playground-response')}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '28px',
+                          height: '28px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.textMuted,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {copiedCode === 'playground-response' ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        ) : (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <pre style={{
+                    flex: 1,
+                    margin: 0,
+                    padding: '16px',
+                    fontSize: '13px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    color: theme.textSecondary,
+                    backgroundColor: '#1a1a2e',
+                    overflow: 'auto',
+                  }}>
+                    <code>{JSON.stringify(playgroundResponse.body, null, 2)}</code>
+                  </pre>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   );
