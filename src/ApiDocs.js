@@ -7888,21 +7888,21 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 24px',
-                  backgroundColor: '#3064e3',
+                  gap: '6px',
+                  padding: '10px 20px',
+                  backgroundColor: '#3b82f6',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '8px',
                   color: 'white',
-                  fontSize: '14px',
+                  fontSize: '15px',
                   fontWeight: '600',
                   cursor: playgroundLoading ? 'wait' : 'pointer',
                   opacity: playgroundLoading ? 0.7 : 1,
                 }}
               >
                 {playgroundLoading ? 'Sending...' : 'Send'}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
               <button
@@ -7911,16 +7911,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '36px',
-                  height: '36px',
+                  width: '40px',
+                  height: '40px',
                   backgroundColor: 'transparent',
-                  border: `1px solid ${theme.border}`,
-                  borderRadius: '6px',
+                  border: 'none',
                   color: theme.textMuted,
                   cursor: 'pointer',
                 }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
               </button>
@@ -7937,79 +7936,77 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
             <div style={{
               flex: 1,
               overflowY: 'auto',
-              padding: '24px',
+              padding: '24px 32px',
               borderRight: `1px solid ${theme.border}`,
+              backgroundColor: theme.bg,
             }}>
               {/* Page Title */}
               <h2 style={{
-                fontSize: '24px',
+                fontSize: '28px',
                 fontWeight: '700',
                 marginBottom: '8px',
+                color: theme.text,
               }}>{currentEndpointConfig.name}</h2>
               <p style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 color: theme.textMuted,
-                marginBottom: '24px',
+                marginBottom: '32px',
               }}>Retrieve user identity information by email address</p>
 
               {/* Authorization Section */}
               <div style={{
-                backgroundColor: theme.bgCard,
-                borderRadius: '8px',
-                border: `1px solid ${theme.border}`,
-                marginBottom: '16px',
-                overflow: 'hidden',
+                marginBottom: '24px',
               }}>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 16px',
+                    gap: '8px',
+                    padding: '14px 0',
                     borderBottom: `1px solid ${theme.border}`,
                     cursor: 'pointer',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                      <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                    <span style={{ fontWeight: '600', fontSize: '14px' }}>Authorization</span>
-                  </div>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2.5">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                  <span style={{ fontWeight: '600', fontSize: '15px', color: theme.text }}>Authorization</span>
                 </div>
-                <div style={{ padding: '16px' }}>
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontWeight: '500', fontSize: '14px' }}>Authorization</span>
+                <div style={{ padding: '20px 0' }}>
+                  <div style={{ marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>Authorization</span>
                       <span style={{
-                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                         color: theme.textMuted,
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontFamily: 'Monaco, Consolas, monospace',
                       }}>string{'<bearer>'}</span>
                       <span style={{
-                        backgroundColor: '#7c3aed20',
-                        color: '#a78bfa',
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                        color: '#a855f7',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontWeight: '500',
                       }}>required</span>
                     </div>
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
-                      backgroundColor: theme.bgSecondary,
-                      border: `1px solid ${theme.border}`,
-                      borderRadius: '6px',
+                      backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
+                      borderRadius: '8px',
                       overflow: 'hidden',
+                      border: `1px solid ${theme.border}`,
                     }}>
                       <span style={{
-                        padding: '10px 12px',
+                        padding: '12px 16px',
                         color: theme.textMuted,
                         fontSize: '14px',
+                        backgroundColor: isDarkMode ? '#111827' : '#f3f4f6',
                         borderRight: `1px solid ${theme.border}`,
-                        backgroundColor: theme.bgCard,
                       }}>Bearer</span>
                       <input
                         type="text"
@@ -8018,7 +8015,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         onChange={(e) => setPlaygroundBearerToken(e.target.value)}
                         style={{
                           flex: 1,
-                          padding: '10px 12px',
+                          padding: '12px 16px',
                           backgroundColor: 'transparent',
                           border: 'none',
                           color: theme.text,
@@ -8027,7 +8024,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         }}
                       />
                     </div>
-                    <p style={{ fontSize: '12px', color: theme.textMuted, marginTop: '8px' }}>
+                    <p style={{ fontSize: '13px', color: theme.textMuted, marginTop: '10px' }}>
                       JWT token with Unique ID identification
                     </p>
                   </div>
@@ -8036,46 +8033,43 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
 
               {/* Body Section */}
               <div style={{
-                backgroundColor: theme.bgCard,
-                borderRadius: '8px',
-                border: `1px solid ${theme.border}`,
-                overflow: 'hidden',
+                marginBottom: '24px',
               }}>
                 <div
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '12px 16px',
+                    gap: '8px',
+                    padding: '14px 0',
                     borderBottom: `1px solid ${theme.border}`,
                     cursor: 'pointer',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                      <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                    <span style={{ fontWeight: '600', fontSize: '14px' }}>Body</span>
-                  </div>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2.5">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                  <span style={{ fontWeight: '600', fontSize: '15px', color: theme.text }}>Body</span>
                 </div>
-                <div style={{ padding: '16px' }}>
+                <div style={{ padding: '20px 0' }}>
                   {/* jsonrpc field */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontWeight: '500', fontSize: '14px' }}>jsonrpc</span>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>jsonrpc</span>
                       <span style={{
-                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                         color: theme.textMuted,
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontFamily: 'Monaco, Consolas, monospace',
                       }}>enum{'<string>'}</span>
                       <span style={{
-                        backgroundColor: '#7c3aed20',
-                        color: '#a78bfa',
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                        color: '#a855f7',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontWeight: '500',
                       }}>required</span>
                     </div>
                     <div style={{ position: 'relative' }}>
@@ -8086,17 +8080,17 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                           alignItems: 'center',
                           justifyContent: 'space-between',
                           width: '100%',
-                          padding: '10px 12px',
-                          backgroundColor: theme.bgSecondary,
+                          padding: '12px 16px',
+                          backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
                           border: `1px solid ${theme.border}`,
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           color: theme.text,
                           fontSize: '14px',
                           cursor: 'pointer',
                         }}
                       >
                         {playgroundJsonrpc}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                           <path d="M6 9l6 6 6-6"/>
                         </svg>
                       </button>
@@ -8137,22 +8131,24 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   </div>
 
                   {/* id field */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontWeight: '500', fontSize: '14px' }}>id</span>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>id</span>
                       <span style={{
-                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                         color: theme.textMuted,
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontFamily: 'Monaco, Consolas, monospace',
                       }}>string</span>
                       <span style={{
-                        backgroundColor: '#7c3aed20',
-                        color: '#a78bfa',
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                        color: '#a855f7',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontWeight: '500',
                       }}>required</span>
                     </div>
                     <input
@@ -8161,10 +8157,10 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                       onChange={(e) => setPlaygroundId(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: '10px 12px',
-                        backgroundColor: theme.bgSecondary,
+                        padding: '12px 16px',
+                        backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
                         border: `1px solid ${theme.border}`,
-                        borderRadius: '6px',
+                        borderRadius: '8px',
                         color: theme.text,
                         fontSize: '14px',
                         outline: 'none',
@@ -8173,22 +8169,24 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   </div>
 
                   {/* method field */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontWeight: '500', fontSize: '14px' }}>method</span>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>method</span>
                       <span style={{
-                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                         color: theme.textMuted,
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontFamily: 'Monaco, Consolas, monospace',
                       }}>enum{'<string>'}</span>
                       <span style={{
-                        backgroundColor: '#7c3aed20',
-                        color: '#a78bfa',
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                        color: '#a855f7',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontWeight: '500',
                       }}>required</span>
                     </div>
                     <div style={{ position: 'relative' }}>
@@ -8199,17 +8197,17 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                           alignItems: 'center',
                           justifyContent: 'space-between',
                           width: '100%',
-                          padding: '10px 12px',
-                          backgroundColor: theme.bgSecondary,
+                          padding: '12px 16px',
+                          backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
                           border: `1px solid ${theme.border}`,
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           color: theme.text,
                           fontSize: '14px',
                           cursor: 'pointer',
                         }}
                       >
                         {currentEndpointConfig.method}
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
                           <path d="M6 9l6 6 6-6"/>
                         </svg>
                       </button>
@@ -8249,22 +8247,24 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   </div>
 
                   {/* params section */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                      <span style={{ fontWeight: '500', fontSize: '14px' }}>params</span>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>params</span>
                       <span style={{
-                        backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                        backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                         color: theme.textMuted,
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontFamily: 'Monaco, Consolas, monospace',
                       }}>object</span>
                       <span style={{
-                        backgroundColor: '#7c3aed20',
-                        color: '#a78bfa',
-                        fontSize: '11px',
-                        padding: '2px 6px',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                        color: '#a855f7',
+                        fontSize: '12px',
+                        padding: '3px 8px',
                         borderRadius: '4px',
+                        fontWeight: '500',
                       }}>required</span>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2" style={{ marginLeft: 'auto', cursor: 'pointer' }}>
                         <path d="M6 9l6 6 6-6"/>
@@ -8273,28 +8273,30 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
 
                     {/* Params fields */}
                     <div style={{
-                      marginLeft: '16px',
+                      marginLeft: '12px',
                       paddingLeft: '16px',
                       borderLeft: `2px solid ${theme.border}`,
                     }}>
                       {currentEndpointConfig.params.map((param) => (
-                        <div key={param.key} style={{ marginBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                            <span style={{ fontWeight: '500', fontSize: '14px' }}>params.{param.key}</span>
+                        <div key={param.key} style={{ marginBottom: '20px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                            <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>params.{param.key}</span>
                             <span style={{
-                              backgroundColor: isDarkMode ? '#1f2937' : '#f3f4f6',
+                              backgroundColor: isDarkMode ? '#374151' : '#e5e7eb',
                               color: theme.textMuted,
-                              fontSize: '11px',
-                              padding: '2px 6px',
+                              fontSize: '12px',
+                              padding: '3px 8px',
                               borderRadius: '4px',
+                              fontFamily: 'Monaco, Consolas, monospace',
                             }}>{param.type}</span>
                             {param.required && (
                               <span style={{
-                                backgroundColor: '#7c3aed20',
-                                color: '#a78bfa',
-                                fontSize: '11px',
-                                padding: '2px 6px',
+                                backgroundColor: 'rgba(168, 85, 247, 0.15)',
+                                color: '#a855f7',
+                                fontSize: '12px',
+                                padding: '3px 8px',
                                 borderRadius: '4px',
+                                fontWeight: '500',
                               }}>required</span>
                             )}
                           </div>
@@ -8304,10 +8306,10 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                             onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
                             style={{
                               width: '100%',
-                              padding: '10px 12px',
-                              backgroundColor: theme.bgSecondary,
+                              padding: '12px 16px',
+                              backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
                               border: `1px solid ${theme.border}`,
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               color: theme.text,
                               fontSize: '14px',
                               outline: 'none',
@@ -8323,15 +8325,14 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    padding: '8px 12px',
+                    padding: '12px 16px',
                     backgroundColor: 'transparent',
-                    border: `1px dashed ${theme.border}`,
-                    borderRadius: '6px',
+                    border: `1px solid ${theme.border}`,
+                    borderRadius: '8px',
                     color: theme.textMuted,
                     fontSize: '14px',
                     cursor: 'pointer',
-                    width: '100%',
-                    justifyContent: 'center',
+                    width: 'fit-content',
                   }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M12 5v14M5 12h14"/>
