@@ -969,12 +969,19 @@ const ApiDocs = () => {
             gap: '16px',
           }}>
             {/* Account Management Card */}
-            <div style={{
-              backgroundColor: theme.bgCard,
-              borderRadius: '12px',
-              padding: '24px',
-              border: `1px solid ${theme.border}`,
-            }}>
+            <div
+              onClick={() => setActiveSection('identity-lookup')}
+              style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                padding: '24px',
+                border: `1px solid ${theme.border}`,
+                cursor: 'pointer',
+                transition: 'border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = theme.textMuted}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = theme.border}
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
@@ -997,12 +1004,19 @@ const ApiDocs = () => {
             </div>
 
             {/* Revenue Sharing Card */}
-            <div style={{
-              backgroundColor: theme.bgCard,
-              borderRadius: '12px',
-              padding: '24px',
-              border: `1px solid ${theme.border}`,
-            }}>
+            <div
+              onClick={() => setActiveSection('create-contract')}
+              style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                padding: '24px',
+                border: `1px solid ${theme.border}`,
+                cursor: 'pointer',
+                transition: 'border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = theme.textMuted}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = theme.border}
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <circle cx="18" cy="5" r="3"/>
                 <circle cx="6" cy="12" r="3"/>
@@ -1027,12 +1041,19 @@ const ApiDocs = () => {
             </div>
 
             {/* Payouts Card */}
-            <div style={{
-              backgroundColor: theme.bgCard,
-              borderRadius: '12px',
-              padding: '24px',
-              border: `1px solid ${theme.border}`,
-            }}>
+            <div
+              onClick={() => setActiveSection('execute-payout')}
+              style={{
+                backgroundColor: theme.bgCard,
+                borderRadius: '12px',
+                padding: '24px',
+                border: `1px solid ${theme.border}`,
+                cursor: 'pointer',
+                transition: 'border-color 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = theme.textMuted}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = theme.border}
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" style={{ marginBottom: '16px' }}>
                 <rect x="2" y="4" width="20" height="16" rx="2"/>
                 <circle cx="12" cy="12" r="4"/>
