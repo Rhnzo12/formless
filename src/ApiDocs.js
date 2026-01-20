@@ -7985,8 +7985,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontFamily: 'Monaco, Consolas, monospace',
                       }}>string{'<bearer>'}</span>
                       <span style={{
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        color: '#a855f7',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         padding: '3px 8px',
                         borderRadius: '4px',
@@ -8064,8 +8064,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontFamily: 'Monaco, Consolas, monospace',
                       }}>enum{'<string>'}</span>
                       <span style={{
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        color: '#a855f7',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         padding: '3px 8px',
                         borderRadius: '4px',
@@ -8143,8 +8143,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontFamily: 'Monaco, Consolas, monospace',
                       }}>string</span>
                       <span style={{
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        color: '#a855f7',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         padding: '3px 8px',
                         borderRadius: '4px',
@@ -8181,8 +8181,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontFamily: 'Monaco, Consolas, monospace',
                       }}>enum{'<string>'}</span>
                       <span style={{
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        color: '#a855f7',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         padding: '3px 8px',
                         borderRadius: '4px',
@@ -8259,8 +8259,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontFamily: 'Monaco, Consolas, monospace',
                       }}>object</span>
                       <span style={{
-                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                        color: '#a855f7',
+                        backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                        color: '#f25c5c',
                         fontSize: '12px',
                         padding: '3px 8px',
                         borderRadius: '4px',
@@ -8291,8 +8291,8 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                             }}>{param.type}</span>
                             {param.required && (
                               <span style={{
-                                backgroundColor: 'rgba(168, 85, 247, 0.15)',
-                                color: '#a855f7',
+                                backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                                color: '#f25c5c',
                                 fontSize: '12px',
                                 padding: '3px 8px',
                                 borderRadius: '4px',
@@ -8449,7 +8449,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     fontSize: '13px',
                     fontFamily: 'Monaco, Consolas, monospace',
                     color: theme.textSecondary,
-                    backgroundColor: '#1a1a2e',
+                    backgroundColor: 'transparent',
                     overflow: 'auto',
                   }}>
                     <code>{JSON.stringify(playgroundResponse.body, null, 2)}</code>
@@ -8529,7 +8529,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   fontSize: '13px',
                   fontFamily: 'Monaco, Consolas, monospace',
                   color: theme.textSecondary,
-                  backgroundColor: '#1a1a2e',
+                  backgroundColor: 'transparent',
                   overflow: 'auto',
                   lineHeight: '1.6',
                 }}>
