@@ -970,7 +970,7 @@ const ApiDocs = () => {
           }}>
             {/* Account Management Card */}
             <div
-              onClick={() => setActiveSection('identity-lookup')}
+              onClick={() => scrollToSection('identity-lookup')}
               style={{
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
@@ -1005,7 +1005,7 @@ const ApiDocs = () => {
 
             {/* Revenue Sharing Card */}
             <div
-              onClick={() => setActiveSection('create-contract')}
+              onClick={() => scrollToSection('create-contract')}
               style={{
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
@@ -1042,7 +1042,7 @@ const ApiDocs = () => {
 
             {/* Payouts Card */}
             <div
-              onClick={() => setActiveSection('execute-payout')}
+              onClick={() => scrollToSection('execute-payout')}
               style={{
                 backgroundColor: theme.bgCard,
                 borderRadius: '12px',
