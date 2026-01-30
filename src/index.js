@@ -18,6 +18,11 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/about" element={<About />} />
         <Route path="/api-docs" element={<ApiDocs />} />
+        <Route path="/api-docs/account-management/identity-lookup" element={<ApiDocs />} />
+        <Route path="/api-docs/revenue-sharing/create-contract" element={<ApiDocs />} />
+        <Route path="/api-docs/revenue-sharing/fetch-split-data" element={<ApiDocs />} />
+        <Route path="/api-docs/payouts/execute-payout" element={<ApiDocs />} />
+        <Route path="/api-docs/payouts/query-batch-status" element={<ApiDocs />} />
         <Route path="/api-docs/markdown" element={<MarkdownView />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/contact" element={<Contact />} />
