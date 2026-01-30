@@ -51,34 +51,54 @@ const PlaygroundView = ({
         .pg-trash:hover { opacity: 1 !important; color: #ef4444 !important; }
         .pg-input:focus { border-color: #444 !important; }
 
-        /* Custom scrollbar for left panel - on right edge */
+        /* Custom scrollbar for left panel - on right edge with blur effect */
         .pg-left-panel::-webkit-scrollbar {
-          width: 6px;
+          width: 10px;
         }
         .pg-left-panel::-webkit-scrollbar-track {
-          background: transparent;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 5px;
+          margin: 8px 0;
         }
         .pg-left-panel::-webkit-scrollbar-thumb {
-          background-color: #333;
-          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
         }
         .pg-left-panel::-webkit-scrollbar-thumb:hover {
-          background-color: #444;
+          background: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
         }
 
-        /* Custom scrollbar for right panel - on right edge */
+        /* Firefox scrollbar with blur effect for left panel */
+        .pg-left-panel {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+        }
+
+        /* Custom scrollbar for right panel - single scrollbar with blur effect */
         .pg-right-panel::-webkit-scrollbar {
-          width: 6px;
+          width: 10px;
         }
         .pg-right-panel::-webkit-scrollbar-track {
-          background: transparent;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 5px;
+          margin: 8px 0;
         }
         .pg-right-panel::-webkit-scrollbar-thumb {
-          background-color: #333;
-          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
         }
         .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background-color: #444;
+          background: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Firefox scrollbar with blur effect */
+        .pg-right-panel {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
         }
       `}</style>
 
@@ -604,15 +624,13 @@ const PlaygroundView = ({
               width: '55%',
               display: 'flex',
               flexDirection: 'column',
-              overflow: 'hidden',
+              overflowY: 'auto',
               backgroundColor: '#0a0a0a',
             }}
           >
             {/* Response Section */}
             <div style={{
-              flex: 1,
               padding: '20px',
-              overflowY: 'auto',
               borderBottom: '1px solid #1a1a1a',
             }}>
               <pre style={{
@@ -623,7 +641,6 @@ const PlaygroundView = ({
                 fontSize: '13px',
                 fontFamily: 'Monaco, Menlo, Consolas, monospace',
                 lineHeight: '1.7',
-                overflow: 'auto',
               }}>
                 <code>
                   <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
@@ -640,11 +657,8 @@ const PlaygroundView = ({
 
             {/* cURL Section */}
             <div
-              className="pg-right-panel"
               style={{
-                flex: 1,
                 padding: '20px',
-                overflowY: 'auto',
               }}
             >
               <pre style={{
@@ -652,7 +666,6 @@ const PlaygroundView = ({
                 fontSize: '13px',
                 fontFamily: 'Monaco, Menlo, Consolas, monospace',
                 lineHeight: '1.7',
-                overflow: 'auto',
                 color: '#888',
               }}>
                 <code>
