@@ -17,6 +17,7 @@ const PlaygroundView = ({
   playgroundLoading,
   handlePlaygroundSend,
   handlePlaygroundEndpointChange,
+  onClose,
 }) => {
   const navigate = useNavigate();
   const [endpointDropdownOpen, setEndpointDropdownOpen] = useState(false);
@@ -33,9 +34,13 @@ const PlaygroundView = ({
     'query-batch-status': '/api-docs/payouts/query-batch-status',
   };
 
-  // Close modal and go back to docs
+  // Close modal
   const closeModal = () => {
-    navigate('/api-docs');
+    if (onClose) {
+      onClose();
+    } else {
+      navigate('/api-docs');
+    }
   };
 
   return (
