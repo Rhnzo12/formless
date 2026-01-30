@@ -8072,61 +8072,85 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontWeight: '500',
                       }}>required</span>
                     </div>
-                    <div style={{ position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ position: 'relative', flex: 1 }}>
+                        <button
+                          onClick={() => setPlaygroundJsonrpcDropdownOpen(!playgroundJsonrpcDropdownOpen)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            padding: '12px 16px',
+                            backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
+                            border: `1px solid ${theme.border}`,
+                            borderRadius: '8px',
+                            color: theme.text,
+                            fontSize: '14px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {playgroundJsonrpc}
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                            <path d="M6 9l6 6 6-6"/>
+                          </svg>
+                        </button>
+                        {playgroundJsonrpcDropdownOpen && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            right: 0,
+                            marginTop: '4px',
+                            backgroundColor: theme.bgSecondary,
+                            border: `1px solid ${theme.border}`,
+                            borderRadius: '6px',
+                            zIndex: 100,
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          }}>
+                            <div style={{ padding: '4px 8px', color: theme.textMuted, fontSize: '12px' }}>select jsonrpc</div>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => { setPlaygroundJsonrpc('2.0'); setPlaygroundJsonrpcDropdownOpen(false); }}
+                              style={{
+                                display: 'block',
+                                width: '100%',
+                                padding: '8px 12px',
+                                background: playgroundJsonrpc === '2.0' ? '#3064e3' : 'none',
+                                border: 'none',
+                                color: playgroundJsonrpc === '2.0' ? 'white' : theme.text,
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                                textAlign: 'left',
+                              }}
+                            >
+                              2.0
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {/* Trash icon */}
                       <button
-                        onClick={() => setPlaygroundJsonrpcDropdownOpen(!playgroundJsonrpcDropdownOpen)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          padding: '12px 16px',
-                          backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
-                          border: `1px solid ${theme.border}`,
-                          borderRadius: '8px',
-                          color: theme.text,
-                          fontSize: '14px',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '44px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.textMuted,
                           cursor: 'pointer',
+                          opacity: 0.6,
                         }}
                       >
-                        {playgroundJsonrpc}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                          <path d="M6 9l6 6 6-6"/>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
                         </svg>
                       </button>
-                      {playgroundJsonrpcDropdownOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: 0,
-                          right: 0,
-                          marginTop: '4px',
-                          backgroundColor: theme.bgSecondary,
-                          border: `1px solid ${theme.border}`,
-                          borderRadius: '6px',
-                          zIndex: 100,
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                        }}>
-                          <div style={{ padding: '4px 8px', color: theme.textMuted, fontSize: '12px' }}>select jsonrpc</div>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => { setPlaygroundJsonrpc('2.0'); setPlaygroundJsonrpcDropdownOpen(false); }}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              padding: '8px 12px',
-                              background: playgroundJsonrpc === '2.0' ? '#3064e3' : 'none',
-                              border: 'none',
-                              color: playgroundJsonrpc === '2.0' ? 'white' : theme.text,
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                              textAlign: 'left',
-                            }}
-                          >
-                            2.0
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -8189,60 +8213,84 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                         fontWeight: '500',
                       }}>required</span>
                     </div>
-                    <div style={{ position: 'relative' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ position: 'relative', flex: 1 }}>
+                        <button
+                          onClick={() => setPlaygroundMethodDropdownOpen(!playgroundMethodDropdownOpen)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            padding: '12px 16px',
+                            backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
+                            border: `1px solid ${theme.border}`,
+                            borderRadius: '8px',
+                            color: theme.text,
+                            fontSize: '14px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          {currentEndpointConfig.method}
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
+                            <path d="M6 9l6 6 6-6"/>
+                          </svg>
+                        </button>
+                        {playgroundMethodDropdownOpen && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            right: 0,
+                            marginTop: '4px',
+                            backgroundColor: theme.bgSecondary,
+                            border: `1px solid ${theme.border}`,
+                            borderRadius: '6px',
+                            zIndex: 100,
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                          }}>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => setPlaygroundMethodDropdownOpen(false)}
+                              style={{
+                                display: 'block',
+                                width: '100%',
+                                padding: '8px 12px',
+                                background: '#3064e3',
+                                border: 'none',
+                                color: 'white',
+                                fontSize: '14px',
+                                cursor: 'pointer',
+                                textAlign: 'left',
+                              }}
+                            >
+                              {currentEndpointConfig.method}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {/* Trash icon */}
                       <button
-                        onClick={() => setPlaygroundMethodDropdownOpen(!playgroundMethodDropdownOpen)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          padding: '12px 16px',
-                          backgroundColor: isDarkMode ? '#1f2937' : '#f9fafb',
-                          border: `1px solid ${theme.border}`,
-                          borderRadius: '8px',
-                          color: theme.text,
-                          fontSize: '14px',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '44px',
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          color: theme.textMuted,
                           cursor: 'pointer',
+                          opacity: 0.6,
                         }}
                       >
-                        {currentEndpointConfig.method}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={theme.textMuted} strokeWidth="2">
-                          <path d="M6 9l6 6 6-6"/>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                          <line x1="10" y1="11" x2="10" y2="17"/>
+                          <line x1="14" y1="11" x2="14" y2="17"/>
                         </svg>
                       </button>
-                      {playgroundMethodDropdownOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: 0,
-                          right: 0,
-                          marginTop: '4px',
-                          backgroundColor: theme.bgSecondary,
-                          border: `1px solid ${theme.border}`,
-                          borderRadius: '6px',
-                          zIndex: 100,
-                          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                        }}>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => setPlaygroundMethodDropdownOpen(false)}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              padding: '8px 12px',
-                              background: '#3064e3',
-                              border: 'none',
-                              color: 'white',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                              textAlign: 'left',
-                            }}
-                          >
-                            {currentEndpointConfig.method}
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -8456,6 +8504,65 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                   </pre>
                 </div>
               )}
+
+              {/* Example Response Schema Panel (200) */}
+              <div style={{
+                backgroundColor: theme.bgCard,
+                borderBottom: `1px solid ${theme.border}`,
+                display: 'flex',
+                flexDirection: 'column',
+                maxHeight: '300px',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                  backgroundColor: theme.bgSecondary,
+                  minHeight: '44px',
+                }}>
+                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>200</span>
+                  <button
+                    onClick={() => copyToClipboard(JSON.stringify(currentEndpointConfig.successResponse, null, 2), 'playground-schema')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '32px',
+                      height: '32px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.textMuted,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {copiedCode === 'playground-schema' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                <pre className="code-panel-scroll" style={{
+                  flex: 1,
+                  margin: 0,
+                  padding: '16px',
+                  fontSize: '13px',
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  color: theme.textSecondary,
+                  backgroundColor: 'transparent',
+                  overflow: 'auto',
+                  lineHeight: '1.6',
+                }}>
+                  <code>{JSON.stringify(currentEndpointConfig.successResponse, null, 2)}</code>
+                </pre>
+              </div>
 
               {/* cURL Panel - Always at bottom */}
               <div style={{
