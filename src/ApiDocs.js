@@ -8505,72 +8505,13 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                 </div>
               )}
 
-              {/* Example Response Schema Panel (200) */}
+              {/* cURL Panel - At top */}
               <div style={{
                 backgroundColor: theme.bgCard,
                 borderBottom: `1px solid ${theme.border}`,
                 display: 'flex',
                 flexDirection: 'column',
-                maxHeight: '300px',
-              }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '10px 16px',
-                  borderBottom: `1px solid ${theme.border}`,
-                  backgroundColor: theme.bgSecondary,
-                  minHeight: '44px',
-                }}>
-                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>200</span>
-                  <button
-                    onClick={() => copyToClipboard(JSON.stringify(currentEndpointConfig.successResponse, null, 2), 'playground-schema')}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '32px',
-                      height: '32px',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: theme.textMuted,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {copiedCode === 'playground-schema' ? (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    ) : (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                      </svg>
-                    )}
-                  </button>
-                </div>
-                <pre className="code-panel-scroll" style={{
-                  flex: 1,
-                  margin: 0,
-                  padding: '16px',
-                  fontSize: '13px',
-                  fontFamily: 'Monaco, Consolas, monospace',
-                  color: theme.textSecondary,
-                  backgroundColor: 'transparent',
-                  overflow: 'auto',
-                  lineHeight: '1.6',
-                }}>
-                  <code>{JSON.stringify(currentEndpointConfig.successResponse, null, 2)}</code>
-                </pre>
-              </div>
-
-              {/* cURL Panel - Always at bottom */}
-              <div style={{
-                flex: 1,
-                backgroundColor: theme.bgCard,
-                display: 'flex',
-                flexDirection: 'column',
-                overflow: 'hidden',
+                maxHeight: '320px',
               }}>
                 <div style={{
                   display: 'flex',
@@ -8629,7 +8570,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     </button>
                   </div>
                 </div>
-                <pre style={{
+                <pre className="code-panel-scroll" style={{
                   flex: 1,
                   margin: 0,
                   padding: '16px',
@@ -8654,6 +8595,65 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     }, null, 2)}</span>{'\n'}
                     <span style={{ color: '#f1fa8c' }}>'</span>
                   </code>
+                </pre>
+              </div>
+
+              {/* Example Response Schema Panel (200) - At bottom */}
+              <div style={{
+                flex: 1,
+                backgroundColor: theme.bgCard,
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden',
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 16px',
+                  borderBottom: `1px solid ${theme.border}`,
+                  backgroundColor: theme.bgSecondary,
+                  minHeight: '44px',
+                }}>
+                  <span style={{ fontWeight: '600', fontSize: '14px', color: theme.text }}>200</span>
+                  <button
+                    onClick={() => copyToClipboard(JSON.stringify(currentEndpointConfig.successResponse, null, 2), 'playground-schema')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '32px',
+                      height: '32px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: theme.textMuted,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {copiedCode === 'playground-schema' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                <pre className="code-panel-scroll" style={{
+                  flex: 1,
+                  margin: 0,
+                  padding: '16px',
+                  fontSize: '13px',
+                  fontFamily: 'Monaco, Consolas, monospace',
+                  color: theme.textSecondary,
+                  backgroundColor: 'transparent',
+                  overflow: 'auto',
+                  lineHeight: '1.6',
+                }}>
+                  <code>{JSON.stringify(currentEndpointConfig.successResponse, null, 2)}</code>
                 </pre>
               </div>
 
