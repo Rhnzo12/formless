@@ -8396,18 +8396,16 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
               width: '50%',
               display: 'flex',
               flexDirection: 'column',
-              overflow: 'hidden',
+              overflowY: 'auto',
             }}>
               {/* Response Panel - Always on top when visible */}
               {playgroundResponse && (
                 <div style={{
-                  height: '280px',
                   minHeight: '280px',
                   backgroundColor: theme.bgCard,
                   borderBottom: `1px solid ${theme.border}`,
                   display: 'flex',
                   flexDirection: 'column',
-                  overflow: 'hidden',
                 }}>
                   <div style={{
                     display: 'flex',
@@ -8491,14 +8489,15 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     </div>
                   </div>
                   <pre style={{
-                    flex: 1,
                     margin: 0,
                     padding: '16px',
                     fontSize: '13px',
                     fontFamily: 'Monaco, Consolas, monospace',
                     color: theme.textSecondary,
                     backgroundColor: 'transparent',
-                    overflow: 'auto',
+                    lineHeight: '1.6',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
                   }}>
                     <code>{JSON.stringify(playgroundResponse.body, null, 2)}</code>
                   </pre>
@@ -8511,7 +8510,6 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                 borderBottom: `1px solid ${theme.border}`,
                 display: 'flex',
                 flexDirection: 'column',
-                maxHeight: '320px',
               }}>
                 <div style={{
                   display: 'flex',
@@ -8570,16 +8568,16 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     </button>
                   </div>
                 </div>
-                <pre className="code-panel-scroll" style={{
-                  flex: 1,
+                <pre style={{
                   margin: 0,
                   padding: '16px',
                   fontSize: '13px',
                   fontFamily: 'Monaco, Consolas, monospace',
                   color: theme.textSecondary,
                   backgroundColor: 'transparent',
-                  overflow: 'auto',
                   lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
                 }}>
                   <code>
                     <span style={{ color: '#ff79c6' }}>curl</span> --request <span style={{ color: '#8be9fd' }}>POST</span> \{'\n'}
@@ -8600,11 +8598,9 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
 
               {/* Example Response Schema Panel (200) - At bottom */}
               <div style={{
-                flex: 1,
                 backgroundColor: theme.bgCard,
                 display: 'flex',
                 flexDirection: 'column',
-                overflow: 'hidden',
               }}>
                 <div style={{
                   display: 'flex',
@@ -8642,16 +8638,16 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
                     )}
                   </button>
                 </div>
-                <pre className="code-panel-scroll" style={{
-                  flex: 1,
+                <pre style={{
                   margin: 0,
                   padding: '16px',
                   fontSize: '13px',
                   fontFamily: 'Monaco, Consolas, monospace',
                   color: theme.textSecondary,
                   backgroundColor: 'transparent',
-                  overflow: 'auto',
                   lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-word',
                 }}>
                   <code>{JSON.stringify(currentEndpointConfig.successResponse, null, 2)}</code>
                 </pre>
