@@ -149,7 +149,17 @@ const ApiDocs = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const isPlaygroundOpen = searchParams.get('playground') === 'open';
+
+  // Check if we're on an endpoint-specific page (should show inline playground)
+  const endpointPaths = [
+    '/api-docs/account-management/identity-lookup',
+    '/api-docs/revenue-sharing/create-contract',
+    '/api-docs/revenue-sharing/fetch-split-data',
+    '/api-docs/payouts/execute-payout',
+    '/api-docs/payouts/query-batch-status',
+  ];
+  const isEndpointPage = endpointPaths.includes(location.pathname);
+  const isPlaygroundOpen = isEndpointPage || searchParams.get('playground') === 'open';
 
   // Inline playground states
   const [authorizationExpanded, setAuthorizationExpanded] = useState(true);
@@ -582,10 +592,29 @@ const ApiDocs = () => {
   // Sidebar link component with hover and active states
   const SidebarLink = ({ href, section, children, badge = null }) => {
     const isActive = activeSection === section;
+
+    // Map sections to endpoint URLs for navigation
+    const sectionToPath = {
+      'identity-lookup': '/api-docs/account-management/identity-lookup',
+      'create-contract': '/api-docs/revenue-sharing/create-contract',
+      'fetch-split-data': '/api-docs/revenue-sharing/fetch-split-data',
+      'execute-payout': '/api-docs/payouts/execute-payout',
+      'query-batch-status': '/api-docs/payouts/query-batch-status',
+    };
+
+    const handleClick = (e) => {
+      e.preventDefault();
+      if (sectionToPath[section]) {
+        navigate(sectionToPath[section]);
+      } else {
+        scrollToSection(section);
+      }
+    };
+
     return (
       <a
         href={href}
-        onClick={(e) => { e.preventDefault(); scrollToSection(section); }}
+        onClick={handleClick}
         style={{
           display: 'flex',
           alignItems: 'center',
