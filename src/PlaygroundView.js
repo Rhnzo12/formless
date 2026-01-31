@@ -53,65 +53,59 @@ const PlaygroundView = ({
 
         /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
         .pg-code-scroll::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         .pg-code-scroll::-webkit-scrollbar-track {
-          background: #222;
-          border-radius: 10px;
-          margin: 8px 0;
+          background: transparent;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb {
-          background: #4a4a4a;
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.20);
+          border-radius: 9999px;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb:hover {
-          background: #5a5a5a;
+          background: rgba(255, 255, 255, 0.25);
         }
         .pg-code-scroll {
           scrollbar-width: thin;
-          scrollbar-color: #4a4a4a #222;
+          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
         }
 
         /* Custom scrollbar for right panel - middle scrollbar */
         .pg-right-panel::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         .pg-right-panel::-webkit-scrollbar-track {
-          background: #222;
-          border-radius: 10px;
-          margin: 8px 0;
+          background: transparent;
         }
         .pg-right-panel::-webkit-scrollbar-thumb {
-          background: #4a4a4a;
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.20);
+          border-radius: 9999px;
         }
         .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background: #5a5a5a;
+          background: rgba(255, 255, 255, 0.25);
         }
         .pg-right-panel {
           scrollbar-width: thin;
-          scrollbar-color: #4a4a4a #222;
+          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
         }
 
         /* Custom scrollbar for main content - rightmost scrollbar */
         .pg-main-content::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
         .pg-main-content::-webkit-scrollbar-track {
-          background: #222;
-          border-radius: 10px;
-          margin: 8px 0;
+          background: transparent;
         }
         .pg-main-content::-webkit-scrollbar-thumb {
-          background: #4a4a4a;
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.20);
+          border-radius: 9999px;
         }
         .pg-main-content::-webkit-scrollbar-thumb:hover {
-          background: #5a5a5a;
+          background: rgba(255, 255, 255, 0.25);
         }
         .pg-main-content {
           scrollbar-width: thin;
-          scrollbar-color: #4a4a4a #222;
+          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
         }
 
         /* Hide left panel scrollbar */
