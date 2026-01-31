@@ -53,65 +53,65 @@ const PlaygroundView = ({
 
         /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
         .pg-code-scroll::-webkit-scrollbar {
-          width: 12px;
+          width: 8px;
         }
         .pg-code-scroll::-webkit-scrollbar-track {
-          background: #1a1a1a;
-          border-radius: 6px;
+          background: #222;
+          border-radius: 10px;
+          margin: 8px 0;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb {
-          background: #555;
-          border-radius: 6px;
-          border: 2px solid #1a1a1a;
+          background: #4a4a4a;
+          border-radius: 10px;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb:hover {
-          background: #666;
+          background: #5a5a5a;
         }
         .pg-code-scroll {
-          scrollbar-width: auto;
-          scrollbar-color: #555 #1a1a1a;
+          scrollbar-width: thin;
+          scrollbar-color: #4a4a4a #222;
         }
 
         /* Custom scrollbar for right panel - middle scrollbar */
         .pg-right-panel::-webkit-scrollbar {
-          width: 12px;
+          width: 8px;
         }
         .pg-right-panel::-webkit-scrollbar-track {
-          background: #1a1a1a;
-          border-radius: 6px;
+          background: #222;
+          border-radius: 10px;
+          margin: 8px 0;
         }
         .pg-right-panel::-webkit-scrollbar-thumb {
-          background: #555;
-          border-radius: 6px;
-          border: 2px solid #1a1a1a;
+          background: #4a4a4a;
+          border-radius: 10px;
         }
         .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background: #666;
+          background: #5a5a5a;
         }
         .pg-right-panel {
-          scrollbar-width: auto;
-          scrollbar-color: #555 #1a1a1a;
+          scrollbar-width: thin;
+          scrollbar-color: #4a4a4a #222;
         }
 
         /* Custom scrollbar for main content - rightmost scrollbar */
         .pg-main-content::-webkit-scrollbar {
-          width: 12px;
+          width: 8px;
         }
         .pg-main-content::-webkit-scrollbar-track {
-          background: #1a1a1a;
-          border-radius: 6px;
+          background: #222;
+          border-radius: 10px;
+          margin: 8px 0;
         }
         .pg-main-content::-webkit-scrollbar-thumb {
-          background: #555;
-          border-radius: 6px;
-          border: 2px solid #1a1a1a;
+          background: #4a4a4a;
+          border-radius: 10px;
         }
         .pg-main-content::-webkit-scrollbar-thumb:hover {
-          background: #666;
+          background: #5a5a5a;
         }
         .pg-main-content {
-          scrollbar-width: auto;
-          scrollbar-color: #555 #1a1a1a;
+          scrollbar-width: thin;
+          scrollbar-color: #4a4a4a #222;
         }
 
         /* Hide left panel scrollbar */
@@ -307,7 +307,7 @@ const PlaygroundView = ({
         </div>
 
         {/* Main Content - Two Column Layout */}
-        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'scroll', minHeight: 0 }}>
+        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'scroll', minHeight: 0, paddingRight: '4px' }}>
           {/* Left Panel - Form */}
           <div
             className="pg-left-panel"
@@ -648,6 +648,7 @@ const PlaygroundView = ({
               overflowY: 'scroll',
               backgroundColor: '#0a0a0a',
               minHeight: 0,
+              paddingRight: '4px',
             }}
           >
             {/* Inner scrollable code wrapper */}
@@ -659,6 +660,7 @@ const PlaygroundView = ({
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: 0,
+                marginRight: '4px',
               }}
             >
               {/* Response Section */}
