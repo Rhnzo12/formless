@@ -102,7 +102,7 @@ const ApiDocs = () => {
   const [mobileCodePanelOpen, setMobileCodePanelOpen] = useState(false);
   const [tryItOpen, setTryItOpen] = useState(false);
   // Playground states
-  const [playgroundEndpoint, setPlaygroundEndpoint] = useState('identity-lookup');
+  const [playgroundEndpoint, setPlaygroundEndpoint] = useState('identity_get_by_email_address');
   const [playgroundBearerToken, setPlaygroundBearerToken] = useState('');
   const [playgroundJsonrpc, setPlaygroundJsonrpc] = useState('2.0');
   const [playgroundId, setPlaygroundId] = useState('1');
@@ -293,17 +293,24 @@ const ApiDocs = () => {
   };
 
   // Get current endpoint config
-  const currentEndpointConfig = playgroundEndpoints[playgroundEndpoint] || playgroundEndpoints['identity-lookup'];
+  // Find endpoint config by method name
+  const findEndpointByMethod = (method) => {
+    return Object.values(playgroundEndpoints).find(ep => ep.method === method);
+  };
+
+  const currentEndpointConfig = findEndpointByMethod(playgroundEndpoint) || playgroundEndpoints['identity-lookup'];
 
   // Handle endpoint change
-  const handlePlaygroundEndpointChange = (endpoint) => {
-    setPlaygroundEndpoint(endpoint);
-    const config = playgroundEndpoints[endpoint];
+  const handlePlaygroundEndpointChange = (method) => {
+    setPlaygroundEndpoint(method);
+    const config = findEndpointByMethod(method);
     // Reset params based on new endpoint
     const newParams = {};
-    config.params.forEach(p => {
-      newParams[p.key] = typeof p.default === 'object' ? JSON.stringify(p.default) : p.default;
-    });
+    if (config?.params) {
+      config.params.forEach(p => {
+        newParams[p.key] = typeof p.default === 'object' ? JSON.stringify(p.default) : p.default;
+      });
+    }
     setPlaygroundParams(newParams);
     setPlaygroundResponse(null);
     setPlaygroundEndpointDropdownOpen(false);
@@ -409,13 +416,13 @@ const ApiDocs = () => {
       '/api-docs/payouts/execute-payout': 'execute-payout',
       '/api-docs/payouts/query-batch-status': 'query-batch-status',
     };
-    const endpoint = pathToEndpoint[location.pathname];
-    if (endpoint) {
-      setPlaygroundEndpoint(endpoint);
-      setActiveSection(endpoint);
-      // Reset params based on endpoint
-      const config = playgroundEndpoints[endpoint];
+    const endpointKey = pathToEndpoint[location.pathname];
+    if (endpointKey) {
+      const config = playgroundEndpoints[endpointKey];
       if (config) {
+        setPlaygroundEndpoint(config.method);
+        setActiveSection(endpointKey);
+        // Reset params based on endpoint
         const newParams = {};
         config.params.forEach(p => {
           newParams[p.key] = typeof p.default === 'object' ? JSON.stringify(p.default) : p.default;
@@ -686,7 +693,7 @@ const ApiDocs = () => {
       <PlaygroundView
         isOpen={true}
         playgroundEndpoint={playgroundEndpoint}
-        playgroundEndpoints={playgroundEndpoints}
+        playgroundEndpoints={Object.values(playgroundEndpoints)}
         currentEndpointConfig={currentEndpointConfig}
         playgroundBearerToken={playgroundBearerToken}
         setPlaygroundBearerToken={setPlaygroundBearerToken}
@@ -7841,7 +7848,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
         <PlaygroundView
           isOpen={tryItOpen}
           playgroundEndpoint={playgroundEndpoint}
-          playgroundEndpoints={playgroundEndpoints}
+          playgroundEndpoints={Object.values(playgroundEndpoints)}
           currentEndpointConfig={currentEndpointConfig}
           playgroundBearerToken={playgroundBearerToken}
           setPlaygroundBearerToken={setPlaygroundBearerToken}
