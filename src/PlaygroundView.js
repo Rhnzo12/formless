@@ -53,71 +53,65 @@ const PlaygroundView = ({
 
         /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
         .pg-code-scroll::-webkit-scrollbar {
-          width: 10px;
+          width: 12px;
         }
         .pg-code-scroll::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 5px;
-          margin: 8px 0;
+          background: #1a1a1a;
+          border-radius: 6px;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
+          background: #555;
+          border-radius: 6px;
+          border: 2px solid #1a1a1a;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+          background: #666;
         }
         .pg-code-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+          scrollbar-width: auto;
+          scrollbar-color: #555 #1a1a1a;
         }
 
         /* Custom scrollbar for right panel - middle scrollbar */
         .pg-right-panel::-webkit-scrollbar {
-          width: 10px;
+          width: 12px;
         }
         .pg-right-panel::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 5px;
-          margin: 8px 0;
+          background: #1a1a1a;
+          border-radius: 6px;
         }
         .pg-right-panel::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
+          background: #555;
+          border-radius: 6px;
+          border: 2px solid #1a1a1a;
         }
         .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+          background: #666;
         }
         .pg-right-panel {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+          scrollbar-width: auto;
+          scrollbar-color: #555 #1a1a1a;
         }
 
         /* Custom scrollbar for main content - rightmost scrollbar */
         .pg-main-content::-webkit-scrollbar {
-          width: 10px;
+          width: 12px;
         }
         .pg-main-content::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 5px;
-          margin: 8px 0;
+          background: #1a1a1a;
+          border-radius: 6px;
         }
         .pg-main-content::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
+          background: #555;
+          border-radius: 6px;
+          border: 2px solid #1a1a1a;
         }
         .pg-main-content::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+          background: #666;
         }
         .pg-main-content {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+          scrollbar-width: auto;
+          scrollbar-color: #555 #1a1a1a;
         }
 
         /* Hide left panel scrollbar */
