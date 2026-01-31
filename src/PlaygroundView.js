@@ -691,7 +691,7 @@ puts response.body`;
                 }}
                 className="playground-fade-in"
               >
-                {playgroundEndpoints?.map((endpoint, idx) => (
+                {Array.isArray(playgroundEndpoints) && playgroundEndpoints.map((endpoint, idx) => (
                   <button
                     key={idx}
                     onClick={() => {
