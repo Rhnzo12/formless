@@ -51,29 +51,14 @@ const PlaygroundView = ({
         .pg-trash:hover { opacity: 1 !important; color: #ef4444 !important; }
         .pg-input:focus { border-color: #444 !important; }
 
-        /* Custom scrollbar for left panel - on right edge with blur effect */
+        /* Hide scrollbar for left panel - scrollbar moved to far right */
         .pg-left-panel::-webkit-scrollbar {
-          width: 10px;
-        }
-        .pg-left-panel::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.03);
-          border-radius: 5px;
-          margin: 8px 0;
-        }
-        .pg-left-panel::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
-        }
-        .pg-left-panel::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+          display: none;
         }
 
-        /* Firefox scrollbar with blur effect for left panel */
+        /* Firefox - hide scrollbar for left panel */
         .pg-left-panel {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+          scrollbar-width: none;
         }
 
         /* Custom scrollbar for right panel - single scrollbar with blur effect */
