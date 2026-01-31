@@ -1119,7 +1119,7 @@ const ApiDocs = () => {
         style={{
           flex: 1,
           marginLeft: '280px',
-          marginRight: (activeSection === 'identity-lookup' || activeSection === 'create-contract' || activeSection === 'fetch-split-data') ? '480px' : '260px',
+          marginRight: (activeSection === 'identity-lookup' || activeSection === 'create-contract' || activeSection === 'fetch-split-data' || activeSection === 'execute-payout' || activeSection === 'query-batch-status') ? '480px' : '260px',
           padding: '40px 60px',
           paddingTop: '136px',
           transition: 'margin-right 0.2s ease',
@@ -1846,7 +1846,7 @@ const ApiDocs = () => {
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#identity_get_by_email_address</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('identity-lookup'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('identity_get_by_email_address'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -3473,7 +3473,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>`{"{\"jsonrpc\": \"2.0\",\"i
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#contracts_create</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('create-contract'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('contract_create'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -4598,7 +4598,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#splits_fetch_data</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('fetch-split-data'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('split_data_fetch'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -5763,7 +5763,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('execute-payout'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('payout_execute'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -6799,7 +6799,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0","id":"1
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('query-batch-status'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('batch_status_query'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
