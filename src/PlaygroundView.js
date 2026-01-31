@@ -53,59 +53,59 @@ const PlaygroundView = ({
 
         /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
         .pg-code-scroll::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
         .pg-code-scroll::-webkit-scrollbar-track {
           background: transparent;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.20);
+          background: rgba(255, 255, 255, 0.35);
           border-radius: 9999px;
         }
         .pg-code-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.45);
         }
         .pg-code-scroll {
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
         }
 
         /* Custom scrollbar for right panel - middle scrollbar */
         .pg-right-panel::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
         .pg-right-panel::-webkit-scrollbar-track {
           background: transparent;
         }
         .pg-right-panel::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.20);
+          background: rgba(255, 255, 255, 0.35);
           border-radius: 9999px;
         }
         .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.45);
         }
         .pg-right-panel {
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
         }
 
         /* Custom scrollbar for main content - rightmost scrollbar */
         .pg-main-content::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
         .pg-main-content::-webkit-scrollbar-track {
           background: transparent;
         }
         .pg-main-content::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.20);
+          background: rgba(255, 255, 255, 0.35);
           border-radius: 9999px;
         }
         .pg-main-content::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.25);
+          background: rgba(255, 255, 255, 0.45);
         }
         .pg-main-content {
           scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.20) transparent;
+          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
         }
 
         /* Hide left panel scrollbar */
