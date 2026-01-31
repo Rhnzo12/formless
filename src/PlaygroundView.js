@@ -313,7 +313,7 @@ const PlaygroundView = ({
         </div>
 
         {/* Main Content - Two Column Layout */}
-        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'auto' }}>
+        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'scroll', minHeight: 0 }}>
           {/* Left Panel - Form */}
           <div
             className="pg-left-panel"
@@ -651,8 +651,9 @@ const PlaygroundView = ({
               width: '55%',
               display: 'flex',
               flexDirection: 'column',
-              overflowY: 'auto',
+              overflowY: 'scroll',
               backgroundColor: '#0a0a0a',
+              minHeight: 0,
             }}
           >
             {/* Inner scrollable code wrapper */}
@@ -660,9 +661,10 @@ const PlaygroundView = ({
               className="pg-code-scroll"
               style={{
                 flex: 1,
-                overflowY: 'auto',
+                overflowY: 'scroll',
                 display: 'flex',
                 flexDirection: 'column',
+                minHeight: 0,
               }}
             >
               {/* Response Section */}
