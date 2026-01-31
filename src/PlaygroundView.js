@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const PlaygroundView = ({
   playgroundEndpoint,
@@ -18,708 +17,733 @@ const PlaygroundView = ({
   handlePlaygroundSend,
   handlePlaygroundEndpointChange,
   onClose,
+  isOpen,
 }) => {
-  const navigate = useNavigate();
-  const [endpointDropdownOpen, setEndpointDropdownOpen] = useState(false);
-  const [jsonrpcDropdownOpen, setJsonrpcDropdownOpen] = useState(false);
-  const [methodDropdownOpen, setMethodDropdownOpen] = useState(false);
-  const [bodyExpanded, setBodyExpanded] = useState(true);
-  const [paramsExpanded, setParamsExpanded] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('curl');
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
+  const [activeResponseTab, setActiveResponseTab] = useState('200');
+  const [copied, setCopied] = useState(false);
+  const [responseCopied, setResponseCopied] = useState(false);
 
-  const pathMap = {
-    'identity-lookup': '/api-docs/account-management/identity-lookup',
-    'create-contract': '/api-docs/revenue-sharing/create-contract',
-    'fetch-split-data': '/api-docs/revenue-sharing/fetch-split-data',
-    'execute-payout': '/api-docs/payouts/execute-payout',
-    'query-batch-status': '/api-docs/payouts/query-batch-status',
+  const languages = [
+    { id: 'curl', name: 'cURL', icon: 'https://d3gk2c5xim1je2.cloudfront.net/devicon/bash.svg' },
+    { id: 'javascript', name: 'JavaScript', icon: 'https://d3gk2c5xim1je2.cloudfront.net/devicon/javascript.svg' },
+    { id: 'python', name: 'Python', icon: 'https://d3gk2c5xim1je2.cloudfront.net/devicon/python.svg' },
+    { id: 'go', name: 'Go', icon: 'https://d3gk2c5xim1je2.cloudfront.net/devicon/go.svg' },
+  ];
+
+  const generateCode = (lang) => {
+    const baseUrl = 'https://share-ddn.formless.xyz';
+    const path = currentEndpointConfig.path;
+    const method = currentEndpointConfig.method;
+
+    const paramsObj = {};
+    currentEndpointConfig.params.forEach(param => {
+      paramsObj[param.key] = playgroundParams[param.key] || param.default;
+    });
+
+    const requestBody = {
+      jsonrpc: playgroundJsonrpc,
+      id: playgroundId,
+      method: method,
+      params: paramsObj,
+    };
+
+    if (lang === 'curl') {
+      return `curl --request POST \\
+  --url '${baseUrl}${path}' \\
+  --header 'Authorization: Bearer <token>' \\
+  --header 'Content-Type: application/json' \\
+  --data '
+${JSON.stringify(requestBody, null, 2)}
+'`;
+    }
+
+    if (lang === 'javascript') {
+      return `const response = await fetch('${baseUrl}${path}', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer <token>',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(${JSON.stringify(requestBody, null, 4).split('\n').join('\n  ')})
+});
+
+const data = await response.json();
+console.log(data);`;
+    }
+
+    if (lang === 'python') {
+      return `import requests
+
+response = requests.post(
+    '${baseUrl}${path}',
+    headers={
+        'Authorization': 'Bearer <token>',
+        'Content-Type': 'application/json',
+    },
+    json=${JSON.stringify(requestBody, null, 4).replace(/"/g, "'").replace(/: true/g, ': True').replace(/: false/g, ': False').replace(/: null/g, ': None')}
+)
+
+print(response.json())`;
+    }
+
+    if (lang === 'go') {
+      return `package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    body := map[string]interface{}{
+        "jsonrpc": "${playgroundJsonrpc}",
+        "id":      "${playgroundId}",
+        "method":  "${method}",
+        "params":  map[string]interface{}{
+${Object.entries(paramsObj).map(([k, v]) => `            "${k}": "${v}",`).join('\n')}
+        },
+    }
+
+    jsonBody, _ := json.Marshal(body)
+    req, _ := http.NewRequest("POST", "${baseUrl}${path}", bytes.NewBuffer(jsonBody))
+    req.Header.Set("Authorization", "Bearer <token>")
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+
+    fmt.Println(resp)
+}`;
+    }
+
+    return '';
   };
 
-  // Close modal
-  const closeModal = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      navigate('/api-docs');
+  const generateResponse = () => {
+    if (playgroundResponse) {
+      return JSON.stringify(playgroundResponse, null, 2);
+    }
+
+    // Default example response
+    const exampleResponse = {
+      jsonrpc: "2.0",
+      id: "<string>",
+      result: {
+        success: true,
+        user_unique_id: "<string>",
+        email_address: "jsmith@example.com",
+        display_name: "<string>",
+        verified_identity: true,
+        financial_accounts: [{}],
+        verifications: [{}]
+      }
+    };
+
+    return JSON.stringify(exampleResponse, null, 2);
+  };
+
+  const copyToClipboard = async (text, type) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      if (type === 'response') {
+        setResponseCopied(true);
+        setTimeout(() => setResponseCopied(false), 2000);
+      } else {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy:', err);
     }
   };
+
+  const selectedLang = languages.find(l => l.id === selectedLanguage);
+
+  if (!isOpen) return null;
 
   return (
     <>
       <style>{`
-        .pg-dropdown-item:hover { background-color: rgba(255,255,255,0.08) !important; }
-        .pg-field-row:hover .pg-trash { opacity: 0.6 !important; }
-        .pg-trash:hover { opacity: 1 !important; color: #ef4444 !important; }
-        .pg-input:focus { border-color: #444 !important; }
-
-        /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
-        .pg-code-scroll::-webkit-scrollbar {
-          width: 8px;
+        .pg-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
         }
-        .pg-code-scroll::-webkit-scrollbar-track {
+        .pg-scrollbar::-webkit-scrollbar-track {
           background: transparent;
         }
-        .pg-code-scroll::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.35);
+        .pg-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(0, 0, 0, 0.15);
           border-radius: 9999px;
         }
-        .pg-code-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.45);
+        .pg-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(0, 0, 0, 0.2);
         }
-        .pg-code-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+        .dark .pg-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
         }
-
-        /* Custom scrollbar for right panel - middle scrollbar */
-        .pg-right-panel::-webkit-scrollbar {
-          width: 8px;
+        .dark .pg-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.25);
         }
-        .pg-right-panel::-webkit-scrollbar-track {
-          background: transparent;
+        .pg-code-block {
+          font-variant-ligatures: none;
         }
-        .pg-right-panel::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.35);
-          border-radius: 9999px;
+        .pg-dropdown-item:hover {
+          background-color: rgba(0, 0, 0, 0.05);
         }
-        .pg-right-panel::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.45);
+        .dark .pg-dropdown-item:hover {
+          background-color: rgba(255, 255, 255, 0.1);
         }
-        .pg-right-panel {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+        .pg-copy-btn:hover {
+          color: #6b7280;
         }
-
-        /* Custom scrollbar for main content - rightmost scrollbar */
-        .pg-main-content::-webkit-scrollbar {
-          width: 8px;
+        .dark .pg-copy-btn:hover {
+          color: rgba(255, 255, 255, 0.6);
         }
-        .pg-main-content::-webkit-scrollbar-track {
-          background: transparent;
+        .pg-tab-active {
+          color: var(--primary-color, #000);
         }
-        .pg-main-content::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.35);
-          border-radius: 9999px;
+        .dark .pg-tab-active {
+          color: var(--primary-light, #525252);
         }
-        .pg-main-content::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.45);
+        .pg-tab-indicator {
+          background-color: var(--primary-color, #000);
         }
-        .pg-main-content {
-          scrollbar-width: thin;
-          scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
-        }
-
-        /* Hide left panel scrollbar */
-        .pg-left-panel::-webkit-scrollbar {
-          display: none;
-        }
-        .pg-left-panel {
-          scrollbar-width: none;
+        .dark .pg-tab-indicator {
+          background-color: var(--primary-light, #525252);
         }
       `}</style>
 
       {/* Blurred backdrop */}
       <div
-        onClick={closeModal}
+        onClick={onClose}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
           zIndex: 1000,
         }}
       />
 
       {/* Modal container */}
-      <div style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '90%',
-        maxWidth: '1400px',
-        height: '85vh',
-        maxHeight: '800px',
-        backgroundColor: '#0f0f0f',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        zIndex: 1001,
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-        border: '1px solid #1a1a1a',
-      }}>
-        {/* Header Bar */}
-        <div style={{
+      <div
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '95%',
+          maxWidth: '900px',
+          maxHeight: '90vh',
+          zIndex: 1001,
           display: 'flex',
-          alignItems: 'center',
-          padding: '14px 20px',
-          gap: '14px',
-          borderBottom: '1px solid #1a1a1a',
-          backgroundColor: '#0f0f0f',
-          flexShrink: 0,
-        }}>
-          {/* Left - Endpoint Selector Dropdown */}
-          <div style={{ position: 'relative' }}>
-            <button
-              onClick={() => setEndpointDropdownOpen(!endpointDropdownOpen)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '10px 14px',
-                backgroundColor: 'transparent',
-                border: '1px solid #2a2a2a',
-                borderRadius: '8px',
-                color: '#fff',
-                fontSize: '14px',
-                cursor: 'pointer',
-              }}
-            >
-              <span style={{
-                backgroundColor: '#1d4ed8',
-                color: '#fff',
-                fontSize: '11px',
-                fontWeight: '700',
-                padding: '4px 8px',
-                borderRadius: '4px',
-              }}>POST</span>
-              <span style={{ fontWeight: '500' }}>{currentEndpointConfig.name}</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </button>
-            {endpointDropdownOpen && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                marginTop: '4px',
-                backgroundColor: '#141414',
-                border: '1px solid #2a2a2a',
-                borderRadius: '8px',
-                padding: '4px',
-                minWidth: '220px',
-                zIndex: 1100,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-              }}>
-                {Object.entries(playgroundEndpoints).map(([key, config]) => (
-                  <button
-                    key={key}
-                    className="pg-dropdown-item"
-                    onClick={() => {
-                      handlePlaygroundEndpointChange(key);
-                      setEndpointDropdownOpen(false);
-                      navigate(pathMap[key]);
-                    }}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      width: '100%',
-                      padding: '10px 12px',
-                      background: playgroundEndpoint === key ? 'rgba(59, 130, 246, 0.15)' : 'none',
-                      border: 'none',
-                      color: '#fff',
-                      fontSize: '14px',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      borderRadius: '6px',
-                    }}
-                  >
-                    <span style={{
-                      backgroundColor: '#1d4ed8',
-                      color: '#fff',
-                      fontSize: '10px',
-                      fontWeight: '700',
-                      padding: '3px 7px',
-                      borderRadius: '4px',
-                    }}>POST</span>
-                    {config.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Center - URL Display */}
-          <div style={{
+          flexDirection: 'column',
+          gap: '24px',
+          overflowY: 'auto',
+          padding: '24px',
+        }}
+      >
+        {/* Header Card - API Endpoint */}
+        <div
+          style={{
             display: 'flex',
-            alignItems: 'center',
-            flex: 1,
-            backgroundColor: 'transparent',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px',
-            overflow: 'hidden',
-          }}>
-            <span style={{
-              backgroundColor: '#1d4ed8',
-              color: '#fff',
-              fontSize: '12px',
-              fontWeight: '700',
-              padding: '12px 14px',
-            }}>POST</span>
-            <code style={{
-              flex: 1,
-              fontSize: '14px',
-              color: '#888',
-              fontFamily: 'Monaco, Menlo, Consolas, "Courier New", monospace',
-              padding: '12px 16px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}>{currentEndpointConfig.path}</code>
-          </div>
-
-          {/* Right - Send button */}
-          <button
-            onClick={handlePlaygroundSend}
-            disabled={playgroundLoading}
+            flexDirection: 'column',
+            backgroundColor: 'var(--bg-color, #fff)',
+            borderRadius: '16px',
+            border: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+            padding: '6px',
+          }}
+          className="dark:bg-[#0a0a0c] dark:border-white/10"
+        >
+          <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '12px 24px',
-              backgroundColor: '#2563eb',
-              border: 'none',
-              borderRadius: '8px',
-              color: 'white',
-              fontSize: '15px',
-              fontWeight: '600',
-              cursor: playgroundLoading ? 'wait' : 'pointer',
-              opacity: playgroundLoading ? 0.7 : 1,
+              gap: '6px',
             }}
           >
-            {playgroundLoading ? 'Sending...' : 'Send'}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </button>
-        </div>
-
-        {/* Main Content - Two Column Layout */}
-        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'scroll', minHeight: 0, paddingRight: '4px' }}>
-          {/* Left Panel - Form */}
-          <div
-            className="pg-left-panel"
-            style={{
-              width: '45%',
-              overflowY: 'auto',
-              padding: '24px 28px',
-              borderRight: '1px solid #1a1a1a',
-            }}
-          >
-            {/* Required badge */}
-            <span style={{
-              display: 'inline-block',
-              backgroundColor: 'rgba(239, 68, 68, 0.12)',
-              color: '#f87171',
-              fontSize: '12px',
-              padding: '5px 12px',
-              borderRadius: '4px',
-              fontWeight: '500',
-              marginBottom: '12px',
-            }}>required</span>
-
-            {/* Description */}
-            <p style={{
-              fontSize: '14px',
-              color: '#888',
-              margin: '0 0 20px 0',
-              lineHeight: '1.5',
-            }}>JWT token with Unique ID identification</p>
-
-            {/* Bearer token input */}
-            <input
-              type="text"
-              placeholder=""
-              value={playgroundBearerToken}
-              onChange={(e) => setPlaygroundBearerToken(e.target.value)}
-              className="pg-input"
+            {/* Endpoint URL display */}
+            <div
               style={{
-                width: '100%',
-                padding: '14px 16px',
-                backgroundColor: '#111',
-                border: '1px solid #2a2a2a',
-                borderRadius: '8px',
-                color: '#fff',
-                fontSize: '14px',
-                outline: 'none',
-                marginBottom: '28px',
-                boxSizing: 'border-box',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 0 6px 6px',
+                borderRadius: '12px',
+                border: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+                overflow: 'hidden',
               }}
-            />
+              className="dark:border-white/10"
+            >
+              {/* POST badge */}
+              <span
+                style={{
+                  backgroundColor: '#3064E3',
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  padding: '6px 10px',
+                  borderRadius: '8px',
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                }}
+              >
+                POST
+              </span>
 
-            {/* Body Section Header */}
+              {/* Path */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '2px',
+                  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                  fontSize: '14px',
+                  flex: 1,
+                  overflow: 'hidden',
+                }}
+              >
+                <span style={{ color: 'var(--text-muted, #9ca3af)' }}>/</span>
+                <span
+                  style={{
+                    fontWeight: '500',
+                    color: 'var(--text-color, #1f2937)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                  className="dark:text-white"
+                >
+                  {currentEndpointConfig.path.replace(/^\//, '')}
+                </span>
+              </div>
+            </div>
+
+            {/* Try it button */}
             <button
-              onClick={() => setBodyExpanded(!bodyExpanded)}
+              onClick={handlePlaygroundSend}
+              disabled={playgroundLoading}
+              aria-label="Try it"
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px',
-                width: '100%',
-                padding: '14px 0',
-                backgroundColor: 'transparent',
+                justifyContent: 'center',
+                gap: '6px',
+                padding: '0 12px',
+                height: '36px',
+                backgroundColor: '#3064E3',
+                color: '#fff',
                 border: 'none',
-                borderBottom: '1px solid #1a1a1a',
-                cursor: 'pointer',
-                marginBottom: '20px',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: playgroundLoading ? 'wait' : 'pointer',
+                opacity: playgroundLoading ? 0.7 : 1,
+                transition: 'opacity 0.15s',
               }}
             >
+              <span>{playgroundLoading ? 'Sending...' : 'Try it'}</span>
               <svg
-                width="10"
-                height="10"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#666"
-                strokeWidth="3"
-                style={{ transform: bodyExpanded ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.15s' }}
-              >
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-              <span style={{ fontWeight: '600', fontSize: '15px', color: '#fff' }}>Body</span>
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  backgroundColor: '#fff',
+                  WebkitMaskImage: 'url(https://d3gk2c5xim1je2.cloudfront.net/v7.1.0/solid/play.svg)',
+                  WebkitMaskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                  maskImage: 'url(https://d3gk2c5xim1je2.cloudfront.net/v7.1.0/solid/play.svg)',
+                  maskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                }}
+              />
             </button>
-
-            {bodyExpanded && (
-              <div>
-                {/* jsonrpc field */}
-                <div className="pg-field-row" style={{ display: 'flex', alignItems: 'center', marginBottom: '18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: '220px' }}>
-                    <span style={{ fontWeight: '600', fontSize: '14px', color: '#fff', fontFamily: 'Monaco, Menlo, monospace' }}>jsonrpc</span>
-                    <span style={{ backgroundColor: '#1f1f1f', color: '#777', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontFamily: 'Monaco, Menlo, monospace' }}>enum{'<string>'}</span>
-                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#f87171', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontWeight: '500' }}>required</span>
-                  </div>
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ position: 'relative', flex: 1 }}>
-                      <button
-                        onClick={() => setJsonrpcDropdownOpen(!jsonrpcDropdownOpen)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          padding: '12px 14px',
-                          backgroundColor: '#111',
-                          border: '1px solid #2a2a2a',
-                          borderRadius: '8px',
-                          color: '#fff',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          fontFamily: 'Monaco, Menlo, monospace',
-                        }}
-                      >
-                        {playgroundJsonrpc}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
-                          <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                      </button>
-                      {jsonrpcDropdownOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: 0,
-                          right: 0,
-                          marginTop: '4px',
-                          backgroundColor: '#141414',
-                          border: '1px solid #2a2a2a',
-                          borderRadius: '8px',
-                          zIndex: 100,
-                          boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
-                          overflow: 'hidden',
-                        }}>
-                          <button
-                            className="pg-dropdown-item"
-                            onClick={() => { setPlaygroundJsonrpc('2.0'); setJsonrpcDropdownOpen(false); }}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              padding: '12px 14px',
-                              background: playgroundJsonrpc === '2.0' ? '#2563eb' : 'none',
-                              border: 'none',
-                              color: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                              textAlign: 'left',
-                              fontFamily: 'Monaco, Menlo, monospace',
-                            }}
-                          >
-                            2.0
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <button className="pg-trash" style={{ padding: '8px', backgroundColor: 'transparent', border: 'none', color: '#555', cursor: 'pointer', opacity: 0, transition: 'opacity 0.15s' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="3 6 5 6 21 6"/>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                {/* id field */}
-                <div className="pg-field-row" style={{ display: 'flex', alignItems: 'center', marginBottom: '18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: '220px' }}>
-                    <span style={{ fontWeight: '600', fontSize: '14px', color: '#fff', fontFamily: 'Monaco, Menlo, monospace' }}>id</span>
-                    <span style={{ backgroundColor: '#1f1f1f', color: '#777', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontFamily: 'Monaco, Menlo, monospace' }}>string</span>
-                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#f87171', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontWeight: '500' }}>required</span>
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <input
-                      type="text"
-                      value={playgroundId}
-                      onChange={(e) => setPlaygroundId(e.target.value)}
-                      className="pg-input"
-                      style={{
-                        width: '100%',
-                        padding: '12px 14px',
-                        backgroundColor: '#111',
-                        border: '1px solid #2a2a2a',
-                        borderRadius: '8px',
-                        color: '#fff',
-                        fontSize: '14px',
-                        outline: 'none',
-                        fontFamily: 'Monaco, Menlo, monospace',
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* method field */}
-                <div className="pg-field-row" style={{ display: 'flex', alignItems: 'center', marginBottom: '18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: '220px' }}>
-                    <span style={{ fontWeight: '600', fontSize: '14px', color: '#fff', fontFamily: 'Monaco, Menlo, monospace' }}>method</span>
-                    <span style={{ backgroundColor: '#1f1f1f', color: '#777', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontFamily: 'Monaco, Menlo, monospace' }}>enum{'<string>'}</span>
-                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#f87171', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontWeight: '500' }}>required</span>
-                  </div>
-                  <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ position: 'relative', flex: 1 }}>
-                      <button
-                        onClick={() => setMethodDropdownOpen(!methodDropdownOpen)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          padding: '12px 14px',
-                          backgroundColor: '#111',
-                          border: '1px solid #2a2a2a',
-                          borderRadius: '8px',
-                          color: '#fff',
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                          fontFamily: 'Monaco, Menlo, monospace',
-                        }}
-                      >
-                        {currentEndpointConfig.method}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
-                          <path d="M6 9l6 6 6-6"/>
-                        </svg>
-                      </button>
-                      {methodDropdownOpen && (
-                        <div style={{
-                          position: 'absolute',
-                          top: '100%',
-                          left: 0,
-                          right: 0,
-                          marginTop: '4px',
-                          backgroundColor: '#141414',
-                          border: '1px solid #2a2a2a',
-                          borderRadius: '8px',
-                          zIndex: 100,
-                          boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
-                          overflow: 'hidden',
-                        }}>
-                          <button
-                            className="pg-dropdown-item"
-                            onClick={() => setMethodDropdownOpen(false)}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              padding: '12px 14px',
-                              background: '#2563eb',
-                              border: 'none',
-                              color: '#fff',
-                              fontSize: '14px',
-                              cursor: 'pointer',
-                              textAlign: 'left',
-                              fontFamily: 'Monaco, Menlo, monospace',
-                            }}
-                          >
-                            {currentEndpointConfig.method}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <button className="pg-trash" style={{ padding: '8px', backgroundColor: 'transparent', border: 'none', color: '#555', cursor: 'pointer', opacity: 0, transition: 'opacity 0.15s' }}>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="3 6 5 6 21 6"/>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                {/* params field */}
-                <div style={{ marginBottom: '18px' }}>
-                  <button
-                    onClick={() => setParamsExpanded(!paramsExpanded)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      padding: '0',
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span style={{ fontWeight: '600', fontSize: '14px', color: '#fff', fontFamily: 'Monaco, Menlo, monospace' }}>params</span>
-                    <span style={{ backgroundColor: '#1f1f1f', color: '#777', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontFamily: 'Monaco, Menlo, monospace' }}>object</span>
-                    <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#f87171', fontSize: '12px', padding: '3px 8px', borderRadius: '4px', fontWeight: '500' }}>required</span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#666"
-                      strokeWidth="2"
-                      style={{ marginLeft: 'auto', transform: paramsExpanded ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.15s' }}
-                    >
-                      <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                  </button>
-
-                  {paramsExpanded && (
-                    <div style={{ marginTop: '16px', marginLeft: '16px', paddingLeft: '16px', borderLeft: '2px solid #222' }}>
-                      {currentEndpointConfig.params.map((param) => (
-                        <div key={param.key} style={{ marginBottom: '16px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                            <span style={{ fontWeight: '600', fontSize: '13px', color: '#fff', fontFamily: 'Monaco, Menlo, monospace' }}>{param.key}</span>
-                            <span style={{ backgroundColor: '#1f1f1f', color: '#777', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontFamily: 'Monaco, Menlo, monospace' }}>{param.type}</span>
-                            {param.required && (
-                              <span style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', color: '#f87171', fontSize: '11px', padding: '2px 6px', borderRadius: '4px', fontWeight: '500' }}>required</span>
-                            )}
-                          </div>
-                          <input
-                            type="text"
-                            value={playgroundParams[param.key] || ''}
-                            onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
-                            className="pg-input"
-                            style={{
-                              width: '100%',
-                              padding: '10px 12px',
-                              backgroundColor: '#111',
-                              border: '1px solid #2a2a2a',
-                              borderRadius: '8px',
-                              color: '#fff',
-                              fontSize: '13px',
-                              outline: 'none',
-                              fontFamily: 'Monaco, Menlo, monospace',
-                              boxSizing: 'border-box',
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
+        </div>
 
-          {/* Right Panel - Response and Code */}
+        {/* Code Example Card */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'var(--bg-color, #f9fafb)',
+            borderRadius: '16px',
+            border: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+            padding: '2px',
+            overflow: 'hidden',
+          }}
+          className="dark:bg-white/5 dark:border-white/10"
+        >
+          {/* Code header */}
           <div
-            className="pg-right-panel"
             style={{
-              width: '55%',
               display: 'flex',
-              flexDirection: 'column',
-              overflowY: 'scroll',
-              backgroundColor: '#0a0a0a',
-              minHeight: 0,
-              paddingRight: '4px',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '8px',
+              padding: '0 10px',
             }}
           >
-            {/* Inner scrollable code wrapper */}
+            {/* Title */}
             <div
-              className="pg-code-scroll"
               style={{
-                flex: 1,
-                overflowY: 'scroll',
                 display: 'flex',
-                flexDirection: 'column',
-                minHeight: 0,
-                marginRight: '4px',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '12px',
+                fontWeight: '500',
+                color: 'var(--text-color, #1f2937)',
+                padding: '8px 0',
               }}
+              className="dark:text-gray-50"
             >
-              {/* Response Section */}
-              <div style={{
-                padding: '20px',
-                borderBottom: '1px solid #1a1a1a',
-              }}>
-                <pre style={{
-                  margin: 0,
-                  padding: '20px',
-                  backgroundColor: '#0f0f0f',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontFamily: 'Monaco, Menlo, Consolas, monospace',
-                  lineHeight: '1.7',
-                }}>
-                  <code>
-                    <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"error"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                    {'    '}<span style={{ color: '#79c0ff' }}>"code"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#fff' }}>0</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'    '}<span style={{ color: '#79c0ff' }}>"message"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#ffa657' }}>"jwt must be provided"</span>{'\n'}
-                    {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                    <span style={{ color: '#888' }}>{'}'}</span>
-                  </code>
-                </pre>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {currentEndpointConfig.name}
+              </span>
+            </div>
+
+            {/* Right controls */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              {/* Language selector */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '5px 6px 5px 10px',
+                    backgroundColor: 'transparent',
+                    border: '1px solid transparent',
+                    borderRadius: '10px',
+                    fontSize: '12px',
+                    fontWeight: '500',
+                    color: 'var(--text-muted, #6b7280)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
+                  className="hover:bg-gray-200/50 dark:hover:bg-gray-700/70 dark:text-gray-400"
+                >
+                  <span
+                    style={{
+                      width: '14px',
+                      height: '14px',
+                      backgroundColor: 'currentColor',
+                      WebkitMaskImage: `url(${selectedLang?.icon})`,
+                      WebkitMaskRepeat: 'no-repeat',
+                      WebkitMaskPosition: 'center',
+                      WebkitMaskSize: '100%',
+                      maskImage: `url(${selectedLang?.icon})`,
+                      maskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      maskSize: '100%',
+                    }}
+                  />
+                  <span style={{ fontWeight: '500' }}>{selectedLang?.name}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m7 15 5 5 5-5" />
+                    <path d="m7 9 5-5 5 5" />
+                  </svg>
+                </button>
+
+                {languageDropdownOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      marginTop: '4px',
+                      backgroundColor: 'var(--bg-color, #fff)',
+                      border: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+                      borderRadius: '12px',
+                      padding: '4px',
+                      minWidth: '140px',
+                      zIndex: 100,
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                    }}
+                    className="dark:bg-[#1a1a1a] dark:border-white/10"
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.id}
+                        className="pg-dropdown-item"
+                        onClick={() => {
+                          setSelectedLanguage(lang.id);
+                          setLanguageDropdownOpen(false);
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: selectedLanguage === lang.id ? 'rgba(0,0,0,0.05)' : 'transparent',
+                          border: 'none',
+                          borderRadius: '8px',
+                          fontSize: '13px',
+                          color: 'var(--text-color, #1f2937)',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                        }}
+                        className={`dark:text-gray-200 ${selectedLanguage === lang.id ? 'dark:bg-white/10' : ''}`}
+                      >
+                        <span
+                          style={{
+                            width: '14px',
+                            height: '14px',
+                            backgroundColor: 'currentColor',
+                            WebkitMaskImage: `url(${lang.icon})`,
+                            WebkitMaskRepeat: 'no-repeat',
+                            WebkitMaskPosition: 'center',
+                            WebkitMaskSize: '100%',
+                            maskImage: `url(${lang.icon})`,
+                            maskRepeat: 'no-repeat',
+                            maskPosition: 'center',
+                            maskSize: '100%',
+                          }}
+                        />
+                        {lang.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* cURL Section */}
-              <div
-                style={{
-                  padding: '20px',
-                }}
-              >
-                <pre style={{
-                  margin: 0,
-                  fontSize: '13px',
-                  fontFamily: 'Monaco, Menlo, Consolas, monospace',
-                  lineHeight: '1.7',
-                  color: '#888',
-                }}>
-                  <code>
-                    {'  '}--header <span style={{ color: '#a5d6ff' }}>'Authorization: Bearer {'<token>'}'</span> \{'\n'}
-                    {'  '}--header <span style={{ color: '#a5d6ff' }}>'Content-Type: application/json'</span> \{'\n'}
-                    {'  '}--data <span style={{ color: '#a5d6ff' }}>'</span>{'\n'}
-                    <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"method"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{currentEndpointConfig.method}"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                    {'  '}<span style={{ color: '#79c0ff' }}>"params"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                    {currentEndpointConfig.params.map((param, i) => (
-                      <span key={param.key}>
-                        {'    '}<span style={{ color: '#79c0ff' }}>"{param.key}"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{playgroundParams[param.key] || param.default}"</span>{i < currentEndpointConfig.params.length - 1 ? <span style={{ color: '#888' }}>,</span> : ''}{'\n'}
-                      </span>
-                    ))}
-                    {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                    <span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                    <span style={{ color: '#a5d6ff' }}>'</span>
-                  </code>
-                </pre>
+              {/* Copy button */}
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => copyToClipboard(generateCode(selectedLanguage), 'code')}
+                  className="pg-copy-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '26px',
+                    height: '26px',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    color: 'var(--text-muted, #9ca3af)',
+                  }}
+                  aria-label="Copy the contents from the code block"
+                >
+                  {copied ? (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </button>
               </div>
             </div>
           </div>
+
+          {/* Code content */}
+          <div
+            className="pg-scrollbar pg-code-block"
+            style={{
+              padding: '14px 16px',
+              backgroundColor: '#fff',
+              borderRadius: '12px',
+              overflow: 'auto',
+              maxHeight: '280px',
+            }}
+            tabIndex={0}
+          >
+            <pre
+              style={{
+                margin: 0,
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                fontSize: '12px',
+                lineHeight: '1.35rem',
+                whiteSpace: 'pre',
+                color: '#1f2328',
+              }}
+              className="dark:bg-[#0B0C0E] dark:text-[#D4D4D4]"
+            >
+              <code>{generateCode(selectedLanguage)}</code>
+            </pre>
+          </div>
         </div>
+
+        {/* Response Card */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'var(--bg-color, #f9fafb)',
+            borderRadius: '16px',
+            border: '1px solid var(--border-color, rgba(0,0,0,0.1))',
+            padding: '2px',
+            overflow: 'hidden',
+          }}
+          className="dark:bg-white/5 dark:border-white/10"
+        >
+          {/* Response header with tabs */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '8px',
+              padding: '0 10px',
+            }}
+          >
+            {/* Tabs */}
+            <div
+              role="tablist"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '12px',
+                lineHeight: '1.5rem',
+              }}
+            >
+              <button
+                role="tab"
+                aria-selected={activeResponseTab === '200'}
+                onClick={() => setActiveResponseTab('200')}
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 6px',
+                  marginBottom: '-1px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  fontWeight: '600',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  color: activeResponseTab === '200' ? 'var(--primary-color, #000)' : 'var(--text-muted, #6b7280)',
+                }}
+                className={activeResponseTab === '200' ? 'pg-tab-active' : 'dark:text-gray-400'}
+              >
+                200
+                {activeResponseTab === '200' && (
+                  <div
+                    className="pg-tab-indicator"
+                    style={{
+                      position: 'absolute',
+                      bottom: '-6px',
+                      left: 0,
+                      right: 0,
+                      height: '2px',
+                      borderRadius: '9999px',
+                    }}
+                  />
+                )}
+              </button>
+            </div>
+
+            {/* Copy button */}
+            <div style={{ position: 'relative' }}>
+              <button
+                onClick={() => copyToClipboard(generateResponse(), 'response')}
+                className="pg-copy-btn"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '26px',
+                  height: '26px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  color: 'var(--text-muted, #9ca3af)',
+                }}
+                aria-label="Copy the contents from the code block"
+              >
+                {responseCopied ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.25 5.25H7.25C6.14543 5.25 5.25 6.14543 5.25 7.25V14.25C5.25 15.3546 6.14543 16.25 7.25 16.25H14.25C15.3546 16.25 16.25 15.3546 16.25 14.25V7.25C16.25 6.14543 15.3546 5.25 14.25 5.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M2.80103 11.998L1.77203 5.07397C1.61003 3.98097 2.36403 2.96397 3.45603 2.80197L10.38 1.77297C11.313 1.63397 12.19 2.16297 12.528 3.00097" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Response content */}
+          <div
+            className="pg-scrollbar pg-code-block"
+            style={{
+              padding: '14px 16px',
+              backgroundColor: '#fff',
+              borderRadius: '12px',
+              overflow: 'auto',
+              maxHeight: '280px',
+            }}
+            tabIndex={0}
+          >
+            <pre
+              style={{
+                margin: 0,
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                fontSize: '12px',
+                lineHeight: '1.35rem',
+                whiteSpace: 'pre',
+                color: '#1f2328',
+              }}
+              className="dark:bg-[#0B0C0E] dark:text-[#D4D4D4]"
+            >
+              <code>{generateResponse()}</code>
+            </pre>
+          </div>
+        </div>
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '32px',
+            height: '32px',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#fff',
+            fontSize: '18px',
+          }}
+          aria-label="Close"
+        >
+          ×
+        </button>
       </div>
     </>
   );

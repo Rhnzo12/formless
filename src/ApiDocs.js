@@ -684,6 +684,7 @@ const ApiDocs = () => {
   if (isPlaygroundOpen) {
     return (
       <PlaygroundView
+        isOpen={true}
         playgroundEndpoint={playgroundEndpoint}
         playgroundEndpoints={playgroundEndpoints}
         currentEndpointConfig={currentEndpointConfig}
@@ -702,6 +703,7 @@ const ApiDocs = () => {
         generatePlaygroundCurl={generatePlaygroundCurl}
         copyToClipboard={copyToClipboard}
         copiedCode={copiedCode}
+        onClose={() => navigate('/api-docs')}
       />
     );
   }
@@ -7837,6 +7839,7 @@ request.body = `}<span style={{ color: '#fbbf24' }}>{'\'{"jsonrpc":"2.0",...}\''
       {/* API Playground Modal - Using new PlaygroundView component */}
       {tryItOpen && (
         <PlaygroundView
+          isOpen={tryItOpen}
           playgroundEndpoint={playgroundEndpoint}
           playgroundEndpoints={playgroundEndpoints}
           currentEndpointConfig={currentEndpointConfig}
