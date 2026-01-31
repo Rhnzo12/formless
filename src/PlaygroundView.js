@@ -691,14 +691,14 @@ puts response.body`;
                 }}
                 className="playground-fade-in"
               >
-                {Array.isArray(playgroundEndpoints) && playgroundEndpoints.map((endpoint, idx) => (
+                {playgroundEndpoints && typeof playgroundEndpoints === 'object' && Object.entries(playgroundEndpoints).map(([key, endpoint]) => (
                   <button
-                    key={idx}
+                    key={key}
                     onClick={() => {
-                      handlePlaygroundEndpointChange(endpoint.method);
+                      handlePlaygroundEndpointChange(key);
                       setEndpointDropdownOpen(false);
                     }}
-                    className={`playground-language-option ${playgroundEndpoint === endpoint.method ? 'selected' : ''}`}
+                    className={`playground-language-option ${playgroundEndpoint === key ? 'selected' : ''}`}
                   >
                     <span className="playground-badge playground-badge-post" style={{ fontSize: '10px', padding: '1px 5px' }}>POST</span>
                     <span>{endpoint.name}</span>
@@ -894,7 +894,7 @@ puts response.body`;
                   </div>
 
                   {/* params */}
-                  {currentEndpointConfig?.params && currentEndpointConfig.params.length > 0 && (
+                  {Array.isArray(currentEndpointConfig?.params) && currentEndpointConfig.params.length > 0 && (
                     <div style={{ marginBottom: '24px' }}>
                       <div style={{
                         display: 'flex',
