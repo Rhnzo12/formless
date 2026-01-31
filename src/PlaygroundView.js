@@ -51,17 +51,30 @@ const PlaygroundView = ({
         .pg-trash:hover { opacity: 1 !important; color: #ef4444 !important; }
         .pg-input:focus { border-color: #444 !important; }
 
-        /* Hide scrollbar for left panel - scrollbar moved to far right */
-        .pg-left-panel::-webkit-scrollbar {
-          display: none;
+        /* Custom scrollbar for inner code content - leftmost of the 3 scrollbars */
+        .pg-code-scroll::-webkit-scrollbar {
+          width: 10px;
+        }
+        .pg-code-scroll::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 5px;
+          margin: 8px 0;
+        }
+        .pg-code-scroll::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
+        }
+        .pg-code-scroll::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+        }
+        .pg-code-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
         }
 
-        /* Firefox - hide scrollbar for left panel */
-        .pg-left-panel {
-          scrollbar-width: none;
-        }
-
-        /* Custom scrollbar for right panel - single scrollbar with blur effect */
+        /* Custom scrollbar for right panel - middle scrollbar */
         .pg-right-panel::-webkit-scrollbar {
           width: 10px;
         }
@@ -79,11 +92,40 @@ const PlaygroundView = ({
           background: rgba(255, 255, 255, 0.25);
           box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
         }
-
-        /* Firefox scrollbar with blur effect */
         .pg-right-panel {
           scrollbar-width: thin;
           scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+        }
+
+        /* Custom scrollbar for main content - rightmost scrollbar */
+        .pg-main-content::-webkit-scrollbar {
+          width: 10px;
+        }
+        .pg-main-content::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 5px;
+          margin: 8px 0;
+        }
+        .pg-main-content::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 6px rgba(255, 255, 255, 0.1);
+        }
+        .pg-main-content::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.25);
+          box-shadow: 0 0 12px rgba(255, 255, 255, 0.15), inset 0 0 8px rgba(255, 255, 255, 0.15);
+        }
+        .pg-main-content {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.03);
+        }
+
+        /* Hide left panel scrollbar */
+        .pg-left-panel::-webkit-scrollbar {
+          display: none;
+        }
+        .pg-left-panel {
+          scrollbar-width: none;
         }
       `}</style>
 
@@ -271,7 +313,7 @@ const PlaygroundView = ({
         </div>
 
         {/* Main Content - Two Column Layout */}
-        <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        <div className="pg-main-content" style={{ display: 'flex', flex: 1, overflowY: 'auto' }}>
           {/* Left Panel - Form */}
           <div
             className="pg-left-panel"
@@ -613,65 +655,76 @@ const PlaygroundView = ({
               backgroundColor: '#0a0a0a',
             }}
           >
-            {/* Response Section */}
-            <div style={{
-              padding: '20px',
-              borderBottom: '1px solid #1a1a1a',
-            }}>
-              <pre style={{
-                margin: 0,
-                padding: '20px',
-                backgroundColor: '#0f0f0f',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontFamily: 'Monaco, Menlo, Consolas, monospace',
-                lineHeight: '1.7',
-              }}>
-                <code>
-                  <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"error"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                  {'    '}<span style={{ color: '#79c0ff' }}>"code"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#fff' }}>0</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'    '}<span style={{ color: '#79c0ff' }}>"message"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#ffa657' }}>"jwt must be provided"</span>{'\n'}
-                  {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                  <span style={{ color: '#888' }}>{'}'}</span>
-                </code>
-              </pre>
-            </div>
-
-            {/* cURL Section */}
+            {/* Inner scrollable code wrapper */}
             <div
+              className="pg-code-scroll"
               style={{
-                padding: '20px',
+                flex: 1,
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
-              <pre style={{
-                margin: 0,
-                fontSize: '13px',
-                fontFamily: 'Monaco, Menlo, Consolas, monospace',
-                lineHeight: '1.7',
-                color: '#888',
+              {/* Response Section */}
+              <div style={{
+                padding: '20px',
+                borderBottom: '1px solid #1a1a1a',
               }}>
-                <code>
-                  {'  '}--header <span style={{ color: '#a5d6ff' }}>'Authorization: Bearer {'<token>'}'</span> \{'\n'}
-                  {'  '}--header <span style={{ color: '#a5d6ff' }}>'Content-Type: application/json'</span> \{'\n'}
-                  {'  '}--data <span style={{ color: '#a5d6ff' }}>'</span>{'\n'}
-                  <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"method"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{currentEndpointConfig.method}"</span><span style={{ color: '#888' }}>,</span>{'\n'}
-                  {'  '}<span style={{ color: '#79c0ff' }}>"params"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
-                  {currentEndpointConfig.params.map((param, i) => (
-                    <span key={param.key}>
-                      {'    '}<span style={{ color: '#79c0ff' }}>"{param.key}"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{playgroundParams[param.key] || param.default}"</span>{i < currentEndpointConfig.params.length - 1 ? <span style={{ color: '#888' }}>,</span> : ''}{'\n'}
-                    </span>
-                  ))}
-                  {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                  <span style={{ color: '#888' }}>{'}'}</span>{'\n'}
-                  <span style={{ color: '#a5d6ff' }}>'</span>
-                </code>
-              </pre>
+                <pre style={{
+                  margin: 0,
+                  padding: '20px',
+                  backgroundColor: '#0f0f0f',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontFamily: 'Monaco, Menlo, Consolas, monospace',
+                  lineHeight: '1.7',
+                }}>
+                  <code>
+                    <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"error"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
+                    {'    '}<span style={{ color: '#79c0ff' }}>"code"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#fff' }}>0</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'    '}<span style={{ color: '#79c0ff' }}>"message"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#ffa657' }}>"jwt must be provided"</span>{'\n'}
+                    {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
+                    <span style={{ color: '#888' }}>{'}'}</span>
+                  </code>
+                </pre>
+              </div>
+
+              {/* cURL Section */}
+              <div
+                style={{
+                  padding: '20px',
+                }}
+              >
+                <pre style={{
+                  margin: 0,
+                  fontSize: '13px',
+                  fontFamily: 'Monaco, Menlo, Consolas, monospace',
+                  lineHeight: '1.7',
+                  color: '#888',
+                }}>
+                  <code>
+                    {'  '}--header <span style={{ color: '#a5d6ff' }}>'Authorization: Bearer {'<token>'}'</span> \{'\n'}
+                    {'  '}--header <span style={{ color: '#a5d6ff' }}>'Content-Type: application/json'</span> \{'\n'}
+                    {'  '}--data <span style={{ color: '#a5d6ff' }}>'</span>{'\n'}
+                    <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"jsonrpc"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"2.0"</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"id"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"1"</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"method"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{currentEndpointConfig.method}"</span><span style={{ color: '#888' }}>,</span>{'\n'}
+                    {'  '}<span style={{ color: '#79c0ff' }}>"params"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#888' }}>{'{'}</span>{'\n'}
+                    {currentEndpointConfig.params.map((param, i) => (
+                      <span key={param.key}>
+                        {'    '}<span style={{ color: '#79c0ff' }}>"{param.key}"</span><span style={{ color: '#888' }}>:</span> <span style={{ color: '#a5d6ff' }}>"{playgroundParams[param.key] || param.default}"</span>{i < currentEndpointConfig.params.length - 1 ? <span style={{ color: '#888' }}>,</span> : ''}{'\n'}
+                      </span>
+                    ))}
+                    {'  '}<span style={{ color: '#888' }}>{'}'}</span>{'\n'}
+                    <span style={{ color: '#888' }}>{'}'}</span>{'\n'}
+                    <span style={{ color: '#a5d6ff' }}>'</span>
+                  </code>
+                </pre>
+              </div>
             </div>
           </div>
         </div>
