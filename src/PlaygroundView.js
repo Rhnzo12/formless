@@ -628,7 +628,7 @@ puts response.body`;
           width: '95%',
           maxWidth: '1200px',
           height: '90vh',
-          backgroundColor: '#0d1117',
+          backgroundColor: '#010409',
           borderRadius: '12px',
           border: '1px solid #21262d',
           zIndex: 1001,
@@ -647,7 +647,7 @@ puts response.body`;
           justifyContent: 'space-between',
           padding: '12px 24px',
           borderBottom: '1px solid #21262d',
-          background: 'linear-gradient(180deg, #161b22 0%, #0d1117 100%)',
+          background: 'linear-gradient(180deg, #0d1117 0%, #010409 100%)',
         }}>
           {/* Left side - Endpoint selector */}
           <div style={{ position: 'relative' }}>
@@ -724,7 +724,7 @@ puts response.body`;
             </span>
           </div>
 
-          {/* Right side - Send and Close buttons */}
+          {/* Right side - Send button */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <button
               className="playground-send-button"
@@ -739,9 +739,6 @@ puts response.body`;
                   <PlayIcon />
                 </>
               )}
-            </button>
-            <button className="playground-close-button" onClick={onClose} title="Close">
-              <CloseIcon />
             </button>
           </div>
         </div>
