@@ -10,6 +10,7 @@ import Contact from './Contact';
 import ScheduleMeeting from './ScheduleMeeting';
 import MarkdownView from './MarkdownView';
 import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfService from './TermsOfService';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -29,6 +30,7 @@ root.render(
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/schedule-meeting/27886cd3ac3481bdb0f0c5a0d46242b5" element={<ScheduleMeeting />} />
       </Routes>
     </BrowserRouter>

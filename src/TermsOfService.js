@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import FluidBackground from './components/FluidBackground';
 
-const PrivacyPolicy = () => {
+const TermsOfService = () => {
   const [joinVisible, setJoinVisible] = useState(false);
   const joinRef = useRef(null);
 
   useEffect(() => {
-    document.title = 'Privacy Policy';
+    document.title = 'Terms of Service';
   }, []);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const PrivacyPolicy = () => {
 
       {/* Hero Section */}
       <section
-        className="privacy-hero-section"
+        className="terms-hero-section"
         style={{
           position: 'relative',
           zIndex: 2,
@@ -86,7 +86,7 @@ const PrivacyPolicy = () => {
             fontFamily: '"Inter", sans-serif',
             letterSpacing: '-1px',
           }}>
-            Privacy Policy
+            Terms of Service
           </h1>
 
           {/* Effective Date Badge */}
@@ -103,9 +103,9 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Privacy Policy Content */}
+      {/* Terms of Service Content */}
       <section
-        className="privacy-content-section"
+        className="terms-content-section"
         style={{
           position: 'relative',
           zIndex: 3,
@@ -123,7 +123,7 @@ const PrivacyPolicy = () => {
             ...contentStyle,
             margin: '0 0 30px 0',
           }}>
-            Formless, Inc. ("Formless," "we", "us", or "our") is committed to protecting your privacy. We have prepared this Privacy Policy to describe to you our practices regarding the data we collect, use, and share in connection with the Formless website, and other software provided on or in connection with our services, as described in our Terms of Service (collectively, the "Service").
+            Welcome to Formless. These Terms of Service ("Terms") govern your access to and use of the Formless website, products, and services (collectively, the "Service"). Please read these Terms carefully before using our Service. By accessing or using our Service, you agree to be bound by these Terms and our Privacy Policy.
           </p>
 
           {/* Main Numbered List */}
@@ -132,102 +132,118 @@ const PrivacyPolicy = () => {
             paddingLeft: '24px',
             margin: 0,
           }}>
-            {/* 1. Types of Data We Collect */}
+            {/* 1. Acceptance of Terms */}
             <li style={listItemStyle}>
-              <strong>Types of Data We Collect.</strong> "Personal Data" means data that allows someone to identify you individually, including, for example, your name, email address, as well as any other non-public information about you that is associated with or linked to any of the foregoing. "Anonymous Data" means data, including aggregated and de-identified data, that is not associated with or linked to any personal data; Anonymous Data does not, by itself, permit the identification of individual persons. We collect Anonymous Data as described below.
+              <strong>Acceptance of Terms.</strong> By accessing or using the Service, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to these Terms, you may not access or use the Service. We reserve the right to modify these Terms at any time, and such modifications will be effective immediately upon posting. Your continued use of the Service after any modifications indicates your acceptance of the modified Terms.
+            </li>
 
-              {/* Information Collected via Technology - Sub-paragraph */}
-              <p style={{ margin: '20px 0 16px 0' }}>
-                <strong>Information Collected via Technology.</strong> As you navigate through and interact with our Service, we may use automatic data collection technologies to collect certain information about your equipment, browsing actions, and patterns, including:
-              </p>
+            {/* 2. Eligibility */}
+            <li style={listItemStyle}>
+              <strong>Eligibility.</strong> You must be at least 18 years of age to use the Service. By using the Service, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into these Terms. If you are using the Service on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to these Terms.
+            </li>
 
-              {/* Nested numbered list for technology items */}
+            {/* 3. User Accounts */}
+            <li style={listItemStyle}>
+              <strong>User Accounts.</strong> To access certain features of the Service, you may be required to connect a digital wallet or create an account. You are responsible for maintaining the confidentiality of your wallet credentials and account information, and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account or any other breach of security.
+            </li>
+
+            {/* 4. Use of Service */}
+            <li style={listItemStyle}>
+              <strong>Use of Service.</strong> You agree to use the Service only for lawful purposes and in accordance with these Terms. You agree not to:
+
               <ol style={{
                 paddingLeft: '24px',
-                margin: '0 0 0 0',
+                margin: '16px 0 0 0',
               }}>
-                <li style={{ marginBottom: '16px' }}>
-                  <strong>Information Collected by Our Servers.</strong> To provide our Service and make it more useful to you, we (or a third-party service provider) collect information from you, including, but not limited to, your browser type, operating system, Internet Protocol ("IP") address, mobile device ID, blockchain address, wallet type, and date/time stamps.
+                <li style={{ marginBottom: '12px' }}>
+                  Use the Service in any way that violates any applicable federal, state, local, or international law or regulation;
                 </li>
-                <li style={{ marginBottom: '16px' }}>
-                  <strong>Log Files.</strong> As is true of most websites and applications, we gather certain information automatically and store it in log files. This information includes IP addresses, browser type, Internet service provider ("ISP"), referring/exit pages, operating system, date/time stamps, and clickstream data. We use this information to analyze trends, administer the Service, track users' movements around the Service, and better tailor our Services to our users' needs. For example, some of the information may be collected so that when you visit the Service, it will recognize you and the information can be used to personalize your experience.
+                <li style={{ marginBottom: '12px' }}>
+                  Engage in any conduct that restricts or inhibits anyone's use or enjoyment of the Service;
                 </li>
-                <li style={{ marginBottom: '16px' }}>
-                  <strong>Cookies.</strong> Like many online services, we use cookies to collect information. We may use both session Cookies (which expire once you close your web browser) and persistent Cookies (which stay on your computer until you delete them) to analyze how users interact with our Service, make improvements to our product quality, and provide users with a more personalized experience.
+                <li style={{ marginBottom: '12px' }}>
+                  Use the Service to transmit any advertising or promotional material without our prior written consent;
                 </li>
-                <li style={{ marginBottom: '16px' }}>
-                  <strong>Pixel Tag.</strong> In addition, we use "Pixel Tags" (also referred to as clear Gifs, Web beacons, or Web bugs). Pixel Tags allow us to analyze how users find our Service, make the Service more useful to you, and tailor your experience with us to meet your particular interests and needs.
-                </li>
-                <li style={{ marginBottom: '16px' }}>
-                  <strong>How We Respond to Do Not Track Signals.</strong> Our systems do not currently recognize "do not track" signals or other mechanisms that might enable Users to opt-out of tracking on our site.
+                <li style={{ marginBottom: '12px' }}>
+                  Impersonate or attempt to impersonate Formless, a Formless employee, another user, or any other person or entity;
                 </li>
                 <li style={{ marginBottom: '0' }}>
-                  <strong>Analytics Services.</strong> In addition to the tracking technologies we place like Cookies and Pixel Tags, other companies may set their own cookies or similar tools when you visit our Service. This includes third-party analytics services ("Analytics Services") that we engage to help analyze how users use the Service. The information generated by the Cookies or other technologies about your use of our Service (the "Analytics Information") is transmitted to the Analytics Services. The Analytics Services use Analytics Information to compile reports on user activity, which we may receive on an individual or aggregate basis. We use the information we get from Analytics Services to improve our Service. The Analytics Services may also transfer information to third parties where required to do so by law, or where such third parties process Analytics Information on their behalf. Each Analytics Services' ability to use and share Analytics Information is restricted by such Analytics Services' terms of use and privacy policy. By using our Service, you consent to the processing of data about you by Analytics Services in the manner and for the purposes set out above.
+                  Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Service.
                 </li>
               </ol>
             </li>
 
-            {/* 2. Information Collected from Third-Party Companies */}
+            {/* 5. Intellectual Property */}
             <li style={listItemStyle}>
-              <strong>Information Collected from Third-Party Companies.</strong> We may receive Anonymous Data about you from companies that offer their products and/or services for use in conjunction with our Service or whose products and/or services may be linked from our Service. For example, third-party wallet providers provide us with your blockchain address and certain other information you choose to share with those wallet providers. We may add this to the data we have already collected from or about you through our Service.
+              <strong>Intellectual Property.</strong> The Service and its entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, and audio, and the design, selection, and arrangement thereof) are owned by Formless, its licensors, or other providers of such material and are protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
             </li>
 
-            {/* 3. Public Information Observed from Blockchains */}
+            {/* 6. Digital Assets and NFTs */}
             <li style={listItemStyle}>
-              <strong>Public Information Observed from Blockchains.</strong> We collect data from activity that is publicly visible and/or accessible on blockchains. This may include blockchain addresses and information regarding purchases, sales, or transfers of NFTs, which may then be associated with other data you have provided to us.
+              <strong>Digital Assets and NFTs.</strong> The Service may involve the use of blockchain technology, digital assets, and non-fungible tokens ("NFTs"). You acknowledge and agree that:
+
+              <ol style={{
+                paddingLeft: '24px',
+                margin: '16px 0 0 0',
+              }}>
+                <li style={{ marginBottom: '12px' }}>
+                  Blockchain transactions are irreversible and Formless has no ability to reverse any transactions on the blockchain;
+                </li>
+                <li style={{ marginBottom: '12px' }}>
+                  The value of digital assets and NFTs is highly volatile and may fluctuate significantly;
+                </li>
+                <li style={{ marginBottom: '12px' }}>
+                  You are solely responsible for the security of your digital wallet and private keys;
+                </li>
+                <li style={{ marginBottom: '0' }}>
+                  Formless is not responsible for any losses you may incur as a result of blockchain transactions or the loss of access to your digital wallet.
+                </li>
+              </ol>
             </li>
 
-            {/* 4. Third-Party Websites */}
+            {/* 7. SHARE Protocol */}
             <li style={listItemStyle}>
-              <strong>Third-Party Websites.</strong> Our Service may contain links to third-party websites. When you click on a link to any other website or location, you will leave our Service and go to another site, and another entity may collect Personal Data from you. We have no control over, do not review, and cannot be responsible for these third-party websites or their content. Please be aware that the terms of this Privacy Policy do not apply to these third-party websites or their content, or to any collection of your data after you click on links to such third-party websites. We encourage you to read the privacy policies of every website you visit. Any links to third-party websites or locations are for your convenience and do not signify our endorsement of such third parties or their products, content, or websites.
+              <strong>SHARE Protocol.</strong> Our SHARE Protocol enables revenue sharing through smart contracts. By using the SHARE Protocol, you agree to the terms and conditions of the smart contracts involved. You acknowledge that smart contracts operate autonomously on the blockchain and Formless cannot modify or reverse transactions once they are executed.
             </li>
 
-            {/* 5. Cookie Settings */}
+            {/* 8. Fees and Payments */}
             <li style={listItemStyle}>
-              If you decide at any time that you no longer wish to accept Cookies from our Service for any of the purposes described above, then you can instruct your browser, by changing its settings, to stop accepting Cookies or to prompt you before accepting a Cookie from the websites you visit. Consult your browser's technical information. If you do not accept Cookies, however, you may not be able to use all portions of the Service or all functionality of the Service.
+              <strong>Fees and Payments.</strong> Certain features of the Service may be subject to fees. All fees are denominated and payable in the currency specified at the time of payment. You are responsible for paying all fees and applicable taxes associated with your use of the Service. Fees may be changed at any time with reasonable notice.
             </li>
 
-            {/* 6. Data Access and Control */}
+            {/* 9. Disclaimer of Warranties */}
             <li style={listItemStyle}>
-              <strong>Data Access and Control.</strong> We cannot edit or delete any information that is stored on a blockchain, for example the Ethereum blockchain, as we do not have custody or control over any blockchains. The information stored on the blockchain may include purchases, sales, and transfers related to your blockchain address and NFTs held at that address. "NFT" in this Privacy Policy means a non-fungible token or similar digital item implemented on a blockchain (such as the Ethereum blockchain), which uses smart contracts to link to or otherwise be associated with certain content or data.
+              <strong>Disclaimer of Warranties.</strong> THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. NEITHER FORMLESS NOR ANY PERSON ASSOCIATED WITH FORMLESS MAKES ANY WARRANTY OR REPRESENTATION WITH RESPECT TO THE COMPLETENESS, SECURITY, RELIABILITY, QUALITY, ACCURACY, OR AVAILABILITY OF THE SERVICE.
             </li>
 
-            {/* 7. Data Protection */}
+            {/* 10. Limitation of Liability */}
             <li style={listItemStyle}>
-              <strong>Data Protection.</strong> We care about the security of your information and use physical, administrative, and technological safeguards to preserve the integrity and security of information collected through our Service. However, no security system is impenetrable and we cannot guarantee the security of our systems. In the event that any information under our custody and control is compromised as a result of a breach of security, we will take steps to investigate and remediate the situation and, in accordance with applicable laws and regulations, notify those individuals whose information may have been compromised. You are responsible for the security of your digital wallet, and we urge you to take steps to ensure it is and remains secure. If you discover an issue related to your wallet, please contact your wallet provider.
+              <strong>Limitation of Liability.</strong> IN NO EVENT WILL FORMLESS, ITS AFFILIATES, OR THEIR LICENSORS, SERVICE PROVIDERS, EMPLOYEES, AGENTS, OFFICERS, OR DIRECTORS BE LIABLE FOR DAMAGES OF ANY KIND, UNDER ANY LEGAL THEORY, ARISING OUT OF OR IN CONNECTION WITH YOUR USE, OR INABILITY TO USE, THE SERVICE, INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES.
             </li>
 
-            {/* 8. Minors */}
+            {/* 11. Indemnification */}
             <li style={listItemStyle}>
-              <strong>Minors.</strong> Our Terms of Service require all users to be at least 18 years old.
+              <strong>Indemnification.</strong> You agree to defend, indemnify, and hold harmless Formless, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Service.
             </li>
 
-            {/* 9. Users Outside of the United States */}
+            {/* 12. Governing Law */}
             <li style={listItemStyle}>
-              <strong>Users Outside of the United States.</strong> If you are a non-U.S. user of the Service, by visiting the Service and providing us with data, you acknowledge and agree that your Anonymous Data may be processed for the purposes identified in the Privacy Policy. In addition, your Anonymous Data may be processed in the country in which it was collected and in other countries, including the United States, where laws regarding the processing of Anonymous Data may be less stringent than the laws in your country. By providing your Anonymous Data, you consent to such transfer.
+              <strong>Governing Law.</strong> These Terms and any dispute or claim arising out of or related to them, their subject matter, or their formation shall be governed by and construed in accordance with the laws of the State of Delaware, without giving effect to any choice or conflict of law provision or rule.
             </li>
 
-            {/* 10. Changes to This Privacy Policy */}
+            {/* 13. Dispute Resolution */}
             <li style={listItemStyle}>
-              <strong>Changes to This Privacy Policy.</strong> This Privacy Policy may be updated from time to time for any reason. We will notify you of any changes to our Privacy Policy by posting the new Privacy Policy at{' '}
-              <a
-                href="https://formless.xyz/privacy"
-                style={{
-                  color: 'white',
-                  textDecoration: 'underline',
-                  transition: 'opacity 0.3s ease',
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-              >
-                https://formless.xyz/privacy
-              </a>
-              . The date the Privacy Policy was last revised is identified at the beginning of this Privacy Policy. You are responsible for periodically visiting our Service and this Privacy Policy to check for any changes.
+              <strong>Dispute Resolution.</strong> Any dispute arising out of or relating to these Terms or the Service shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association. The arbitration shall take place in Delaware, and the arbitrator's decision shall be final and binding.
             </li>
 
-            {/* 11. Questions, Contacting Formless and Reporting Violations */}
+            {/* 14. Termination */}
+            <li style={listItemStyle}>
+              <strong>Termination.</strong> We may terminate or suspend your access to the Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms. Upon termination, your right to use the Service will immediately cease.
+            </li>
+
+            {/* 15. Contact Information */}
             <li style={{ marginBottom: '0' }}>
-              <strong>Questions, Contacting Formless and Reporting Violations.</strong> If you have any questions or concerns or complaints about our Privacy Policy or our data collection or processing practices, or if you want to report any security violations to us, please contact us by using the "Connect" link{' '}
+              <strong>Contact Information.</strong> If you have any questions about these Terms, please contact us by using the "Connect" link{' '}
               <a
                 href="/contact"
                 style={{
@@ -461,12 +477,12 @@ const PrivacyPolicy = () => {
 
           /* Mobile breakpoint */
           @media (max-width: 768px) {
-            .privacy-hero-section {
+            .terms-hero-section {
               padding-top: 100px !important;
               padding-bottom: 40px !important;
               min-height: auto !important;
             }
-            .privacy-content-section {
+            .terms-content-section {
               padding: 40px 16px 60px !important;
             }
             .join-section {
@@ -509,11 +525,11 @@ const PrivacyPolicy = () => {
 
           /* Small mobile */
           @media (max-width: 480px) {
-            .privacy-hero-section {
+            .terms-hero-section {
               padding-left: 12px !important;
               padding-right: 12px !important;
             }
-            .privacy-hero-section h1 {
+            .terms-hero-section h1 {
               font-size: 36px !important;
               letter-spacing: -1px !important;
             }
@@ -534,4 +550,4 @@ const PrivacyPolicy = () => {
   );
 };
 
-export default PrivacyPolicy;
+export default TermsOfService;

@@ -778,8 +778,8 @@ const App = () => {
           onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}>
             Privacy Policy
           </a>
-          <a href="#" style={{ 
-            color: 'rgba(255,255,255,0.7)', 
+          <a href="/terms-of-service" style={{
+            color: 'rgba(255,255,255,0.7)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
           }}
