@@ -356,6 +356,7 @@ export const RightCodePanel = ({
         display: 'flex',
         flexDirection: 'column',
         gap: '24px',
+        zIndex: 100,
       }}
     >
       {/* Code Request Panel */}
