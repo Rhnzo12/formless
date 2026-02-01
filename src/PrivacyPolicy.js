@@ -73,7 +73,7 @@ const PrivacyPolicy = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingTop: '120px',
+          paddingTop: '180px',
           paddingBottom: '40px',
           paddingLeft: 'clamp(16px, 3vw, 40px)',
           paddingRight: 'clamp(16px, 3vw, 40px)',
@@ -87,12 +87,12 @@ const PrivacyPolicy = () => {
         }}>
           {/* Large Title */}
           <h1 style={{
-            fontSize: 'clamp(48px, 8vw, 100px)',
-            fontWeight: '300',
-            lineHeight: '1.05',
+            fontSize: 'clamp(36px, 6vw, 72px)',
+            fontWeight: '600',
+            lineHeight: '1.1',
             margin: '0 0 40px 0',
             fontFamily: '"Inter", sans-serif',
-            letterSpacing: '-2px',
+            letterSpacing: '-1px',
           }}>
             Privacy Policy
           </h1>
