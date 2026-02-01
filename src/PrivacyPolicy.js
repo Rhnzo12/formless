@@ -334,6 +334,17 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
+      {/* Gradient Fade from Black */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          height: '300px',
+          background: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* Footer */}
       <footer
         className="footer"
@@ -342,6 +353,7 @@ const PrivacyPolicy = () => {
           zIndex: 2,
           padding: '60px 60px 40px 60px',
           background: 'transparent',
+          marginTop: '-150px',
         }}
       >
         {/* Social Media Icons */}
