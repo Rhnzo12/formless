@@ -280,11 +280,22 @@ const ApiDocs = () => {
     },
     'execute-payout': {
       name: 'Execute Payout',
-      method: 'payout_execute',
-      path: '/v1#payout_execute',
+      method: 'payouts',
+      path: '/v1#payouts',
+      description: 'Execute a payout to a smart contract based recipient',
       params: [
-        { key: 'contract_id', type: 'string', required: true, default: 'contract_123' },
-        { key: 'amount', type: 'object', required: true, default: { value: '100', currency: 'USD' } }
+        { key: 'idempotency_key', type: 'string', required: true, default: 'unique-payout-key-123', description: 'Unique key to prevent duplicate payouts' },
+        { key: 'recipient_type', type: 'enum<string>', required: true, default: 'smart_contract', options: ['smart_contract'], description: 'Type of recipient' },
+        { key: 'recipient_id', type: 'string', required: true, default: '7a2ab0d5-27d8-482f-becf-0ac3217e0b', description: 'ID of the recipient contract' },
+        {
+          key: 'amount',
+          type: 'object',
+          required: true,
+          children: [
+            { key: 'value', type: 'number', required: true, default: '10', description: 'Amount to pay out' },
+            { key: 'currency', type: 'enum<string>', required: true, default: 'USD', options: ['USD', 'USDC'], description: 'Currency type' }
+          ]
+        }
       ],
       successResponse: {
         jsonrpc: '2.0',
