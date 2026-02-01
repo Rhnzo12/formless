@@ -256,13 +256,13 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Gradient Fade from Black */}
+      {/* Gradient Fade to Black */}
       <div
         style={{
           position: 'relative',
           zIndex: 2,
           height: '300px',
-          background: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
+          background: 'linear-gradient(to bottom, transparent 0%, #000 100%)',
           pointerEvents: 'none',
         }}
       />
@@ -274,14 +274,14 @@ const PrivacyPolicy = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '100vh',
+          minHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '100px 60px',
           overflow: 'hidden',
-          background: 'transparent',
+          background: '#000',
           marginTop: '-150px',
         }}
       >
