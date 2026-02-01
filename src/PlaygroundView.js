@@ -109,13 +109,12 @@ const PlaygroundView = ({
     }
   };
 
-  // Handle clearing a field value
+  // Handle clearing a field value - set to empty string to show "select" placeholder
   const handleClearField = (paramKey) => {
-    setPlaygroundParams(prev => {
-      const updated = { ...prev };
-      delete updated[paramKey];
-      return updated;
-    });
+    setPlaygroundParams(prev => ({
+      ...prev,
+      [paramKey]: ''
+    }));
   };
 
   const generateCodeSnippet = () => {
