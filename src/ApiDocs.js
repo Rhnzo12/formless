@@ -5834,23 +5834,23 @@ const ApiDocs = () => {
           @media (min-width: 1500px) {
             .right-code-panel {
               display: flex !important;
-              width: 480px !important;
+              width: 420px !important;
               right: 40px !important;
             }
             .main-content {
-              margin-right: 560px !important;
+              margin-right: 500px !important;
             }
           }
 
           /* Large screens (1300px - 1499px) */
           @media (max-width: 1499px) and (min-width: 1300px) {
             .main-content {
-              margin-right: 500px !important;
+              margin-right: 440px !important;
               padding-right: 30px !important;
             }
             .right-code-panel {
               display: flex !important;
-              width: 440px !important;
+              width: 380px !important;
               right: 30px !important;
             }
           }
@@ -5858,12 +5858,12 @@ const ApiDocs = () => {
           /* Medium screens (1100px - 1299px) */
           @media (max-width: 1299px) and (min-width: 1100px) {
             .main-content {
-              margin-right: 440px !important;
+              margin-right: 380px !important;
               padding-right: 20px !important;
             }
             .right-code-panel {
               display: flex !important;
-              width: 380px !important;
+              width: 340px !important;
               right: 20px !important;
             }
           }

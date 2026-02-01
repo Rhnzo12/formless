@@ -348,7 +348,7 @@ export const RightCodePanel = ({
     <div
       className={className}
       style={{
-        width: '480px',
+        width: '420px',
         flexShrink: 0,
         position: 'fixed',
         top: '120px',
