@@ -400,8 +400,8 @@ const App = () => {
               }}>
                 Take your product experience to the next level with our expert guidance on integrating crypto technologies.
               </p>
-              <a 
-                href="#" 
+              <a
+                href="/contact"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -634,8 +634,8 @@ const App = () => {
             Join the network today.
           </h2>
           
-          <a 
-            href="#" 
+          <a
+            href="/contact"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

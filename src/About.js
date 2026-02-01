@@ -875,8 +875,8 @@ const About = () => {
             Join the network today.
           </h2>
           
-          <a 
-            href="#" 
+          <a
+            href="/contact"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
