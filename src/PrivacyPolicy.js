@@ -73,7 +73,7 @@ const PrivacyPolicy = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingTop: '120px',
+          paddingTop: '180px',
           paddingBottom: '40px',
           paddingLeft: 'clamp(16px, 3vw, 40px)',
           paddingRight: 'clamp(16px, 3vw, 40px)',
