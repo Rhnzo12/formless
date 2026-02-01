@@ -911,7 +911,9 @@ const CaseStudies = () => {
           </h2>
 
           <a
-            href="/contact"
+            href="https://formlessxyz.notion.site/27886cd3ac3481bdb0f0c5a0d46242b5"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
