@@ -560,6 +560,31 @@ puts response.body`;
           justify-content: center;
         }
 
+        .playground-header-value {
+          max-width: 100%;
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: thin;
+          scrollbar-color: #484f58 transparent;
+        }
+
+        .playground-header-value::-webkit-scrollbar {
+          height: 8px;
+        }
+
+        .playground-header-value::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .playground-header-value::-webkit-scrollbar-thumb {
+          background: #484f58;
+          border-radius: 4px;
+        }
+
+        .playground-header-value::-webkit-scrollbar-thumb:hover {
+          background: #6e7681;
+        }
+
         @keyframes playground-spin {
           to { transform: rotate(360deg); }
         }
@@ -1010,13 +1035,17 @@ puts response.body`;
                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                       <tbody>
                         {(responseHeaders || [
-                          { key: 'content-type', value: 'application/json; charset=utf-8' },
                           { key: 'x-powered-by', value: 'Express' },
-                          { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvlv"' },
+                          { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*63be8225043bdb93c62f910f40bfbf3edf9c0ec98e9cbaaff0915b5c765a616c*3cC7v7Hus3Zib0AK8d15UQ*ZctAdDoaWTXXrgm-NzjbPQyLoZ-NqNUJUchvdvVUX-WD0RgIRyDsKd_O26hvwfO5v5sf4CMzMpgiRi6XqDJaXg*3917391897120*0dd55271bb70f56a04846877d92c89200ee0a44079a0571978550cfb8fbcc01e*T-mNxYwvTsqzsDW7C-dfA5bOH0b5IqIO1TzxpHKJ1cs~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+                          { key: 'content-type', value: 'application/json; charset=utf-8' },
+                          { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvIvsJHezk"' },
+                          { key: 'x-cloud-trace-context', value: '406fb685f773d39f627c672205614e86;o=1' },
                           { key: 'date', value: new Date().toUTCString() },
                           { key: 'server', value: 'Google Frontend' },
-                          { key: 'content-length', value: JSON.stringify(playgroundResponse).length.toString() },
+                          { key: 'content-length', value: '78' },
                           { key: 'via', value: '1.1 google' },
+                          { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+                          { key: 'connection', value: 'close' },
                         ]).map((header, idx) => (
                           <tr key={idx} style={{ borderBottom: '1px solid #21262d' }}>
                             <td style={{
@@ -1025,7 +1054,8 @@ puts response.body`;
                               fontSize: '13px',
                               fontFamily: "'IBM Plex Mono', monospace",
                               verticalAlign: 'top',
-                              width: '40%',
+                              width: '180px',
+                              minWidth: '180px',
                             }}>
                               {header.key}
                             </td>
@@ -1034,9 +1064,10 @@ puts response.body`;
                               color: '#e6edf3',
                               fontSize: '13px',
                               fontFamily: "'IBM Plex Mono', monospace",
-                              wordBreak: 'break-all',
                             }}>
-                              {header.value}
+                              <div className="playground-header-value">
+                                {header.value}
+                              </div>
                             </td>
                           </tr>
                         ))}
