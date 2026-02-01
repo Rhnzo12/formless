@@ -322,7 +322,7 @@ puts response.body`;
   const getEndpointHeaders = () => {
     const method = currentEndpointConfig?.method;
 
-    if (method === 'revenue_share_create_contract') {
+    if (method === 'contracts_create') {
       return [
         { key: 'x-powered-by', value: 'Express' },
         { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*2d06a5cc7d7102ad04e86db8539e53c4a92ea630db0b41bc567079b2b47d23c8*qU8jSG9N3QWM_5oa9IHO_A*FNtz8b1uWsqJF6VARWE23CiP27fumM958euA1h0t8iImR-yA4O6uBk728t13dh8qOuElEKGoBYnhM_wIepvMHg*3917392895270*ed53e8ca16a7edd590e816b3819c80b4c3e01576428b334e63cc89907264cb7a*My5P3fxHAnl__EzpOgDqwCQYwQYDDNdGu1nX346C2Hw~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
@@ -997,7 +997,7 @@ puts response.body`;
                         style={{ flex: 1 }}
                       >
                         <option value="" disabled>select method</option>
-                        <option value="identity_get_by_email_address">identity_get_by_email_address</option>
+                        <option value={currentEndpointConfig?.method}>{currentEndpointConfig?.method}</option>
                       </select>
                       <button className="playground-icon-button">
                         <TrashIcon />
@@ -1043,13 +1043,59 @@ puts response.body`;
                                   <span className="playground-badge playground-badge-required">required</span>
                                 )}
                               </div>
-                              <input
-                                type={param.type === 'string<email>' ? 'email' : 'text'}
-                                className="playground-input-field playground-input"
-                                value={playgroundParams[param.key] || ''}
-                                onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
-                                placeholder={param.placeholder || param.default || ''}
-                              />
+                              {param.type === 'enum<string>' && param.options ? (
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                  <select
+                                    className="playground-input-field playground-select-field"
+                                    value={playgroundParams[param.key] || param.default || ''}
+                                    onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
+                                    style={{ flex: 1 }}
+                                  >
+                                    <option value="" disabled>select {param.key}</option>
+                                    {param.options.map((opt, optIdx) => (
+                                      <option key={optIdx} value={opt}>{opt}</option>
+                                    ))}
+                                  </select>
+                                  <button className="playground-icon-button">
+                                    <TrashIcon />
+                                  </button>
+                                </div>
+                              ) : param.type === 'object' ? (
+                                <div style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  padding: '12px 16px',
+                                  background: '#161b22',
+                                  borderRadius: '8px',
+                                  border: '1px solid #21262d',
+                                  cursor: 'pointer',
+                                }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span style={{ color: '#8b949e' }}>params.</span>
+                                    <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
+                                    <span className="playground-badge playground-badge-type">object</span>
+                                    {param.required && (
+                                      <span className="playground-badge playground-badge-required">required</span>
+                                    )}
+                                  </div>
+                                  <ChevronDown isOpen={false} style={{ color: '#8b949e' }} />
+                                </div>
+                              ) : (
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                  <input
+                                    type={param.type === 'string<email>' ? 'email' : 'text'}
+                                    className="playground-input-field playground-input"
+                                    value={playgroundParams[param.key] || ''}
+                                    onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
+                                    placeholder={param.placeholder || param.default || ''}
+                                    style={{ flex: 1 }}
+                                  />
+                                  <button className="playground-icon-button">
+                                    <TrashIcon />
+                                  </button>
+                                </div>
+                              )}
                             </div>
                           ))}
                           <button

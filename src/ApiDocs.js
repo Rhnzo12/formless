@@ -190,12 +190,17 @@ const ApiDocs = () => {
       }
     },
     'create-contract': {
-      name: 'Create Contract',
-      method: 'contract_create',
-      path: '/v1#contract_create',
+      name: 'Create Revenue Sharing Contract',
+      method: 'contracts_create',
+      path: '/v1#contracts_create',
+      description: 'Create a revenue sharing smart contract',
       params: [
-        { key: 'contract_name', type: 'string', required: true, default: 'My Contract' },
-        { key: 'revenue_share', type: 'object', required: true, default: {} }
+        { key: 'type', type: 'enum<string>', required: true, default: 'digital_property_with_revenue_share', options: ['digital_property_with_revenue_share'] },
+        { key: 'network', type: 'enum<string>', required: true, default: 'base', options: ['base'] },
+        { key: 'title', type: 'string', required: true, default: 'HYPERMAX SNEAKER RELEASE' },
+        { key: 'description', type: 'string', required: true, default: 'Community revenue sharing for HYPE' },
+        { key: 'creator_name', type: 'string', required: true, default: 'HYPERMAX Brand' },
+        { key: 'revenue_share', type: 'object', required: true, default: { recipients: {} } }
       ],
       successResponse: {
         jsonrpc: '2.0',
