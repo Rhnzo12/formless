@@ -5830,43 +5830,52 @@ const ApiDocs = () => {
             }
           }
 
-          /* Large screens - full layout */
+          /* Extra large screens (>= 1400px) - full layout */
           @media (min-width: 1400px) {
             .right-code-panel {
               display: flex !important;
               width: 420px !important;
               right: 40px !important;
             }
-          }
-
-          /* Ensure code panel is visible on screens > 1200px */
-          @media (min-width: 1201px) {
-            .right-code-panel {
-              display: flex !important;
-            }
-          }
-
-          /* Medium-large screens - slightly narrower right panel */
-          @media (max-width: 1399px) and (min-width: 1201px) {
             .main-content {
-              margin-right: 460px !important;
-              padding-right: 40px !important;
+              margin-right: 500px !important;
+            }
+          }
+
+          /* Large screens (1200px - 1399px) */
+          @media (max-width: 1399px) and (min-width: 1200px) {
+            .main-content {
+              margin-right: 420px !important;
+              padding-right: 30px !important;
             }
             .right-code-panel {
               display: flex !important;
-              width: 380px !important;
+              width: 360px !important;
               right: 30px !important;
             }
           }
 
-          /* Tablet - hide right panel */
-          @media (max-width: 1200px) {
+          /* Medium screens (1024px - 1199px) */
+          @media (max-width: 1199px) and (min-width: 1024px) {
+            .main-content {
+              margin-right: 380px !important;
+              padding-right: 20px !important;
+            }
+            .right-code-panel {
+              display: flex !important;
+              width: 320px !important;
+              right: 20px !important;
+            }
+          }
+
+          /* Tablet (769px - 1023px) - hide right panel */
+          @media (max-width: 1023px) and (min-width: 769px) {
             .right-code-panel {
               display: none !important;
             }
             .main-content {
               margin-right: 0 !important;
-              padding: 40px 60px !important;
+              padding: 40px 40px !important;
             }
             .left-content-column {
               margin-right: 0 !important;
@@ -5890,6 +5899,7 @@ const ApiDocs = () => {
             }
             .main-content {
               margin-left: 0 !important;
+              margin-right: 0 !important;
               padding: 16px !important;
               padding-top: 100px !important;
             }
@@ -5918,6 +5928,7 @@ const ApiDocs = () => {
               padding: 0 16px !important;
             }
             .main-content {
+              margin-right: 0 !important;
               padding: 12px !important;
               padding-top: 100px !important;
             }
