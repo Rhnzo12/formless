@@ -88,6 +88,8 @@ const PlaygroundView = ({
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [copied, setCopied] = useState(false);
   const [responseCopied, setResponseCopied] = useState(false);
+  const [responseViewType, setResponseViewType] = useState('Headers');
+  const [responseHeaders, setResponseHeaders] = useState(null);
 
   const languages = ['cURL', 'Python', 'JavaScript', 'PHP', 'Go', 'Java', 'Ruby'];
 
@@ -976,10 +978,16 @@ puts response.body`;
                     <span>200 - OK</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <select className="playground-input-field playground-select-field" style={{ width: '100px', padding: '6px 32px 6px 10px', fontSize: '12px' }}>
-                      <option>Body</option>
-                      <option>Headers</option>
-                    </select>
+                    <div style={{ position: 'relative' }}>
+                      <button
+                        className="playground-language-button"
+                        onClick={() => setResponseViewType(responseViewType === 'Headers' ? 'Body' : 'Headers')}
+                        style={{ background: '#21262d', border: '1px solid #30363d' }}
+                      >
+                        <span>{responseViewType}</span>
+                        <ChevronDown isOpen={false} style={{ width: '12px', height: '12px' }} />
+                      </button>
+                    </div>
                     <button className="playground-icon-button" title="Download">
                       <DownloadIcon />
                     </button>
@@ -994,16 +1002,55 @@ puts response.body`;
                   </div>
                 </div>
                 <div style={{
-                  padding: '16px',
                   background: '#161b22',
                   maxHeight: '300px',
                   overflowY: 'auto',
                 }}>
-                  <pre
-                    className="playground-code-block"
-                    style={{ margin: 0, color: '#e6edf3' }}
-                    dangerouslySetInnerHTML={{ __html: jsonSyntaxHighlight(playgroundResponse) }}
-                  />
+                  {responseViewType === 'Headers' ? (
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                      <tbody>
+                        {(responseHeaders || [
+                          { key: 'content-type', value: 'application/json; charset=utf-8' },
+                          { key: 'x-powered-by', value: 'Express' },
+                          { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvlv"' },
+                          { key: 'date', value: new Date().toUTCString() },
+                          { key: 'server', value: 'Google Frontend' },
+                          { key: 'content-length', value: JSON.stringify(playgroundResponse).length.toString() },
+                          { key: 'via', value: '1.1 google' },
+                        ]).map((header, idx) => (
+                          <tr key={idx} style={{ borderBottom: '1px solid #21262d' }}>
+                            <td style={{
+                              padding: '12px 16px',
+                              color: '#8b949e',
+                              fontSize: '13px',
+                              fontFamily: "'IBM Plex Mono', monospace",
+                              verticalAlign: 'top',
+                              width: '40%',
+                            }}>
+                              {header.key}
+                            </td>
+                            <td style={{
+                              padding: '12px 16px',
+                              color: '#e6edf3',
+                              fontSize: '13px',
+                              fontFamily: "'IBM Plex Mono', monospace",
+                              wordBreak: 'break-all',
+                            }}>
+                              {header.value}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div style={{ padding: '16px' }}>
+                      <pre
+                        className="playground-code-block"
+                        style={{ margin: 0, color: '#e6edf3' }}
+                        dangerouslySetInnerHTML={{ __html: jsonSyntaxHighlight(playgroundResponse) }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
