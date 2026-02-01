@@ -2985,7 +2985,7 @@ const ApiDocs = () => {
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#contracts_create</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('contract_create'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('contracts_create'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -3789,7 +3789,7 @@ const ApiDocs = () => {
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#splits_fetch_data</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('split_data_fetch'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('splits_fetch_data'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -4616,7 +4616,7 @@ const ApiDocs = () => {
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('payout_execute'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('payouts'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
@@ -5303,7 +5303,7 @@ const ApiDocs = () => {
                   borderRight: `1px solid ${theme.border}`,
                 }}>/v1#payouts</code>
                 <button
-                  onClick={() => { handlePlaygroundEndpointChange('batch_status_query'); setTryItOpen(true); }}
+                  onClick={() => { handlePlaygroundEndpointChange('payouts_query_batch'); setTryItOpen(true); }}
                   style={{
                   backgroundColor: '#3064e3',
                   color: 'white',
