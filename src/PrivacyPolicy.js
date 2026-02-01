@@ -3,9 +3,7 @@ import Header from './components/Header';
 import FluidBackground from './components/FluidBackground';
 
 const PrivacyPolicy = () => {
-  const [contentVisible, setContentVisible] = useState(false);
   const [joinVisible, setJoinVisible] = useState(false);
-  const contentRef = useRef(null);
   const joinRef = useRef(null);
 
   useEffect(() => {
@@ -17,9 +15,6 @@ const PrivacyPolicy = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            if (entry.target === contentRef.current) {
-              setContentVisible(true);
-            }
             if (entry.target === joinRef.current) {
               setJoinVisible(true);
             }
@@ -29,9 +24,6 @@ const PrivacyPolicy = () => {
       { threshold: 0.1 }
     );
 
-    if (contentRef.current) {
-      observer.observe(contentRef.current);
-    }
     if (joinRef.current) {
       observer.observe(joinRef.current);
     }
@@ -73,7 +65,7 @@ const PrivacyPolicy = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          paddingTop: '180px',
+          paddingTop: '230px',
           paddingBottom: '40px',
           paddingLeft: 'clamp(16px, 3vw, 40px)',
           paddingRight: 'clamp(16px, 3vw, 40px)',
@@ -113,16 +105,12 @@ const PrivacyPolicy = () => {
 
       {/* Privacy Policy Content */}
       <section
-        ref={contentRef}
         className="privacy-content-section"
         style={{
           position: 'relative',
           zIndex: 3,
           padding: '40px clamp(16px, 3vw, 40px) 100px',
           backgroundColor: '#000',
-          opacity: contentVisible ? 1 : 0,
-          transform: contentVisible ? 'translateY(0)' : 'translateY(40px)',
-          transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
         }}
       >
         <div style={{
