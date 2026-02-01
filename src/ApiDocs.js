@@ -200,7 +200,38 @@ const ApiDocs = () => {
         { key: 'title', type: 'string', required: true, default: 'HYPERMAX SNEAKER RELEASE' },
         { key: 'description', type: 'string', required: true, default: 'Community revenue sharing for HYPE' },
         { key: 'creator_name', type: 'string', required: true, default: 'HYPERMAX Brand' },
-        { key: 'revenue_share', type: 'object', required: true, default: { recipients: {} } }
+        {
+          key: 'revenue_share',
+          type: 'object',
+          required: true,
+          children: [
+            { key: 'recipients', type: 'object', required: true },
+            { key: 'community_allocation_percentage', type: 'number', required: true, default: '100' },
+            { key: 'community_pool_size', type: 'integer', required: true, default: '100' },
+            {
+              key: 'distribution_unit',
+              type: 'object',
+              required: true,
+              children: [
+                { key: 'value', type: 'number', required: true, default: '1' },
+                { key: 'currency', type: 'enum<string>', required: true, default: 'USD', options: ['USD', 'USDC'] }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'revenue_source',
+          type: 'object',
+          children: [
+            {
+              key: 'product',
+              type: 'object',
+              children: [
+                { key: 'type', type: 'enum<string>', default: 'product', options: ['product'] }
+              ]
+            }
+          ]
+        }
       ],
       successResponse: {
         jsonrpc: '2.0',

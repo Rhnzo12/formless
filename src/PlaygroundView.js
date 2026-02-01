@@ -402,6 +402,165 @@ puts response.body`;
     ];
   };
 
+  // State to track expanded nested objects
+  const [expandedObjects, setExpandedObjects] = useState({});
+
+  const toggleObjectExpanded = (path) => {
+    setExpandedObjects(prev => ({
+      ...prev,
+      [path]: !prev[path]
+    }));
+  };
+
+  // Recursive function to render params with nested children
+  const renderParam = (param, parentPath = 'params', depth = 0) => {
+    const fullPath = `${parentPath}.${param.key}`;
+    const isExpanded = expandedObjects[fullPath] !== false; // Default to expanded
+
+    if (param.type === 'object' && param.children) {
+      return (
+        <div key={fullPath} style={{ marginBottom: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '12px 16px',
+              background: '#161b22',
+              borderRadius: '8px',
+              border: '1px solid #21262d',
+              cursor: 'pointer',
+              marginBottom: isExpanded ? '12px' : '0',
+            }}
+            onClick={() => toggleObjectExpanded(fullPath)}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: '#8b949e' }}>{parentPath}.</span>
+              <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
+              <span className="playground-badge playground-badge-type">object</span>
+              {param.required && (
+                <span className="playground-badge playground-badge-required">required</span>
+              )}
+            </div>
+            <ChevronDown isOpen={isExpanded} style={{ color: '#8b949e' }} />
+          </div>
+          {isExpanded && (
+            <div style={{ paddingLeft: '20px', borderLeft: '2px solid #21262d' }}>
+              {param.children.map((child, idx) => renderParam(child, fullPath, depth + 1))}
+              <button
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '8px 12px',
+                  background: 'transparent',
+                  border: '1px dashed #30363d',
+                  borderRadius: '6px',
+                  color: '#8b949e',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  marginTop: '8px',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.borderColor = '#58a6ff';
+                  e.currentTarget.style.color = '#58a6ff';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.borderColor = '#30363d';
+                  e.currentTarget.style.color = '#8b949e';
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>Add new property</span>
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (param.type === 'object') {
+      return (
+        <div key={fullPath} style={{ marginBottom: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '12px 16px',
+              background: '#161b22',
+              borderRadius: '8px',
+              border: '1px solid #21262d',
+              cursor: 'pointer',
+            }}
+            onClick={() => toggleObjectExpanded(fullPath)}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ color: '#8b949e' }}>{parentPath}.</span>
+              <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
+              <span className="playground-badge playground-badge-type">object</span>
+              {param.required && (
+                <span className="playground-badge playground-badge-required">required</span>
+              )}
+            </div>
+            <ChevronDown isOpen={expandedObjects[fullPath]} style={{ color: '#8b949e' }} />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div key={fullPath} style={{ marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <span style={{ color: '#8b949e' }}>{parentPath}.</span>
+          <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+          <span className="playground-badge playground-badge-type">{param.type || 'string'}</span>
+          {param.required && (
+            <span className="playground-badge playground-badge-required">required</span>
+          )}
+        </div>
+        {param.type === 'enum<string>' && param.options ? (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <select
+              className="playground-input-field playground-select-field"
+              value={playgroundParams[param.key] || param.default || ''}
+              onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
+              style={{ flex: 1 }}
+            >
+              <option value="" disabled>select {param.key}</option>
+              {param.options.map((opt, optIdx) => (
+                <option key={optIdx} value={opt}>{opt}</option>
+              ))}
+            </select>
+            <button className="playground-icon-button">
+              <TrashIcon />
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <input
+              type={param.type === 'string<email>' ? 'email' : 'text'}
+              className="playground-input-field playground-input"
+              value={playgroundParams[param.key] || ''}
+              onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
+              placeholder={param.placeholder || param.default || ''}
+              style={{ flex: 1 }}
+            />
+            <button className="playground-icon-button">
+              <TrashIcon />
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -1031,73 +1190,7 @@ puts response.body`;
 
                       {paramsExpanded && (
                         <div style={{ paddingLeft: '20px', borderLeft: '2px solid #21262d' }} className="playground-fade-in">
-                          {currentEndpointConfig.params.map((param, idx) => (
-                            <div key={idx} style={{ marginBottom: '16px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                <span style={{ color: '#8b949e' }}>params.</span>
-                                <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
-                              </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                                <span className="playground-badge playground-badge-type">{param.type || 'string'}</span>
-                                {param.required && (
-                                  <span className="playground-badge playground-badge-required">required</span>
-                                )}
-                              </div>
-                              {param.type === 'enum<string>' && param.options ? (
-                                <div style={{ display: 'flex', gap: '8px' }}>
-                                  <select
-                                    className="playground-input-field playground-select-field"
-                                    value={playgroundParams[param.key] || param.default || ''}
-                                    onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
-                                    style={{ flex: 1 }}
-                                  >
-                                    <option value="" disabled>select {param.key}</option>
-                                    {param.options.map((opt, optIdx) => (
-                                      <option key={optIdx} value={opt}>{opt}</option>
-                                    ))}
-                                  </select>
-                                  <button className="playground-icon-button">
-                                    <TrashIcon />
-                                  </button>
-                                </div>
-                              ) : param.type === 'object' ? (
-                                <div style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
-                                  padding: '12px 16px',
-                                  background: '#161b22',
-                                  borderRadius: '8px',
-                                  border: '1px solid #21262d',
-                                  cursor: 'pointer',
-                                }}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <span style={{ color: '#8b949e' }}>params.</span>
-                                    <span style={{ fontWeight: 500, color: '#e6edf3' }}>{param.key}</span>
-                                    <span className="playground-badge playground-badge-type">object</span>
-                                    {param.required && (
-                                      <span className="playground-badge playground-badge-required">required</span>
-                                    )}
-                                  </div>
-                                  <ChevronDown isOpen={false} style={{ color: '#8b949e' }} />
-                                </div>
-                              ) : (
-                                <div style={{ display: 'flex', gap: '8px' }}>
-                                  <input
-                                    type={param.type === 'string<email>' ? 'email' : 'text'}
-                                    className="playground-input-field playground-input"
-                                    value={playgroundParams[param.key] || ''}
-                                    onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
-                                    placeholder={param.placeholder || param.default || ''}
-                                    style={{ flex: 1 }}
-                                  />
-                                  <button className="playground-icon-button">
-                                    <TrashIcon />
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          ))}
+                          {currentEndpointConfig.params.map((param, idx) => renderParam(param, 'params', 0))}
                           <button
                             style={{
                               display: 'flex',
