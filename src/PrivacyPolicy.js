@@ -77,6 +77,7 @@ const PrivacyPolicy = () => {
           paddingBottom: '40px',
           paddingLeft: 'clamp(16px, 3vw, 40px)',
           paddingRight: 'clamp(16px, 3vw, 40px)',
+          backgroundColor: '#000',
         }}
       >
         <div style={{
@@ -84,11 +85,10 @@ const PrivacyPolicy = () => {
           maxWidth: '900px',
           margin: '0 auto',
         }}>
-          {/* Large Italic Title */}
+          {/* Large Title */}
           <h1 style={{
             fontSize: 'clamp(48px, 8vw, 100px)',
             fontWeight: '300',
-            fontStyle: 'italic',
             lineHeight: '1.05',
             margin: '0 0 40px 0',
             fontFamily: '"Inter", sans-serif',
@@ -111,17 +111,6 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Gradient Fade to Black (after hero) */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          height: '300px',
-          background: 'linear-gradient(to bottom, transparent 0%, #000 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
       {/* Privacy Policy Content */}
       <section
         ref={contentRef}
@@ -131,7 +120,6 @@ const PrivacyPolicy = () => {
           zIndex: 3,
           padding: '40px clamp(16px, 3vw, 40px) 100px',
           backgroundColor: '#000',
-          marginTop: '-150px',
           opacity: contentVisible ? 1 : 0,
           transform: contentVisible ? 'translateY(0)' : 'translateY(40px)',
           transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
