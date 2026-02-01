@@ -315,11 +315,12 @@ const ApiDocs = () => {
       }
     },
     'query-batch-status': {
-      name: 'Query Batch Status',
-      method: 'batch_status_query',
-      path: '/v1#batch_status_query',
+      name: 'Query Payout Batch Status',
+      method: 'payouts_query_batch',
+      path: '/v1#payouts_query_batch',
+      description: 'Query the status of a payout batch',
       params: [
-        { key: 'batch_id', type: 'string', required: true, default: 'batch_123' }
+        { key: 'batch_id', type: 'string', required: true, default: '89de4f6d-a8e5-4808-9c29-ebac29dec4cb', description: 'Batch ID to query status for' }
       ],
       successResponse: {
         jsonrpc: '2.0',

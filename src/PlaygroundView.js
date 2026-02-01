@@ -370,7 +370,7 @@ puts response.body`;
       ];
     }
 
-    if (method === 'payout_query_batch_status') {
+    if (method === 'payouts_query_batch') {
       return [
         { key: 'x-powered-by', value: 'Express' },
         { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*612313fcc7b5b1e6953f6cb080fb62ad20bd4329bd4576666698d99c5486957d*Fni1naaPI1KkosDgBGHvUA*l9_6mNf7lIalSuaCcKj7updZVo4HdERSocmqoJxkJAy-3ciU6--CMixLUBGylFh6KkV0DAiZvea3tbY_bXjq4Q*3917393046892*505c7027d2854e61a72d7bda44723e3f3959f558b54135a3aa16f6851c383e6e*UUnUY2XLD3tkOzce6HOgPGs1aq75-_Fp6GAxhAvc5Cs~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
