@@ -80,7 +80,7 @@ const PrivacyPolicy = () => {
           {/* Large Title */}
           <h1 style={{
             fontSize: 'clamp(36px, 6vw, 72px)',
-            fontWeight: '600',
+            fontWeight: '300',
             lineHeight: '1.1',
             margin: '0 0 40px 0',
             fontFamily: '"Inter", sans-serif',
