@@ -911,7 +911,7 @@ const CaseStudies = () => {
           </h2>
 
           <a
-            href="/contact"
+            href="/schedule-meeting"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
