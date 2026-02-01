@@ -91,8 +91,32 @@ const PlaygroundView = ({
   const [responseViewType, setResponseViewType] = useState('Body');
   const [responseHeaders, setResponseHeaders] = useState(null);
   const [responseViewDropdownOpen, setResponseViewDropdownOpen] = useState(false);
+  const [addingPropertyTo, setAddingPropertyTo] = useState(null);
+  const [newPropertyKey, setNewPropertyKey] = useState('');
+  const [customProperties, setCustomProperties] = useState({});
 
   const languages = ['cURL', 'Python', 'JavaScript', 'PHP', 'Go', 'Java', 'Ruby'];
+
+  // Handle adding new custom property
+  const handleAddProperty = (path) => {
+    if (newPropertyKey.trim()) {
+      setCustomProperties(prev => ({
+        ...prev,
+        [path]: [...(prev[path] || []), { key: newPropertyKey.trim(), value: '' }]
+      }));
+      setNewPropertyKey('');
+      setAddingPropertyTo(null);
+    }
+  };
+
+  // Handle clearing a field value
+  const handleClearField = (paramKey) => {
+    setPlaygroundParams(prev => {
+      const updated = { ...prev };
+      delete updated[paramKey];
+      return updated;
+    });
+  };
 
   const generateCodeSnippet = () => {
     const baseUrl = 'https://share-ddn.formless.xyz';
@@ -447,36 +471,95 @@ puts response.body`;
           {isExpanded && (
             <div style={{ paddingLeft: '20px', borderLeft: '2px solid #21262d' }}>
               {param.children.map((child, idx) => renderParam(child, fullPath, depth + 1))}
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 12px',
-                  background: 'transparent',
-                  border: '1px dashed #30363d',
-                  borderRadius: '6px',
-                  color: '#8b949e',
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  marginTop: '8px',
-                  transition: 'all 0.15s ease',
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = '#58a6ff';
-                  e.currentTarget.style.color = '#58a6ff';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.borderColor = '#30363d';
-                  e.currentTarget.style.color = '#8b949e';
-                }}
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                <span>Add new property</span>
-              </button>
+              {/* Custom properties added by user */}
+              {customProperties[fullPath]?.map((prop, idx) => (
+                <div key={`custom-${idx}`} style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <span style={{ color: '#8b949e' }}>{fullPath}.</span>
+                    <span style={{ fontWeight: 500, color: '#e6edf3' }}>{prop.key}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <span className="playground-badge playground-badge-type">string</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                      type="text"
+                      className="playground-input-field playground-input"
+                      value={prop.value}
+                      onChange={(e) => {
+                        setCustomProperties(prev => ({
+                          ...prev,
+                          [fullPath]: prev[fullPath].map((p, i) => i === idx ? { ...p, value: e.target.value } : p)
+                        }));
+                      }}
+                      placeholder=""
+                      style={{ flex: 1 }}
+                    />
+                    <button
+                      className="playground-icon-button"
+                      onClick={() => {
+                        setCustomProperties(prev => ({
+                          ...prev,
+                          [fullPath]: prev[fullPath].filter((_, i) => i !== idx)
+                        }));
+                      }}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {/* Add new property input or button */}
+              {addingPropertyTo === fullPath ? (
+                <div style={{ marginTop: '8px' }}>
+                  <input
+                    type="text"
+                    className="playground-input-field playground-input"
+                    value={newPropertyKey}
+                    onChange={(e) => setNewPropertyKey(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleAddProperty(fullPath);
+                      if (e.key === 'Escape') { setAddingPropertyTo(null); setNewPropertyKey(''); }
+                    }}
+                    onBlur={() => { if (!newPropertyKey.trim()) { setAddingPropertyTo(null); setNewPropertyKey(''); }}}
+                    placeholder="Enter key of new property"
+                    autoFocus
+                    style={{ width: '100%' }}
+                  />
+                </div>
+              ) : (
+                <button
+                  onClick={() => setAddingPropertyTo(fullPath)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 12px',
+                    background: 'transparent',
+                    border: '1px dashed #30363d',
+                    borderRadius: '6px',
+                    color: '#8b949e',
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    marginTop: '8px',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = '#58a6ff';
+                    e.currentTarget.style.color = '#58a6ff';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = '#30363d';
+                    e.currentTarget.style.color = '#8b949e';
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <span>Add new property</span>
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -529,16 +612,16 @@ puts response.body`;
           <div style={{ display: 'flex', gap: '8px' }}>
             <select
               className="playground-input-field playground-select-field"
-              value={playgroundParams[param.key] || param.default || ''}
+              value={playgroundParams[param.key] !== undefined ? playgroundParams[param.key] : (param.default || '')}
               onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
               style={{ flex: 1 }}
             >
-              <option value="" disabled>select {param.key}</option>
+              <option value="">select {param.key}</option>
               {param.options.map((opt, optIdx) => (
                 <option key={optIdx} value={opt}>{opt}</option>
               ))}
             </select>
-            <button className="playground-icon-button">
+            <button className="playground-icon-button" onClick={() => handleClearField(param.key)}>
               <TrashIcon />
             </button>
           </div>
@@ -547,12 +630,12 @@ puts response.body`;
             <input
               type={param.type === 'string<email>' ? 'email' : 'text'}
               className="playground-input-field playground-input"
-              value={playgroundParams[param.key] || ''}
+              value={playgroundParams[param.key] !== undefined ? playgroundParams[param.key] : ''}
               onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
               placeholder={param.placeholder || param.default || ''}
               style={{ flex: 1 }}
             />
-            <button className="playground-icon-button">
+            <button className="playground-icon-button" onClick={() => handleClearField(param.key)}>
               <TrashIcon />
             </button>
           </div>
@@ -1191,36 +1274,95 @@ puts response.body`;
                       {paramsExpanded && (
                         <div style={{ paddingLeft: '20px', borderLeft: '2px solid #21262d' }} className="playground-fade-in">
                           {currentEndpointConfig.params.map((param, idx) => renderParam(param, 'params', 0))}
-                          <button
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '6px',
-                              padding: '8px 12px',
-                              background: 'transparent',
-                              border: '1px dashed #30363d',
-                              borderRadius: '6px',
-                              color: '#8b949e',
-                              fontSize: '13px',
-                              cursor: 'pointer',
-                              marginTop: '8px',
-                              transition: 'all 0.15s ease',
-                            }}
-                            onMouseOver={(e) => {
-                              e.currentTarget.style.borderColor = '#58a6ff';
-                              e.currentTarget.style.color = '#58a6ff';
-                            }}
-                            onMouseOut={(e) => {
-                              e.currentTarget.style.borderColor = '#30363d';
-                              e.currentTarget.style.color = '#8b949e';
-                            }}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <line x1="12" y1="5" x2="12" y2="19" />
-                              <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
-                            <span>Add new property</span>
-                          </button>
+                          {/* Custom properties added by user at params level */}
+                          {customProperties['params']?.map((prop, idx) => (
+                            <div key={`custom-params-${idx}`} style={{ marginBottom: '16px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                <span style={{ color: '#8b949e' }}>params.</span>
+                                <span style={{ fontWeight: 500, color: '#e6edf3' }}>{prop.key}</span>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                                <span className="playground-badge playground-badge-type">string</span>
+                              </div>
+                              <div style={{ display: 'flex', gap: '8px' }}>
+                                <input
+                                  type="text"
+                                  className="playground-input-field playground-input"
+                                  value={prop.value}
+                                  onChange={(e) => {
+                                    setCustomProperties(prev => ({
+                                      ...prev,
+                                      params: prev.params.map((p, i) => i === idx ? { ...p, value: e.target.value } : p)
+                                    }));
+                                  }}
+                                  placeholder=""
+                                  style={{ flex: 1 }}
+                                />
+                                <button
+                                  className="playground-icon-button"
+                                  onClick={() => {
+                                    setCustomProperties(prev => ({
+                                      ...prev,
+                                      params: prev.params.filter((_, i) => i !== idx)
+                                    }));
+                                  }}
+                                >
+                                  <TrashIcon />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                          {/* Add new property input or button */}
+                          {addingPropertyTo === 'params' ? (
+                            <div style={{ marginTop: '8px' }}>
+                              <input
+                                type="text"
+                                className="playground-input-field playground-input"
+                                value={newPropertyKey}
+                                onChange={(e) => setNewPropertyKey(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleAddProperty('params');
+                                  if (e.key === 'Escape') { setAddingPropertyTo(null); setNewPropertyKey(''); }
+                                }}
+                                onBlur={() => { if (!newPropertyKey.trim()) { setAddingPropertyTo(null); setNewPropertyKey(''); }}}
+                                placeholder="Enter key of new property"
+                                autoFocus
+                                style={{ width: '100%' }}
+                              />
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setAddingPropertyTo('params')}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '8px 12px',
+                                background: 'transparent',
+                                border: '1px dashed #30363d',
+                                borderRadius: '6px',
+                                color: '#8b949e',
+                                fontSize: '13px',
+                                cursor: 'pointer',
+                                marginTop: '8px',
+                                transition: 'all 0.15s ease',
+                              }}
+                              onMouseOver={(e) => {
+                                e.currentTarget.style.borderColor = '#58a6ff';
+                                e.currentTarget.style.color = '#58a6ff';
+                              }}
+                              onMouseOut={(e) => {
+                                e.currentTarget.style.borderColor = '#30363d';
+                                e.currentTarget.style.color = '#8b949e';
+                              }}
+                            >
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                              </svg>
+                              <span>Add new property</span>
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>
