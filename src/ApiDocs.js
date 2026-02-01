@@ -251,11 +251,14 @@ const ApiDocs = () => {
       }
     },
     'fetch-split-data': {
-      name: 'Fetch Split Data',
-      method: 'split_data_fetch',
-      path: '/v1#split_data_fetch',
+      name: 'Fetch Revenue Split Data',
+      method: 'splits_fetch_data',
+      path: '/v1#splits_fetch_data',
       params: [
-        { key: 'contract_id', type: 'string', required: true, default: 'contract_123' }
+        { key: 'contract_address', type: 'string', required: true, default: '0x1234567890abcdef1234567890abc', description: 'The digital property contract address' },
+        { key: 'network_id', type: 'enum<integer>', required: true, default: '8453', options: ['8453'], description: 'Blockchain network ID (8453 for Base)' },
+        { key: 'page', type: 'integer', default: '0', description: 'Page number for pagination (starts at 0)' },
+        { key: 'page_size', type: 'integer', default: '25' }
       ],
       successResponse: {
         jsonrpc: '2.0',
