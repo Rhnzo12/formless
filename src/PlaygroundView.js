@@ -88,8 +88,9 @@ const PlaygroundView = ({
   const [paramsExpanded, setParamsExpanded] = useState(true);
   const [copied, setCopied] = useState(false);
   const [responseCopied, setResponseCopied] = useState(false);
-  const [responseViewType, setResponseViewType] = useState('Headers');
+  const [responseViewType, setResponseViewType] = useState('Body');
   const [responseHeaders, setResponseHeaders] = useState(null);
+  const [responseViewDropdownOpen, setResponseViewDropdownOpen] = useState(false);
 
   const languages = ['cURL', 'Python', 'JavaScript', 'PHP', 'Go', 'Java', 'Ruby'];
 
@@ -1006,12 +1007,35 @@ puts response.body`;
                     <div style={{ position: 'relative' }}>
                       <button
                         className="playground-language-button"
-                        onClick={() => setResponseViewType(responseViewType === 'Headers' ? 'Body' : 'Headers')}
+                        onClick={() => setResponseViewDropdownOpen(!responseViewDropdownOpen)}
                         style={{ background: '#21262d', border: '1px solid #30363d' }}
                       >
                         <span>{responseViewType}</span>
-                        <ChevronDown isOpen={false} style={{ width: '12px', height: '12px' }} />
+                        <ChevronDown isOpen={responseViewDropdownOpen} style={{ width: '12px', height: '12px' }} />
                       </button>
+
+                      {responseViewDropdownOpen && (
+                        <div className="playground-language-menu playground-fade-in" style={{ minWidth: '100px' }}>
+                          <button
+                            className={`playground-language-option ${responseViewType === 'Body' ? 'selected' : ''}`}
+                            onClick={() => {
+                              setResponseViewType('Body');
+                              setResponseViewDropdownOpen(false);
+                            }}
+                          >
+                            <span>Body</span>
+                          </button>
+                          <button
+                            className={`playground-language-option ${responseViewType === 'Headers' ? 'selected' : ''}`}
+                            onClick={() => {
+                              setResponseViewType('Headers');
+                              setResponseViewDropdownOpen(false);
+                            }}
+                          >
+                            <span>Headers</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <button className="playground-icon-button" title="Download">
                       <DownloadIcon />
