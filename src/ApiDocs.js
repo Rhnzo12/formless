@@ -190,12 +190,48 @@ const ApiDocs = () => {
       }
     },
     'create-contract': {
-      name: 'Create Contract',
-      method: 'contract_create',
-      path: '/v1#contract_create',
+      name: 'Create Revenue Sharing Contract',
+      method: 'contracts_create',
+      path: '/v1#contracts_create',
+      description: 'Create a revenue sharing smart contract',
       params: [
-        { key: 'contract_name', type: 'string', required: true, default: 'My Contract' },
-        { key: 'revenue_share', type: 'object', required: true, default: {} }
+        { key: 'type', type: 'enum<string>', required: true, default: 'digital_property_with_revenue_share', options: ['digital_property_with_revenue_share'] },
+        { key: 'network', type: 'enum<string>', required: true, default: 'base', options: ['base'] },
+        { key: 'title', type: 'string', required: true, default: 'HYPERMAX SNEAKER RELEASE' },
+        { key: 'description', type: 'string', required: true, default: 'Community revenue sharing for HYPE' },
+        { key: 'creator_name', type: 'string', required: true, default: 'HYPERMAX Brand' },
+        {
+          key: 'revenue_share',
+          type: 'object',
+          required: true,
+          children: [
+            { key: 'recipients', type: 'object', required: true },
+            { key: 'community_allocation_percentage', type: 'number', required: true, default: '100' },
+            { key: 'community_pool_size', type: 'integer', required: true, default: '100' },
+            {
+              key: 'distribution_unit',
+              type: 'object',
+              required: true,
+              children: [
+                { key: 'value', type: 'number', required: true, default: '1' },
+                { key: 'currency', type: 'enum<string>', required: true, default: 'USD', options: ['USD', 'USDC'] }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'revenue_source',
+          type: 'object',
+          children: [
+            {
+              key: 'product',
+              type: 'object',
+              children: [
+                { key: 'type', type: 'enum<string>', default: 'product', options: ['product'] }
+              ]
+            }
+          ]
+        }
       ],
       successResponse: {
         jsonrpc: '2.0',
