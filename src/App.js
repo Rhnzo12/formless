@@ -768,8 +768,8 @@ const App = () => {
           color: 'rgba(255,255,255,0.7)',
         }}>
           <span style={{ marginRight: '200px' }}>© FORMLESS</span>
-          <a href="#" style={{ 
-            color: 'rgba(255,255,255,0.7)', 
+          <a href="/privacy-policy" style={{
+            color: 'rgba(255,255,255,0.7)',
             textDecoration: 'none',
             transition: 'color 0.3s ease',
             marginRight: '200px',
