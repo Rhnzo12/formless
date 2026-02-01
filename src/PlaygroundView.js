@@ -354,7 +354,7 @@ puts response.body`;
       ];
     }
 
-    if (method === 'payout_execute') {
+    if (method === 'payouts') {
       return [
         { key: 'x-powered-by', value: 'Express' },
         { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*eaf13454a5f5a298b793e51cc3f9225bc97dff911c5ec778a2568378e96d2c2e*yD1WQd4svTr5reBc1RLZSQ*V5ss0Mys5EnGPVSOP0u6Fo_6hFEBXtFRhS1M9fH_wbADGsW-uLXm8YHm-s-bboBg2Ck3HctukWgj45363LkwaQ*3917393018570*c73ccdd5048bd01c3917c2911e49d4f84ce2df8557d4e5d6984947d876dfd0d4*QZ_KQ_qCz4mGDy4Vs5XKQ1fQO_h7qXvI3bOdBQaQd4Q~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
