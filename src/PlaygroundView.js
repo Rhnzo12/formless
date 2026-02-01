@@ -338,7 +338,7 @@ puts response.body`;
       ];
     }
 
-    if (method === 'revenue_share_fetch_split_data') {
+    if (method === 'splits_fetch_data') {
       return [
         { key: 'x-powered-by', value: 'Express' },
         { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*e88a5b21b7a0d96b3e89ee438e08c30c02b68da91d2bd88058e4bf86a4e3b7bd*9AepPu8pOEWsxyA8ZjgrWg*pByP-ueetQ-bscGoPSd8__nQGPTpqlhd_mKPsypLz74vLB_NbX4PBQEqac3SLvzOtwsSf0mR9wGokAD7RPrTSQ*3917392960683*f5798b1a74b4e00a2f862d41cb902036aa3898ba811e04df3011a032e84fdcae*Bxz2LW5TN_Nb0g4eo8mOJu1BncbXGFK6iC4jDWasaRw~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
@@ -525,7 +525,7 @@ puts response.body`;
             <span className="playground-badge playground-badge-required">required</span>
           )}
         </div>
-        {param.type === 'enum<string>' && param.options ? (
+        {(param.type === 'enum<string>' || param.type === 'enum<integer>') && param.options ? (
           <div style={{ display: 'flex', gap: '8px' }}>
             <select
               className="playground-input-field playground-select-field"
