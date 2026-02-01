@@ -132,6 +132,7 @@ const App = () => {
                   e.target.style.backgroundColor = 'white';
                   e.target.style.color = 'black';
                 }}
+                onClick={() => window.open('https://share.stream/', '_blank')}
               >
                 Visit share.stream
               </button>
@@ -329,8 +330,10 @@ const App = () => {
               }}>
                 A direct-to-fan streaming platform where fans support creators and earn when they succeed. See SHARE Protocol in action.
               </p>
-              <a 
-                href="#" 
+              <a
+                href="https://share.stream/"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
