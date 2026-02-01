@@ -1198,11 +1198,11 @@ puts response.body`;
                         onChange={(e) => setPlaygroundJsonrpc(e.target.value)}
                         style={{ flex: 1 }}
                       >
-                        <option value="" disabled>select jsonrpc</option>
+                        <option value="">select jsonrpc</option>
                         <option value="2.0">2.0</option>
                         <option value="1">1</option>
                       </select>
-                      <button className="playground-icon-button">
+                      <button className="playground-icon-button" onClick={() => setPlaygroundJsonrpc('')}>
                         <TrashIcon />
                       </button>
                     </div>
@@ -1215,13 +1215,19 @@ puts response.body`;
                       <span className="playground-badge playground-badge-type">string</span>
                       <span className="playground-badge playground-badge-required">required</span>
                     </div>
-                    <input
-                      type="text"
-                      className="playground-input-field playground-input"
-                      value={playgroundId}
-                      onChange={(e) => setPlaygroundId(e.target.value)}
-                      placeholder="Request ID"
-                    />
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        className="playground-input-field playground-input"
+                        value={playgroundId}
+                        onChange={(e) => setPlaygroundId(e.target.value)}
+                        placeholder="Request ID"
+                        style={{ flex: 1 }}
+                      />
+                      <button className="playground-icon-button" onClick={() => setPlaygroundId('')}>
+                        <TrashIcon />
+                      </button>
+                    </div>
                   </div>
 
                   {/* method */}
@@ -1238,10 +1244,10 @@ puts response.body`;
                         onChange={(e) => handlePlaygroundEndpointChange(e.target.value)}
                         style={{ flex: 1 }}
                       >
-                        <option value="" disabled>select method</option>
+                        <option value="">select method</option>
                         <option value={currentEndpointConfig?.method}>{currentEndpointConfig?.method}</option>
                       </select>
-                      <button className="playground-icon-button">
+                      <button className="playground-icon-button" onClick={() => handlePlaygroundEndpointChange('')}>
                         <TrashIcon />
                       </button>
                     </div>
