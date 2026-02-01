@@ -240,7 +240,7 @@ export const CodeRequestPanel = ({
       <div
         className="code-panel-scroll"
         style={{
-          maxHeight: '220px',
+          maxHeight: '160px',
           padding: '14px',
           borderRadius: '0 0 12px 12px',
           overflow: 'auto',
@@ -311,7 +311,7 @@ export const CodeResponsePanel = ({
       <div
         className="code-panel-scroll"
         style={{
-          maxHeight: '220px',
+          maxHeight: '180px',
           padding: '14px',
           overflow: 'auto',
           backgroundColor: theme.bgCard || '#161b22',
@@ -348,14 +348,14 @@ export const RightCodePanel = ({
     <div
       className={className}
       style={{
-        width: '420px',
+        width: '480px',
         flexShrink: 0,
         position: 'fixed',
         top: '120px',
         right: '40px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '24px',
+        gap: '16px',
         zIndex: 100,
       }}
     >

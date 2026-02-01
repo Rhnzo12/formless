@@ -5830,46 +5830,46 @@ const ApiDocs = () => {
             }
           }
 
-          /* Extra large screens (>= 1400px) - full layout */
-          @media (min-width: 1400px) {
+          /* Extra large screens (>= 1500px) - full layout */
+          @media (min-width: 1500px) {
             .right-code-panel {
               display: flex !important;
-              width: 420px !important;
+              width: 480px !important;
               right: 40px !important;
             }
             .main-content {
-              margin-right: 500px !important;
+              margin-right: 560px !important;
             }
           }
 
-          /* Large screens (1200px - 1399px) */
-          @media (max-width: 1399px) and (min-width: 1200px) {
+          /* Large screens (1300px - 1499px) */
+          @media (max-width: 1499px) and (min-width: 1300px) {
             .main-content {
-              margin-right: 420px !important;
+              margin-right: 500px !important;
               padding-right: 30px !important;
             }
             .right-code-panel {
               display: flex !important;
-              width: 360px !important;
+              width: 440px !important;
               right: 30px !important;
             }
           }
 
-          /* Medium screens (1024px - 1199px) */
-          @media (max-width: 1199px) and (min-width: 1024px) {
+          /* Medium screens (1100px - 1299px) */
+          @media (max-width: 1299px) and (min-width: 1100px) {
             .main-content {
-              margin-right: 380px !important;
+              margin-right: 440px !important;
               padding-right: 20px !important;
             }
             .right-code-panel {
               display: flex !important;
-              width: 320px !important;
+              width: 380px !important;
               right: 20px !important;
             }
           }
 
-          /* Tablet (769px - 1023px) - hide right panel */
-          @media (max-width: 1023px) and (min-width: 769px) {
+          /* Tablet (769px - 1099px) - hide right panel */
+          @media (max-width: 1099px) and (min-width: 769px) {
             .right-code-panel {
               display: none !important;
             }
