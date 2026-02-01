@@ -615,7 +615,7 @@ puts response.body`;
               onChange={(e) => setPlaygroundParams({ ...playgroundParams, [param.key]: e.target.value })}
               style={{ flex: 1 }}
             >
-              <option value="">select {param.key}</option>
+              <option value="" disabled>select {param.key}</option>
               {param.options.map((opt, optIdx) => (
                 <option key={optIdx} value={opt}>{opt}</option>
               ))}
@@ -1197,7 +1197,7 @@ puts response.body`;
                         onChange={(e) => setPlaygroundJsonrpc(e.target.value)}
                         style={{ flex: 1 }}
                       >
-                        <option value="">select jsonrpc</option>
+                        <option value="" disabled>select jsonrpc</option>
                         <option value="2.0">2.0</option>
                         <option value="1">1</option>
                       </select>
@@ -1243,7 +1243,7 @@ puts response.body`;
                         onChange={(e) => handlePlaygroundEndpointChange(e.target.value)}
                         style={{ flex: 1 }}
                       >
-                        <option value="">select method</option>
+                        <option value="" disabled>select method</option>
                         <option value={currentEndpointConfig?.method}>{currentEndpointConfig?.method}</option>
                       </select>
                       <button className="playground-icon-button" onClick={() => handlePlaygroundEndpointChange('')}>
