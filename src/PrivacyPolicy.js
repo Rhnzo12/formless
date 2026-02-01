@@ -111,14 +111,27 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
+      {/* Gradient Fade to Black (after hero) */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 2,
+          height: '300px',
+          background: 'linear-gradient(to bottom, transparent 0%, #000 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* Privacy Policy Content */}
       <section
         ref={contentRef}
         className="privacy-content-section"
         style={{
           position: 'relative',
-          zIndex: 2,
+          zIndex: 3,
           padding: '40px clamp(16px, 3vw, 40px) 100px',
+          backgroundColor: '#000',
+          marginTop: '-150px',
           opacity: contentVisible ? 1 : 0,
           transform: contentVisible ? 'translateY(0)' : 'translateY(40px)',
           transition: 'opacity 0.8s ease-out, transform 0.8s ease-out',
@@ -256,13 +269,13 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Gradient Fade to Black */}
+      {/* Gradient Fade from Black (before Join section) */}
       <div
         style={{
           position: 'relative',
           zIndex: 2,
           height: '300px',
-          background: 'linear-gradient(to bottom, transparent 0%, #000 100%)',
+          background: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
           pointerEvents: 'none',
         }}
       />
@@ -274,14 +287,14 @@ const PrivacyPolicy = () => {
         style={{
           position: 'relative',
           zIndex: 2,
-          minHeight: '80vh',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '100px 60px',
           overflow: 'hidden',
-          background: '#000',
+          background: 'transparent',
           marginTop: '-150px',
         }}
       >
@@ -334,17 +347,6 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
-      {/* Gradient Fade from Black */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          height: '300px',
-          background: 'linear-gradient(to bottom, #000 0%, transparent 100%)',
-          pointerEvents: 'none',
-        }}
-      />
-
       {/* Footer */}
       <footer
         className="footer"
@@ -353,7 +355,6 @@ const PrivacyPolicy = () => {
           zIndex: 2,
           padding: '60px 60px 40px 60px',
           background: 'transparent',
-          marginTop: '-150px',
         }}
       >
         {/* Social Media Icons */}
