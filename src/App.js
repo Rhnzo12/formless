@@ -262,8 +262,8 @@ const App = () => {
               }}>
                 Increase customer engagement and lifetime value with revenue sharing technology.
               </p>
-              <a 
-                href="#" 
+              <a
+                href="/api-docs"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
