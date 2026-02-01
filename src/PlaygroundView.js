@@ -319,6 +319,89 @@ puts response.body`;
     };
   };
 
+  const getEndpointHeaders = () => {
+    const method = currentEndpointConfig?.method;
+
+    if (method === 'revenue_share_create_contract') {
+      return [
+        { key: 'x-powered-by', value: 'Express' },
+        { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*2d06a5cc7d7102ad04e86db8539e53c4a92ea630db0b41bc567079b2b47d23c8*qU8jSG9N3QWM_5oa9IHO_A*FNtz8b1uWsqJF6VARWE23CiP27fumM958euA1h0t8iImR-yA4O6uBk728t13dh8qOuElEKGoBYnhM_wIepvMHg*3917392895270*ed53e8ca16a7edd590e816b3819c80b4c3e01576428b334e63cc89907264cb7a*My5P3fxHAnl__EzpOgDqwCQYwQYDDNdGu1nX346C2Hw~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+        { key: 'content-type', value: 'application/json; charset=utf-8' },
+        { key: 'etag', value: 'W/"69-Zo5esXZNyXWOIIn/tI+qID6NVHc"' },
+        { key: 'x-cloud-trace-context', value: '01a3b2ed59189dd3f1100fcd4a5b242e;o=1' },
+        { key: 'date', value: 'Sun, 01 Feb 2026 01:27:28 GMT' },
+        { key: 'server', value: 'Google Frontend' },
+        { key: 'content-length', value: '105' },
+        { key: 'via', value: '1.1 google' },
+        { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+        { key: 'connection', value: 'close' },
+      ];
+    }
+
+    if (method === 'revenue_share_fetch_split_data') {
+      return [
+        { key: 'x-powered-by', value: 'Express' },
+        { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*e88a5b21b7a0d96b3e89ee438e08c30c02b68da91d2bd88058e4bf86a4e3b7bd*9AepPu8pOEWsxyA8ZjgrWg*pByP-ueetQ-bscGoPSd8__nQGPTpqlhd_mKPsypLz74vLB_NbX4PBQEqac3SLvzOtwsSf0mR9wGokAD7RPrTSQ*3917392960683*f5798b1a74b4e00a2f862d41cb902036aa3898ba811e04df3011a032e84fdcae*Bxz2LW5TN_Nb0g4eo8mOJu1BncbXGFK6iC4jDWasaRw~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+        { key: 'content-type', value: 'application/json; charset=utf-8' },
+        { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvIvsJHezk"' },
+        { key: 'x-cloud-trace-context', value: '2887a23a82cea0be1cfb300d98ea2495;o=1' },
+        { key: 'date', value: 'Sun, 01 Feb 2026 01:28:33 GMT' },
+        { key: 'server', value: 'Google Frontend' },
+        { key: 'content-length', value: '78' },
+        { key: 'via', value: '1.1 google' },
+        { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+        { key: 'connection', value: 'close' },
+      ];
+    }
+
+    if (method === 'payout_execute') {
+      return [
+        { key: 'x-powered-by', value: 'Express' },
+        { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*eaf13454a5f5a298b793e51cc3f9225bc97dff911c5ec778a2568378e96d2c2e*yD1WQd4svTr5reBc1RLZSQ*V5ss0Mys5EnGPVSOP0u6Fo_6hFEBXtFRhS1M9fH_wbADGsW-uLXm8YHm-s-bboBg2Ck3HctukWgj45363LkwaQ*3917393018570*c73ccdd5048bd01c3917c2911e49d4f84ce2df8557d4e5d6984947d876dfd0d4*QZ_KQ_qCz4mGDy4Vs5XKQ1fQO_h7qXvI3bOdBQaQd4Q~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+        { key: 'content-type', value: 'application/json; charset=utf-8' },
+        { key: 'etag', value: 'W/"7b-7ZldQTbD/ryH+nNtz2lbRd4EoNk"' },
+        { key: 'x-cloud-trace-context', value: 'ec3c704c2eaa204061add5f068851ffc;o=1' },
+        { key: 'date', value: 'Sun, 01 Feb 2026 01:29:31 GMT' },
+        { key: 'server', value: 'Google Frontend' },
+        { key: 'content-length', value: '123' },
+        { key: 'via', value: '1.1 google' },
+        { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+        { key: 'connection', value: 'close' },
+      ];
+    }
+
+    if (method === 'payout_query_batch_status') {
+      return [
+        { key: 'x-powered-by', value: 'Express' },
+        { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*612313fcc7b5b1e6953f6cb080fb62ad20bd4329bd4576666698d99c5486957d*Fni1naaPI1KkosDgBGHvUA*l9_6mNf7lIalSuaCcKj7updZVo4HdERSocmqoJxkJAy-3ciU6--CMixLUBGylFh6KkV0DAiZvea3tbY_bXjq4Q*3917393046892*505c7027d2854e61a72d7bda44723e3f3959f558b54135a3aa16f6851c383e6e*UUnUY2XLD3tkOzce6HOgPGs1aq75-_Fp6GAxhAvc5Cs~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+        { key: 'content-type', value: 'application/json; charset=utf-8' },
+        { key: 'etag', value: 'W/"120-WoxsmOVCwZF4k4uG9OkqmkMUcxs"' },
+        { key: 'x-cloud-trace-context', value: 'aed8c001ac9942d3d86ce815a4102b6e;o=1' },
+        { key: 'date', value: 'Sun, 01 Feb 2026 01:29:59 GMT' },
+        { key: 'server', value: 'Google Frontend' },
+        { key: 'content-length', value: '288' },
+        { key: 'via', value: '1.1 google' },
+        { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+        { key: 'connection', value: 'close' },
+      ];
+    }
+
+    // Default headers for identity_get_by_email_address
+    return [
+      { key: 'x-powered-by', value: 'Express' },
+      { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*63be8225043bdb93c62f910f40bfbf3edf9c0ec98e9cbaaff0915b5c765a616c*3cC7v7Hus3Zib0AK8d15UQ*ZctAdDoaWTXXrgm-NzjbPQyLoZ-NqNUJUchvdvVUX-WD0RgIRyDsKd_O26hvwfO5v5sf4CMzMpgiRi6XqDJaXg*3917391897120*0dd55271bb70f56a04846877d92c89200ee0a44079a0571978550cfb8fbcc01e*T-mNxYwvTsqzsDW7C-dfA5bOH0b5IqIO1TzxpHKJ1cs~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
+      { key: 'content-type', value: 'application/json; charset=utf-8' },
+      { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvIvsJHezk"' },
+      { key: 'x-cloud-trace-context', value: '406fb685f773d39f627c672205614e86;o=1' },
+      { key: 'date', value: new Date().toUTCString() },
+      { key: 'server', value: 'Google Frontend' },
+      { key: 'content-length', value: '78' },
+      { key: 'via', value: '1.1 google' },
+      { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
+      { key: 'connection', value: 'close' },
+    ];
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -966,6 +1049,36 @@ puts response.body`;
                               />
                             </div>
                           ))}
+                          <button
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              padding: '8px 12px',
+                              background: 'transparent',
+                              border: '1px dashed #30363d',
+                              borderRadius: '6px',
+                              color: '#8b949e',
+                              fontSize: '13px',
+                              cursor: 'pointer',
+                              marginTop: '8px',
+                              transition: 'all 0.15s ease',
+                            }}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.borderColor = '#58a6ff';
+                              e.currentTarget.style.color = '#58a6ff';
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.borderColor = '#30363d';
+                              e.currentTarget.style.color = '#8b949e';
+                            }}
+                          >
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <line x1="12" y1="5" x2="12" y2="19" />
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            <span>Add new property</span>
+                          </button>
                         </div>
                       )}
                     </div>
@@ -1059,19 +1172,7 @@ puts response.body`;
                   {responseViewType === 'Headers' ? (
                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                       <tbody>
-                        {(responseHeaders || [
-                          { key: 'x-powered-by', value: 'Express' },
-                          { key: 'set-cookie', value: 'share_ephemeral_identity=Fe26.2*1*63be8225043bdb93c62f910f40bfbf3edf9c0ec98e9cbaaff0915b5c765a616c*3cC7v7Hus3Zib0AK8d15UQ*ZctAdDoaWTXXrgm-NzjbPQyLoZ-NqNUJUchvdvVUX-WD0RgIRyDsKd_O26hvwfO5v5sf4CMzMpgiRi6XqDJaXg*3917391897120*0dd55271bb70f56a04846877d92c89200ee0a44079a0571978550cfb8fbcc01e*T-mNxYwvTsqzsDW7C-dfA5bOH0b5IqIO1TzxpHKJ1cs~2; Max-Age=2147483587; Path=/; HttpOnly; Secure; SameSite=None' },
-                          { key: 'content-type', value: 'application/json; charset=utf-8' },
-                          { key: 'etag', value: 'W/"4e-YHOKiuvx4uQFxAOpJhvIvsJHezk"' },
-                          { key: 'x-cloud-trace-context', value: '406fb685f773d39f627c672205614e86;o=1' },
-                          { key: 'date', value: new Date().toUTCString() },
-                          { key: 'server', value: 'Google Frontend' },
-                          { key: 'content-length', value: '78' },
-                          { key: 'via', value: '1.1 google' },
-                          { key: 'alt-svc', value: 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000' },
-                          { key: 'connection', value: 'close' },
-                        ]).map((header, idx) => (
+                        {(responseHeaders || getEndpointHeaders()).map((header, idx) => (
                           <tr key={idx} style={{ borderBottom: '1px solid #21262d' }}>
                             <td style={{
                               padding: '12px 16px',
