@@ -7,6 +7,7 @@ import About from './About';
 import ApiDocs from './ApiDocs';
 import CaseStudies from './CaseStudies';
 import Contact from './Contact';
+import ScheduleMeeting from './ScheduleMeeting';
 import MarkdownView from './MarkdownView';
 import reportWebVitals from './reportWebVitals';
 
@@ -26,6 +27,7 @@ root.render(
         <Route path="/api-docs/markdown" element={<MarkdownView />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/schedule-meeting" element={<ScheduleMeeting />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

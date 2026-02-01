@@ -401,7 +401,7 @@ const App = () => {
                 Take your product experience to the next level with our expert guidance on integrating crypto technologies.
               </p>
               <a
-                href="/contact"
+                href="/schedule-meeting"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -635,7 +635,7 @@ const App = () => {
           </h2>
           
           <a
-            href="/contact"
+            href="/schedule-meeting"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
