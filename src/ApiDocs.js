@@ -5833,8 +5833,16 @@ const ApiDocs = () => {
           /* Large screens - full layout */
           @media (min-width: 1400px) {
             .right-code-panel {
+              display: flex !important;
               width: 420px !important;
               right: 40px !important;
+            }
+          }
+
+          /* Ensure code panel is visible on screens > 1200px */
+          @media (min-width: 1201px) {
+            .right-code-panel {
+              display: flex !important;
             }
           }
 
@@ -5845,6 +5853,7 @@ const ApiDocs = () => {
               padding-right: 40px !important;
             }
             .right-code-panel {
+              display: flex !important;
               width: 380px !important;
               right: 30px !important;
             }
