@@ -562,11 +562,12 @@ puts response.body`;
         }
 
         .playground-header-value {
-          max-width: 100%;
+          max-width: 350px;
           overflow-x: auto;
           white-space: nowrap;
           scrollbar-width: thin;
           scrollbar-color: #484f58 transparent;
+          display: block;
         }
 
         .playground-header-value::-webkit-scrollbar {
