@@ -11,11 +11,13 @@ import ScheduleMeeting from './ScheduleMeeting';
 import MarkdownView from './MarkdownView';
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfService from './TermsOfService';
+import PageLoader from './components/PageLoader';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <PageLoader>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
@@ -34,6 +36,7 @@ root.render(
         <Route path="/schedule-meeting/27886cd3ac3481bdb0f0c5a0d46242b5" element={<ScheduleMeeting />} />
       </Routes>
     </BrowserRouter>
+    </PageLoader>
   </React.StrictMode>
 );
 
