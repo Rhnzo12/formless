@@ -922,7 +922,7 @@ const About = () => {
           marginBottom: '60px',
         }}>
           {/* X (Twitter) */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }} 
+          <a href="https://x.com/formless_xyz" style={{ color: 'white', transition: 'opacity 0.3s ease' }} 
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
@@ -931,7 +931,7 @@ const About = () => {
           </a>
           
           {/* LinkedIn */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="https://www.linkedin.com/company/formlessxyz/" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
@@ -940,7 +940,7 @@ const About = () => {
           </a>
           
           {/* Instagram */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="https://www.instagram.com/formlessxyz/" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
@@ -949,7 +949,7 @@ const About = () => {
           </a>
           
           {/* Discord */}
-          <a href="#" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
+          <a href="https://discord.com/invite/8hmQ28HvnT" style={{ color: 'white', transition: 'opacity 0.3s ease' }}
              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
             <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
